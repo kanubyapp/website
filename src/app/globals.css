@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  /* Base surfaces & text */
+  --color-background: #ffffff;
+  --color-surface: #f5f7f8;
+  --color-foreground: #0f3446;
+  --color-muted: #5a6b72;
+  --color-border: #e4eaec;
+
+  /* Brand */
+  --color-brand-blue: #0f3446;
+  --color-brand-blue-hover: #0a2733;
+  --color-brand-orange: #ec5b2a;
+  --color-brand-orange-hover: #d24a1e;
+  --color-brand-orange-soft: #fdede6;
+}
+
+@theme inline {
+  /* Tipografías: mapean las variables que inyecta next/font en <html> */
+  --font-heading: var(--font-outfit);
+  --font-body: var(--font-dm-sans);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-dm-sans);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-outfit);
+  font-weight: 500;
+}
+
+/* Texto pequeño de UI */
+.text-ui {
+  font-family: var(--font-dm-sans);
+  font-weight: 400;
+}
