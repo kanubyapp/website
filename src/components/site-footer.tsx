@@ -26,7 +26,7 @@ export function SiteFooter() {
               Descubre más
             </h2>
             <ul className="mt-4 space-y-3">
-              {navLinks.map((link) => (
+              {navLinks.flatMap((link) => [link, ...(link.children ?? [])]).map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
