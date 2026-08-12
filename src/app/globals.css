@@ -11,8 +11,45 @@
   /* Brand */
   --color-brand-blue: #0f3446;
   --color-brand-blue-hover: #0a2733;
+
+  /*
+   * Texto secundario sobre superficies claras.
+   *
+   * El brief pedía 0.65 de opacidad, pero da 4.46:1 sobre blanco y 3.98:1 sobre
+   * crema: falla AA para texto normal en ambas. Subido a 0.70, que es el mínimo
+   * que pasa en las dos (5.16:1 y 4.56:1).
+   */
+  --color-brand-blue-muted: rgba(15, 52, 70, 0.7);
+
+  /* Superficie clara cálida. */
+  --color-cream: #f0dfcb;
+
+  /*
+   * Punto medio del gradiente cálido. SOLO gradientes: nunca como fondo de un
+   * bloque de texto ni como color de texto.
+   */
+  --color-orange-mid: #f87f23;
+
+  /*
+   * Naranja de marca. NO usar en superficies con texto encima ni como color de
+   * texto sobre blanco: da 3.44:1 y AA para texto normal exige 4.5:1.
+   * Reservado a logo y elementos gráficos sin texto.
+   */
   --color-brand-orange: #ec5b2a;
   --color-brand-orange-hover: #d24a1e;
+
+  /*
+   * Naranja accesible. Usar SIEMPRE que haya texto de por medio: botón primario
+   * de WhatsApp, sus estados hover/active, y texto naranja sobre blanco.
+   * 4.51:1 con blanco, 5.37:1 en hover.
+   *
+   * OJO: sobre --color-surface (#f5f7f8) baja a 4.20:1 y ya no cumple AA para
+   * texto normal. No poner texto naranja sobre superficies grises; si hace
+   * falta, usar el azul de marca.
+   */
+  --color-brand-orange-accessible: #cb4e24;
+  --color-brand-orange-accessible-hover: #b74620;
+
   --color-brand-orange-soft: #fdede6;
 }
 
@@ -22,27 +59,413 @@
   --font-body: var(--font-dm-sans);
 }
 
-body {
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-dm-sans);
-  font-weight: 300;
-  font-size: 17px;
-  line-height: 1.6;
+/* ==========================================================================
+ * GRADIENTES Y CRISTAL
+ *
+ * REGLAS DE USO — no son preferencias de estilo, son restricciones de contraste
+ * medidas. Romper cualquiera de ellas rompe AA:
+ *
+ * 1. El cristal se usa SOLO en chrome: header, tarjetas flotantes, botones.
+ *    Nunca en superficies con texto de lectura larga.
+ * 2. Todo texto de párrafo va sobre fondo sólido, nunca sobre gradiente.
+ * 3. #f87f23 (--color-orange-mid) nunca lleva texto encima.
+ * 4. El texto sobre gradiente cálido va SIEMPRE en --color-brand-blue, nunca en
+ *    blanco: el extremo crema es demasiado claro para blanco.
+ * 5. Todo backdrop-filter lleva prefijo -webkit- y fallback sólido.
+ *
+ * AVISO SOBRE EL EXTREMO OSCURO DEL GRADIENTE CÁLIDO:
+ * el azul sobre #cb4e24 da 2.91:1 — falla. Por eso --glass-bg subió de 0.18 a
+ * 0.28: es la opacidad mínima a la que el azul alcanza 4.5:1 sobre el punto más
+ * oscuro del gradiente. Bajar de 0.28 rompe la legibilidad del header cuando
+ * pasa por encima de una sección con gradiente cálido.
+ * ========================================================================== */
+:root {
+  --gradient-warm: linear-gradient(
+    135deg,
+    #f0dfcb 0%,
+    #f87f23 55%,
+    #cb4e24 100%
+  );
+  --gradient-soft: linear-gradient(180deg, #f0dfcb 0%, #ffffff 100%);
+
+  /*
+   * Fondo de la tarjeta del footer. #164459 es una variante más luminosa del
+   * azul de marca. Verificado en el extremo CLARO, que es el caso peor:
+   * blanco 10.47:1, white/70 6.04:1, white/60 4.89:1 — los tres pasan AA.
+   * Por debajo de white/57 deja de cumplir sobre ese extremo.
+   */
+  --gradient-footer: linear-gradient(160deg, #164459 0%, #0f3446 100%);
+
+  /*
+   * Altura reservada para el header sticky. Sirve de scroll-margin-top para
+   * encabezados y anclas: sin esto, saltar a un ancla deja el título por debajo
+   * del pill.
+   */
+  --header-offset: 6rem;
+
+  /*
+   * Separación de los elementos flotantes respecto al viewport. Un único valor
+   * para los tres lados: izquierda, derecha y arriba. Lo usan el header pill y
+   * la tarjeta del hero, y por eso quedan alineados entre sí y con el mismo
+   * aire por arriba que por los lados.
+   */
+  --edge-gap: 1rem;
+
+  /*
+   * Altura REAL que el header ocupa en el flujo: margen superior + alto fijo de
+   * la fila del pill + sus dos bordes. La tarjeta del hero se tira hacia arriba
+   * esta cantidad MENOS --edge-gap, para acabar separada del borde superior
+   * exactamente lo mismo que de los laterales.
+   *
+   * Si cambia el alto de la fila del pill (h-14 / md:h-16), hay que cambiarlo
+   * aquí también.
+   */
+  --header-flow: calc(var(--edge-gap) + 3.5rem + 2px);
+
+  /* 0.28: mínimo que mantiene el azul en 4.5:1 sobre el extremo oscuro. */
+  --glass-bg: rgba(255, 255, 255, 0.28);
+  /* 0.45: estado con scroll, con margen sobre contenido impredecible. */
+  --glass-bg-strong: rgba(255, 255, 255, 0.45);
+
+  /*
+   * Cristal para elementos fixed que pueden quedar sobre CUALQUIER cosa,
+   * incluida la tarjeta azul del footer. A 0.45 el azul da 3.89:1 sobre ese
+   * fondo y falla; 0.51 es el mínimo que pasa, 0.55 deja margen.
+   */
+  --glass-bg-floating: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --glass-blur: blur(20px);
+
+  /*
+   * Fondo sólido para navegadores sin backdrop-filter y para
+   * prefers-reduced-transparency. Blanco cálido: 12.31:1 con el azul.
+   */
+  --glass-fallback: #fbf7f2;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-outfit);
-  font-weight: 500;
+@layer components {
+  .bg-gradient-warm {
+    background-image: var(--gradient-warm);
+  }
+
+  .bg-gradient-soft {
+    background-image: var(--gradient-soft);
+  }
+
+  .bg-gradient-footer {
+    background-image: var(--gradient-footer);
+  }
+
+  /* ------------------------------------------------------------------------
+   * TARJETA DEL HERO + MESH GRADIENT
+   *
+   * LÍMITE DE LUMINOSIDAD — no tocar sin recalcular:
+   *
+   * El texto del hero es BLANCO, así que el caso peor es el punto MÁS CLARO,
+   * no el más oscuro. Para que el blanco dé 4.5:1 el fondo no puede pasar de
+   * L = 0.1833. Eso descarta de raíz media paleta cálida:
+   *   #f0dfcb -> 1.30:1   #f87f23 -> 2.61:1   #ec5b2a -> 3.44:1
+   * Ninguno de los tres puede aparecer puro bajo el texto.
+   *
+   * Por eso NO hay crema en el mesh: es incompatible con texto blanco.
+   *
+   * El rango interno se consigue BAJANDO la base, no subiendo los picos: el
+   * techo está fijo, así que la única forma de que se vea como mesh y no como
+   * un naranja plano es alejar el suelo. Base #4a1607 (L 0.021) contra un pico
+   * de #be581b (L 0.181) = 8.8x de rango, frente a los 2.9x que daba la base
+   * #7e2a0e anterior.
+   *
+   * Rango de luminosidad: 0.021 .. 0.181 (techo 0.1833).
+   *   - zona oscura   : base + capa D          -> hasta L 0.012
+   *   - zona media    : base sola              -> L 0.021
+   *   - zona clara    : base + capa A (#aa5016) -> L 0.143
+   *   - PICO peor caso: A sobre B (#be581b)     -> L 0.181, blanco 4.56:1
+   *
+   * La capa D solo oscurece, así que no entra en el cálculo del peor caso.
+   * Subir el alfa de A o B, aclarar la base o añadir una capa clava rompe AA.
+   * ------------------------------------------------------------------------ */
+  .hero-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 1.5rem;
+  }
+
+  .hero-mesh {
+    position: absolute;
+    inset: 0;
+    background-color: #4a1607;
+  }
+
+  /*
+   * Las capas desbordan el contenedor un 30% para que al desplazarse y escalar
+   * no asome nunca un borde. Solo se animan transform y opacity: el gradiente
+   * se calcula una vez y de ahí en adelante el trabajo es del compositor.
+   */
+  /*
+   * Desbordan un 20%, no un 30%: menos desbordamiento y radios más cerrados
+   * hacen que cada mancha se lea como mancha. Con radios amplios las tres se
+   * promediaban y el fondo salía casi uniforme.
+   */
+  .hero-mesh__layer {
+    position: absolute;
+    inset: -20%;
+    will-change: transform, opacity;
+  }
+
+  /* Capa clara. Alfa máxima verificada: 0.55. */
+  .hero-mesh__layer--a {
+    background: radial-gradient(
+      circle at 26% 28%,
+      rgba(248, 127, 35, 0.55) 0%,
+      rgba(248, 127, 35, 0) 48%
+    );
+    animation: hero-mesh-a 26s ease-in-out infinite alternate;
+  }
+
+  /* Capa media. Alfa máxima verificada: 0.28. */
+  .hero-mesh__layer--b {
+    background: radial-gradient(
+      circle at 78% 34%,
+      rgba(236, 91, 42, 0.28) 0%,
+      rgba(236, 91, 42, 0) 46%
+    );
+    animation: hero-mesh-b 22s ease-in-out infinite alternate;
+  }
+
+  /* Capa oscura: hunde la esquina inferior. Solo resta luminosidad. */
+  .hero-mesh__layer--c {
+    background: radial-gradient(
+      circle at 62% 92%,
+      rgba(43, 12, 4, 0.6) 0%,
+      rgba(43, 12, 4, 0) 55%
+    );
+    animation: hero-mesh-c 29s ease-in-out infinite alternate;
+  }
+
+  /* La opacidad nunca pasa de 1: ese es el tope verificado. */
+  @keyframes hero-mesh-a {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.85;
+    }
+    to {
+      transform: translate3d(7%, 5%, 0) scale(1.18);
+      opacity: 1;
+    }
+  }
+
+  @keyframes hero-mesh-b {
+    from {
+      transform: translate3d(0, 0, 0) scale(1.1);
+      opacity: 1;
+    }
+    to {
+      transform: translate3d(-8%, 6%, 0) scale(1);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes hero-mesh-c {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.9;
+    }
+    to {
+      transform: translate3d(5%, -7%, 0) scale(1.2);
+      opacity: 1;
+    }
+  }
+
+  /*
+   * Sin animación: se congela un fotograma intermedio, no el inicial, para que
+   * el mesh siga leyéndose como mesh y no como un degradado plano.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-mesh__layer {
+      animation: none;
+      will-change: auto;
+    }
+
+    .hero-mesh__layer--a {
+      transform: translate3d(4%, 3%, 0) scale(1.1);
+      opacity: 0.92;
+    }
+
+    .hero-mesh__layer--b {
+      transform: translate3d(-4%, 3%, 0) scale(1.05);
+      opacity: 0.9;
+    }
+
+    .hero-mesh__layer--c {
+      transform: translate3d(3%, -4%, 0) scale(1.1);
+      opacity: 0.95;
+    }
+  }
+
+  /*
+   * Superficie de cristal. Por defecto es OPACA: solo se vuelve translúcida si
+   * el navegador soporta backdrop-filter. Así nunca queda texto sobre un fondo
+   * semitransparente sin desenfoque, que es donde se pierde el contraste.
+   */
+  .glass,
+  .glass-strong,
+  .glass-floating {
+    background-color: var(--glass-fallback);
+    border: 1px solid var(--glass-border);
+  }
+
+  /*
+   * Estado transparente del header en la parte superior de la página: sin
+   * fondo ni borde, fundido con lo que haya detrás.
+   *
+   * Mantiene un backdrop-filter de blur(0px) en vez de quitarlo: así el paso a
+   * .glass puede interpolar el desenfoque en vez de saltar de golpe.
+   */
+  .glass-top {
+    background-color: transparent;
+    border: 1px solid transparent;
+  }
+
+  .glass,
+  .glass-strong,
+  .glass-floating,
+  .glass-top {
+    transition:
+      background-color 300ms ease,
+      border-color 300ms ease,
+      -webkit-backdrop-filter 300ms ease,
+      backdrop-filter 300ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass,
+    .glass-strong,
+    .glass-floating,
+    .glass-top {
+      transition: none;
+    }
+  }
+
+  @supports (backdrop-filter: blur(1px)) or
+    (-webkit-backdrop-filter: blur(1px)) {
+    .glass {
+      background-color: var(--glass-bg);
+      -webkit-backdrop-filter: var(--glass-blur);
+      backdrop-filter: var(--glass-blur);
+    }
+
+    .glass-strong {
+      background-color: var(--glass-bg-strong);
+      -webkit-backdrop-filter: var(--glass-blur);
+      backdrop-filter: var(--glass-blur);
+    }
+
+    .glass-floating {
+      background-color: var(--glass-bg-floating);
+      -webkit-backdrop-filter: var(--glass-blur);
+      backdrop-filter: var(--glass-blur);
+    }
+
+    .glass-top {
+      -webkit-backdrop-filter: blur(0px);
+      backdrop-filter: blur(0px);
+    }
+  }
+
+  /* Sin transparencia: fondo sólido y sin desenfoque. */
+  @media (prefers-reduced-transparency: reduce) {
+    .glass,
+    .glass-strong,
+    .glass-floating {
+      background-color: var(--glass-fallback);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
 }
 
-/* Texto pequeño de UI */
-.text-ui {
-  font-family: var(--font-dm-sans);
-  font-weight: 400;
+/*
+ * Estos estilos van dentro de @layer para que las utilidades de Tailwind puedan
+ * sobrescribirlos. El CSS sin capa gana a CUALQUIER capa, así que fuera de aquí
+ * `.text-ui` bloquearía un `font-medium` puesto en el marcado — que es justo lo
+ * que necesita el item activo de la nav.
+ */
+@layer base {
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-dm-sans);
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-outfit);
+    font-weight: 500;
+  }
+
+  /*
+   * El header es sticky y flota sobre el contenido, así que cualquier destino
+   * de scroll tiene que reservarle sitio. Se aplica a encabezados y a todo lo
+   * que tenga id, que es lo que puede ser destino de un ancla.
+   */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  [id] {
+    scroll-margin-top: var(--header-offset);
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --header-offset: 7rem;
+      --edge-gap: 1.5rem;
+      --header-flow: calc(var(--edge-gap) + 4rem + 2px);
+    }
+  }
+}
+
+@layer components {
+  /* Texto pequeño de UI */
+  .text-ui {
+    font-family: var(--font-dm-sans);
+    font-weight: 400;
+  }
+}
+
+/* ==========================================================================
+ * HEADER TRANSPARENTE SOBRE EL MESH DEL HERO
+ *
+ * Solo aplica cuando se cumplen las dos cosas: la página tiene tarjeta de hero
+ * con mesh (:has) Y el header está en su estado transparente (arriba del todo).
+ * En cuanto aparece el cristal al hacer scroll, o en una página sin mesh, el
+ * header vuelve a su color normal.
+ *
+ * Sobre el mesh el naranja de marca se pierde: el logo da 1.21:1 en el punto
+ * claro y 2.74:1 en el oscuro. De ahí la versión blanca (4.61:1 en el peor
+ * caso).
+ *
+ * Va SIN @layer a propósito. El CSS sin capa gana a todas las capas, incluidas
+ * las utilidades de Tailwind, que es lo que hace falta para sobrescribir el
+ * text-brand-blue del marcado sin recurrir a !important.
+ *
+ * Sin soporte de :has() (Firefox < 121) el header conserva azul y naranja sobre
+ * el mesh: se ve peor, pero nada desaparece.
+ * ========================================================================== */
+body:has(.hero-card) header[data-transparent="true"] .header-brand,
+body:has(.hero-card) header[data-transparent="true"] .header-brand:hover,
+body:has(.hero-card) header[data-transparent="true"] .header-link,
+body:has(.hero-card) header[data-transparent="true"] .header-link:hover,
+body:has(.hero-card) header[data-transparent="true"] .header-icon {
+  color: #ffffff;
 }

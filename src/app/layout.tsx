@@ -3,6 +3,7 @@ import { Outfit, DM_Sans } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ChatWidget } from "@/components/chat-widget";
+import { FloatingWhatsApp } from "@/components/floating-whatsapp";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -37,6 +38,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <FloatingWhatsApp />
         <ChatWidget />
       </body>
     </html>
