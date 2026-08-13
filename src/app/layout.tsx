@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit, DM_Sans } from "next/font/google";
+import { ContactModalProvider } from "@/components/contact-modal";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ChatWidget } from "@/components/chat-widget";
 import { FloatingWhatsApp } from "@/components/floating-whatsapp";
 import "./globals.css";
 
@@ -34,12 +34,28 @@ export default function RootLayout({
       lang="es"
       className={`${outfit.variable} ${dmSans.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-        <FloatingWhatsApp />
-        <ChatWidget />
+      {/*
+        Header y main comparten celda: los dos empiezan en la fila 1, columna 1,
+        y se dibujan uno encima del otro. Así el filo superior del header y el de
+        la tarjeta del hero salen del MISMO --edge-gap medido desde el MISMO
+        origen, sin ninguna cuenta que compense la altura del header. Cambiar el
+        alto del pill ya no puede desalinear nada.
+
+        grid-rows-[1fr_auto]: la fila apilada se come el alto sobrante y el
+        footer queda al fondo también en páginas cortas.
+      */}
+      {/*
+        El provider del modal envuelve todo el body: cualquier componente
+        cliente del árbol puede abrirlo con useContactModal(), y el modal se
+        monta una sola vez, fuera del flujo del grid.
+      */}
+      <body className="grid min-h-full grid-rows-[1fr_auto]">
+        <ContactModalProvider>
+          <SiteHeader />
+          <main className="[grid-area:1/1]">{children}</main>
+          <SiteFooter />
+          <FloatingWhatsApp />
+        </ContactModalProvider>
       </body>
     </html>
   );

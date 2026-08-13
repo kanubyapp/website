@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { KanubyLogo } from "@/components/kanuby-logo";
+import { ScndalWebtag } from "@/components/scndal-webtag";
 import { navLinks } from "@/lib/nav";
 
 // TODO(pagina-pendiente): /terminos y /privacidad NO existen todavía como rutas.
@@ -22,16 +24,27 @@ export function SiteFooter() {
      * lectura y enlaces, y la regla 1 del sistema reserva el cristal al chrome.
      */
     <footer className="px-4 pb-4 md:px-6">
-      <div className="rounded-3xl bg-gradient-footer px-6 pb-28 pt-12 text-white md:px-12 md:pb-14 md:pt-16">
+      {/*
+        pb-16, el mismo valor en los dos tamaños. Lo único que flota sobre la
+        página es el pill de WhatsApp: bottom-4 más sus 50px de alto ocupan los
+        últimos 66px del viewport, y entre este pb-16 y el pb-4 del <footer>
+        quedan 80px libres al final de la página.
+      */}
+      <div className="rounded-3xl bg-gradient-footer px-6 pb-16 pt-12 text-white md:px-12 md:pt-16">
         <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
           <div>
-            {/* Logotipo: naranja de marca a propósito, ver nota en site-header. */}
+            {/*
+              Logotipo en BLANCO, no en naranja de marca: aquí el fondo es el
+              azul de la tarjeta del footer. El SVG es decorativo y el nombre
+              accesible del enlace sale del <span class="sr-only">.
+            */}
             <Link
               href="/"
-              className="font-heading text-2xl font-semibold lowercase tracking-tight text-brand-orange transition-colors hover:text-brand-orange-hover"
+              className="inline-flex items-center text-white transition-opacity hover:opacity-80"
             >
-              kanuby
+              <KanubyLogo className="h-8 w-auto" />
+              <span className="sr-only">Kanuby</span>
             </Link>
             {/*
               Descripción actualizada: decía "locales, nacionales y corporativas".
@@ -99,17 +112,19 @@ export function SiteFooter() {
           </p>
 
           {/*
-            TODO(asset-pendiente): logotipo de SCNDAL en SVG. Cuando llegue,
-            sustituir el <span> por la imagen y dejar el texto como alt.
-            Mientras tanto el texto ES el crédito, no un placeholder vacío: así
-            el crédito se ve aunque el asset nunca llegue.
+            El webtag ya trae dentro el "Created By", así que sustituye al
+            párrafo entero y no solo al nombre: repetir el texto al lado lo
+            duplicaría.
+
+            text-white y no white/70: el trazo del webtag es fino y a 70% sobre
+            el azul del footer pierde definición. En blanco da 10.47:1.
 
             TODO(contenido-sin-validar): sin enlace a scndal.com hasta confirmar
             la URL.
           */}
-          <p className="text-ui flex items-center gap-2 text-sm text-white/70">
-            Created by
-            <span className="font-heading font-medium text-white">SCNDAL</span>
+          <p className="text-white">
+            <ScndalWebtag className="h-6 w-auto" />
+            <span className="sr-only">Created by SCNDAL</span>
           </p>
         </div>
         </div>

@@ -1,10 +1,22 @@
 /**
  * Ilustración esquemática del cotizador: una interfaz con filas de objetos y un
- * resultado abajo. SVG inline, sin assets externos, dibujado solo con colores
- * del sistema (azul de marca a distintas opacidades).
+ * resultado abajo. SVG inline, sin assets externos, dibujado a un solo color a
+ * distintas opacidades vía currentColor.
  *
- * Es decorativa: el significado lo lleva el texto de la sección, por eso va con
- * aria-hidden y sin título accesible.
+ * BLANCO, no azul de marca: vive dentro de la tarjeta con --gradient-quoter y
+ * sobre ese naranja el azul desaparece.
+ *
+ * CONTRASTE — ninguna opacidad llega a 3:1 contra el punto más claro del
+ * gradiente (#bc531c): white@0.5 da 2.32:1 y white@0.05, 1.09:1. Es CORRECTO y
+ * deliberado: la ilustración es decorativa (aria-hidden), no transmite ninguna
+ * información que no esté en el texto de la sección, y WCAG 1.4.11 solo exige
+ * 3:1 a los gráficos que sí la transmiten. Subirlas para cumplir un mínimo que
+ * no aplica aplanaría la jerarquía de la ilustración hasta convertirla en una
+ * mancha blanca.
+ *
+ * En la práctica se lee mejor que esas cifras: la ilustración va en la columna
+ * derecha y el foco claro del gradiente está en la izquierda (26%/28%), así que
+ * su fondo real tira al extremo oscuro, donde white@0.5 sube a 5.04:1.
  */
 export function QuoterIllustration() {
   const rows = [
@@ -18,7 +30,7 @@ export function QuoterIllustration() {
       viewBox="0 0 380 260"
       fill="none"
       aria-hidden="true"
-      className="h-auto w-full text-brand-blue"
+      className="h-auto w-full text-white"
     >
       {/* Marco de la interfaz */}
       <rect

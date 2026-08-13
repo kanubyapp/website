@@ -1,5 +1,9 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import { useContactModal } from "@/components/contact-modal";
 import { WhatsAppIcon } from "@/components/icons";
-import { WHATSAPP_HREF } from "@/lib/contact";
+import { verticalFromPathname } from "@/lib/services";
 
 /**
  * Botón flotante de WhatsApp, en pill de cristal coherente con el header.
@@ -11,21 +15,24 @@ import { WHATSAPP_HREF } from "@/lib/contact";
  * El texto va en azul de marca, no en blanco: sobre cristal claro el blanco no
  * alcanza AA.
  *
- * OJO — colisión: el widget de respond.io (ver ChatWidget) también se inyecta
- * en la esquina inferior derecha. Este pill se coloca por encima de esa zona
- * (bottom-24) para no solaparse, pero la posición exacta de la burbuja la
- * decide su script y no se puede verificar desde el código.
+ * Es el ÚNICO elemento flotante del sitio, así que va pegado a la esquina:
+ * bottom-4, la misma distancia que right-4. El padding inferior del footer está
+ * calculado a partir de esta posición para que el pill no tape su contenido.
  */
 export function FloatingWhatsApp() {
+  /* No va directo a wa.me: abre el modal de contacto, sin servicio
+     preseleccionado, y este arranca en su paso 1. */
+  const openContactModal = useContactModal();
+  const vertical = verticalFromPathname(usePathname());
+
   return (
-    <a
-      href={WHATSAPP_HREF}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="glass-floating text-ui fixed bottom-24 right-4 z-40 inline-flex items-center gap-2.5 rounded-full px-5 py-3.5 text-sm font-medium text-brand-blue transition-transform hover:scale-[1.03] md:right-8"
+    <button
+      type="button"
+      onClick={() => openContactModal({ vertical })}
+      className="glass-floating text-ui fixed bottom-4 right-4 z-40 inline-flex items-center gap-2.5 rounded-full px-5 py-3.5 text-sm font-medium text-brand-blue transition-transform hover:scale-[1.03] md:right-8"
     >
       <WhatsAppIcon className="h-5 w-5" />
       Escríbenos
-    </a>
+    </button>
   );
 }

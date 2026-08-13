@@ -1,0 +1,31 @@
+/**
+ * Logotipo de Kanuby. Trazados tal cual salen de public/brand/kanuby-logo.svg,
+ * que se mantiene como asset de origen.
+ *
+ * El archivo original trae los rellenos FIJOS en blanco (un bloque <style> con
+ * `.cls-1 { fill: #fff }`), así que servido como <img> solo valdría para el
+ * footer y saldría invisible en el header sobre fondo claro. Aquí va inline y a
+ * currentColor: el color lo pone quien lo usa, y las reglas que ya existen para
+ * .header-brand —naranja de marca, blanco cuando el header está transparente
+ * sobre el mesh— siguen funcionando sin tocar nada.
+ *
+ * aria-hidden: es decorativo. El nombre accesible del enlace que lo envuelve lo
+ * pone un <span class="sr-only">, no este SVG.
+ */
+export function KanubyLogo({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 1589.09 436.55"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M103.1,257.68l-30.03,32.27v43.03H0V0h73.06v196.73l75.3-81.13h86.52l-82.47,88.75,89.65,128.64h-86.95l-51.99-75.3h-.01Z" />
+      <path d="M482.32,115.6v217.39h-72.62v-11.65c-16.14,10.76-35.41,17.49-59.61,17.49-58.72,0-108.02-50.21-108.02-114.75s49.3-114.3,108.02-114.3c24.2,0,43.48,6.27,59.61,17.03v-11.2h72.62ZM409.71,257.68v-67.23c-13.89-15.25-29.14-19.27-44.83-19.27-29.58,0-51.55,22.87-51.55,52.89s21.96,52.89,51.55,52.89c15.69,0,30.93-4.04,44.83-19.27h0Z" />
+      <path d="M756.66,208.83v124.15h-72.61v-112.5c0-30.93-15.69-44.83-39.9-44.83-13,0-26.9,6.73-39.45,20.62v136.71h-73.06V115.6h73.06v14.34c17.49-13,36.31-20.18,59.61-20.18,54.68,0,92.34,37.21,92.34,99.06h.01Z" />
+      <path d="M1025.61,115.6v217.39h-72.61v-15.24c-17.49,13.44-36.31,21.06-59.61,21.06-55.14,0-92.79-38.1-92.79-99.95v-123.26h72.62v112.06c0,30.93,16.14,45.72,39.89,45.72,13.45,0,27.34-7.62,39.9-21.52V115.6h72.61-.01Z" />
+      <path d="M1589.08,115.6l-135.37,320.94h-76.19l45.27-108.04-106.23-212.91h77.1l61.86,134.91,56.92-134.91h76.65-.01Z" />
+      <polygon points="1295.19 261.63 1295.19 118.67 1136.86 118.67 1136.86 2.17 1063.79 2.17 1063.79 335.17 1136.86 335.17 1136.86 335.02 1291.82 335.02 1221.55 261.83 1138.72 261.64 1138.72 192.46 1222 192.46 1222.26 261.72 1295.19 261.63" />
+    </svg>
+  );
+}

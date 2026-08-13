@@ -6,6 +6,10 @@ import { Hero } from "@/components/hero";
 import { ArrowRightIcon, CheckIcon } from "@/components/icons";
 import { QuoterIllustration } from "@/components/quoter-illustration";
 import { ReviewsGrid } from "@/components/reviews-grid";
+import {
+  ServiceTypeCards,
+  type ServiceTypeCard,
+} from "@/components/service-type-cards";
 import { mudanzasReviews } from "@/lib/reviews";
 
 export const metadata: Metadata = {
@@ -15,28 +19,43 @@ export const metadata: Metadata = {
 };
 
 /*
- * TODO(contenido-sin-validar): ambos bloques describen operación real y los
- * redactó el asistente a partir del brief. "Levantamos el inventario",
- * "protegemos los muebles" y "los acomodamos en el domicilio destino" están sin
- * confirmar.
+ * TODO(contenido-sin-validar): los tres títulos están confirmados; las
+ * descripciones describen operación real sin validar — el alcance del área
+ * metropolitana, el "puerta a puerta" del corredor a CDMX y la "menor
+ * interrupción posible" de la empresarial. Confirmar con el cliente antes de
+ * publicar.
  *
  * NO añadir aquí un bloque de fletes. Se probó y se descartó: "fletes" atrae
  * intención de bajo valor (traslado de un solo mueble) y compite contra la
  * keyword objetivo de esta página, que es "mudanzas Monterrey". Si en algún
  * momento hay que cubrir fletes, va en su propia página, no diluyendo esta.
  */
-const serviceTypes = [
+/*
+ * Tarjetas NO navegables: no llevan a ninguna página, ni siquiera las dos que
+ * tienen una propia. Cada una abre el modal de contacto con su `serviceId` ya
+ * elegido.
+ */
+const serviceTypes: ServiceTypeCard[] = [
   {
+    serviceId: "local",
+    eyebrow: "Casa y departamento",
     title: "Mudanza local",
     description:
-      "Mudanzas de casa o departamento dentro de Monterrey y su área metropolitana. Levantamos el inventario, protegemos los muebles y los acomodamos en el domicilio destino.",
+      "Mudanza de casa o departamento dentro de Monterrey y su área metropolitana.",
   },
   {
-    title: "Mudanza de oficina",
+    serviceId: "monterrey-cdmx",
+    eyebrow: "Corredor nacional",
+    title: "Mudanza Monterrey–CDMX",
     description:
-      "Traslado de mobiliario, equipo y archivo con la menor interrupción posible de la operación.",
-    href: "/mudanzas/empresariales",
-    linkLabel: "Ver mudanzas empresariales",
+      "Traslado en el corredor Monterrey a Ciudad de México, puerta a puerta.",
+  },
+  {
+    serviceId: "oficinas",
+    eyebrow: "Oficinas y empresas",
+    title: "Mudanza empresarial",
+    description:
+      "Traslado de oficinas, mobiliario, equipo y archivo con la menor interrupción posible de la operación.",
   },
 ];
 
@@ -133,27 +152,6 @@ const differentiators = [
   },
 ];
 
-const otherServices = [
-  {
-    href: "/mudanzas/empresariales",
-    title: "Mudanzas empresariales",
-    description:
-      "Traslado de oficinas, mobiliario y archivo con la menor interrupción posible de la operación.",
-  },
-  {
-    href: "/mudanzas/monterrey-cdmx",
-    title: "Mudanza Monterrey a CDMX",
-    description:
-      "Servicio en el corredor Monterrey–Ciudad de México, puerta a puerta.",
-  },
-  {
-    href: "/mini-bodegas",
-    title: "Mini bodegas",
-    description:
-      "Renta de espacio seguro por mes para guardar muebles, inventario o archivo.",
-  },
-];
-
 // TODO(contenido): respuestas pendientes de confirmar con el cliente.
 const faqItems: FaqItem[] = [
   { question: "¿Cuánto cuesta una mudanza en Monterrey?", answer: "Pendiente de confirmar" },
@@ -192,55 +190,41 @@ export default function MudanzasPage() {
         subtitle="Equipo propio, nunca subcontratamos. Más de 20 años haciendo mudanzas en Monterrey, Nuevo León y su área metropolitana."
       />
 
-      {/* Tipos de servicio */}
-      <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+      {/*
+        Tipos de servicio.
+
+        A ancho completo y con el lateral en --edge-gap, el mismo token que
+        separa del viewport a la tarjeta del hero: las tarjetas arrancan y
+        terminan en su mismo eje. Por eso NO lleva el `mx-auto max-w-6xl px-5`
+        del resto de secciones de la página.
+      */}
+      <section className="px-[var(--edge-gap)] py-20 md:py-28">
         <h2 className="max-w-2xl text-3xl tracking-tight md:text-4xl">
           Tipos de servicio
         </h2>
-        <ul className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2">
-          {serviceTypes.map((service) => (
-            <li key={service.title} className="flex gap-4">
-              <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" />
-              <div>
-                <h3 className="font-heading text-lg text-foreground">
-                  {service.title}
-                </h3>
-                <p className="mt-2 text-base text-muted">
-                  {service.description}
-                </p>
-                {service.href && (
-                  <Link
-                    href={service.href}
-                    className="text-ui mt-3 inline-flex items-center gap-2 text-sm text-brand-blue underline underline-offset-4"
-                  >
-                    {service.linkLabel}
-                    <ArrowRightIcon className="h-4 w-4" />
-                  </Link>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
+        {/*
+          El marcado de las tarjetas vive en un componente cliente: cada una
+          abre el modal de contacto, así que necesita manejador de eventos. La
+          página se queda como componente de servidor.
+        */}
+        <ServiceTypeCards cards={serviceTypes} vertical="mudanzas" />
       </section>
 
-      {/* 1. Qué incluye el servicio */}
+      {/* 1. Por qué Kanuby */}
       <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
         <h2 className="max-w-2xl text-3xl tracking-tight md:text-4xl">
-          Qué incluye el servicio
+          Por qué Kanuby
         </h2>
-        <ul className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2">
-          {serviceIncludes.map((item) => (
-            <li key={item.title} className="flex gap-4">
-              <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" />
-              <div>
-                <h3 className="font-heading text-lg text-foreground">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-base text-muted">{item.description}</p>
-              </div>
-            </li>
+        <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-12">
+          {differentiators.map((item) => (
+            <div key={item.title}>
+              <h3 className="font-heading text-xl text-foreground">
+                {item.title}
+              </h3>
+              <p className="mt-3 text-base text-muted">{item.description}</p>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       {/* 2. Cómo funciona */}
@@ -277,7 +261,7 @@ export default function MudanzasPage() {
       <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
         <Link
           href="/cotizar-mudanza"
-          className="group grid items-center gap-10 rounded-3xl border border-border p-8 transition-colors hover:border-brand-blue md:grid-cols-2 md:gap-16 md:p-12"
+          className="bg-gradient-quoter group grid items-center gap-10 rounded-3xl p-8 md:grid-cols-2 md:gap-16 md:p-12"
         >
           <div>
             {/*
@@ -285,13 +269,20 @@ export default function MudanzasPage() {
               propósito: sin cifras, sin tiempos de respuesta y sin promesas de
               precio hasta que el cliente defina qué puede prometer el cotizador.
             */}
-            <h2 className="text-3xl tracking-tight md:text-4xl">
+            {/*
+              Texto en BLANCO, no en azul: sobre este gradiente el azul de marca
+              se hunde. Blanco sólido da 4.78:1 en el punto más claro (#bc531c),
+              el mismo caso peor documentado en --gradient-quoter.
+            */}
+            <h2 className="text-3xl tracking-tight text-white md:text-4xl">
               Calcula el costo de tu mudanza
             </h2>
-            <p className="mt-4 text-lg text-muted">
+            <p className="mt-4 text-lg text-white">
               Dinos qué necesitas mover y desde dónde.
             </p>
-            <span className="text-ui mt-8 inline-flex items-center gap-2.5 whitespace-nowrap rounded-md bg-brand-orange-accessible px-7 py-4 text-base font-medium text-white transition-colors group-hover:bg-brand-orange-accessible-hover">
+            {/* Mismo tratamiento que el primario del hero: relleno blanco,
+                texto azul, rounded-full. Hover: solo se atenúa el blanco. */}
+            <span className="text-ui mt-8 inline-flex items-center gap-2.5 whitespace-nowrap rounded-full bg-white px-7 py-4 text-base font-medium text-brand-blue transition-colors group-hover:bg-white/90">
               Cotizar mi mudanza
               <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </span>
@@ -303,52 +294,68 @@ export default function MudanzasPage() {
         </Link>
       </section>
 
-      {/* 3. Por qué Kanuby */}
+      {/* 3. Qué incluye el servicio */}
       <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
         <h2 className="max-w-2xl text-3xl tracking-tight md:text-4xl">
-          Por qué Kanuby
+          Qué incluye el servicio
         </h2>
-        <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-12">
-          {differentiators.map((item) => (
-            <div key={item.title}>
-              <h3 className="font-heading text-xl text-foreground">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-base text-muted">{item.description}</p>
-            </div>
+        <ul className="mt-12 grid gap-x-12 gap-y-10 md:grid-cols-2">
+          {serviceIncludes.map((item) => (
+            <li key={item.title} className="flex gap-4">
+              <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" />
+              <div>
+                <h3 className="font-heading text-lg text-foreground">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-base text-muted">{item.description}</p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       {/* 4. Prueba social — reviews reales de Google, texto verbatim */}
       <ReviewsGrid reviews={mudanzasReviews} />
 
-      {/* 5. Otros servicios — enlazado interno */}
+      {/*
+        5. Cross-sell de mini bodegas — enlazado interno.
+
+        Antes esto era "Otros servicios" con tres tarjetas. Dos (empresariales y
+        Monterrey–CDMX) se fueron: ya se enlazan desde "Tipos de servicio", y
+        repetirlas aquí no añadía nada. Queda mini bodegas, que es la única otra
+        vertical y el único cruce que no está dicho en ninguna otra parte de la
+        página.
+
+        Tarjeta única a ancho completo, no una retícula con dos huecos. Toda
+        ella es el enlace, igual que el CTA del cotizador: por eso el pie es un
+        <span> con aspecto de enlace y no otro <a>.
+      */}
       <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-        <h2 className="max-w-2xl text-3xl tracking-tight md:text-4xl">
-          Otros servicios
-        </h2>
-        <ul className="mt-12 grid gap-6 md:grid-cols-3">
-          {otherServices.map((service) => (
-            <li key={service.href}>
-              <Link
-                href={service.href}
-                className="group flex h-full flex-col rounded-lg border border-border p-7 transition-colors hover:border-brand-blue"
-              >
-                <h3 className="font-heading text-xl text-foreground">
-                  {service.title}
-                </h3>
-                <p className="mt-3 flex-1 text-base text-muted">
-                  {service.description}
-                </p>
-                <span className="text-ui mt-6 inline-flex items-center gap-2 text-sm text-brand-blue">
-                  Ver servicio
-                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <Link
+          href="/mini-bodegas"
+          className="group block rounded-lg border border-border p-8 transition-colors hover:border-brand-blue md:p-12"
+        >
+          {/*
+            TODO(contenido-sin-validar): el ángulo (Kanuby cubre la mudanza Y el
+            espacio donde guardar, sin segundo proveedor) sale del brief, pero la
+            redacción es del asistente. Falta confirmar que las mini bodegas son
+            propias y que el traslado entre domicilio y bodega lo hace el mismo
+            equipo, que es justo lo que promete el texto.
+          */}
+          <h2 className="max-w-2xl text-3xl tracking-tight md:text-4xl">
+            ¿Necesitas guardar tus cosas?
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-muted">
+            Kanuby hace las dos cosas: la mudanza y el espacio donde guardar. Si
+            entre una casa y la siguiente hay semanas de por medio, tus muebles
+            esperan en una de nuestras mini bodegas y los movemos nosotros
+            mismos, sin meter a un segundo proveedor.
+          </p>
+          <span className="text-ui mt-8 inline-flex items-center gap-2 text-base text-brand-blue">
+            Ver mini bodegas
+            <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </span>
+        </Link>
       </section>
 
       {/* 6. Preguntas frecuentes */}
