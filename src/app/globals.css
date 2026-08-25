@@ -30,25 +30,32 @@
    */
   --color-orange-mid: #f87f23;
 
-  /*
-   * Naranja de marca. NO usar en superficies con texto encima ni como color de
-   * texto sobre blanco: da 3.44:1 y AA para texto normal exige 4.5:1.
-   * Reservado a logo y elementos gráficos sin texto.
-   */
+  /* ------------------------------------------------------------------------
+   * NARANJA DE MARCA — Y LA REGLA DE COLOR DE BOTONES
+   *
+   * Hay UN solo naranja. El segundo (--color-brand-orange-accessible, #cb4e24)
+   * se eliminó del sistema: no volver a introducirlo.
+   *
+   * REGLA DE BOTONES SÓLIDOS — el color lo decide el FONDO sobre el que cae el
+   * botón, nunca su función:
+   *   - Sobre fondo naranja (mesh del hero, tarjeta del cotizador y cualquier
+   *     otra superficie naranja) ....... relleno #0f3446, texto blanco.
+   *   - Sobre fondo neutro, claro o blanco ... relleno #ec5b2a, texto blanco.
+   * El texto de botón es SIEMPRE blanco, en los dos casos.
+   *
+   * TAMAÑO MÍNIMO DEL BOTÓN NARANJA: 19px en peso 600. Blanco sobre #ec5b2a da
+   * 3.44:1, que no llega al 4.5:1 de AA para texto normal pero sí cumple el
+   * 3:1 de texto grande, y el umbral de texto grande empieza en 18.66px en
+   * negrita. Bajar de 19px o de peso 600 en un botón naranja lo saca de AA.
+   * El botón AZUL no tiene mínimo: blanco sobre #0f3446 da 12.31:1.
+   *
+   * FUERA DE LOS BOTONES el naranja sigue sin poder llevar texto: como color de
+   * TEXTO sobre blanco se queda en esos mismos 3.44:1 y ahí no hay umbral de
+   * texto grande que valga para un enlace de 14px. Para texto naranja, usar el
+   * azul de marca.
+   * ------------------------------------------------------------------------ */
   --color-brand-orange: #ec5b2a;
   --color-brand-orange-hover: #d24a1e;
-
-  /*
-   * Naranja accesible. Usar SIEMPRE que haya texto de por medio: botón primario
-   * de WhatsApp, sus estados hover/active, y texto naranja sobre blanco.
-   * 4.51:1 con blanco, 5.37:1 en hover.
-   *
-   * OJO: sobre --color-surface (#f5f7f8) baja a 4.20:1 y ya no cumple AA para
-   * texto normal. No poner texto naranja sobre superficies grises; si hace
-   * falta, usar el azul de marca.
-   */
-  --color-brand-orange-accessible: #cb4e24;
-  --color-brand-orange-accessible-hover: #b74620;
 
   --color-brand-orange-soft: #fdede6;
 
@@ -119,10 +126,14 @@
   --gradient-soft: linear-gradient(180deg, #f0dfcb 0%, #ffffff 100%);
 
   /*
-   * Tarjeta del CTA del cotizador: el mesh del hero CONGELADO. Mismos colores,
-   * mismas posiciones y misma alfa máxima que .hero-mesh__layer--a/b/c, pero en
-   * tres radial-gradient estáticos sobre el mismo #4a1607 de base — sin capas ni
-   * animación.
+   * Tarjeta del CTA del cotizador: tres radial-gradient estáticos sobre un
+   * #4a1607 de base, sin capas ni animación.
+   *
+   * NACIÓ como el mesh del hero congelado, con sus mismos colores, posiciones y
+   * alfas, pero YA NO LO ES: el hero se rehízo como lienzo blanco con dos
+   * núcleos naranjas en esquinas opuestas. Estos valores son ahora
+   * independientes y se sostienen solos — no volver a leerlos como un espejo del
+   * hero ni sincronizarlos con él sin rehacer el cálculo de contraste de abajo.
    *
    * Al reutilizar esos valores, el punto MÁS CLARO que puede alcanzar es el
    * mismo que ya estaba verificado para el hero, #bc531c (base + capa a al 0.55
@@ -197,42 +208,22 @@
   --hero-pad: 4rem;
 
   /*
-   * Alto del pill, bordes incluidos. No es un valor suelto: sale del elemento
-   * más alto de la fila (--header-tallest) más el MISMO aire que hay a los
-   * lados, arriba y abajo. Ese aire lateral —--card-pad menos el borde del
-   * pill— es la referencia y no se toca; esto solo lo replica en vertical.
+   * Alto de la caja del header. Valor directo, no calculado: el header de hoy
+   * es solo logo + un botón (h-10, 40px), sin borde que compensar y sin
+   * hamburguesa. 4.5rem da 16px de aire arriba y abajo del botón.
    *
-   * Fuente ÚNICA del alto: site-header.tsx lo consume con
-   * h-[var(--header-row)] en el div de cristal. El contenido va centrado con
-   * items-center, así que el reparto arriba/abajo es exacto.
-   *
-   * Al depender de --card-pad, en md crece solo: no hay que redefinirlo en el
-   * @media.
+   * Fuente ÚNICA del alto: site-header.tsx lo consume con h-[var(--header-row)].
+   * El contenido va centrado con items-center, así que el reparto arriba/abajo
+   * es exacto.
    */
-  --header-row: calc(
-    var(--header-tallest) + 2 * (var(--card-pad) - 1px) + 2px
-  );
+  --header-row: 4.5rem;
 
   /* Alto del logotipo en el header. */
   --logo-height: 1.75rem;
 
   /*
-   * Alto del elemento MÁS ALTO de la fila del pill: los botones (WhatsApp y
-   * hamburguesa), ambos h-10 en site-header.tsx. Es este valor, y no el del
-   * logo, el que entra en el cálculo de --header-inset-top: el aire superior se
-   * mide contra el borde de arriba del elemento más alto. Si cambia el alto de
-   * esos botones, hay que cambiarlo aquí también.
-   */
-  --header-tallest: 2.5rem;
-
-  /*
-   * Cuánto BAJA el pill respecto al filo superior de la tarjeta del hero, por
-   * encima de --edge-gap. Es margen, no padding: la caja del <header> mide
-   * exactamente lo que mide el pill.
-   *
-   * A cero: el pill va pegado al filo de la tarjeta. Subirlo lo separa —el valor
-   * que lo dejaba alineado con el aire lateral del logo era
-   * calc(var(--card-pad) - 1px - (var(--header-row) - 2px - 2.5rem) / 2)—.
+   * Cuánto BAJA el header desde --edge-gap. A cero: pegado al aire estándar de
+   * arriba, sin separación extra.
    */
   --header-inset-top: 0px;
 
@@ -259,17 +250,15 @@
 
 /*
  * PÁGINAS SIN HERO: el header se apila sobre el contenido, así que el hueco que
- * antes le daba el flujo hay que devolverlo aquí.
- *
- * Es HOLGURA, no alineación: si --header-row se queda corto unos píxeles no se
- * nota, mientras que en el esquema anterior esos mismos píxeles descuadraban los
- * filos del header y de la tarjeta.
+ * antes le daba el flujo hay que devolverlo aquí. Exactamente --header-row: el
+ * header ya no tiene margen superior propio (pegado al borde del viewport),
+ * así que el contenido solo necesita librar su alto, sin --edge-gap extra.
  *
  * Con hero no aplica: el hero pone su propio aire y el header va superpuesto a
  * la tarjeta a propósito.
  */
 main:not(:has(.hero-card)) {
-  padding-top: calc(var(--edge-gap) + var(--header-row));
+  padding-top: var(--header-row);
 }
 
 /*
@@ -360,50 +349,84 @@ main:not(:has(.hero-card)) {
   /* ------------------------------------------------------------------------
    * TARJETA DEL HERO + MESH GRADIENT
    *
-   * MESH CLARO. El texto del hero es AZUL DE MARCA (#0f3446, L 0.0299), así que
-   * el caso peor es el punto MÁS OSCURO del mesh, no el más claro. Es la lógica
-   * INVERSA a la del mesh café anterior: allí mandaba el techo, aquí manda el
-   * suelo.
+   * MESH BLANCO. El lienzo es blanco puro y el naranja aparece SOLO en dos
+   * núcleos opuestos —superior izquierda y inferior derecha— que se disuelven
+   * hacia el centro. El centro queda blanco POR CONSTRUCCIÓN: los dos núcleos
+   * llegan a alfa 0 antes de alcanzarlo, no hay ninguna capa que los tape.
+   * Si alguna vez el centro se ensucia, lo que está mal es la posición o el
+   * radio de A/B, y ahí se corrige. No añadir un velo encima.
    *
-   * SUELO DE LUMINOSIDAD — no tocar sin recalcular:
-   * para que el azul dé 4.5:1 el fondo no puede bajar de L = 0.3096. Eso pone
-   * un límite a cuánto puede saturarse el naranja:
-   *   #ff5a00 -> L 0.286, 4.20:1  FALLA
-   *   #ff7519 -> L 0.341, 4.88:1  ok  <- el naranja fuerte de las manchas
-   *   #ff8c2e -> L 0.402, 5.66:1  ok
+   * DOS CAPAS, NO TRES. La tercera (mancha amarilla inferior) se eliminó con el
+   * mesh cálido: sobre blanco no aporta y solo puede ensuciar el centro.
    *
-   * Rango de luminosidad: 0.367 .. 0.848.
-   *   - zona clara    : base + capa C (#ffebc4) -> L 0.848, azul 11.24:1
-   *   - zona media    : base sola (#ffdca4)     -> L 0.751, azul 10.04:1
-   *   - SUELO peor caso: capa A al 0.9 sobre la
-   *     base = #ff7f27 .......................... L 0.367, azul  4.90:1
+   * GEOMETRÍA. Las capas desbordan un 20% por lado, así que el bloque de cada
+   * capa mide 140% de la tarjeta y sus porcentajes NO son los de la tarjeta:
+   *   coordenada_tarjeta = coordenada_capa * 1.4 - 20
+   * Los radios van en `ellipse <x> <y>` explícito, no en `circle`: la tarjeta es
+   * mucho más ancha que alta y un círculo capaz de leerse como zona en
+   * horizontal inunda toda la altura. Con radios explícitos, los porcentajes de
+   * las paradas son fracción del radio, que es lo que hace predecible dónde
+   * muere el naranja.
    *
-   * Las capas B y C solo ACLARAN respecto a A, así que no entran en el peor
-   * caso: donde se solapan, el fondo sube de luminosidad, no baja. Bajar la
-   * base, subir el alfa de A o meter un naranja más saturado rompe AA.
+   * PRESUPUESTO DE CONTRASTE. Texto azul de marca #0f3446 (L 0.0302) sobre
+   * #ec5b2a diluido en blanco. El caso peor es el punto MÁS OSCURO, o sea el
+   * núcleo:
+   *   alfa 1.00  #ec5b2a  L 0.255  ->  3.80:1
+   *   alfa 0.84  ~#ee6b3f L 0.310  ->  4.50:1   <- LÍMITE
+   *   alfa 0.75  ~#f1845f L 0.360  ->  5.12:1
+   *   alfa 0.50  ~#f6ad95 L 0.517  ->  7.06:1
+   *
+   * Quién exige qué:
+   *   - H1 (36px móvil, 48-56px desktop) es texto grande, umbral 3:1: cumple en
+   *     CUALQUIER punto del mesh, incluso sobre el núcleo puro.
+   *   - El SUBTÍTULO (18px, peso normal) es la restricción real: umbral 4.5:1,
+   *     así que no puede caer donde la alfa efectiva del naranja pase de 0.84.
+   *
+   * Recalculado con el difuminado largo (radios 52%/58% de la tarjeta y perfil
+   * de alfa 0.98 / 0.88 / 0.45 / 0), midiendo desde el borde izquierdo del texto
+   * (x 8%) y con el núcleo A en su posición más baja del ciclo:
+   *   - arranque del H1      (8%, 30%) -> alfa 0.55 ->  6.7:1   ok (umbral 3.0)
+   *   - banda del subtítulo  (8%, 45%) -> alfa 0.33 -> ~9:1     ok (umbral 4.5)
+   *   -                      (8%, 55%) -> alfa 0.13 -> ~12:1    ok
+   * El margen contra el límite de 0.84 es de más de dos veces. Lo que lo
+   * consumiría no es alargar el difuminado, sino BAJAR el núcleo: si alguna vez
+   * se mueve el centro de A hacia el centro vertical de la tarjeta, hay que
+   * rehacer esta tabla.
+   *
+   * Verificado en el punto medio de la tarjeta (50%, 50%), sumando el
+   * desplazamiento y la escala máximos de la animación: cae a 1.02 radios, o
+   * sea FUERA de las dos elipses. Alfa exactamente 0, sin nada que lo tape.
    * ------------------------------------------------------------------------ */
   .hero-card {
     position: relative;
     isolation: isolate;
     overflow: hidden;
     border-radius: 1.5rem;
+    /*
+     * Sombra en AZUL DE MARCA muy diluido, no en negro: sobre el blanco de la
+     * página un negro al 15% se lee gris sucio, y este azul mantiene el tinte
+     * del sistema.
+     *
+     * Dos capas y las dos con desenfoque grande y radio negativo: el radio
+     * negativo encoge la sombra respecto a la tarjeta, así que no asoma por los
+     * lados y solo queda el poso inferior. Es lo que la mantiene como
+     * separación del fondo y no como objeto con silueta propia.
+     */
+    box-shadow:
+      0 2px 8px -4px rgba(15, 52, 70, 0.08),
+      0 28px 64px -28px rgba(15, 52, 70, 0.22);
   }
 
   .hero-mesh {
     position: absolute;
     inset: 0;
-    background-color: #ffdca4;
+    background-color: #ffffff;
   }
 
   /*
-   * Las capas desbordan el contenedor un 30% para que al desplazarse y escalar
+   * Las capas desbordan el contenedor un 20% para que al desplazarse y escalar
    * no asome nunca un borde. Solo se animan transform y opacity: el gradiente
    * se calcula una vez y de ahí en adelante el trabajo es del compositor.
-   */
-  /*
-   * Desbordan un 20%, no un 30%: menos desbordamiento y radios más cerrados
-   * hacen que cada mancha se lea como mancha. Con radios amplios las tres se
-   * promediaban y el fondo salía casi uniforme.
    */
   .hero-mesh__layer {
     position: absolute;
@@ -412,41 +435,57 @@ main:not(:has(.hero-card)) {
   }
 
   /*
-   * Mancha naranja fuerte, arriba a la izquierda. Es la que marca el SUELO de
-   * luminosidad de todo el mesh: alfa máxima verificada 0.9 (la animación llega
-   * a opacity 1, así que el alfa efectivo es ese 0.9). Subirla, o saturar más el
-   * naranja, tira el azul por debajo de 4.5:1.
+   * NÚCLEO A — esquina superior izquierda.
+   *
+   * Centro al 20%/19% de la capa = (8%, 6%) de la tarjeta. Radios 37%/41% de la
+   * capa = 52% del ancho y 58% del alto de la tarjeta.
+   *
+   * PERFIL DE ALFA — es esto, y no el radio, lo que decide si la esquina se lee
+   * naranja de marca o rosa pálido. Con una sola parada intermedia baja (0.32)
+   * el naranja pleno se agotaba en el primer tercio y todo lo demás era un lavado
+   * rosa. Ahora son cuatro paradas:
+   *   0.98 al   0% .. el núcleo es #ec5b2a casi puro
+   *   0.88 al  20% .. SOSTIENE la saturación: hasta aquí sigue leyéndose naranja
+   *   0.45 al  48% .. la caída larga, ya entrando hacia el centro
+   *   0    al 100% .. muere en el borde de la elipse
+   * Cuatro paradas repartidas así dan una rampa continua: ninguna pareja
+   * consecutiva salta lo bastante como para dibujar un canto.
+   *
+   * Del centro de la tarjeta al centro del núcleo hay 1.09 radios: fuera de la
+   * elipse, alfa 0. Ese margen —más justo que antes, porque el difuminado ahora
+   * llega más adentro— es lo que mantiene el centro blanco, y es también lo que
+   * ata la amplitud de la animación.
    */
   .hero-mesh__layer--a {
     background: radial-gradient(
-      circle at 26% 28%,
-      rgba(255, 117, 25, 0.9) 0%,
-      rgba(255, 117, 25, 0) 52%
+      ellipse 37% 41% at 20% 19%,
+      rgba(236, 91, 42, 0.98) 0%,
+      rgba(236, 91, 42, 0.88) 20%,
+      rgba(236, 91, 42, 0.45) 48%,
+      rgba(236, 91, 42, 0) 100%
     );
     animation: hero-mesh-a 24s ease-in-out infinite;
   }
 
-  /* Segunda mancha naranja, sobre el borde derecho. Más clara que la A. */
+  /*
+   * NÚCLEO B — esquina inferior derecha, en espejo.
+   *
+   * Centro al 80%/81% de la capa = (92%, 93%) de la tarjeta. Mismos radios que
+   * A, así que la distancia al centro es la misma: 1.09 radios.
+   *
+   * Dos puntos de alfa por debajo de A en cada parada: dos manchas idénticas se
+   * leen como un patrón. La diferencia no se ve como "más clara", pero rompe la
+   * simetría exacta.
+   */
   .hero-mesh__layer--b {
     background: radial-gradient(
-      circle at 82% 38%,
-      rgba(255, 140, 46, 0.85) 0%,
-      rgba(255, 140, 46, 0) 50%
+      ellipse 37% 41% at 80% 81%,
+      rgba(236, 91, 42, 0.96) 0%,
+      rgba(236, 91, 42, 0.86) 20%,
+      rgba(236, 91, 42, 0.43) 48%,
+      rgba(236, 91, 42, 0) 100%
     );
     animation: hero-mesh-b 19s ease-in-out infinite;
-  }
-
-  /*
-   * Zona luminosa amarilla, abajo al centro. Solo SUMA luminosidad, así que
-   * queda fuera del cálculo del peor caso.
-   */
-  .hero-mesh__layer--c {
-    background: radial-gradient(
-      circle at 58% 88%,
-      rgba(255, 235, 196, 0.85) 0%,
-      rgba(255, 235, 196, 0) 58%
-    );
-    animation: hero-mesh-c 30s ease-in-out infinite;
   }
 
   /*
@@ -455,93 +494,80 @@ main:not(:has(.hero-card)) {
    * un vaivén mecánico. Con un circuito de cuatro esquinas el desplazamiento
    * cambia de dirección en cada tramo y el movimiento se lee como orgánico.
    *
-   * Los tres recorridos son distintos en forma, sentido y duración (24s / 19s /
-   * 30s, sin múltiplos comunes), así que las manchas no vuelven a coincidir en
-   * la misma composición: no aparece un patrón reconocible.
+   * Los dos recorridos son distintos en forma, sentido y duración (24s y 19s,
+   * sin múltiplos comunes), así que los núcleos no vuelven a coincidir en la
+   * misma composición: no aparece un patrón reconocible.
    *
-   * AMPLITUD: hasta un 16% del propio bloque, que desborda un 20% por cada
-   * lado, así que ninguna mancha llega a despegarse del borde de la tarjeta.
-   * Es el margen que hace el movimiento perceptible sin que nada cruce por
-   * debajo del texto de un lado a otro.
+   * CADA NÚCLEO SE QUEDA EN SU CUADRANTE. Los desplazamientos van SESGADOS HACIA
+   * FUERA: A se mueve sobre todo hacia arriba y a la izquierda (x -7%..+1%,
+   * y -6%..+1%) y B en espejo. Un recorrido simétrico llevaría naranja al centro
+   * en la mitad del ciclo, que es justo lo que este mesh no puede hacer.
    *
-   * La opacidad nunca pasa de 1 y el alfa de las capas no cambia: el suelo de
-   * luminosidad del mesh —y con él el contraste del texto— es el mismo en todo
-   * el ciclo.
+   * EL MARGEN HACIA DENTRO SE RECORTÓ al alargar el difuminado. Con los radios
+   * de ahora —52%/58% de la tarjeta— el centro está a 1.09 radios del núcleo en
+   * reposo, así que lo que la animación puede gastar es ese 0.09:
+   *   - avance hacia dentro: +1% del bloque de la capa (140% de la tarjeta), o
+   *     sea 1.4% del ancho y del alto de la tarjeta;
+   *   - ESCALA MÁXIMA 1.05, no 1.10: la escala agranda la elipse y es lo que más
+   *     rápido se come el margen.
+   * Con las dos cosas a la vez, el centro cae a 1.02 radios: sigue FUERA de la
+   * elipse, alfa exactamente 0. Subir cualquiera de las dos mete naranja en el
+   * centro.
+   *
+   * La opacidad nunca pasa de 1 y el alfa de los gradientes no cambia: el punto
+   * más oscuro del mesh —y con él el contraste del texto— es el mismo en todo el
+   * ciclo.
    */
   @keyframes hero-mesh-a {
     0% {
       transform: translate3d(0, 0, 0) scale(1);
-      opacity: 0.88;
+      opacity: 0.9;
     }
     25% {
-      transform: translate3d(13%, 7%, 0) scale(1.2);
+      transform: translate3d(-7%, -2%, 0) scale(1.04);
       opacity: 1;
     }
     50% {
-      transform: translate3d(5%, 16%, 0) scale(1.08);
-      opacity: 0.92;
+      transform: translate3d(-3%, -6%, 0) scale(1.01);
+      opacity: 0.94;
     }
     75% {
-      transform: translate3d(-9%, 9%, 0) scale(1.24);
+      transform: translate3d(1%, 1%, 0) scale(1.05);
       opacity: 1;
     }
     100% {
       transform: translate3d(0, 0, 0) scale(1);
-      opacity: 0.88;
+      opacity: 0.9;
     }
   }
 
   @keyframes hero-mesh-b {
     0% {
-      transform: translate3d(0, 0, 0) scale(1.12);
+      transform: translate3d(0, 0, 0) scale(1.02);
       opacity: 1;
     }
     25% {
-      transform: translate3d(-14%, 8%, 0) scale(1);
-      opacity: 0.86;
+      transform: translate3d(6%, 2%, 0) scale(1);
+      opacity: 0.92;
     }
     50% {
-      transform: translate3d(-6%, -10%, 0) scale(1.18);
+      transform: translate3d(2%, 7%, 0) scale(1.05);
       opacity: 1;
     }
     75% {
-      transform: translate3d(8%, 4%, 0) scale(1.06);
-      opacity: 0.9;
+      transform: translate3d(-1%, -1%, 0) scale(1.03);
+      opacity: 0.95;
     }
     100% {
-      transform: translate3d(0, 0, 0) scale(1.12);
+      transform: translate3d(0, 0, 0) scale(1.02);
       opacity: 1;
-    }
-  }
-
-  @keyframes hero-mesh-c {
-    0% {
-      transform: translate3d(0, 0, 0) scale(1);
-      opacity: 0.9;
-    }
-    25% {
-      transform: translate3d(10%, -12%, 0) scale(1.22);
-      opacity: 1;
-    }
-    50% {
-      transform: translate3d(-8%, -5%, 0) scale(1.1);
-      opacity: 0.94;
-    }
-    75% {
-      transform: translate3d(-12%, 8%, 0) scale(1.26);
-      opacity: 1;
-    }
-    100% {
-      transform: translate3d(0, 0, 0) scale(1);
-      opacity: 0.9;
     }
   }
 
   /*
    * Sin animación: se congela un fotograma intermedio de cada recorrido, no el
    * inicial, para que el mesh siga leyéndose como mesh y no como un degradado
-   * plano. Al subir la amplitud del movimiento, esta parada gana importancia:
-   * es lo único que ve quien tiene el sistema en reduced-motion.
+   * plano. Es lo único que ve quien tiene el sistema en reduced-motion.
    */
   @media (prefers-reduced-motion: reduce) {
     .hero-mesh__layer {
@@ -550,18 +576,13 @@ main:not(:has(.hero-card)) {
     }
 
     .hero-mesh__layer--a {
-      transform: translate3d(9%, 5%, 0) scale(1.14);
-      opacity: 0.94;
+      transform: translate3d(-4%, -3%, 0) scale(1.03);
+      opacity: 0.96;
     }
 
     .hero-mesh__layer--b {
-      transform: translate3d(-9%, 5%, 0) scale(1.06);
-      opacity: 0.92;
-    }
-
-    .hero-mesh__layer--c {
-      transform: translate3d(6%, -8%, 0) scale(1.16);
-      opacity: 0.96;
+      transform: translate3d(4%, 3%, 0) scale(1.02);
+      opacity: 0.98;
     }
   }
 
@@ -676,6 +697,428 @@ main:not(:has(.hero-card)) {
     }
   }
 
+  /* ------------------------------------------------------------------------
+   * SACUDIDA INTERMITENTE — solo el aviso flotante de agenda.
+   *
+   * INTERMITENTE, no continua: el meneo ocupa el primer 7% de un ciclo de 14s
+   * —menos de un segundo— y los otros 13 la tarjeta está completamente quieta.
+   * Una animación continua en un elemento fijo compite con la lectura y a los
+   * pocos segundos el ojo la filtra; una sacudida cada tanto vuelve a captar la
+   * atención justo porque llega después de un rato de quietud.
+   *
+   * Amplitud deliberadamente corta: 3px y 1.2 grados. Lo justo para que se
+   * perciba con el rabillo del ojo sin que el texto llegue a ser ilegible
+   * mientras dura.
+   *
+   * Solo transform: no fuerza layout ni repintado, y no colisiona con la
+   * entrada de la tarjeta, que anima `translate` y `opacity`.
+   * ------------------------------------------------------------------------ */
+  .agenda-nudge {
+    animation: agenda-nudge 14s ease-in-out infinite;
+  }
+
+  @keyframes agenda-nudge {
+    0%,
+    7%,
+    100% {
+      transform: none;
+    }
+    1.4% {
+      transform: translateX(-3px) rotate(-1.2deg);
+    }
+    2.8% {
+      transform: translateX(3px) rotate(1.2deg);
+    }
+    4.2% {
+      transform: translateX(-2px) rotate(-0.8deg);
+    }
+    5.6% {
+      transform: translateX(1px) rotate(0.4deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .agenda-nudge {
+      animation: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+   * TIMBRE — ícono de teléfono del header, en todo el sitio.
+   *
+   * Mismo patrón que .agenda-nudge: intermitente, no continua. Ciclo bajado
+   * de 3s a 2s (antes ya había bajado de 6s a 3s) — se pidió que se repita
+   * con más frecuencia. El repique sigue ocupando el mismo primer tramo
+   * relativo del ciclo (0%–16%): se acorta el silencio entre repiques, no
+   * la velocidad del repique en sí ni su forma.
+   *
+   * Solo rotate, sin traslación: un teléfono/timbre sonando se lee como un
+   * giro que oscila y se amortigua, no como un desplazamiento lateral. Cada
+   * paso del keyframe escribe `transform: rotate(...)` completo — nunca
+   * `rotate-*` de Tailwind, que en v4 compila a la propiedad independiente
+   * `rotate`, no a `transform`. Aquí no hay otro movimiento con el que
+   * pisarse, pero se escribe explícito para no heredar el problema si algún
+   * día se le suma traslación.
+   *
+   * Amplitud decreciente (16° → 14° → 11° → 8° → 5° → 3° → 1°): un repique
+   * que se amortigua, no una sacudida pareja — así se lee como un timbre
+   * asentándose, no como un tic mecánico.
+   *
+   * SINCRONÍA CON EL PULSO: misma duración (2s) y mismo origen de ciclo
+   * (0%) que .phone-pulse — el repique dispara justo cuando nace cada
+   * pulso del círculo naranja, para que se lean como un solo evento
+   * (vibra Y suena), no como dos animaciones independientes.
+   * ------------------------------------------------------------------------ */
+  .phone-ring-v2 {
+    animation: phone-ring-v2 2s ease-in-out infinite;
+  }
+
+  @keyframes phone-ring-v2 {
+    0% {
+      transform: rotate(0deg);
+    }
+    2% {
+      transform: rotate(16deg);
+    }
+    4% {
+      transform: rotate(-14deg);
+    }
+    6% {
+      transform: rotate(11deg);
+    }
+    8% {
+      transform: rotate(-8deg);
+    }
+    10% {
+      transform: rotate(5deg);
+    }
+    12% {
+      transform: rotate(-3deg);
+    }
+    14% {
+      transform: rotate(1deg);
+    }
+    16% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phone-ring-v2 {
+      animation: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+   * PULSO DEL CÍRCULO NARANJA — onda que sale del botón de teléfono,
+   * detrás del ícono, como si el botón estuviera timbrando.
+   *
+   * Dos aros idénticos (.phone-pulse + .phone-pulse-offset), no uno solo:
+   * un solo aro deja un hueco visible entre el momento en que termina de
+   * desvanecerse y el siguiente que arranca. Con dos, desfasados medio
+   * ciclo (delay: -1s sobre un ciclo de 2s), siempre hay un aro expandido a
+   * medio camino mientras el otro recién nace — loop continuo, sin pausas,
+   * como se pidió. delay NEGATIVO en vez de positivo: arranca el segundo
+   * aro ya a la mitad de su propio recorrido en vez de esperar 1s antes de
+   * empezar, así el efecto se ve corriendo desde el primer frame en vez de
+   * tener un aro "atrasado" los primeros 1s de vida de la página.
+   *
+   * Solo transform (scale) y opacity — igual que .phone-ring-v2. Mismos
+   * 2s que el repique del ícono para que ambos se lean sincronizados.
+   * ease-out: arranca rápido y se frena al expandirse, como una onda real
+   * perdiendo energía — no una expansión pareja tipo mecánica.
+   * ------------------------------------------------------------------------ */
+  .phone-pulse {
+    animation: phone-pulse 2s ease-out infinite;
+  }
+
+  .phone-pulse-offset {
+    animation-delay: -1s;
+  }
+
+  @keyframes phone-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    100% {
+      transform: scale(1.9);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phone-pulse {
+      animation: none;
+      opacity: 0;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+   * PULSO DEL PILL DE WHATSAPP — mismo criterio que .phone-pulse de arriba:
+   * dos aros (.whatsapp-pill-pulse + -offset) desfasados medio ciclo con
+   * delay NEGATIVO, loop continuo sin huecos, solo transform (scale) y
+   * opacity, apagado bajo prefers-reduced-motion.
+   *
+   * Escala tope 1.9 → 1.15 aquí: el pill es mucho más ancho que el círculo
+   * del teléfono (~150-190px vs 36px), así que un aro a 1.9x se vería
+   * gigantesco y se saldría de cualquier proporción. 1.15x da la misma
+   * lectura de "onda que sale del botón" a una escala que no lo hace ver
+   * roto.
+   * ------------------------------------------------------------------------ */
+  .whatsapp-pill-pulse {
+    animation: whatsapp-pill-pulse 2s ease-out infinite;
+  }
+
+  .whatsapp-pill-pulse-offset {
+    animation-delay: -1s;
+  }
+
+  @keyframes whatsapp-pill-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.45;
+    }
+    100% {
+      transform: scale(1.15);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .whatsapp-pill-pulse {
+      animation: none;
+      opacity: 0;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+   * FONDO DECORATIVO DEL HERO — círculos de azul de marca + cristal líquido,
+   * solo /mudanzas.
+   *
+   * DOS TRATAMIENTOS A PROPÓSITO, no variaciones del mismo: la versión
+   * anterior tenía dos "blobs" con gradiente + un cristal, pero los tres
+   * quedaban en el mismo rango de tono/opacidad y se leían como una sola
+   * mancha repetida. Ahora son dos categorías que tienen que CONTRASTAR
+   * entre sí, no fundirse:
+   *
+   * .hero-blob-solid-v2 — opacos, azul de marca bien saturado, CON VOLUMEN:
+   * gradiente radial descentrado (foco arriba-a-la-izquierda) en vez de
+   * plano, para que se lean como esferas iluminadas de lado, no como
+   * manchas de color parejo. El foco de luz siempre cae en el mismo punto
+   * relativo (30% 25%) sin importar el tamaño de cada círculo en el TSX,
+   * así que la fuente de luz se lee consistente en toda la composición.
+   *
+   * .hero-glass-orb-v4 — grandes (bastante más que los sólidos; el tamaño lo
+   * pone el TSX), casi blancos, muy tenues. Alfa 0.08 y borde a 0.22:
+   * tienen que quedar apenas perceptibles, es lo que los diferencia de los
+   * sólidos. Donde se superponen a un .hero-blob-solid-v2, el backdrop-filter
+   * difumina y aclara esa porción — ahí es donde se nota que hay dos capas.
+   *
+   * Mismo patrón opaco-por-defecto que .liquid-orange / .glass-card para el
+   * cristal: sin soporte de backdrop-filter, o con
+   * prefers-reduced-transparency, cae a un blanco sólido en vez de quedar
+   * sin nada detrás. El sólido no necesita ese fallback — ya es opaco.
+   * ------------------------------------------------------------------------ */
+  /* blur(8px) (antes 4px): subido a pedido — sigue conservando la forma
+     circular, pero el filo se integra más al fondo.
+     opacity: 0.45 — competían con el texto y la imagen; bajado para que
+     lean como fondo, visibles pero secundarias.
+
+     drop-shadow encadenado en el mismo filter — no box-shadow — a
+     propósito: se pidió un resplandor detrás de la esfera y no quedaba
+     claro si debía salir del blur de la esfera o ser algo aparte. Es lo
+     segundo: blur(8px) solo suaviza el filo (rango corto, mismo tamaño que
+     la esfera); para un halo que se note más allá del borde hace falta una
+     capa de sombra independiente. drop-shadow, en vez de box-shadow, para
+     que siga la silueta circular ya blureada de esta capa (box-shadow se
+     dibuja sobre la caja sin blur propio, se vería como un anillo con
+     borde duro por dentro). Radio grande (56px) y alfa bajo (0.35) para
+     que se lea como resplandor ambiental, no como una sombra proyectada
+     con dirección.
+
+     Ninguno de los dos toca a .hero-glass-orb-v4, que sigue con su propio
+     tratamiento. */
+  .hero-blob-solid-v2 {
+    background-color: transparent;
+    background-image: radial-gradient(
+      circle at 30% 25%,
+      #3d7691 0%,
+      #0f3446 55%,
+      #071b24 100%
+    );
+    filter: blur(8px) drop-shadow(0 0 56px rgba(15, 52, 70, 0.35));
+    opacity: 0.45;
+  }
+
+  .hero-glass-orb-v4 {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+
+  /* Historial de alfa sobre este mismo valor: 0.08 (invisible, no se
+     notaba el cruce) → 0.32 (se notaba, pero leía como capa lechosa,
+     tapaba de más) → 0.18 aquí: punto medio, se percibe la superposición
+     sin volverse opaca. Blur 32px→48px y saturate 130%→115% se mantienen
+     de la vuelta anterior — eso sí seguía dando el efecto de vidrio
+     esmerilado que se pidió, lo que sobraba era la opacidad. */
+  @supports (backdrop-filter: blur(1px)) or
+    (-webkit-backdrop-filter: blur(1px)) {
+    .hero-glass-orb-v4 {
+      background-color: rgba(255, 255, 255, 0.18);
+      -webkit-backdrop-filter: blur(48px) saturate(115%);
+      backdrop-filter: blur(48px) saturate(115%);
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .hero-glass-orb-v4 {
+      background-color: rgba(255, 255, 255, 0.7);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+   * CRISTAL LÍQUIDO NARANJA — solo el pill flotante de WhatsApp.
+   *
+   * POR QUÉ NO SIRVE .glass-floating AQUÍ: es blanco al 55% y este pill vive
+   * sobre CUALQUIER cosa. Sobre las secciones claras del sitio se funde con el
+   * fondo y lo único que se lee es el texto suelto.
+   *
+   * SUELO DE OPACIDAD — no bajarlo sin recalcular:
+   * el texto es BLANCO, así que el caso peor es el pill sobre fondo CLARO, que
+   * es cuando la mezcla se aclara. Con blanco encima:
+   *   #cb4e24 opaco ................................ 4.51:1  (justo en el límite)
+   *   #cb4e24 al 0.85 sobre blanco ................. 3.60:1  FALLA
+   *   #a83c17 al 0.88 sobre blanco ................. 5.04:1  ok  <- extremo claro
+   *   #8f3413 al 0.94 sobre blanco ................. 6.60:1  ok  <- extremo oscuro
+   * Por eso el naranja arranca dos escalones por debajo del accesible: es el
+   * precio de que la superficie sea translúcida de verdad. Sobre fondos oscuros
+   * —la tarjeta azul del footer, el mesh— la mezcla solo se oscurece y el
+   * contraste sube.
+   *
+   * El borde blanco al 0.35 y el brillo interior superior son lo que da el
+   * canto de vidrio; la sombra proyectada, la profundidad.
+   *
+   * Por defecto es OPACO y solo se vuelve translúcido si hay backdrop-filter,
+   * igual que .glass: nunca texto sobre un fondo semitransparente sin
+   * desenfoque.
+   * ------------------------------------------------------------------------ */
+  .liquid-orange {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background-image: linear-gradient(135deg, #a83c17 0%, #8f3413 100%);
+    box-shadow:
+      0 10px 30px -12px rgba(143, 52, 19, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .liquid-orange {
+      background-image: linear-gradient(
+        135deg,
+        rgba(168, 60, 23, 0.88) 0%,
+        rgba(143, 52, 19, 0.94) 100%
+      );
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      backdrop-filter: blur(14px) saturate(150%);
+    }
+  }
+
+  /*
+   * Capa 1 — la masa que se mueve. Un halo claro que deriva despacio por dentro
+   * del pill: es lo que hace que la superficie se lea como líquida y no como un
+   * degradado fijo. 11s y recorrido corto; solo transform, sin repintado.
+   */
+  .liquid-orange::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    z-index: -2;
+    background: radial-gradient(
+      circle at 30% 40%,
+      rgba(248, 127, 35, 0.55) 0%,
+      rgba(248, 127, 35, 0) 60%
+    );
+    animation: liquid-orange-drift 11s ease-in-out infinite alternate;
+  }
+
+  /*
+   * Capa 2 — el destello. PERIÓDICO, no perpetuo: la pasada ocupa el primer 25%
+   * del ciclo (2.25s) y los 6.75s restantes está en opacity 0, fuera de cuadro.
+   * Un brillo continuo en un elemento fijo compite con la lectura y a los pocos
+   * segundos deja de llamar la atención.
+   */
+  .liquid-orange::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 40%;
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.28) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: liquid-orange-shine 9s ease-in-out infinite;
+  }
+
+  @keyframes liquid-orange-drift {
+    from {
+      transform: translate3d(-6%, -4%, 0) scale(1);
+    }
+    to {
+      transform: translate3d(8%, 5%, 0) scale(1.15);
+    }
+  }
+
+  @keyframes liquid-orange-shine {
+    0% {
+      transform: translateX(-160%) skewX(-18deg);
+      opacity: 0;
+    }
+    4% {
+      opacity: 1;
+    }
+    21% {
+      opacity: 1;
+    }
+    25% {
+      transform: translateX(300%) skewX(-18deg);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(300%) skewX(-18deg);
+      opacity: 0;
+    }
+  }
+
+  /*
+   * Sin animación: se congela la deriva en un punto intermedio y desaparece el
+   * destello. La superficie sigue siendo la misma, así que el contraste no
+   * cambia.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    .liquid-orange::before {
+      animation: none;
+      transform: translate3d(2%, 1%, 0) scale(1.08);
+    }
+
+    .liquid-orange::after {
+      display: none;
+    }
+  }
+
   /*
    * Superficie de cristal. Por defecto es OPACA: solo se vuelve translúcida si
    * el navegador soporta backdrop-filter. Así nunca queda texto sobre un fondo
@@ -688,22 +1131,9 @@ main:not(:has(.hero-card)) {
     border: 1px solid var(--glass-border);
   }
 
-  /*
-   * Estado transparente del header en la parte superior de la página: sin
-   * fondo ni borde, fundido con lo que haya detrás.
-   *
-   * Mantiene un backdrop-filter de blur(0px) en vez de quitarlo: así el paso a
-   * .glass puede interpolar el desenfoque en vez de saltar de golpe.
-   */
-  .glass-top {
-    background-color: transparent;
-    border: 1px solid transparent;
-  }
-
   .glass,
   .glass-strong,
-  .glass-floating,
-  .glass-top {
+  .glass-floating {
     /* Misma duración y misma curva que el resto del sitio: los tokens de
        movimiento están en el @theme de arriba. */
     transition:
@@ -717,8 +1147,7 @@ main:not(:has(.hero-card)) {
   @media (prefers-reduced-motion: reduce) {
     .glass,
     .glass-strong,
-    .glass-floating,
-    .glass-top {
+    .glass-floating {
       transition: none;
     }
   }
@@ -741,11 +1170,6 @@ main:not(:has(.hero-card)) {
       background-color: var(--glass-bg-floating);
       -webkit-backdrop-filter: var(--glass-blur);
       backdrop-filter: var(--glass-blur);
-    }
-
-    .glass-top {
-      -webkit-backdrop-filter: blur(0px);
-      backdrop-filter: blur(0px);
     }
   }
 
@@ -790,12 +1214,24 @@ main:not(:has(.hero-card)) {
   }
 
   body {
-    background: var(--color-background);
+    background-color: var(--color-surface);
     color: var(--color-foreground);
     font-family: var(--font-dm-sans);
     font-weight: 300;
     font-size: 17px;
     line-height: 1.6;
+  }
+
+  /*
+   * Scroll suave al saltar a un ancla del nav del header. Dentro de
+   * prefers-reduced-motion: no-preference a propósito — el navegador no
+   * desactiva scroll-behavior: smooth por su cuenta con reduced-motion
+   * activado, hay que gatearlo a mano.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   h1,
@@ -829,6 +1265,53 @@ main:not(:has(.hero-card)) {
   .text-ui {
     font-family: var(--font-dm-sans);
     font-weight: 400;
+  }
+
+  /* ------------------------------------------------------------------------
+   * MARQUEE — banda de claims repetida, solo /mudanzas.
+   *
+   * El track duplica su contenido una vez (lo hace el componente, no este
+   * CSS) y anima -50% de su propio ancho: como las dos mitades son idénticas,
+   * el punto en el que "reinicia" es visualmente indistinguible del resto del
+   * recorrido, así que el bucle no se nota.
+   * ------------------------------------------------------------------------ */
+  .marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 28s linear infinite;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+    }
   }
 }
 

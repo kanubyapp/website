@@ -66,19 +66,18 @@ export function ArrowRightIcon({ className = "h-4 w-4" }: IconProps) {
   );
 }
 
+/* Relleno sólido, no trazo — a diferencia del resto de icons.tsx, a
+   propósito: es el único otro botón de contacto directo además de
+   WhatsAppIcon (que también es fill), y necesita el mismo peso visual. */
 export function PhoneIcon({ className = "h-4 w-4" }: IconProps) {
   return (
     <svg
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="currentColor"
       aria-hidden="true"
       className={className}
     >
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+      <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24a11.36 11.36 0 0 0 3.57.57c.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
     </svg>
   );
 }
@@ -139,6 +138,19 @@ export function BuildingIcon({ className = "h-5 w-5" }: IconProps) {
       <path d="M15 10h4a1 1 0 0 1 1 1v10" />
       <path d="M2 21h20" />
       <path d="M7.5 8h4M7.5 12h4M7.5 16h4" />
+    </svg>
+  );
+}
+
+export function StarIcon({ className = "h-4 w-4" }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="m12 2.6 2.83 5.73 6.32.92-4.57 4.46 1.08 6.3L12 17.03l-5.66 2.98 1.08-6.3-4.57-4.46 6.32-.92z" />
     </svg>
   );
 }

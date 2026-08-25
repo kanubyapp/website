@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit, DM_Sans } from "next/font/google";
+import { AgendaNotice } from "@/components/agenda-notice";
 import { ContactModalProvider } from "@/components/contact-modal";
+import { HeaderNavProvider } from "@/components/header-nav";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FloatingWhatsApp } from "@/components/floating-whatsapp";
@@ -49,12 +51,15 @@ export default function RootLayout({
         cliente del árbol puede abrirlo con useContactModal(), y el modal se
         monta una sola vez, fuera del flujo del grid.
       */}
-      <body className="grid min-h-full grid-rows-[1fr_auto]">
+      <body className="grid min-h-full grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto]">
         <ContactModalProvider>
-          <SiteHeader />
-          <main className="[grid-area:1/1]">{children}</main>
+          <HeaderNavProvider>
+            <SiteHeader />
+            <main className="[grid-area:1/1]">{children}</main>
+          </HeaderNavProvider>
           <SiteFooter />
           <FloatingWhatsApp />
+          <AgendaNotice />
         </ContactModalProvider>
       </body>
     </html>

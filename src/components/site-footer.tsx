@@ -32,7 +32,7 @@ export function SiteFooter() {
       */}
       <div className="rounded-3xl bg-gradient-footer px-6 pb-16 pt-12 text-white md:px-12 md:pt-16">
         <div className="mx-auto max-w-6xl">
-        <div className="grid gap-10 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
+        <div className="grid gap-10 md:grid-cols-3 md:gap-12 lg:grid-cols-[2fr_1fr_1fr]">
           <div>
             {/*
               Logotipo en BLANCO, no en naranja de marca: aquí el fondo es el
@@ -46,13 +46,12 @@ export function SiteFooter() {
               <KanubyLogo className="h-8 w-auto" />
               <span className="sr-only">Kanuby</span>
             </Link>
-            {/*
-              Descripción actualizada: decía "locales, nacionales y corporativas".
-              "Nacionales" contradice la arquitectura acordada — no hay cobertura
-              nacional real, por eso el corredor se llama Monterrey–CDMX.
-            */}
-            <p className="mt-4 max-w-sm text-base text-white/70">
-              Mudanzas y mini bodegas en Monterrey y su área metropolitana.
+            <p className="mt-4 max-w-lg text-base text-white/70">
+              En Kanuby somos expertos en mudanzas para hogares y oficinas,
+              contamos con minibodegas seguras para resguardar lo que más te
+              importa, y proveemos de todo el material de empaque que
+              necesites con KanubyPack. Confía en nuestra experiencia para
+              darte una solución rápida, justa y a tu medida.
             </p>
           </div>
 
@@ -92,17 +91,6 @@ export function SiteFooter() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/*
-            TODO(asset-pendiente): gráfico del vehículo. No existe en el repo —
-            public/ solo tiene los SVG por defecto de Next. Slot con la relación
-            de aspecto puesta para que el layout no salte al colocarlo.
-          */}
-          <div className="flex items-center justify-center rounded-2xl border border-white/15 md:min-h-40">
-            <p className="text-ui px-4 py-10 text-center text-sm text-white/60">
-              Gráfico del vehículo · pendiente
-            </p>
           </div>
         </div>
 

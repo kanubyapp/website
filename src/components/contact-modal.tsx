@@ -347,9 +347,12 @@ function ContactModal({
               </div>
             </div>
 
+            {/* Cae sobre el panel blanco del modal: fondo neutro, luego botón
+                naranja con texto blanco. 19px/600 es el mínimo del naranja para
+                cumplir AA por la vía del texto grande (ver globals.css). */}
             <button
               type="submit"
-              className="text-ui mt-8 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-brand-orange-accessible px-7 py-4 text-base font-medium text-white transition-colors hover:bg-brand-orange-accessible-hover"
+              className="text-ui mt-8 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-brand-orange px-7 py-4 text-[1.1875rem] font-semibold text-white transition-colors hover:bg-brand-orange-hover"
             >
               <WhatsAppIcon />
               Ir a WhatsApp
