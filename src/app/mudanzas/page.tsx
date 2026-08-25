@@ -135,7 +135,7 @@ function WhyKanubyCard({
       desplazamiento mayor (16px vs 10px), spread menos negativo (-6 vs -8,
       así se extiende un poco más) y más opacidad (0.28 vs 0.18).
     */
-    <div className="flex flex-col items-center rounded-3xl bg-background p-8 text-center shadow-[0_16px_40px_-6px_rgba(15,52,70,0.28)]">
+    <div className="flex flex-col items-center rounded-3xl bg-background p-6 text-center shadow-[0_16px_40px_-6px_rgba(15,52,70,0.28)]">
       <div
         aria-hidden="true"
         className="flex h-14 w-14 items-center justify-center rounded-full border border-border text-brand-blue"
@@ -172,7 +172,7 @@ const SERVICES: {
     title: "Mudanza Empresarial",
     description:
       "Mudanza de oficinas y espacios de trabajo en Monterrey. Planeación por etapas para que tu operación no se detenga más de lo necesario.",
-    image: "/mudanzas/mudanza-corporativa.webp",
+    image: "/mudanzas/mudanza-empresarial.webp",
     service: "oficinas",
   },
 ];
@@ -430,7 +430,13 @@ export default function MudanzasPage() {
           rango donde antes coincidían por accidente.
         */}
         <div className="mx-[var(--edge-gap)] py-16 md:py-20">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/*
+            md:grid-cols-3 directo, sin sm:grid-cols-2 intermedio: con 3
+            tarjetas, 2 columnas deja la tercera sola en una segunda fila
+            huérfana. Saltando de 1 a 3 columnas en el mismo breakpoint se
+            evita ese estado — nunca hay una fila incompleta.
+          */}
+          <div className="grid gap-4 md:grid-cols-3">
             {SERVICES.map((item) => (
               <ServiceCard
                 key={item.title}

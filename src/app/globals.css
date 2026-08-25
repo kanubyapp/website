@@ -769,11 +769,11 @@ main:not(:has(.hero-card)) {
    * pulso del círculo naranja, para que se lean como un solo evento
    * (vibra Y suena), no como dos animaciones independientes.
    * ------------------------------------------------------------------------ */
-  .phone-ring-v2 {
-    animation: phone-ring-v2 2s ease-in-out infinite;
+  .phone-ring {
+    animation: phone-ring 2s ease-in-out infinite;
   }
 
-  @keyframes phone-ring-v2 {
+  @keyframes phone-ring {
     0% {
       transform: rotate(0deg);
     }
@@ -807,7 +807,7 @@ main:not(:has(.hero-card)) {
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .phone-ring-v2 {
+    .phone-ring {
       animation: none;
     }
   }
@@ -826,7 +826,7 @@ main:not(:has(.hero-card)) {
    * empezar, así el efecto se ve corriendo desde el primer frame en vez de
    * tener un aro "atrasado" los primeros 1s de vida de la página.
    *
-   * Solo transform (scale) y opacity — igual que .phone-ring-v2. Mismos
+   * Solo transform (scale) y opacity — igual que .phone-ring. Mismos
    * 2s que el repique del ícono para que ambos se lean sincronizados.
    * ease-out: arranca rápido y se frena al expandirse, como una onda real
    * perdiendo energía — no una expansión pareja tipo mecánica.

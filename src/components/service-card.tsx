@@ -86,13 +86,19 @@ export function ServiceCard({
         texto (que lleva su propio z-10). Gradiente en background-image,
         nunca en el shorthand `background`.
 
-        Zona opaca hasta 68%, se disuelve a 0 en 90% — calibrado contra el
-        peor caso medido (61% de la tarjeta ocupado por el bloque de texto
-        en desktop, la tarjeta más corta), con margen.
+        Antes: 0%–68% plano a 0.92 (sin variar) y recién ahí empezaba a
+        bajar hasta 0 en 90%. Ese tramo plano seguido de una caída es lo que
+        se leía como un corte en línea recta a media altura — el ojo nota
+        el cambio de pendiente, no solo el color. Ahora son 4 paradas sin
+        ningún tramo plano, así que la opacidad cambia todo el tiempo, de
+        abajo arriba: 0.95 → 0.85 → 0.62 → 0.32. El mínimo ya no es 0: la
+        parada de arriba queda en 0.32, no transparente del todo, para que
+        la foto se vea más tenue en TODA la tarjeta, no solo detrás del
+        texto.
       */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_top,rgba(15,52,70,0.92)_0%,rgba(15,52,70,0.92)_68%,rgba(15,52,70,0)_90%)]"
+        className="absolute inset-0 bg-[linear-gradient(to_top,rgba(15,52,70,0.95)_0%,rgba(15,52,70,0.85)_45%,rgba(15,52,70,0.62)_70%,rgba(15,52,70,0.32)_100%)]"
       />
 
       <div className="relative z-10 p-6 text-white">

@@ -77,7 +77,7 @@ export function SiteFooter() {
 
           <div>
             <h2 className="font-heading text-sm font-medium uppercase tracking-wider text-white">
-              Legal
+              Más información
             </h2>
             <ul className="mt-4 space-y-3">
               {legalLinks.map((link) => (
