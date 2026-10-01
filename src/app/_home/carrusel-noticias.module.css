@@ -1,0 +1,104 @@
+/*
+ * Carrusel "Últimas Noticias": copia del raven-posts-carousel (skin cover) de
+ * kanuby.com. 4 tarjetas por vista desde 1024px, 2 desde 768px y 1 debajo,
+ * con 15px entre tarjetas, igual que los breakpoints del Swiper publicado.
+ */
+
+.pista {
+  --por-vista: 1;
+  --separacion: 15px;
+
+  display: flex;
+  gap: var(--separacion);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.pista::-webkit-scrollbar {
+  display: none;
+}
+
+.pista[data-arrastrando] {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .pista {
+    --por-vista: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pista {
+    --por-vista: 4;
+  }
+}
+
+.slide {
+  flex: 0 0 calc((100% - (var(--por-vista) - 1) * var(--separacion)) / var(--por-vista));
+  scroll-snap-align: start;
+}
+
+.tarjeta {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: flex-end;
+  height: 50vh;
+  padding: 60px 40px;
+  overflow: hidden;
+  border-radius: var(--radio-md);
+  background: var(--color-azul);
+  word-break: break-word;
+}
+
+.imagen {
+  position: absolute;
+  inset: 0;
+}
+
+.imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.capa {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-color: #0f3446de;
+  transition: all 0.7s ease-in-out;
+}
+
+.tarjeta:hover .capa {
+  background-color: var(--color-azul);
+}
+
+.contenido {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+.titulo {
+  color: var(--color-blanco);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-20);
+  font-weight: var(--peso-regular);
+  line-height: 1.2;
+}
+
+.leerMas {
+  display: inline-block;
+  color: var(--color-azul);
+  font-family: var(--fuente-roboto);
+  font-weight: var(--peso-regular);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}

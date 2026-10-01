@@ -1,0 +1,145 @@
+/*
+ * Header de la home: copia del contenedor 18225fe de kanuby.com (menú Raven
+ * con menú móvil a pantalla completa por debajo de 768px).
+ */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espacio-4);
+  padding: var(--relleno-seccion-xs) var(--relleno-seccion-sm);
+  background: var(--color-blanco);
+  box-shadow: var(--sombra-suave);
+}
+
+.logo {
+  width: 150px;
+}
+
+.logo img {
+  width: 100%;
+}
+
+.lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-3);
+}
+
+.enlace {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: var(--borde-fino) solid var(--color-naranja);
+  border-radius: var(--radio-lg);
+  background: var(--color-blanco);
+  color: var(--color-azul);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-14);
+  font-weight: var(--peso-medium);
+  white-space: nowrap;
+}
+
+.lista .enlace:hover {
+  background: var(--color-naranja);
+  color: var(--color-blanco);
+}
+
+.abrir,
+.movil {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .header {
+    flex-wrap: wrap;
+    gap: var(--espacio-1);
+    padding: var(--relleno-seccion);
+  }
+
+  .logo {
+    width: 200px;
+    align-self: center;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .abrir {
+    display: inline-flex;
+    padding: 12px 14px;
+    border: 0;
+    border-radius: var(--radio-sm);
+    background: var(--color-azul);
+    color: var(--color-blanco);
+    font-size: var(--texto-30);
+    line-height: var(--interlineado-titulo);
+  }
+
+  .abrir svg {
+    width: auto;
+    height: 1em;
+    fill: currentColor;
+  }
+
+  /* Menú a pantalla completa */
+  .movil {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--color-naranja);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease-in-out;
+  }
+
+  .movil[data-abierto="true"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .cerrar {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-blanco);
+    font-size: 40px;
+    line-height: var(--interlineado-titulo);
+  }
+
+  .cerrar span {
+    transform: translateY(-10%);
+  }
+
+  .listaMovil {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+  }
+
+  .listaMovil .enlace {
+    padding: var(--relleno-boton);
+    border: 0;
+    border-radius: 0;
+    background: var(--color-naranja);
+    color: var(--color-blanco);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-30);
+    font-weight: var(--peso-regular);
+  }
+}

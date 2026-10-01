@@ -32,6 +32,8 @@
   /* Fuentes: las variables --font-* las define next/font en el layout */
   --fuente-titulos: var(--font-outfit), sans-serif;
   --fuente-texto: var(--font-dm-sans), sans-serif;
+  /* Solo existe donde una página carga Roboto con next/font */
+  --fuente-roboto: var(--font-roboto), sans-serif;
 
   --peso-light: 300;
   --peso-regular: 400;

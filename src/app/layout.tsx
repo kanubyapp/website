@@ -18,6 +18,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kanuby.com"),
   title: {
     template: "%s - Kanuby",
     default: "Kanuby",
