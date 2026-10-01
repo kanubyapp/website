@@ -42,10 +42,10 @@
 ## Sistema de diseño
 - El proyecto NO usa Tailwind. No lo reintroduzcas ni escribas clases de utilidad.
 - Todo el estilo es CSS propio, organizado en capas:
-    app/styles/tokens.css         los valores de diseño, única fuente de verdad
-    app/styles/base.css           el reset y los estilos de elemento, únicos
-    app/styles/patrones.css       el vocabulario compartido, clases kb-*
-    app/styles/interacciones.css  las clases que consulta el JavaScript
+    src/app/styles/tokens.css         los valores de diseño, única fuente de verdad
+    src/app/styles/base.css           el reset y los estilos de elemento, únicos
+    src/app/styles/patrones.css       el vocabulario compartido, clases kb-*
+    src/app/styles/interacciones.css  las clases que consulta el JavaScript
   Lo propio de una página va en su módulo CSS. No hay ni debe haber hojas
   globales de página: el orden de capas (base, patrones, y los módulos fuera de
   toda capa) hace que un módulo siempre pueda ajustar un patrón con una regla
