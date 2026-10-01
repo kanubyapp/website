@@ -67,7 +67,12 @@
   --texto-60: 60px;
   --texto-70: 70px;
 
-  /* Interlineados */
+  /*
+   * Interlineados. Los dos primeros son los heredados del sitio publicado:
+   * el html del tema JupiterX (1.15) y el título de Elementor (1).
+   */
+  --interlineado-base: 1.15;
+  --interlineado-titulo: 1;
   --interlineado-8: 8px; /* texto superior de los botones de dos líneas */
   --interlineado-22: 22px;
   --interlineado-23: 23px; /* (m) */
@@ -107,6 +112,9 @@
   --radio-lg: 30px;
   --radio-xl: 40px;
   --radio-2xl: 60px;
+
+  /* Botones */
+  --relleno-boton: 8px 32px;
 
   /* Bordes */
   --borde-boton: 2px;

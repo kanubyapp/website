@@ -1,0 +1,152 @@
+/*
+ * Footer compartido: copia del template 5613 de kanuby.com.
+ * Los valores sin token son propios de este footer (aparecen una sola vez en
+ * el sitio publicado).
+ */
+
+.principal {
+  display: flex;
+  gap: var(--espacio-2) var(--espacio-4);
+  overflow: hidden;
+  padding: var(--relleno-seccion-md) var(--relleno-seccion-lg);
+  border-top: 6px solid var(--color-naranja);
+  background: var(--color-azul);
+}
+
+.marca,
+.menu,
+.imagen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.marca {
+  width: 40%;
+}
+
+.menu {
+  width: 30%;
+}
+
+.imagen {
+  flex-shrink: 0;
+  width: 30%;
+}
+
+.logo {
+  width: 40%;
+}
+
+.logo img {
+  width: 100%;
+}
+
+.texto {
+  width: 90%;
+  color: #fcfcfc;
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-18);
+  font-weight: var(--peso-light);
+}
+
+.menuTitulo {
+  color: var(--color-blanco);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-24);
+  font-weight: var(--peso-regular);
+  line-height: var(--interlineado-titulo);
+}
+
+.menuLista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+  padding-left: 4%;
+}
+
+.menuEnlace {
+  color: var(--color-gris-claro);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-17);
+  font-weight: var(--peso-light);
+}
+
+.menuEnlace:hover {
+  color: var(--color-naranja);
+}
+
+.imagen img {
+  width: 70%;
+}
+
+.creditos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espacio-1);
+  overflow: hidden;
+  padding: var(--relleno-seccion-xs) var(--relleno-seccion) var(--relleno-seccion-sm);
+}
+
+.webtag img {
+  width: 190px;
+}
+
+.copyright {
+  color: var(--color-azul);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-16);
+  font-weight: var(--peso-regular);
+  line-height: var(--interlineado-titulo);
+  letter-spacing: -0.3px;
+  text-align: end;
+}
+
+@media (max-width: 767px) {
+  /*
+   * El publicado sube el footer sobre la sección anterior en móvil
+   * (margen superior -46% compensado con relleno superior de 50%).
+   */
+  .principal {
+    flex-wrap: wrap;
+    margin-top: -46%;
+    padding: 50% var(--relleno-seccion-md) var(--relleno-seccion-md);
+  }
+
+  .marca,
+  .imagen {
+    width: 100%;
+    padding-top: var(--relleno-seccion-xl);
+  }
+
+  .logo {
+    width: 60%;
+    align-self: center;
+  }
+
+  .texto {
+    width: 100%;
+    font-size: var(--texto-16);
+    text-align: center;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .creditos {
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--relleno-seccion-sm);
+  }
+
+  .webtag img {
+    width: 173px;
+  }
+
+  .copyright {
+    font-size: var(--texto-12);
+    text-align: center;
+  }
+}

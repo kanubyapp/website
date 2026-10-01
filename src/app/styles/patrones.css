@@ -7,4 +7,27 @@
  */
 
 @layer patrones {
+  /* Botón base del sitio: el raven-button de JupiterX en kanuby.com */
+  .kb-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--relleno-boton);
+    border: var(--borde-boton) solid var(--color-azul);
+    border-radius: var(--radio-lg);
+    background: var(--color-azul);
+    color: var(--color-blanco);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-18);
+    font-weight: var(--peso-light);
+    line-height: var(--interlineado-22);
+    letter-spacing: var(--tracking-md);
+    text-align: center;
+  }
+
+  .kb-boton:hover,
+  .kb-boton:focus-visible {
+    border-color: var(--color-naranja);
+    background: var(--color-naranja);
+  }
 }
