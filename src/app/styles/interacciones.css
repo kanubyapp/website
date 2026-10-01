@@ -1,0 +1,8 @@
+/*
+ * Interacciones: las clases y atributos de estado que consulta o activa el
+ * JavaScript (popups abiertos, menú móvil, acordeones, carruseles). Aquí solo
+ * va el estado; el aspecto de cada componente vive en su patrón o módulo.
+ */
+
+@layer interacciones {
+}

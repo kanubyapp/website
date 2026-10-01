@@ -1,0 +1,105 @@
+/*
+ * Base: reset y estilos de elemento que comparte todo el sitio.
+ * Cada elemento se estiliza una sola vez aquí; los ajustes van en los módulos.
+ */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-blanco);
+    color: var(--color-negro);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-16);
+    font-weight: var(--peso-regular);
+    line-height: var(--interlineado-24);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    font-family: var(--fuente-titulos);
+    font-weight: var(--peso-medium);
+  }
+
+  p,
+  ul,
+  ol,
+  figure,
+  blockquote {
+    margin: 0;
+  }
+
+  ul,
+  ol {
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img,
+  svg,
+  video,
+  iframe {
+    display: block;
+    max-width: 100%;
+  }
+
+  img {
+    height: auto;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  /* Botón base del sitio: el raven-button de JupiterX en kanuby.com */
+  .kb-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 32px;
+    border: var(--borde-boton) solid var(--color-azul);
+    border-radius: var(--radio-lg);
+    background: var(--color-azul);
+    color: var(--color-blanco);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-18);
+    font-weight: var(--peso-light);
+    line-height: var(--interlineado-22);
+    letter-spacing: var(--tracking-md);
+    text-align: center;
+  }
+
+  .kb-boton:hover,
+  .kb-boton:focus-visible {
+    border-color: var(--color-naranja);
+    background: var(--color-naranja);
+  }
+}

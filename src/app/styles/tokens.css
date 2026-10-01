@@ -1,0 +1,119 @@
+/*
+ * Tokens de diseño: única fuente de verdad de los valores del sitio.
+ *
+ * Todos los valores salen del sitio publicado (kanuby.com, Elementor) y solo
+ * entran los que se repiten en al menos dos plantillas. Lo que aparece una sola
+ * vez se queda en el módulo de la página que lo usa.
+ *
+ * Breakpoints del sitio publicado (no pueden ser variables en media queries):
+ *   tablet  @media (max-width: 1024px)
+ *   móvil   @media (max-width: 767px)
+ *
+ * Este archivo declara además el orden de las capas. Los módulos de página
+ * quedan fuera de toda capa y por eso siempre ganan a base y patrones.
+ */
+
+@layer base, patrones, interacciones;
+
+:root {
+  /* Colores */
+  --color-naranja: #ec5b2a;
+  --color-azul: #0f3446;
+  --color-blanco: #ffffff;
+  --color-negro: #000000;
+  --color-whatsapp: #34e603;
+
+  /* Grises */
+  --color-gris-claro: #e7ebed;
+  --color-gris-medio: #75787a;
+  --color-gris-texto: #555758;
+  --color-gris-oscuro: #555555;
+
+  /* Fuentes: las variables --font-* las define next/font en el layout */
+  --fuente-titulos: var(--font-outfit), sans-serif;
+  --fuente-texto: var(--font-dm-sans), sans-serif;
+
+  --peso-light: 300;
+  --peso-regular: 400;
+  --peso-medium: 500;
+  --peso-semibold: 600;
+
+  /*
+   * Tamaños de texto. Una sola escala para escritorio y móvil, nombrada por
+   * su valor en px. Los marcados con (m) solo aparecen en móvil.
+   */
+  --texto-10: 10px; /* (m) */
+  --texto-12: 12px;
+  --texto-13: 13px;
+  --texto-14: 14px;
+  --texto-16: 16px;
+  --texto-17: 17px;
+  --texto-18: 18px;
+  --texto-20: 20px;
+  --texto-21: 21px; /* (m) */
+  --texto-22: 22px;
+  --texto-24: 24px;
+  --texto-26: 26px;
+  --texto-29: 29px; /* (m) */
+  --texto-30: 30px; /* (m) */
+  --texto-32: 32px;
+  --texto-36: 36px;
+  --texto-38: 38px; /* (m) */
+  --texto-40: 40px;
+  --texto-42: 42px; /* (m) */
+  --texto-44: 44px;
+  --texto-48: 48px;
+  --texto-50: 50px;
+  --texto-60: 60px;
+  --texto-70: 70px;
+
+  /* Interlineados */
+  --interlineado-8: 8px; /* texto superior de los botones de dos líneas */
+  --interlineado-22: 22px;
+  --interlineado-23: 23px; /* (m) */
+  --interlineado-24: 24px;
+  --interlineado-30: 30px;
+  --interlineado-32: 32px;
+  --interlineado-40: 40px; /* (m) */
+  --interlineado-50: 50px;
+
+  /* Tracking */
+  --tracking-sm: 0.5px;
+  --tracking-md: 1px;
+
+  /* Layout */
+  --ancho-contenido: 1140px;
+
+  /* Espacios (gaps entre elementos) */
+  --espacio-1: 10px;
+  --espacio-2: 20px;
+  --espacio-3: 30px;
+  --espacio-4: 40px;
+  --espacio-5: 50px;
+  --espacio-6: 60px;
+
+  /* Relleno de secciones: Elementor lo expresa en % del ancho */
+  --relleno-seccion-xs: 1%;
+  --relleno-seccion-sm: 2%;
+  --relleno-seccion: 4%;
+  --relleno-seccion-md: 6%;
+  --relleno-seccion-lg: 8%;
+  --relleno-seccion-xl: 10%;
+
+  /* Radios */
+  --radio-xs: 8px;
+  --radio-sm: 10px;
+  --radio-md: 20px;
+  --radio-lg: 30px;
+  --radio-xl: 40px;
+  --radio-2xl: 60px;
+
+  /* Bordes */
+  --borde-boton: 2px;
+  --borde-fino: 0.5px;
+
+  /* Sombras */
+  --sombra-tarjeta: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  --sombra-suave: 0 0 10px -4px rgba(0, 0, 0, 0.32);
+  --sombra-flotante: 2px 8px 23px 3px rgba(0, 0, 0, 0.2);
+}

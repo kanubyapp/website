@@ -1,0 +1,10 @@
+/*
+ * Patrones: el vocabulario compartido del sitio, clases kb-*.
+ *
+ * Un patrón sube aquí cuando lo piden dos páginas, no antes. Lo que solo usa
+ * una página se queda en su módulo CSS. Al estar en una capa, cualquier módulo
+ * de página puede ajustar un patrón con una regla normal.
+ */
+
+@layer patrones {
+}
