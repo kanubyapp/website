@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Versión anterior del sitio: solo referencia, fuera del lint.
+    "legacy/**",
   ]),
 ]);
 
