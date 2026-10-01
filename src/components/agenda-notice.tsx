@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useContactModal } from "@/components/contact-modal";
 import { CloseIcon } from "@/components/icons";
 import { verticalFromPathname } from "@/lib/services";
@@ -11,6 +11,51 @@ const SHOW_AFTER = 600;
 
 /** Se recuerda por pestaña, no para siempre: en la siguiente visita vuelve. */
 const DISMISSED_KEY = "kanuby:agenda-notice-dismissed";
+
+/*
+ * "Cerrado" vía useSyncExternalStore, no useState+useEffect (era
+ * react-hooks/set-state-in-effect: llamar setState de forma síncona dentro
+ * de un efecto dispara una segunda pasada de render evitable).
+ *
+ * sessionStorage no dispara ningún evento cuando se escribe desde la MISMA
+ * pestaña, así que subscribe no tiene a qué suscribirse de verdad — está
+ * para que dismiss() pueda avisarle a React "vuelve a leer el snapshot"
+ * llamando a los listeners a mano (ver markDismissed más abajo), en vez de
+ * depender de que algún otro render incidental refresque el valor.
+ *
+ * getServerSnapshot (siempre false, sin tocar sessionStorage) es lo que
+ * evita dos problemas a la vez:
+ * 1. sessionStorage no existe en el servidor — leerlo ahí tronaría.
+ * 2. React usa getServerSnapshot (no getSnapshot) también en el PRIMER
+ *    render del cliente, el de hidratación — así ese primer render
+ *    coincide exactamente con el del servidor (false, sin importar lo que
+ *    diga sessionStorage) y no hay mismatch de hidratación. Recién
+ *    después de montar, React vuelve a llamar a getSnapshot con el valor
+ *    real y re-renderiza si cambió — mismo momento en el que antes corría
+ *    el useEffect, así que el comportamiento visible no cambia: el aviso
+ *    ya arranca invisible (opacity-0, pointer-events-none) hasta que el
+ *    scroll lo revela, así que ese ajuste posterior al montaje no pinta
+ *    nada distinto en pantalla.
+ */
+const dismissedListeners = new Set<() => void>();
+
+function subscribeToDismissed(onStoreChange: () => void) {
+  dismissedListeners.add(onStoreChange);
+  return () => dismissedListeners.delete(onStoreChange);
+}
+
+function getDismissedSnapshot() {
+  return sessionStorage.getItem(DISMISSED_KEY) === "1";
+}
+
+function getDismissedServerSnapshot() {
+  return false;
+}
+
+function markDismissed() {
+  sessionStorage.setItem(DISMISSED_KEY, "1");
+  dismissedListeners.forEach((listener) => listener());
+}
 
 /**
  * Aviso flotante de disponibilidad, esquina inferior IZQUIERDA.
@@ -23,8 +68,12 @@ const DISMISSED_KEY = "kanuby:agenda-notice-dismissed";
  * apelmazarse, y taparía el contenido que se está leyendo.
  */
 export function AgendaNotice() {
+  const isDismissed = useSyncExternalStore(
+    subscribeToDismissed,
+    getDismissedSnapshot,
+    getDismissedServerSnapshot,
+  );
   const [isVisible, setIsVisible] = useState(false);
-  const [isDismissed, setIsDismissed] = useState(false);
 
   /* Sin servicio: desde aquí no sabemos cuál, así que el modal arranca en su
      paso 1. */
@@ -32,10 +81,7 @@ export function AgendaNotice() {
   const vertical = verticalFromPathname(usePathname());
 
   useEffect(() => {
-    if (sessionStorage.getItem(DISMISSED_KEY) === "1") {
-      setIsDismissed(true);
-      return;
-    }
+    if (isDismissed) return;
 
     /* Mismo patrón que el resto del sitio: rAF + listener pasivo, para no
        hacer trabajo en cada evento de scroll. */
@@ -55,12 +101,7 @@ export function AgendaNotice() {
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const dismiss = () => {
-    sessionStorage.setItem(DISMISSED_KEY, "1");
-    setIsDismissed(true);
-  };
+  }, [isDismissed]);
 
   if (isDismissed) return null;
 
@@ -127,7 +168,7 @@ export function AgendaNotice() {
 
       <button
         type="button"
-        onClick={dismiss}
+        onClick={markDismissed}
         aria-label="Cerrar aviso"
         tabIndex={isVisible ? undefined : -1}
         className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full text-muted transition-colors hover:bg-brand-blue/10 hover:text-brand-blue"

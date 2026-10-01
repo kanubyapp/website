@@ -220,8 +220,19 @@ export default function MudanzasPage() {
           marca muy diluido (rgba(15,52,70,...)), no negro — mismo criterio
           que ya usa el resto del sitio para sombras sobre fondo claro, para
           no meter un gris sucio que no combine con el sistema de color.
+
+          data-hero-card: atributo marcador, sin estilos propios — es el
+          gancho que globals.css usa (main:not(:has([data-hero-card])))
+          para saber que ESTA página no necesita el padding-top que
+          compensa el header sticky en el resto del sitio, porque aquí el
+          header flota sobre la tarjeta a propósito. Es un atributo y no
+          una clase para no confundirlo con la vieja .hero-card, que sí
+          tenía estilos (position/shadow) y ya no existe.
         */}
-        <div className="relative mx-[var(--edge-gap)] mb-[var(--edge-gap)] h-[calc(85vh-var(--edge-gap)-var(--header-row))] overflow-hidden rounded-3xl bg-background shadow-[0_10px_48px_-8px_rgba(15,52,70,0.18)]">
+        <div
+          data-hero-card
+          className="relative mx-[var(--edge-gap)] mb-[var(--edge-gap)] h-[calc(85vh-var(--edge-gap)-var(--header-row))] overflow-hidden rounded-3xl bg-background shadow-[0_10px_48px_-8px_rgba(15,52,70,0.18)]"
+        >
           {/*
             Fondo decorativo: dos tipos que tienen que CONTRASTAR entre sí,
             no una sola mancha repetida. Ahora:
@@ -429,7 +440,14 @@ export default function MudanzasPage() {
           la alineación se sostiene sola en cualquier ancho, no solo en el
           rango donde antes coincidían por accidente.
         */}
-        <div className="mx-[var(--edge-gap)] py-16 md:py-20">
+        {/*
+          pt sin cambios (espacio desde el H2/párrafo de arriba); pb
+          reducido a la mitad (16→8, 20→10): sumado al pt-16/pt-20 de
+          #testimonios de abajo, el espacio combinado entre las tarjetas y
+          "TESTIMONIOS" era 160px en desktop (80+80) — excesivo. Se toca
+          solo el lado que da a testimonios, no el que da al H2 de arriba.
+        */}
+        <div className="mx-[var(--edge-gap)] pb-8 pt-16 md:pb-10 md:pt-20">
           {/*
             md:grid-cols-3 directo, sin sm:grid-cols-2 intermedio: con 3
             tarjetas, 2 columnas deja la tercera sola en una segunda fila
@@ -457,8 +475,13 @@ export default function MudanzasPage() {
         izquierdo se sostiene sola, no por coincidencia de anchos.
 
         Sin bg propio: hereda el gris del body.
+
+        pt reducido a la mitad (16→8, 20→10), simétrico al pb recortado en
+        el bloque de tarjetas de arriba — juntos bajan el espacio
+        combinado de 160px a 80px en desktop (80px a 64px en mobile). pb
+        sin tocar: es el aire antes del footer, un problema aparte.
       */}
-      <section id="testimonios" className="w-full py-16 md:py-20">
+      <section id="testimonios" className="w-full pb-16 pt-8 md:pb-20 md:pt-10">
         <div className="mx-[var(--edge-gap)]">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-ui text-sm font-medium tracking-wider text-brand-blue">

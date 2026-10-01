@@ -18,7 +18,40 @@ const INITIAL_VISIBLE = 9;
  */
 const BANNER_POSITION = 4;
 
-function TestimonialCard({ review }: { review: Review }) {
+/**
+ * Índice (dentro de `items`, no de `visibleReviews`) de la última reseña
+ * de la columna 1: la 3ª (índice 2). Fuerza el corte de columna ahí
+ * (TestimonialCard, prop forceColumnBreakAfter) para que la columna 2
+ * arranque siempre con la reseña que sigue y el banner —insertado justo
+ * después, ver BANNER_POSITION— caiga como su SEGUNDA tarjeta, como se
+ * pidió. También es lo que deja la columna del centro con más contenido
+ * que la izquierda: columna 1 se corta a propósito (3 reseñas) en vez de
+ * dejar que el balance automático del navegador le agregue una cuarta.
+ *
+ * Solo aplica con !showAll (el estado inicial, 9 reseñas): con las 14
+ * completas ("Ver más" ya pulsado) el mismo corte fijo deja la columna 1
+ * despoblada frente a las otras dos, que siguen creciendo con las 5
+ * reseñas nuevas — ahí conviene volver a soltarle el balance automático
+ * del navegador a las tres columnas.
+ */
+const LEFT_COLUMN_BREAK_INDEX = 2;
+
+function TestimonialCard({
+  review,
+  forceColumnBreakAfter = false,
+}: {
+  review: Review;
+  /*
+    break-after-column: fuerza dónde corta la columna 1, en vez de dejarlo
+    en manos del algoritmo de balance del navegador. Se probó dejándolo
+    libre y el resultado no era el pedido: el navegador metía una reseña
+    de más en la columna 1 (la dejaba más alta que el resto) y el banner
+    caía como PRIMERA tarjeta de la columna 2, no la segunda. Con el corte
+    forzado después de la 3ª reseña, la columna 2 arranca siempre con la
+    4ª reseña y el banner cae exactamente en su segundo lugar.
+  */
+  forceColumnBreakAfter?: boolean;
+}) {
   const initial = review.name.trim().charAt(0).toUpperCase();
 
   return (
@@ -28,7 +61,9 @@ function TestimonialCard({ review }: { review: Review }) {
       espaciado entre tarjetas de una misma columna sale del margen inferior
       de cada una.
     */
-    <article className="mb-4 break-inside-avoid rounded-2xl bg-background p-6 shadow-[0_4px_20px_-6px_rgba(15,52,70,0.12)]">
+    <article
+      className={`mb-4 break-inside-avoid rounded-2xl bg-background p-6 shadow-[0_4px_20px_-6px_rgba(15,52,70,0.12)] ${forceColumnBreakAfter ? "break-after-column" : ""}`}
+    >
       <span
         aria-hidden="true"
         className="font-heading block text-5xl leading-none text-border"
@@ -61,22 +96,39 @@ function TestimonialCard({ review }: { review: Review }) {
  * No es una Review: vive fuera de mudanzasReviews, así que no se cuenta en
  * REVIEW_COUNT ni entra en el promedio (ambos se calculan en page.tsx
  * directo del array de datos, antes de que este componente intercale nada).
+ *
+ * bg-brand-orange a propósito, para que destaque contra las tarjetas
+ * blancas de reseña — con el contraste medido, no a ojo:
+ *
+ * - Título (text-2xl, 24px): azul de marca da 3.81:1 sobre este naranja.
+ *   24px regular ya califica como "texto grande" en WCAG (umbral 24px), así
+ *   que pasa AA (3:1) con margen.
+ * - Párrafo: a text-base/16px normal NINGÚN color pasa AA sobre este
+ *   naranja (blanco 3.44:1, azul 3.81:1 — ninguno llega a 4.5:1 de texto
+ *   normal). Subido a 19px/600 —el mismo mínimo ya establecido y en uso
+ *   para el botón del hero sobre este mismo naranja (ver el comentario de
+ *   --color-brand-orange en globals.css)— para que también califique como
+ *   texto grande y pase con los mismos 3.81:1.
+ * - Botón: bg-brand-orange (naranja sobre naranja) se volvía invisible.
+ *   Por la regla de botones sólidos del sistema ("sobre fondo naranja,
+ *   relleno azul, texto blanco"), pasa a bg-brand-blue. Blanco sobre
+ *   #0f3446 da 12.31:1, muy por encima de cualquier mínimo.
  */
 function ConversionBanner() {
   const openContactModal = useContactModal();
 
   return (
-    <article className="mb-4 flex break-inside-avoid flex-col items-start rounded-2xl bg-background p-6 shadow-[0_4px_20px_-6px_rgba(15,52,70,0.12)]">
+    <article className="mb-4 flex break-inside-avoid flex-col items-start rounded-2xl bg-brand-orange p-6 shadow-[0_4px_20px_-6px_rgba(15,52,70,0.12)]">
       <p className="font-heading text-2xl text-brand-blue">
         ¿Listo para tu mudanza?
       </p>
-      <p className="mt-2 text-base text-muted">
+      <p className="text-ui mt-2 text-[1.1875rem] font-semibold text-brand-blue">
         Cotiza sin compromiso y recibe tu propuesta el mismo día.
       </p>
       <button
         type="button"
         onClick={() => openContactModal({ vertical: "mudanzas" })}
-        className="text-ui mt-5 inline-flex items-center rounded-full bg-brand-orange px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-orange-hover"
+        className="text-ui mt-5 inline-flex items-center rounded-full bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-blue-hover"
       >
         Cotizar ahora
       </button>
@@ -105,11 +157,15 @@ export function TestimonialsMasonry({ reviews }: { reviews: Review[] }) {
   return (
     <>
       <div className="mt-12 columns-1 gap-4 px-4 sm:columns-2 md:px-16 lg:columns-3">
-        {items.map((item) =>
+        {items.map((item, index) =>
           item.type === "banner" ? (
             <ConversionBanner key="conversion-banner" />
           ) : (
-            <TestimonialCard key={item.review.name} review={item.review} />
+            <TestimonialCard
+              key={item.review.name}
+              review={item.review}
+              forceColumnBreakAfter={!showAll && index === LEFT_COLUMN_BREAK_INDEX}
+            />
           ),
         )}
       </div>

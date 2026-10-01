@@ -3,10 +3,6 @@ import { KanubyLogo } from "@/components/kanuby-logo";
 import { ScndalWebtag } from "@/components/scndal-webtag";
 import { navLinks } from "@/lib/nav";
 
-// TODO(pagina-pendiente): /terminos y /privacidad NO existen todavía como rutas.
-// Estos dos enlaces devuelven 404 hasta que se creen las páginas. No publicar a
-// producción sin crearlas: un enlace legal roto en el footer se indexa y además
-// es lo primero que se revisa en cualquier auditoría.
 const legalLinks = [
   { href: "/terminos", label: "Términos y condiciones" },
   { href: "/privacidad", label: "Aviso de privacidad" },
