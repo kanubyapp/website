@@ -4,9 +4,9 @@ import styles from "./site-footer.module.css";
 
 const enlaces = [
   { href: "/", texto: "Inicio" },
-  { href: "/mudanzas-monterrey", texto: "Mudanzas en Monterrey" },
-  { href: "/minibodegas-monterrey", texto: "Minibodegas en Monterrey" },
-  { href: "/mudanzas-empresariales-monterrey", texto: "Movimiento de oficinas" },
+  { href: "/mudanzas-monterrey/", texto: "Mudanzas en Monterrey" },
+  { href: "/minibodegas-monterrey/", texto: "Minibodegas en Monterrey" },
+  { href: "/mudanzas-empresariales-monterrey/", texto: "Movimiento de oficinas" },
 ];
 
 export function SiteFooter() {

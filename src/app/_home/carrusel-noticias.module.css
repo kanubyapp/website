@@ -91,13 +91,13 @@
   font-family: var(--fuente-titulos);
   font-size: var(--texto-20);
   font-weight: var(--peso-regular);
-  line-height: 1.2;
+  line-height: var(--interlineado-encabezado);
 }
 
 .leerMas {
   display: inline-block;
-  color: var(--color-azul);
-  font-family: var(--fuente-roboto);
+  color: var(--color-blanco);
+  font-family: var(--fuente-texto);
   font-weight: var(--peso-regular);
   text-align: center;
   transition: all 0.3s ease-in-out;

@@ -32,8 +32,6 @@
   /* Fuentes: las variables --font-* las define next/font en el layout */
   --fuente-titulos: var(--font-outfit), sans-serif;
   --fuente-texto: var(--font-dm-sans), sans-serif;
-  /* Solo existe donde una página carga Roboto con next/font */
-  --fuente-roboto: var(--font-roboto), sans-serif;
 
   --peso-light: 300;
   --peso-regular: 400;
@@ -70,11 +68,14 @@
   --texto-70: 70px;
 
   /*
-   * Interlineados. Los dos primeros son los heredados del sitio publicado:
-   * el html del tema JupiterX (1.15) y el título de Elementor (1).
+   * Interlineados. Los tres primeros son los heredados del sitio publicado:
+   * el html del tema JupiterX (1.15), el título de Elementor (1) y los h1–h6
+   * de Bootstrap (1.2).
    */
   --interlineado-base: 1.15;
   --interlineado-titulo: 1;
+  /* Títulos de tarjeta sin estilo propio: el h1–h6 de Bootstrap del tema */
+  --interlineado-encabezado: 1.2;
   --interlineado-8: 8px; /* texto superior de los botones de dos líneas */
   --interlineado-22: 22px;
   --interlineado-23: 23px; /* (m) */

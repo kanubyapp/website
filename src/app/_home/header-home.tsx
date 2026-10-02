@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./header-home.module.css";
 
 const enlaces = [
-  { href: "/mudanzas-monterrey", texto: "Mudanzas" },
-  { href: "/minibodegas-monterrey", texto: "Minibodegas" },
-  { href: "/mudanzas-empresariales-monterrey", texto: "Mudanza Empresarial" },
+  { href: "/mudanzas-monterrey/", texto: "Mudanzas" },
+  { href: "/minibodegas-monterrey/", texto: "Minibodegas" },
+  { href: "/mudanzas-empresariales-monterrey/", texto: "Mudanza Empresarial" },
   { href: "https://kanubypack.com", texto: "Empaque y Embalaje" },
 ];
 

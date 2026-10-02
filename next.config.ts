@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // kanuby.com publica todas sus URLs con barra final; se conservan igual.
+  trailingSlash: true,
 };
 
 export default nextConfig;

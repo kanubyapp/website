@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Roboto } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { postsRecientes } from "@/lib/posts";
+import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import { CarruselNoticias } from "./_home/carrusel-noticias";
 import { HeaderHome } from "./_home/header-home";
 import styles from "./page.module.css";
-
-// Roboto solo la usa el "Leer más" del carrusel (fuente de texto del kit).
-const roboto = Roboto({
-  variable: "--font-roboto",
-  subsets: ["latin"],
-  weight: "400",
-});
 
 const titulo = "Mudanzas y Minibodegas en Monterrey - Kanuby";
 const descripcion =
@@ -34,50 +27,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-const sitio = "https://kanuby.com";
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": `${sitio}/`,
-      url: `${sitio}/`,
-      name: titulo,
-      isPartOf: { "@id": `${sitio}/#website` },
-      about: { "@id": `${sitio}/#organization` },
-      description: descripcion,
-      inLanguage: "es",
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${sitio}/#website`,
-      url: `${sitio}/`,
-      name: "Kanuby",
-      description: "Más Espacio, menos Problemas",
-      publisher: { "@id": `${sitio}/#organization` },
-      inLanguage: "es",
-    },
-    {
-      "@type": "Organization",
-      "@id": `${sitio}/#organization`,
-      name: "Kanuby",
-      url: `${sitio}/`,
-      logo: {
-        "@type": "ImageObject",
-        "@id": `${sitio}/#/schema/logo/image/`,
-        url: `${sitio}/images/kanuby-orange.svg`,
-        contentUrl: `${sitio}/images/kanuby-orange.svg`,
-        caption: "Kanuby",
-      },
-      image: { "@id": `${sitio}/#/schema/logo/image/` },
-      sameAs: [
-        "https://www.facebook.com/KanubyBodegas/",
-        "https://www.instagram.com/kanuby.mx/",
-      ],
-    },
-  ],
-};
+const jsonLd = jsonLdBase({ ruta: "/", nombre: titulo, descripcion });
 
 export default function Home() {
   return (
@@ -85,7 +35,7 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          __html: serializarJsonLd(jsonLd),
         }}
       />
       <HeaderHome />
@@ -117,7 +67,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className={`${styles.noticias} ${roboto.variable}`}>
+        <section className={styles.noticias}>
           <div className={styles.noticiasCaja}>
             <h2 className={styles.noticiasTitulo}>Últimas Noticias</h2>
             <CarruselNoticias posts={postsRecientes(10)} />
