@@ -226,73 +226,9 @@
   font-weight: var(--peso-regular);
 }
 
-.acordeon {
-  overflow: hidden;
-  border: 1px solid #d6d6d6;
-}
-
-.acordeonItem:not(:last-child) .acordeonBoton,
-.acordeonItem:not(:last-child) .acordeonCuerpo {
-  border-bottom: 1px solid #d6d6d6;
-}
-
-.acordeonEncabezado {
-  font-size: inherit;
-  line-height: inherit;
-}
-
-.acordeonBoton {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  width: 100%;
-  padding: 20px 15px 18px 25px;
-  border: 0;
-  background: var(--color-blanco);
-  color: var(--color-negro);
-  text-align: left;
-  cursor: pointer;
-}
-
-.acordeonItem[data-activa="true"] .acordeonBoton,
-.acordeonBoton:hover {
-  background: #f8f8f8;
-}
-
-.acordeonTitulo {
-  color: var(--color-naranja);
-  font-family: var(--fuente-titulos);
-  font-size: var(--texto-16);
+/* Acordeón: ajustes de esta página sobre el patrón */
+.faq :global(.kb-acordeon-item:not([data-activa="true"]) .kb-acordeon-titulo) {
   font-weight: var(--peso-regular);
-  line-height: 19.3px;
-}
-
-.acordeonBoton:hover .acordeonTitulo {
-  color: var(--color-negro);
-}
-
-.acordeonItem[data-activa="true"] .acordeonTitulo {
-  color: var(--color-azul);
-  font-weight: var(--peso-semibold);
-}
-
-.acordeonIcono {
-  flex-shrink: 0;
-  width: auto;
-  height: 1em;
-  fill: currentColor;
-}
-
-.acordeonCuerpo {
-  padding: 25px;
-  background: var(--color-blanco);
-  color: var(--color-negro);
-  font-size: var(--texto-16);
-}
-
-.acordeonCuerpo p {
-  margin-bottom: 1rem;
 }
 
 @media (max-width: 767px) {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
-import { CotizacionMudanzaProvider } from "@/components/mudanzas/cotizacion";
+import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
 import {
   HeroMudanzas,
@@ -44,7 +44,7 @@ const jsonLd = jsonLdBase({ ruta, nombre: `${titulo} - Kanuby` });
 
 export default function MudanzasMonterreyCdmx() {
   return (
-    <CotizacionMudanzaProvider>
+    <CotizacionProvider>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
@@ -67,13 +67,9 @@ export default function MudanzasMonterreyCdmx() {
       <main>
         <HeroMudanzas
           className={styles.hero}
-          titulo={
-            <>
-              <span className={styles.textoAccesible}>{titulo}</span>
-              <TitularRotativo />
-            </>
-          }
-          subtitulo={titulo}
+          decoracion={<TitularRotativo />}
+          titulo={titulo}
+          claseTitulo={styles.titulo}
           texto="En Kanuby nos especializamos en la ruta más transitada del país. Si te mudas entre Monterrey y Ciudad de México, somos tu mejor opción: camiones directos, sin escalas, sin terceros."
           boton={
             <BotonCotizar
@@ -186,6 +182,6 @@ export default function MudanzasMonterreyCdmx() {
       </main>
 
       <SiteFooter />
-    </CotizacionMudanzaProvider>
+    </CotizacionProvider>
   );
 }

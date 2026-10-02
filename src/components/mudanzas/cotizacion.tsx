@@ -3,43 +3,78 @@
 import { createContext, useContext, useId, useRef, useState } from "react";
 import { IconoCerrar } from "@/components/iconos";
 import {
+  mensajeMinibodega,
   mensajeMudanza,
+  TAMANOS_MINIBODEGA,
   TIPOS_MUDANZA,
   urlWhatsApp,
+  validarCotizacionMinibodega,
   validarCotizacionMudanza,
-  type CotizacionMudanza,
+  type Cotizacion,
   type ErroresCotizacion,
+  type TamanoMinibodega,
   type TipoMudanza,
 } from "@/lib/whatsapp";
 
 /*
- * Popup "Cotiza ahora tu Mudanza con Kanuby" (popup 4914 de kanuby.com).
- * Cualquier botón de la página lo abre con useCotizacion().abrir().
+ * Popup de cotización de kanuby.com: el de mudanza (popup 4914) y el de
+ * minibodega (popup 4947) comparten estructura; cambian textos, opciones y
+ * mensaje. Cualquier botón de la página lo abre con useCotizacion().abrir().
  * Se cierra con su botón, con Esc y con clic fuera del cuadro.
  */
+
+const FORMULARIOS = {
+  mudanza: {
+    titulo: "Cotiza ahora tu Mudanza con Kanuby",
+    subtitulo: "Completa el formulario, te llevará a WhatsApp.",
+    etiqueta: "Tipo de Servicio:",
+    opciones: TIPOS_MUDANZA as readonly string[],
+    selectorObligatorio: true,
+    validar: validarCotizacionMudanza,
+    mensaje: (datos: Cotizacion) =>
+      mensajeMudanza(datos.nombre, datos.tipo as TipoMudanza, datos.correo),
+  },
+  minibodega: {
+    titulo: "Cotiza tu minibodega ahora",
+    subtitulo: "Al completar el formulario te llevará a WhatsApp.",
+    etiqueta: "¿Cuánto Espacio Buscas?",
+    opciones: TAMANOS_MINIBODEGA as readonly string[],
+    selectorObligatorio: false,
+    validar: validarCotizacionMinibodega,
+    mensaje: (datos: Cotizacion) =>
+      mensajeMinibodega(datos.nombre, datos.tipo as TamanoMinibodega, datos.correo),
+  },
+};
 
 const CotizacionContexto = createContext<{ abrir: () => void } | null>(null);
 
 export function useCotizacion() {
   const contexto = useContext(CotizacionContexto);
-  if (!contexto) throw new Error("useCotizacion necesita CotizacionMudanzaProvider");
+  if (!contexto) throw new Error("useCotizacion necesita CotizacionProvider");
   return contexto;
 }
 
-const vacio: CotizacionMudanza = {
-  nombre: "",
-  correo: "",
-  telefono: "",
-  tipo: TIPOS_MUDANZA[0],
-};
-
 const ordenCampos = ["nombre", "correo", "telefono", "tipo"] as const;
 
-export function CotizacionMudanzaProvider({ children }: { children: React.ReactNode }) {
+export function CotizacionProvider({
+  tipo = "mudanza",
+  className = "",
+  children,
+}: {
+  tipo?: keyof typeof FORMULARIOS;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const formularioActual = FORMULARIOS[tipo];
   const dialogo = useRef<HTMLDialogElement>(null);
   const formulario = useRef<HTMLFormElement>(null);
   const id = useId();
-  const [datos, setDatos] = useState(vacio);
+  const [datos, setDatos] = useState<Cotizacion>({
+    nombre: "",
+    correo: "",
+    telefono: "",
+    tipo: formularioActual.opciones[0],
+  });
   const [errores, setErrores] = useState<ErroresCotizacion>({});
 
   function abrir() {
@@ -50,14 +85,14 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
     dialogo.current?.close();
   }
 
-  function cambiar(campo: keyof CotizacionMudanza, valor: string) {
+  function cambiar(campo: keyof Cotizacion, valor: string) {
     setDatos((previos) => ({ ...previos, [campo]: valor }));
     if (errores[campo]) setErrores((previos) => ({ ...previos, [campo]: undefined }));
   }
 
   function enviar(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
-    const encontrados = validarCotizacionMudanza(datos);
+    const encontrados = formularioActual.validar(datos);
     setErrores(encontrados);
 
     const primero = ordenCampos.find((campo) => encontrados[campo]);
@@ -66,11 +101,10 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
       return;
     }
 
-    const mensaje = mensajeMudanza(datos.nombre, datos.tipo as TipoMudanza, datos.correo);
-    window.location.assign(urlWhatsApp(mensaje));
+    window.location.assign(urlWhatsApp(formularioActual.mensaje(datos)));
   }
 
-  function propsCampo(campo: keyof CotizacionMudanza) {
+  function propsCampo(campo: keyof Cotizacion) {
     const error = errores[campo];
     return {
       id: `${id}-${campo}`,
@@ -81,7 +115,7 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
     };
   }
 
-  function mensajeError(campo: keyof CotizacionMudanza) {
+  function mensajeError(campo: keyof Cotizacion) {
     const error = errores[campo];
     return error ? (
       <p id={`${id}-${campo}-error`} className="kb-campo-error">
@@ -96,7 +130,7 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
 
       <dialog
         ref={dialogo}
-        className="kb-popup"
+        className={`kb-popup ${className}`}
         aria-labelledby={`${id}-titulo`}
         onClick={(evento) => {
           // El clic en el fondo oscuro llega al propio <dialog>.
@@ -115,10 +149,10 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
 
           <div className="kb-popup-contenido">
             <h2 id={`${id}-titulo`} className="kb-popup-titulo">
-              Cotiza ahora tu Mudanza con Kanuby
+              {formularioActual.titulo}
             </h2>
             <p className="kb-popup-subtitulo">
-              Completa el formulario, te llevará a WhatsApp.
+              {formularioActual.subtitulo}
             </p>
 
             <form
@@ -168,18 +202,18 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
               </div>
               <div className="kb-campo">
                 <label htmlFor={`${id}-tipo`} className="kb-campo-etiqueta">
-                  Tipo de Servicio:
+                  {formularioActual.etiqueta}
                 </label>
                 <div className="kb-selector">
                   <select
                     {...propsCampo("tipo")}
-                    required
+                    required={formularioActual.selectorObligatorio}
                     className="kb-campo-texto"
                     onChange={(evento) => cambiar("tipo", evento.target.value)}
                   >
-                    {TIPOS_MUDANZA.map((tipo) => (
-                      <option key={tipo} value={tipo}>
-                        {tipo}
+                    {formularioActual.opciones.map((opcion) => (
+                      <option key={opcion} value={opcion}>
+                        {opcion}
                       </option>
                     ))}
                   </select>

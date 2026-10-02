@@ -4,7 +4,7 @@ import { IconoFacebook, IconoInstagram, IconoLinkedin, IconoTelefono } from "@/c
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
-import { CotizacionMudanzaProvider } from "@/components/mudanzas/cotizacion";
+import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
 import {
   HeroMudanzas,
@@ -13,7 +13,7 @@ import {
   ServiciosMudanzas,
 } from "@/components/mudanzas/secciones";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
-import { Faq, type Pregunta } from "./faq";
+import { Faq } from "@/components/faq";
 import styles from "./page.module.css";
 
 const titulo = "Mudanzas Empresariales en Monterrey";
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-const preguntas: Pregunta[] = [
+const preguntas = [
   {
     pregunta: "¿Ofrecen servicio de empaque para equipos sensibles y documentos?",
     respuesta:
@@ -69,7 +69,7 @@ const jsonLdFaq = {
 
 export default function MudanzasEmpresariales() {
   return (
-    <CotizacionMudanzaProvider>
+    <CotizacionProvider>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
@@ -246,12 +246,18 @@ export default function MudanzasEmpresariales() {
             <h2 className={styles.faqTitulo}>
               Preguntas Frecuentes sobre Mudanzas de Oficinas
             </h2>
-            <Faq preguntas={preguntas} />
+            <Faq
+              inicial={1}
+              preguntas={preguntas.map(({ pregunta, respuesta }) => ({
+                pregunta,
+                respuesta: <p>{respuesta}</p>,
+              }))}
+            />
           </div>
         </section>
       </main>
 
       <SiteFooter />
-    </CotizacionMudanzaProvider>
+    </CotizacionProvider>
   );
 }

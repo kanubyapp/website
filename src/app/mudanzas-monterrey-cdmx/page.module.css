@@ -29,7 +29,8 @@
   text-align: left;
 }
 
-.hero :global(.kb-hero-subtitulo) {
+/* El H1 de la página: el h2 pequeño del publicado, con su mismo aspecto */
+.titulo {
   color: var(--color-azul);
   font-size: var(--texto-18);
   font-weight: var(--peso-semibold);
@@ -59,18 +60,6 @@
   height: 100%;
   object-fit: contain;
   object-position: center center;
-}
-
-.textoAccesible {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
 }
 
 /* Titular rotativo (raven-animated-heading, animación "wave") */

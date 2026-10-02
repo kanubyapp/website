@@ -1,8 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  mensajeMinibodega,
   mensajeMudanza,
   urlWhatsApp,
+  validarCotizacionMinibodega,
   validarCotizacionMudanza,
 } from "./whatsapp.ts";
 
@@ -66,4 +68,52 @@ test("validación: todo correcto no devuelve errores", () => {
 test("validación: campos vacíos, correo inválido y tipo fuera de la lista", () => {
   const errores = validarCotizacionMudanza({ nombre: " ", correo: "ana@", telefono: "", tipo: "" });
   assert.deepEqual(Object.keys(errores).sort(), ["correo", "nombre", "telefono", "tipo"]);
+});
+
+test("mensaje de minibodega de 3.5 m²", () => {
+  assert.equal(
+    mensajeMinibodega("Ana", "3.5m²", correo),
+    "Hola Kanuby, soy Ana. Me interesa rentar una minibodega de 3.5 m². Mi correo es ana@correo.com.",
+  );
+});
+
+test("mensaje de minibodega de 7 m²", () => {
+  assert.equal(
+    mensajeMinibodega("Ana", "7m²", correo),
+    "Hola Kanuby, soy Ana. Me interesa rentar una minibodega de 7 m². Mi correo es ana@correo.com.",
+  );
+});
+
+test("mensaje de minibodega de 14 m²", () => {
+  assert.equal(
+    mensajeMinibodega("Ana", "14m²", correo),
+    "Hola Kanuby, soy Ana. Me interesa rentar una minibodega de 14 m². Mi correo es ana@correo.com.",
+  );
+});
+
+test("mensaje de minibodega sin tamaño decidido", () => {
+  assert.equal(
+    mensajeMinibodega("Ana", "No estoy Seguro", correo),
+    "Hola Kanuby, soy Ana. Me interesa rentar una minibodega, aún no sé qué tamaño necesito. Mi correo es ana@correo.com.",
+  );
+});
+
+test("el mensaje de minibodega con caracteres especiales llega intacto a WhatsApp", () => {
+  const nombre = "José Ñúñez & Hijos #1 + Cía.";
+  const url = urlWhatsApp(mensajeMinibodega(nombre, "7m²", correo));
+  assert.equal(
+    new URL(url).searchParams.get("text"),
+    `Hola Kanuby, soy ${nombre}. Me interesa rentar una minibodega de 7 m². Mi correo es ana@correo.com.`,
+  );
+});
+
+test("validación de minibodega: acepta los 4 tamaños y rechaza otros", () => {
+  for (const tipo of ["3.5m²", "7m²", "14m²", "No estoy Seguro"]) {
+    assert.deepEqual(
+      validarCotizacionMinibodega({ nombre: "Ana", correo, telefono: "8112345678", tipo }),
+      {},
+    );
+  }
+  const errores = validarCotizacionMinibodega({ nombre: "Ana", correo, telefono: "8112345678", tipo: "Mudanza Local" });
+  assert.deepEqual(Object.keys(errores), ["tipo"]);
 });

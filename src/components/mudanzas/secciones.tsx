@@ -27,15 +27,20 @@ function Olas() {
 
 export function HeroMudanzas({
   titulo,
-  subtitulo,
+  decoracion,
+  claseTitulo = "kb-hero-titulo",
   texto,
   boton,
   fondoImagen,
   className = "",
 }: {
   titulo: React.ReactNode;
-  /** h2 bajo el divisor (solo en /mudanzas-monterrey-cdmx/) */
-  subtitulo?: string;
+  /**
+   * Titular decorativo sobre el divisor, oculto para lectores de pantalla
+   * (el rotativo de /mudanzas-monterrey-cdmx/). Con él, el H1 va bajo el divisor.
+   */
+  decoracion?: React.ReactNode;
+  claseTitulo?: string;
   texto: string;
   boton: React.ReactNode;
   /** Imagen detrás de la foto principal (el mapa en /mudanzas-monterrey-cdmx/) */
@@ -46,11 +51,17 @@ export function HeroMudanzas({
     <section className={`kb-hero ${className}`}>
       <Olas />
       <div className="kb-hero-contenido">
-        <h1 className="kb-hero-titulo">{titulo}</h1>
+        {decoracion ? (
+          <div className="kb-hero-titulo" aria-hidden="true">
+            {decoracion}
+          </div>
+        ) : (
+          <h1 className={claseTitulo}>{titulo}</h1>
+        )}
         <div className="kb-hero-divisor" aria-hidden="true">
           <span />
         </div>
-        {subtitulo && <h2 className="kb-hero-subtitulo">{subtitulo}</h2>}
+        {decoracion && <h1 className={claseTitulo}>{titulo}</h1>}
         <p className="kb-hero-texto">{texto}</p>
         {boton}
       </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
-import { CotizacionMudanzaProvider } from "@/components/mudanzas/cotizacion";
+import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
 import {
   HeroMudanzas,
@@ -34,7 +34,7 @@ const jsonLd = jsonLdBase({ ruta: "/mudanzas-monterrey/", nombre: `${titulo} - K
 
 export default function MudanzasMonterrey() {
   return (
-    <CotizacionMudanzaProvider>
+    <CotizacionProvider>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
@@ -162,6 +162,6 @@ export default function MudanzasMonterrey() {
 
       <SiteFooter />
       <BotonFlotante className={styles.flotante} />
-    </CotizacionMudanzaProvider>
+    </CotizacionProvider>
   );
 }

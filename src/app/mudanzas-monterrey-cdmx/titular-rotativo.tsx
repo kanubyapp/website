@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 /*
- * Parte visual del H1 de /mudanzas-monterrey-cdmx/: "Mudanzas desde Monterrey
- * a CDMX" alterna con "Mudanzas desde CDMX a Monterrey" cada 2.5 s, con la
- * animación "wave" de Raven (las letras entran escalando una tras otra).
+ * Titular decorativo del hero de /mudanzas-monterrey-cdmx/: "Mudanzas desde
+ * Monterrey a CDMX" alterna con "Mudanzas desde CDMX a Monterrey" cada 2.5 s,
+ * con la animación "wave" de Raven (las letras entran escalando una tras otra).
  *
- * El texto se pinta con CSS (content: attr(data-letra)), así que no forma parte
- * del texto del documento: lectores de pantalla y buscadores solo leen el texto
- * fijo del H1. Con "reducir movimiento" no rota.
+ * No es un heading y está oculto para lectores de pantalla; el texto se pinta
+ * con CSS (content: attr(data-letra)), así que tampoco lo leen los buscadores.
+ * El H1 de la página va debajo del divisor. Con "reducir movimiento" no rota.
  */
 
 const RUTAS = [
