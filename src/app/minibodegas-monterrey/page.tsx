@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Poppins, Work_Sans } from "next/font/google";
 import { Faq } from "@/components/faq";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
@@ -12,19 +11,6 @@ import { preguntas, resenas, textoPlano, type Bloque } from "./datos";
 import { HeaderMinibodegas } from "./header-minibodegas";
 import { Resenas } from "./resenas";
 import styles from "./page.module.css";
-
-// Fuentes propias de esta página: respuestas del FAQ y widget de reseñas.
-const workSans = Work_Sans({
-  variable: "--font-work-sans",
-  subsets: ["latin"],
-  weight: "400",
-});
-
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
 
 const titulo = "Minibodegas en Monterrey";
 const ruta = "/minibodegas-monterrey/";
@@ -218,7 +204,7 @@ export default function Minibodegas() {
 
         <Banner />
 
-        <section id="faqs" className={`${styles.faq} ${workSans.variable}`}>
+        <section id="faqs" className={styles.faq}>
           <div className={styles.faqColumna}>
             <div className={styles.faqFijo}>
               <h2 className={styles.faqTitulo}>Preguntas Frecuentes</h2>
@@ -239,7 +225,7 @@ export default function Minibodegas() {
           </div>
         </section>
 
-        <section id="clientes" className={`${styles.clientes} ${poppins.variable}`}>
+        <section id="clientes" className={styles.clientes}>
           <h2 className={styles.clientesTitulo}>Nuestros Clientes...</h2>
           <Resenas resenas={resenas} />
           <a

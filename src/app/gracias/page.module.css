@@ -1,0 +1,72 @@
+/*
+ * /gracias/: copia de la página 2572 de kanuby.com (sin header).
+ * Los valores sin token aparecen una sola vez en el publicado.
+ */
+
+.gracias {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--espacio-1);
+  min-height: 100vh;
+  padding: 0 var(--relleno-seccion-xl);
+  overflow: hidden;
+}
+
+.titulo {
+  color: var(--color-negro);
+  font-size: var(--texto-50);
+  text-align: center;
+}
+
+.texto {
+  color: var(--color-azul);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-17);
+  font-weight: var(--peso-light);
+  text-align: center;
+}
+
+.texto p:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.imagen {
+  width: 100%;
+  text-align: center;
+}
+
+.imagen img {
+  width: 41%;
+  margin: 0 auto;
+}
+
+.boton {
+  padding: 12px 24px;
+  border: var(--borde-boton) solid var(--color-azul);
+  border-radius: var(--radio-lg);
+  background: var(--color-azul);
+  color: var(--color-blanco);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-18);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-22);
+  letter-spacing: var(--tracking-sm);
+  transition: all 0.5s;
+}
+
+.boton:hover {
+  border-color: var(--color-naranja);
+  background: var(--color-naranja);
+}
+
+@media (max-width: 767px) {
+  .gracias {
+    min-height: 50vh;
+  }
+
+  .imagen img {
+    width: 100%;
+  }
+}

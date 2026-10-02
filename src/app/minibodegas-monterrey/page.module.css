@@ -552,7 +552,7 @@
 }
 
 .acordeones :global(.kb-acordeon-cuerpo) {
-  font-family: var(--font-work-sans), sans-serif;
+  font-family: var(--fuente-texto);
   font-size: var(--texto-14);
 }
 
@@ -602,7 +602,7 @@
   position: relative;
   margin-bottom: 15px;
   color: var(--color-negro);
-  font-family: var(--font-poppins), sans-serif;
+  font-family: var(--fuente-texto);
   font-size: var(--texto-14);
   line-height: 1.4em;
   container-type: inline-size;

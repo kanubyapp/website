@@ -1,0 +1,323 @@
+/*
+ * /social/: copia de la página 2936 de kanuby.com, tipo "link in bio" (sin
+ * header ni footer). Los valores sin token aparecen una sola vez en el
+ * publicado.
+ */
+
+.social {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+  padding: var(--relleno-seccion);
+  background: var(--color-gris-claro);
+}
+
+/* En escritorio el contenido ocupa una columna del 34% del ancho */
+.contenido {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--espacio-2);
+  width: 100%;
+  max-width: 34%;
+  margin: 0 auto;
+}
+
+.cabecera {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  padding: 10px;
+}
+
+.logo img {
+  width: 36%;
+}
+
+.botonSitio {
+  align-self: flex-start;
+  padding: 12px 24px;
+  border: var(--borde-boton) solid var(--color-azul);
+  border-radius: var(--radio-lg);
+  background: var(--color-azul);
+  color: var(--color-blanco);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-18);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-22);
+  letter-spacing: var(--tracking-md);
+  transition: all 0.5s;
+}
+
+.botonSitio:hover {
+  border-color: var(--color-naranja);
+  background: var(--color-naranja);
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  padding: var(--relleno-seccion-md);
+  border-radius: var(--radio-sm);
+  background: var(--color-blanco);
+}
+
+.fila {
+  display: flex;
+  gap: var(--espacio-2);
+}
+
+.mudanzaImagen,
+.mudanzaTexto,
+.minibodegaTexto,
+.minibodegaImagen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--espacio-2);
+}
+
+.mudanzaImagen {
+  width: 35%;
+}
+
+.mudanzaTexto,
+.minibodegaTexto {
+  width: 65%;
+}
+
+.minibodegaImagen {
+  width: 35%;
+}
+
+.mudanzaImagen img,
+.minibodegaImagen img {
+  width: 100%;
+}
+
+.mudanzaTitulo,
+.minibodegaTitulo {
+  color: var(--color-azul);
+  font-weight: var(--peso-regular);
+}
+
+.mudanzaTitulo {
+  font-size: var(--texto-24);
+  text-align: end;
+}
+
+.minibodegaTitulo {
+  font-size: var(--texto-22);
+}
+
+/* "Cotizar Mudanza": botón a todo el ancho, texto a la derecha, sin ícono */
+.botonBloque {
+  justify-content: flex-end;
+  width: 100%;
+  border-radius: var(--radio-lg);
+}
+
+.botonBloque:hover {
+  background: var(--color-naranja);
+}
+
+.botonBloque :global(.kb-boton-cotizar-icono) {
+  display: none;
+}
+
+.botonBloque :global(.kb-boton-cotizar-texto) {
+  font-size: var(--texto-16);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-22);
+  letter-spacing: var(--tracking-md);
+  text-align: right;
+}
+
+/* "Próximamente Minibodegas": aspecto de botón, sin enlace, como en el publicado */
+.proximamente {
+  padding: 12px 24px;
+  border-radius: var(--radio-lg);
+  background: var(--color-azul);
+  color: var(--color-blanco);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-16);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-22);
+  letter-spacing: var(--tracking-md);
+  transition: all 0.5s;
+}
+
+.proximamente:hover {
+  background: var(--color-naranja);
+}
+
+.redes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-inline: -10px;
+}
+
+.redes li {
+  margin-inline: 10px;
+}
+
+.red {
+  display: flex;
+  color: var(--color-azul);
+  transition: color 0.3s;
+}
+
+.red:hover {
+  color: var(--color-naranja);
+}
+
+.red svg {
+  width: var(--texto-30);
+  height: var(--texto-30);
+  fill: currentColor;
+}
+
+.noticiasTitulo {
+  align-self: flex-start;
+  color: var(--color-azul);
+  font-size: var(--texto-22);
+}
+
+/*
+ * Widget de posts de Elementor: rejilla de 3 columnas con un solo post,
+ * miniatura a la izquierda al 100% del ancho de su columna; el título queda a
+ * su derecha, sobre las columnas vacías.
+ */
+.posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px 30px;
+}
+
+.post {
+  display: flex;
+  background: var(--color-blanco);
+}
+
+.postImagen {
+  display: block;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  margin-right: 20px;
+  padding-bottom: 66%;
+  overflow: hidden;
+}
+
+.postImagen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.postTitulo {
+  flex-grow: 1;
+  color: var(--color-azul);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-18);
+  font-weight: var(--peso-regular);
+  line-height: var(--interlineado-encabezado);
+}
+
+@media (max-width: 1024px) {
+  .posts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .social {
+    min-height: 88vh;
+    padding: var(--relleno-seccion-lg) var(--relleno-seccion-md) var(--relleno-seccion-md);
+  }
+
+  .contenido {
+    justify-content: space-around;
+    max-width: 100%;
+  }
+
+  .cabecera {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .logo {
+    align-self: center;
+  }
+
+  .logo img {
+    width: 180px;
+  }
+
+  .botonSitio {
+    font-size: var(--texto-16);
+    line-height: 17px;
+    letter-spacing: 0;
+  }
+
+  .fila {
+    flex-wrap: wrap;
+  }
+
+  .mudanzaImagen {
+    width: 30%;
+  }
+
+  .mudanzaTexto {
+    width: 60%;
+  }
+
+  .mudanzaTitulo {
+    font-size: var(--texto-20);
+    text-align: start;
+  }
+
+  .minibodegaTexto {
+    width: 64%;
+  }
+
+  .minibodegaImagen {
+    width: 25%;
+  }
+
+  .minibodegaTitulo {
+    font-size: var(--texto-20);
+  }
+
+  .noticiasTitulo {
+    align-self: center;
+    font-size: var(--texto-16);
+    text-align: center;
+  }
+
+  .posts {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .post {
+    border-radius: 15px;
+  }
+
+  .postImagen {
+    width: 26%;
+    margin-right: 22px;
+    padding-bottom: calc(0.97 * 26%);
+  }
+
+  .postTitulo {
+    font-size: var(--texto-16);
+  }
+}
