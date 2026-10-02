@@ -12,7 +12,11 @@ import styles from "./carrusel-noticias.module.css";
  * desplazamiento es nativo con scroll-snap (táctil, trackpad y teclado) y el
  * arrastre con ratón se añade a mano.
  */
-export function CarruselNoticias({ posts }: { posts: Post[] }) {
+export function CarruselNoticias({
+  posts,
+}: {
+  posts: Pick<Post, "slug" | "titulo" | "imagen">[];
+}) {
   const pista = useRef<HTMLUListElement>(null);
   const arrastre = useRef({ activo: false, inicioX: 0, inicioScroll: 0, movido: false });
 

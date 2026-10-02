@@ -70,7 +70,13 @@ export default function Home() {
         <section className={styles.noticias}>
           <div className={styles.noticiasCaja}>
             <h2 className={styles.noticiasTitulo}>Últimas Noticias</h2>
-            <CarruselNoticias posts={postsRecientes(10)} />
+            <CarruselNoticias
+              posts={postsRecientes(10).map(({ slug, titulo, imagen }) => ({
+                slug,
+                titulo,
+                imagen,
+              }))}
+            />
           </div>
         </section>
       </main>

@@ -1,0 +1,92 @@
+/*
+ * Archivos de categoría del blog: plantilla del tema JupiterX (Bootstrap) de
+ * kanuby.com. Los valores sin token aparecen una sola vez en el publicado.
+ */
+
+.archivo {
+  padding: 24px 20px;
+  overflow-wrap: break-word;
+}
+
+.post {
+  margin-bottom: 3rem;
+}
+
+.titulo {
+  margin-bottom: 0.5rem;
+  color: var(--color-negro);
+  font-family: var(--fuente-texto);
+  font-size: 2rem;
+  font-weight: var(--peso-medium);
+  line-height: var(--interlineado-encabezado);
+}
+
+.titulo a:hover {
+  text-decoration: underline;
+}
+
+.imagen {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.imagen img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.contenido h3,
+.contenido h4,
+.contenido h5 {
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: var(--peso-medium);
+  line-height: var(--interlineado-encabezado);
+}
+
+.contenido [data-estilo="2"] {
+  font-size: 2rem;
+}
+
+.contenido [data-estilo="3"] {
+  font-size: 1.75rem;
+}
+
+.contenido [data-estilo="4"] {
+  font-size: 1.5rem;
+}
+
+.contenido p,
+.contenido ul,
+.contenido ol {
+  margin-bottom: 1rem;
+}
+
+.contenido ul,
+.contenido ol {
+  padding-left: 40px;
+}
+
+.contenido ul {
+  list-style: disc;
+}
+
+.contenido ol {
+  list-style: decimal;
+}
+
+.contenido a {
+  color: #007bff;
+}
+
+.contenido a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.contenido hr {
+  margin: 1rem 0;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
