@@ -173,10 +173,6 @@
   font-size: var(--texto-22);
 }
 
-.porque :global(.kb-porque-tarjetas) {
-  padding: 10px;
-}
-
 .porque :global(.kb-porque-tarjeta-texto) {
   font-size: var(--texto-20);
   line-height: var(--interlineado-30);
@@ -191,6 +187,7 @@
 }
 
 .servicios :global(.kb-servicio-tarjeta) {
+  flex: 0 1 25%;
   max-width: 25%;
 }
 
@@ -329,10 +326,6 @@
 
   .botonSimple {
     align-self: center;
-  }
-
-  .porque :global(.kb-porque-tarjetas) {
-    padding: 0;
   }
 
   .servicios {

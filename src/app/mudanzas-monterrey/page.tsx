@@ -49,7 +49,7 @@ export default function MudanzasMonterrey() {
           <BotonCotizar
             texto="Cotiza Ahora"
             subtexto="Whatsapp"
-            className={`${styles.botonDosLineas} ${styles.botonHeader}`}
+            className="kb-boton-dos-lineas kb-boton-header"
           />
         }
       />
@@ -68,7 +68,7 @@ export default function MudanzasMonterrey() {
             <BotonCotizar
               texto="Cotiza Ahora por"
               subtexto="Whatsapp"
-              className={`${styles.botonDosLineas} ${styles.botonHero} ${styles.ocultoMovil}`}
+              className="kb-boton-dos-lineas kb-boton-hero"
             />
           }
         />
@@ -119,7 +119,7 @@ export default function MudanzasMonterrey() {
             <BotonCotizar
               texto="Cotiza Ahora por"
               subtexto="Whatsapp"
-              className={`${styles.botonDosLineas} ${styles.botonServicios} ${styles.ocultoMovil}`}
+              className="kb-boton-dos-lineas kb-boton-servicios"
             />
           }
           className={styles.servicios}
@@ -150,7 +150,7 @@ export default function MudanzasMonterrey() {
 
         <Testimonios
           titulo={
-            <h2 className={styles.testimoniosTitulo}>
+            <h2 className="kb-testimonios-titulo">
               Historias de confianza <br />
               en cada movimiento.
             </h2>

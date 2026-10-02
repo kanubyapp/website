@@ -27,13 +27,19 @@ function Olas() {
 
 export function HeroMudanzas({
   titulo,
+  subtitulo,
   texto,
   boton,
+  fondoImagen,
   className = "",
 }: {
   titulo: React.ReactNode;
+  /** h2 bajo el divisor (solo en /mudanzas-monterrey-cdmx/) */
+  subtitulo?: string;
   texto: string;
   boton: React.ReactNode;
+  /** Imagen detrás de la foto principal (el mapa en /mudanzas-monterrey-cdmx/) */
+  fondoImagen?: React.ReactNode;
   className?: string;
 }) {
   return (
@@ -44,10 +50,12 @@ export function HeroMudanzas({
         <div className="kb-hero-divisor" aria-hidden="true">
           <span />
         </div>
+        {subtitulo && <h2 className="kb-hero-subtitulo">{subtitulo}</h2>}
         <p className="kb-hero-texto">{texto}</p>
         {boton}
       </div>
       <div className="kb-hero-imagen">
+        {fondoImagen}
         <Image
           src="/images/ddddd.png"
           alt="Camión de mudanzas naranja de Kanuby con el lema “Tu vecino nunca aprenderá a cantar… Nosotros te mudamos”"
@@ -104,7 +112,7 @@ export function PorQueMudanzas({
   );
 }
 
-export function Marquesina({ items }: { items: string[] }) {
+export function Marquesina({ items, className = "" }: { items: string[]; className?: string }) {
   const lista = (oculta: boolean) => (
     <ul className="kb-marquesina-items" aria-hidden={oculta || undefined}>
       {items.map((item) => (
@@ -116,7 +124,7 @@ export function Marquesina({ items }: { items: string[] }) {
   );
 
   return (
-    <section className="kb-marquesina">
+    <section className={`kb-marquesina ${className}`}>
       <Image
         src="/images/pr2.png"
         alt=""

@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IconoAnterior, IconoEstrella, IconoSiguiente } from "@/components/iconos";
 import type { Testimonio } from "@/lib/testimonios";
-import styles from "@/app/mudanzas-monterrey/page.module.css";
 
 /*
  * Carrusel de testimonios (loop-carousel de Elementor Pro en kanuby.com):
@@ -84,15 +83,15 @@ export function Testimonios({
   );
 
   return (
-    <section id="testimonios" className={styles.testimonios}>
-      <div className={styles.testimoniosCabecera}>
+    <section id="testimonios" className="kb-testimonios">
+      <div className="kb-testimonios-cabecera">
         {titulo}
-        <p className={styles.testimoniosTexto}>{texto}</p>
-        <hr className={styles.testimoniosDivisor} />
+        <p className="kb-testimonios-texto">{texto}</p>
+        <hr className="kb-testimonios-divisor" />
       </div>
 
       <div
-        className={styles.carrusel}
+        className="kb-carrusel"
         role="region"
         aria-roledescription="carrusel"
         aria-label="Testimonios"
@@ -110,10 +109,10 @@ export function Testimonios({
           if (Math.abs(distancia) > 50) interactuar(distancia < 0 ? 1 : -1);
         }}
       >
-        <div className={styles.carruselVentana}>
+        <div className="kb-carrusel-ventana">
           <div
             ref={pista}
-            className={styles.carruselPista}
+            className="kb-carrusel-pista"
             style={{
               transform: `translateX(${-indice * paso}px)`,
               transition: animar ? `transform ${TRANSICION_MS}ms ease` : "none",
@@ -123,39 +122,39 @@ export function Testimonios({
             {copias.map(({ testimonio, copia }, posicion) => (
               <article
                 key={`${copia}-${testimonio.nombre}`}
-                className={styles.testimonio}
+                className="kb-testimonio"
                 aria-hidden={copia !== 1 || undefined}
                 inert={copia !== 1 || undefined}
                 aria-roledescription="diapositiva"
                 aria-label={`${(posicion % total) + 1} de ${total}`}
               >
-                <div className={styles.testimonioAutor}>
+                <div className="kb-testimonio-autor">
                   <Image
                     src={testimonio.avatar}
                     alt={`Avatar de ${testimonio.nombre}`}
                     width={512}
                     height={512}
                     sizes="64px"
-                    className={styles.testimonioAvatar}
+                    className="kb-testimonio-avatar"
                   />
-                  <div className={styles.testimonioDatos}>
-                    <p className={styles.testimonioNombre}>{testimonio.nombre}</p>
-                    <p className={styles.testimonioFecha}>{testimonio.fecha}</p>
+                  <div className="kb-testimonio-datos">
+                    <p className="kb-testimonio-nombre">{testimonio.nombre}</p>
+                    <p className="kb-testimonio-fecha">{testimonio.fecha}</p>
                     <div
-                      className={styles.estrellas}
+                      className="kb-estrellas"
                       role="img"
                       aria-label={`${testimonio.estrellas} de 5 estrellas`}
                     >
                       {Array.from({ length: 5 }, (_, estrella) => (
                         <IconoEstrella
                           key={estrella}
-                          className={estrella < testimonio.estrellas ? styles.estrellaMarcada : undefined}
+                          className={estrella < testimonio.estrellas ? "kb-estrella-marcada" : undefined}
                         />
                       ))}
                     </div>
                   </div>
                 </div>
-                <p className={styles.testimonioTexto}>{testimonio.texto}</p>
+                <p className="kb-testimonio-texto">{testimonio.texto}</p>
               </article>
             ))}
           </div>
@@ -163,7 +162,7 @@ export function Testimonios({
 
         <button
           type="button"
-          className={`${styles.carruselFlecha} ${styles.carruselAnterior}`}
+          className="kb-carrusel-flecha kb-carrusel-anterior"
           aria-label="Testimonio anterior"
           onClick={() => interactuar(-1)}
         >
@@ -171,7 +170,7 @@ export function Testimonios({
         </button>
         <button
           type="button"
-          className={`${styles.carruselFlecha} ${styles.carruselSiguiente}`}
+          className="kb-carrusel-flecha kb-carrusel-siguiente"
           aria-label="Testimonio siguiente"
           onClick={() => interactuar(1)}
         >
