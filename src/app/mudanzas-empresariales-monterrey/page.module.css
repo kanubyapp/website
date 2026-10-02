@@ -1,0 +1,376 @@
+/*
+ * /mudanzas-empresariales-monterrey/: copia de la página 4627 de kanuby.com.
+ * Los bloques compartidos con las otras páginas de mudanzas están en
+ * patrones.css (clases kb-*); aquí queda solo lo propio de esta página.
+ * Los valores sin token aparecen una sola vez en el publicado.
+ */
+
+/* Header: logo de 700px, menú centrado y acciones a la derecha */
+
+.header :global(.kb-header-logo) {
+  flex: 0 1 700px;
+  width: auto;
+  min-width: 0;
+}
+
+.header :global(.kb-header-menu) {
+  flex: 0 1 100%;
+  min-width: 0;
+}
+
+.header :global(.kb-header-lista) {
+  justify-content: center;
+  gap: var(--espacio-4);
+}
+
+.header :global(.kb-header-enlace) {
+  border-width: var(--borde-boton);
+}
+
+.acciones {
+  display: flex;
+  flex: 0 1 100%;
+  align-self: center;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--espacio-6);
+  min-width: 0;
+}
+
+.llamanos {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-azul);
+  line-height: 1;
+  text-align: left;
+  transition: all 0.5s;
+}
+
+.llamanos:hover {
+  color: var(--color-naranja);
+}
+
+.llamanosIcono {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  margin-right: 14px;
+  fill: currentColor;
+}
+
+.llamanosTextos {
+  display: flex;
+  flex-direction: column;
+}
+
+.llamanosTexto {
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-14);
+  font-weight: var(--peso-regular);
+}
+
+.llamanosNumero {
+  padding-top: 2px;
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-24);
+  font-weight: var(--peso-medium);
+  letter-spacing: var(--tracking-md);
+}
+
+/* "Cotizar Ahora" del header: botón de Elementor, no raven-button */
+.botonHeader {
+  gap: 10px;
+  border-radius: var(--radio-md);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-18);
+  transition: all 0.3s;
+}
+
+.botonHeader:hover {
+  background: var(--color-naranja);
+}
+
+.botonHeader :global(.kb-boton-cotizar-icono) {
+  width: 1em;
+  height: 1em;
+  margin: 0;
+}
+
+.botonHeader :global(.kb-boton-cotizar-texto) {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Botón de una línea del hero y de servicios */
+.botonSimple {
+  align-self: flex-start;
+  border: var(--borde-boton) solid var(--color-azul);
+  border-radius: var(--radio-lg);
+}
+
+.botonSimple:hover {
+  border-color: var(--color-naranja);
+  background: var(--color-naranja);
+}
+
+.botonSimple :global(.kb-boton-cotizar-icono) {
+  width: 30px;
+  height: 30px;
+}
+
+.botonSimple :global(.kb-boton-cotizar-texto) {
+  font-size: var(--texto-18);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-22);
+  letter-spacing: var(--tracking-md);
+}
+
+/* Barra de redes sociales */
+
+.barraSocial {
+  display: flex;
+  padding: 0 var(--relleno-seccion);
+  overflow: hidden;
+}
+
+.redes {
+  display: flex;
+  flex-wrap: wrap;
+  align-self: flex-start;
+  padding: 8px 6px 8px 22px;
+  border-radius: 0 0 15px 15px;
+  background: var(--color-naranja);
+}
+
+.red {
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 0;
+  border: 0;
+  background: none;
+  color: var(--color-blanco);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.red:hover {
+  color: var(--color-azul);
+}
+
+.red svg {
+  width: var(--texto-14);
+  height: var(--texto-14);
+  fill: currentColor;
+}
+
+/* Hero, por qué y servicios: ajustes de esta página */
+
+.hero :global(.kb-hero-contenido) {
+  padding: 10px;
+}
+
+.hero :global(.kb-hero-texto) {
+  font-size: var(--texto-22);
+}
+
+.porque :global(.kb-porque-tarjetas) {
+  padding: 10px;
+}
+
+.porque :global(.kb-porque-tarjeta-texto) {
+  font-size: var(--texto-20);
+  line-height: var(--interlineado-30);
+}
+
+.servicios {
+  padding: var(--relleno-seccion-xl) var(--relleno-seccion-lg) var(--relleno-seccion-lg);
+}
+
+.servicios :global(.kb-servicios-intro) {
+  width: 42%;
+}
+
+.servicios :global(.kb-servicio-tarjeta) {
+  max-width: 25%;
+}
+
+/* Preguntas frecuentes */
+
+.faq {
+  padding: 10px;
+  background: var(--color-gris-claro);
+}
+
+.faqContenido {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--espacio-2);
+  max-width: var(--ancho-contenido);
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+.faqImagen img {
+  width: 51%;
+}
+
+.faqAntetitulo {
+  color: var(--color-naranja);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-40);
+  font-weight: var(--peso-semibold);
+  line-height: var(--interlineado-titulo);
+}
+
+.faqTitulo {
+  color: var(--color-negro);
+  font-size: 27px;
+  font-weight: var(--peso-regular);
+}
+
+.acordeon {
+  overflow: hidden;
+  border: 1px solid #d6d6d6;
+}
+
+.acordeonItem:not(:last-child) .acordeonBoton,
+.acordeonItem:not(:last-child) .acordeonCuerpo {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.acordeonEncabezado {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.acordeonBoton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 20px 15px 18px 25px;
+  border: 0;
+  background: var(--color-blanco);
+  color: var(--color-negro);
+  text-align: left;
+  cursor: pointer;
+}
+
+.acordeonItem[data-activa="true"] .acordeonBoton,
+.acordeonBoton:hover {
+  background: #f8f8f8;
+}
+
+.acordeonTitulo {
+  color: var(--color-naranja);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-16);
+  font-weight: var(--peso-regular);
+  line-height: 19.3px;
+}
+
+.acordeonBoton:hover .acordeonTitulo {
+  color: var(--color-negro);
+}
+
+.acordeonItem[data-activa="true"] .acordeonTitulo {
+  color: var(--color-azul);
+  font-weight: var(--peso-semibold);
+}
+
+.acordeonIcono {
+  flex-shrink: 0;
+  width: auto;
+  height: 1em;
+  fill: currentColor;
+}
+
+.acordeonCuerpo {
+  padding: 25px;
+  background: var(--color-blanco);
+  color: var(--color-negro);
+  font-size: var(--texto-16);
+}
+
+.acordeonCuerpo p {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 767px) {
+  .header {
+    gap: var(--espacio-2);
+  }
+
+  .header :global(.kb-header-logo) {
+    flex: none;
+    width: 250px;
+  }
+
+  .acciones {
+    flex-basis: 100%;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .llamanosNumero {
+    font-size: var(--texto-16);
+  }
+
+  .redes {
+    align-self: center;
+    padding: 10px 20px;
+  }
+
+  .redes li {
+    margin-inline: 6px;
+  }
+
+  .botonSimple {
+    align-self: center;
+  }
+
+  .porque :global(.kb-porque-tarjetas) {
+    padding: 0;
+  }
+
+  .servicios {
+    padding: 20% var(--relleno-seccion-lg) 15%;
+  }
+
+  .servicios :global(.kb-servicio-tarjeta) {
+    max-width: 100%;
+  }
+
+  .servicios :global(.kb-servicio-icono) {
+    margin-bottom: 15px;
+  }
+
+  .servicios :global(.kb-servicio-tarjeta:nth-child(1) .kb-servicio-icono),
+  .servicios :global(.kb-servicio-tarjeta:nth-child(2) .kb-servicio-icono) {
+    width: 50%;
+  }
+
+  .servicios :global(.kb-servicio-tarjeta:nth-child(3) .kb-servicio-icono) {
+    width: 80%;
+  }
+
+  .faqImagen,
+  .faqAntetitulo,
+  .faqTitulo {
+    text-align: center;
+  }
+
+  .faqImagen img {
+    margin: 0 auto;
+  }
+
+  .faqAntetitulo {
+    font-size: var(--texto-30);
+  }
+
+  .faqTitulo {
+    font-size: var(--texto-22);
+  }
+}

@@ -4,23 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { IconoMenu } from "@/components/iconos";
-import { BotonCotizar } from "./boton-cotizar";
-import styles from "@/app/mudanzas-monterrey/page.module.css";
 
 /*
  * Header de las páginas de mudanzas: logo kanubymudanzas, anclas a las
- * secciones de la propia página y botón de cotización. Debajo de 768px el
- * menú pasa a pantalla completa.
+ * secciones de la propia página y, a la derecha, las acciones de cada página.
+ * Debajo de 768px el menú pasa a pantalla completa.
  */
 
 type Enlace = { href: string; texto: string };
 
 export function HeaderMudanzas({
   enlaces,
-  boton,
+  acciones,
+  className = "",
 }: {
   enlaces: Enlace[];
-  boton: { texto: string; subtexto: string };
+  acciones: React.ReactNode;
+  className?: string;
 }) {
   const [abierto, setAbierto] = useState(false);
   const botonAbrir = useRef<HTMLButtonElement>(null);
@@ -46,8 +46,8 @@ export function HeaderMudanzas({
   }
 
   return (
-    <header className={styles.header}>
-      <Link href="/" className={styles.headerLogo}>
+    <header className={`kb-header ${className}`}>
+      <Link href="/" className="kb-header-logo">
         <Image
           src="/images/kanubymudanzas.svg"
           alt="Kanuby Mudanzas, ir al inicio"
@@ -58,11 +58,11 @@ export function HeaderMudanzas({
         />
       </Link>
 
-      <nav className={styles.headerMenu} aria-label="Secciones">
-        <ul className={styles.headerLista}>
+      <nav className="kb-header-menu" aria-label="Secciones">
+        <ul className="kb-header-lista">
           {enlaces.map((enlace) => (
             <li key={enlace.href}>
-              <a href={enlace.href} className={styles.headerEnlace}>
+              <a href={enlace.href} className="kb-header-enlace">
                 {enlace.texto}
               </a>
             </li>
@@ -73,7 +73,7 @@ export function HeaderMudanzas({
       <button
         ref={botonAbrir}
         type="button"
-        className={styles.headerAbrir}
+        className="kb-header-abrir"
         aria-expanded={abierto}
         aria-controls={idMenu}
         aria-label="Abrir menú"
@@ -84,25 +84,25 @@ export function HeaderMudanzas({
 
       <nav
         id={idMenu}
-        className={styles.headerMovil}
+        className="kb-header-movil"
         data-abierto={abierto}
         aria-label="Secciones"
       >
         <button
           ref={botonCerrar}
           type="button"
-          className={styles.headerCerrar}
+          className="kb-header-cerrar"
           aria-label="Cerrar menú"
           onClick={cerrar}
         >
           <span aria-hidden="true">&times;</span>
         </button>
-        <ul className={styles.headerListaMovil}>
+        <ul className="kb-header-lista-movil">
           {enlaces.map((enlace) => (
             <li key={enlace.href}>
               <a
                 href={enlace.href}
-                className={styles.headerEnlaceMovil}
+                className="kb-header-enlace-movil"
                 onClick={() => setAbierto(false)}
               >
                 {enlace.texto}
@@ -112,11 +112,7 @@ export function HeaderMudanzas({
         </ul>
       </nav>
 
-      <BotonCotizar
-        texto={boton.texto}
-        subtexto={boton.subtexto}
-        className={styles.botonHeader}
-      />
+      {acciones}
     </header>
   );
 }

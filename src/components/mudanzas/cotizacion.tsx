@@ -11,7 +11,6 @@ import {
   type ErroresCotizacion,
   type TipoMudanza,
 } from "@/lib/whatsapp";
-import styles from "@/app/mudanzas-monterrey/page.module.css";
 
 /*
  * Popup "Cotiza ahora tu Mudanza con Kanuby" (popup 4914 de kanuby.com).
@@ -85,7 +84,7 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
   function mensajeError(campo: keyof CotizacionMudanza) {
     const error = errores[campo];
     return error ? (
-      <p id={`${id}-${campo}-error`} className={styles.campoError}>
+      <p id={`${id}-${campo}-error`} className="kb-campo-error">
         {error}
       </p>
     ) : null;
@@ -97,38 +96,38 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
 
       <dialog
         ref={dialogo}
-        className={styles.popup}
+        className="kb-popup"
         aria-labelledby={`${id}-titulo`}
         onClick={(evento) => {
           // El clic en el fondo oscuro llega al propio <dialog>.
           if (evento.target === dialogo.current) cerrar();
         }}
       >
-        <div className={styles.popupCaja}>
+        <div className="kb-popup-caja">
           <button
             type="button"
-            className={styles.popupCerrar}
+            className="kb-popup-cerrar"
             aria-label="Cerrar"
             onClick={cerrar}
           >
             <IconoCerrar />
           </button>
 
-          <div className={styles.popupContenido}>
-            <h2 id={`${id}-titulo`} className={styles.popupTitulo}>
+          <div className="kb-popup-contenido">
+            <h2 id={`${id}-titulo`} className="kb-popup-titulo">
               Cotiza ahora tu Mudanza con Kanuby
             </h2>
-            <p className={styles.popupSubtitulo}>
+            <p className="kb-popup-subtitulo">
               Completa el formulario, te llevará a WhatsApp.
             </p>
 
             <form
               ref={formulario}
-              className={styles.formulario}
+              className="kb-formulario"
               noValidate
               onSubmit={enviar}
             >
-              <div className={styles.campo}>
+              <div className="kb-campo">
                 <input
                   {...propsCampo("nombre")}
                   type="text"
@@ -136,12 +135,12 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
                   placeholder="Nombre"
                   aria-label="Nombre"
                   required
-                  className={styles.campoTexto}
+                  className="kb-campo-texto"
                   onChange={(evento) => cambiar("nombre", evento.target.value)}
                 />
                 {mensajeError("nombre")}
               </div>
-              <div className={`${styles.campo} ${styles.campoMitad}`}>
+              <div className="kb-campo kb-campo-mitad">
                 <input
                   {...propsCampo("correo")}
                   type="email"
@@ -149,12 +148,12 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
                   placeholder="Email"
                   aria-label="Email"
                   required
-                  className={styles.campoTexto}
+                  className="kb-campo-texto"
                   onChange={(evento) => cambiar("correo", evento.target.value)}
                 />
                 {mensajeError("correo")}
               </div>
-              <div className={`${styles.campo} ${styles.campoMitad}`}>
+              <div className="kb-campo kb-campo-mitad">
                 <input
                   {...propsCampo("telefono")}
                   type="tel"
@@ -162,20 +161,20 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
                   placeholder="Teléfono"
                   aria-label="Teléfono"
                   required
-                  className={styles.campoTexto}
+                  className="kb-campo-texto"
                   onChange={(evento) => cambiar("telefono", evento.target.value)}
                 />
                 {mensajeError("telefono")}
               </div>
-              <div className={styles.campo}>
-                <label htmlFor={`${id}-tipo`} className={styles.campoEtiqueta}>
+              <div className="kb-campo">
+                <label htmlFor={`${id}-tipo`} className="kb-campo-etiqueta">
                   Tipo de Servicio:
                 </label>
-                <div className={styles.selector}>
+                <div className="kb-selector">
                   <select
                     {...propsCampo("tipo")}
                     required
-                    className={styles.campoTexto}
+                    className="kb-campo-texto"
                     onChange={(evento) => cambiar("tipo", evento.target.value)}
                   >
                     {TIPOS_MUDANZA.map((tipo) => (
@@ -187,8 +186,8 @@ export function CotizacionMudanzaProvider({ children }: { children: React.ReactN
                 </div>
                 {mensajeError("tipo")}
               </div>
-              <div className={styles.campo}>
-                <button type="submit" className={styles.enviar}>
+              <div className="kb-campo">
+                <button type="submit" className="kb-enviar">
                   Ir a WhatsApp
                 </button>
               </div>

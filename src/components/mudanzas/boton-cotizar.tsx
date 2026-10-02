@@ -2,49 +2,56 @@
 
 import { IconoWhatsApp } from "@/components/iconos";
 import { useCotizacion } from "./cotizacion";
-import styles from "@/app/mudanzas-monterrey/page.module.css";
 
 /*
- * Botón de dos líneas de kanuby.com ("Cotiza Ahora por" / "Whatsapp") que abre
- * el popup de cotización. La variante define tamaños y colores.
+ * Botón con ícono de WhatsApp de las páginas de mudanzas (raven-button). Sin
+ * href abre el popup de cotización; con href es un enlace normal. El subtexto
+ * es la segunda línea de los botones de dos líneas ("Cotiza Ahora por" /
+ * "Whatsapp"). Tamaños y colores de cada variante van en el módulo de la página.
  */
 export function BotonCotizar({
   texto,
   subtexto,
+  href,
   className = "",
 }: {
   texto: string;
-  subtexto: string;
+  subtexto?: string;
+  href?: string;
   className?: string;
 }) {
   const { abrir } = useCotizacion();
-  return (
-    <button
-      type="button"
-      className={`${styles.botonCotizar} ${className}`}
-      aria-haspopup="dialog"
-      onClick={abrir}
-    >
-      <IconoWhatsApp className={styles.botonCotizarIcono} />
-      <span className={styles.botonCotizarTextos}>
-        <span className={styles.botonCotizarTexto}>{texto}</span>
-        <span className={styles.botonCotizarSubtexto}>{subtexto}</span>
+  const contenido = (
+    <>
+      <IconoWhatsApp className="kb-boton-cotizar-icono" />
+      <span className="kb-boton-cotizar-textos">
+        <span className="kb-boton-cotizar-texto">{texto}</span>
+        {subtexto && <span className="kb-boton-cotizar-subtexto">{subtexto}</span>}
       </span>
-    </button>
+    </>
   );
-}
 
-export function BotonFlotante() {
-  const { abrir } = useCotizacion();
+  if (href) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`kb-boton-cotizar ${className}`}
+      >
+        {contenido}
+      </a>
+    );
+  }
+
   return (
     <button
       type="button"
-      className={styles.flotante}
-      aria-label="Cotizar por WhatsApp"
+      className={`kb-boton-cotizar ${className}`}
       aria-haspopup="dialog"
       onClick={abrir}
     >
-      <IconoWhatsApp />
+      {contenido}
     </button>
   );
 }

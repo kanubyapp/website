@@ -15,6 +15,7 @@ Decisiones aprobadas por el equipo para la réplica. Aplican a todas las tareas.
 6. GTM, Google Ads y Meta Pixel: sí, en la tarea 12. Antes de incluirlos revisa qué etiquetas se disparan dentro del contenedor de GTM y cuáles están pegadas directo en el HTML, y repórtalo para no duplicar eventos.
 7. Glancyr: no se usa. El menú móvil va con Outfit.
 8. DDDDD: se descarga la variante de 2048px como origen.
+9. Formularios y respond.io: los formularios de cotización, además de redirigir a WhatsApp, enviarán el contacto a respond.io desde el servidor (nombre, correo, teléfono, servicio y origen "formulario web") para que respond.io detecte quién llenó el formulario pero no escribió y le dé seguimiento con plantilla. Llevarán una línea de consentimiento para ser contactado por WhatsApp. Se construye como tarea propia al terminar las tres páginas de mudanzas; mientras tanto el formulario no cambia. El campo teléfono se queda obligatorio.
 
 ## Errores del sitio publicado
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/site-footer";
-import { BotonFlotante } from "@/components/mudanzas/boton-cotizar";
+import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
+import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
 import { CotizacionMudanzaProvider } from "@/components/mudanzas/cotizacion";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
 import {
@@ -31,8 +32,6 @@ export const metadata: Metadata = {
 
 const jsonLd = jsonLdBase({ ruta: "/mudanzas-monterrey/", nombre: `${titulo} - Kanuby` });
 
-const botonWhatsapp = { texto: "Cotiza Ahora por", subtexto: "Whatsapp" };
-
 export default function MudanzasMonterrey() {
   return (
     <CotizacionMudanzaProvider>
@@ -46,7 +45,13 @@ export default function MudanzasMonterrey() {
           { href: "#servicios", texto: "Servicios" },
           { href: "#testimonios", texto: "Testimonios" },
         ]}
-        boton={{ texto: "Cotiza Ahora", subtexto: "Whatsapp" }}
+        acciones={
+          <BotonCotizar
+            texto="Cotiza Ahora"
+            subtexto="Whatsapp"
+            className={`${styles.botonDosLineas} ${styles.botonHeader}`}
+          />
+        }
       />
 
       <main>
@@ -57,13 +62,15 @@ export default function MudanzasMonterrey() {
         </div>
 
         <HeroMudanzas
-          titulo={
-            <h1 className={styles.heroTitulo}>
-              Servicio de Fletes y Mudanzas en Monterrey
-            </h1>
-          }
+          titulo="Servicio de Fletes y Mudanzas en Monterrey"
           texto="En Kanuby cambiamos la forma de mudarse, contamos con el mejor servicio de fletes y mudanzas en Monterrey."
-          boton={botonWhatsapp}
+          boton={
+            <BotonCotizar
+              texto="Cotiza Ahora por"
+              subtexto="Whatsapp"
+              className={`${styles.botonDosLineas} ${styles.botonHero} ${styles.ocultoMovil}`}
+            />
+          }
         />
 
         <PorQueMudanzas
@@ -108,7 +115,14 @@ export default function MudanzasMonterrey() {
           id="servicios"
           titulo="Nuestros Servicios"
           texto="En Kanuby contamos con la experiencia de más de 20 años en mudanzas en Monterrey. Puedes confiar en nosotros, donde tu mudanza será realizada con la rapidez que nos caracteriza además de la seguridad que solo un servicio de calidad como el nuestro puede garantizar."
-          boton={botonWhatsapp}
+          boton={
+            <BotonCotizar
+              texto="Cotiza Ahora por"
+              subtexto="Whatsapp"
+              className={`${styles.botonDosLineas} ${styles.botonServicios} ${styles.ocultoMovil}`}
+            />
+          }
+          className={styles.servicios}
           tarjetas={[
             {
               icono: "/images/mudanzas/mesa-de-trabajo-1-1.png",
@@ -147,7 +161,7 @@ export default function MudanzasMonterrey() {
       </main>
 
       <SiteFooter />
-      <BotonFlotante />
+      <BotonFlotante className={styles.flotante} />
     </CotizacionMudanzaProvider>
   );
 }
