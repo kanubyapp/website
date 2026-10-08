@@ -53,40 +53,46 @@ export function HeaderHome() {
 
   return (
     <header className={styles.header}>
-      <Link href="/" className={styles.logo}>
-        <Image
-          src="/images/kanuby-orange.svg"
-          alt="Kanuby, ir al inicio"
-          width={1593}
-          height={338}
-          sizes="(max-width: 767px) 200px, 150px"
-          loading="eager"
-        />
-      </Link>
+      <div className={`kb-vidrio ${styles.barra}`}>
+        <Link href="/" className={styles.logo}>
+          <Image
+            src="/images/kanuby-orange.svg"
+            alt="Kanuby, ir al inicio"
+            width={1593}
+            height={338}
+            sizes="(max-width: 767px) 120px, 140px"
+            preload
+          />
+        </Link>
 
-      <nav className={styles.menu} aria-label="Principal">
-        <ul className={styles.lista}>
-          <Enlaces />
-        </ul>
-      </nav>
+        <nav className={styles.menu} aria-label="Principal">
+          <ul className={styles.lista}>
+            <Enlaces />
+          </ul>
+        </nav>
 
-      <button
-        ref={botonAbrir}
-        type="button"
-        className={styles.abrir}
-        aria-expanded={abierto}
-        aria-controls="menu-movil-home"
-        aria-label="Abrir menú"
-        onClick={() => setAbierto(true)}
-      >
-        <svg viewBox="0 0 448 512" aria-hidden="true" focusable="false">
-          <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
-        </svg>
-      </button>
+        <button
+          ref={botonAbrir}
+          type="button"
+          className={styles.abrir}
+          aria-expanded={abierto}
+          aria-controls="menu-movil-home"
+          aria-label="Abrir menú"
+          onClick={() => setAbierto(true)}
+        >
+          <svg viewBox="0 0 448 512" aria-hidden="true" focusable="false">
+            <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+          </svg>
+        </button>
+      </div>
 
+      {/*
+        El menú móvil va fuera de la barra: el backdrop-filter del vidrio
+        convertiría la barra en el contenedor de su position: fixed.
+      */}
       <nav
         id="menu-movil-home"
-        className={styles.movil}
+        className={`kb-resplandor ${styles.movil}`}
         data-abierto={abierto}
         aria-label="Principal"
       >

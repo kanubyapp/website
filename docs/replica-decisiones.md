@@ -25,7 +25,7 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
 
 ### b) Se copian tal cual: pendientes de confirmar con Kanuby
 
-- [ ] 10 contra 20 años de experiencia.
+- [x] 10 contra 20 años de experiencia: resuelto, son más de 20. La home ya dice "más de 20 años".
 - [ ] Los teléfonos 81 8336 3637 y 81 1500 6365 y sus formatos.
 - [ ] "Monterrey" contra Santiago en minibodegas.
 - [ ] "Ver Tamaños y Precios".

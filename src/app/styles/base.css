@@ -17,8 +17,8 @@
 
   body {
     margin: 0;
-    background: var(--color-blanco);
-    color: var(--color-negro);
+    background: var(--color-fondo);
+    color: var(--color-texto);
     font-family: var(--fuente-texto);
     font-size: var(--texto-16);
     font-weight: var(--peso-regular);

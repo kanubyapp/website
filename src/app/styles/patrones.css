@@ -7,6 +7,143 @@
  */
 
 @layer patrones {
+  /*
+   * Sistema oscuro. Los patrones de abajo de este bloque son los de la réplica
+   * que siguen usando las páginas aún sin adaptar.
+   */
+
+  /* Superficie sólida elevada: para contenido que pide agruparse */
+  .kb-tarjeta {
+    position: relative;
+    overflow: hidden;
+    border: var(--borde-luz);
+    border-radius: var(--radio-tarjeta);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-elevada);
+  }
+
+  /*
+   * Vidrio: solo en lo que flota sobre imagen, degradado o resplandor (header,
+   * tarjetas sobre foto, popup, botón flotante y botones secundarios). Por
+   * defecto es la superficie sólida; el desenfoque solo entra si el navegador
+   * lo soporta y el usuario no pidió reducir transparencias.
+   */
+  .kb-vidrio {
+    border: var(--borde-luz-fuerte);
+    background: var(--vidrio-fondo-solido);
+  }
+
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    @media (prefers-reduced-transparency: no-preference) {
+      .kb-vidrio {
+        background: var(--vidrio-fondo);
+        -webkit-backdrop-filter: blur(var(--vidrio-desenfoque)) saturate(var(--vidrio-saturacion));
+        backdrop-filter: blur(var(--vidrio-desenfoque)) saturate(var(--vidrio-saturacion));
+      }
+
+      @media (max-width: 767px) {
+        .kb-vidrio {
+          -webkit-backdrop-filter: blur(var(--vidrio-desenfoque-movil));
+          backdrop-filter: blur(var(--vidrio-desenfoque-movil));
+        }
+      }
+    }
+  }
+
+  /* Botones del sistema oscuro */
+  .kb-boton-principal,
+  .kb-boton-secundario {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--espacio-1);
+    padding: var(--relleno-boton-sistema);
+    border-radius: var(--radio-pildora);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-16);
+    font-weight: var(--peso-medium);
+    line-height: var(--interlineado-titulo);
+    white-space: nowrap;
+    transition:
+      background-color var(--transicion),
+      border-color var(--transicion),
+      box-shadow var(--transicion);
+  }
+
+  .kb-boton-principal {
+    border: 1px solid var(--color-naranja-claro);
+    background: var(--color-naranja);
+    color: var(--color-texto-sobre-acento);
+  }
+
+  .kb-boton-principal:hover,
+  .kb-boton-principal:focus-visible {
+    background: var(--color-naranja-claro);
+    box-shadow: var(--sombra-resplandor);
+  }
+
+  /* El secundario es vidrio: se combina con .kb-vidrio cuando flota */
+  .kb-boton-secundario {
+    border: var(--borde-luz-fuerte);
+    background: transparent;
+    color: var(--color-texto);
+  }
+
+  .kb-boton-secundario:hover,
+  .kb-boton-secundario:focus-visible {
+    border: var(--borde-acento);
+    background: var(--color-superficie-alta);
+  }
+
+  .kb-boton-principal:focus-visible,
+  .kb-boton-secundario:focus-visible {
+    outline: var(--anillo-foco);
+    outline-offset: var(--anillo-foco-separacion);
+  }
+
+  /* Etiqueta tipo píldora */
+  .kb-pildora {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio-1);
+    padding: var(--relleno-pildora);
+    border: var(--borde-luz);
+    border-radius: var(--radio-pildora);
+    background: var(--color-superficie-baja);
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-14);
+    font-weight: var(--peso-medium);
+    line-height: var(--interlineado-titulo);
+  }
+
+  /*
+   * Fondo con resplandor: el naranja sale de arriba y se apaga hacia la
+   * oscuridad. Con .kb-resplandor-suave el resplandor sube desde abajo.
+   */
+  .kb-resplandor,
+  .kb-resplandor-suave {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .kb-resplandor::before,
+  .kb-resplandor-suave::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .kb-resplandor::before {
+    background: var(--resplandor-acento), var(--degradado-naranja-oscuridad);
+  }
+
+  .kb-resplandor-suave::before {
+    background: var(--resplandor-suave);
+  }
+
   /* Botón base del sitio: el raven-button de JupiterX en kanuby.com */
   .kb-boton {
     display: inline-flex;

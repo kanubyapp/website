@@ -1,20 +1,29 @@
 /*
- * Header de la home: copia del contenedor 18225fe de kanuby.com (menú Raven
- * con menú móvil a pantalla completa por debajo de 768px).
+ * Header de la home: píldora de vidrio fija sobre el resplandor del hero, con
+ * menú móvil a pantalla completa por debajo de 768px.
  */
 
 .header {
+  position: fixed;
+  inset: var(--espacio-2) var(--espacio-2) auto;
+  z-index: 100;
+}
+
+.barra {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: var(--espacio-4);
-  padding: var(--relleno-seccion-xs) var(--relleno-seccion-sm);
-  background: var(--color-blanco);
-  box-shadow: var(--sombra-suave);
+  max-width: var(--ancho-contenido);
+  margin-inline: auto;
+  padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-3);
+  border-radius: var(--radio-pildora);
+  box-shadow: var(--sombra-elevada);
 }
 
 .logo {
-  width: 150px;
+  flex-shrink: 0;
+  width: 140px;
 }
 
 .logo img {
@@ -23,27 +32,36 @@
 
 .lista {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--espacio-3);
+  gap: var(--espacio-1);
 }
 
 .enlace {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
-  border: var(--borde-fino) solid var(--color-naranja);
-  border-radius: var(--radio-lg);
-  background: var(--color-blanco);
-  color: var(--color-azul);
+  padding: var(--relleno-pildora);
+  border: 1px solid transparent;
+  border-radius: var(--radio-pildora);
+  color: var(--color-texto-secundario);
   font-family: var(--fuente-texto);
   font-size: var(--texto-14);
   font-weight: var(--peso-medium);
   white-space: nowrap;
+  transition:
+    color var(--transicion),
+    background-color var(--transicion);
 }
 
-.lista .enlace:hover {
-  background: var(--color-naranja);
-  color: var(--color-blanco);
+.lista .enlace:hover,
+.lista .enlace:focus-visible {
+  background: var(--color-superficie-alta);
+  color: var(--color-texto);
+}
+
+.enlace:focus-visible,
+.abrir:focus-visible,
+.cerrar:focus-visible {
+  outline: var(--anillo-foco);
+  outline-offset: var(--anillo-foco-separacion);
 }
 
 .abrir,
@@ -51,16 +69,27 @@
   display: none;
 }
 
+@media (max-width: 1024px) {
+  .barra {
+    gap: var(--espacio-2);
+  }
+
+  .lista {
+    gap: 0;
+  }
+}
+
 @media (max-width: 767px) {
   .header {
-    flex-wrap: wrap;
-    gap: var(--espacio-1);
-    padding: var(--relleno-seccion);
+    inset: var(--espacio-1) var(--margen-lateral-movil) auto;
+  }
+
+  .barra {
+    padding-left: var(--espacio-2);
   }
 
   .logo {
-    width: 200px;
-    align-self: center;
+    width: 120px;
   }
 
   .menu {
@@ -69,22 +98,24 @@
 
   .abrir {
     display: inline-flex;
-    padding: 12px 14px;
-    border: 0;
-    border-radius: var(--radio-sm);
-    background: var(--color-azul);
-    color: var(--color-blanco);
-    font-size: var(--texto-30);
-    line-height: var(--interlineado-titulo);
+    justify-content: center;
+    align-items: center;
+    width: var(--objetivo-tactil);
+    height: var(--objetivo-tactil);
+    padding: 0;
+    border: var(--borde-luz-fuerte);
+    border-radius: var(--radio-pildora);
+    background: transparent;
+    color: var(--color-texto);
   }
 
   .abrir svg {
-    width: auto;
-    height: 1em;
+    width: 18px;
+    height: 18px;
     fill: currentColor;
   }
 
-  /* Menú a pantalla completa */
+  /* Menú a pantalla completa: superficie sólida, sin vidrio */
   .movil {
     display: flex;
     position: fixed;
@@ -94,10 +125,12 @@
     align-items: center;
     overflow-y: auto;
     overscroll-behavior: contain;
-    background: var(--color-naranja);
+    background: var(--color-fondo);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.25s ease-in-out;
+    transition:
+      opacity var(--transicion),
+      visibility var(--transicion);
   }
 
   .movil[data-abierto="true"] {
@@ -108,38 +141,43 @@
   .cerrar {
     display: flex;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: var(--espacio-2);
+    right: var(--margen-lateral-movil);
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    width: var(--objetivo-tactil);
+    height: var(--objetivo-tactil);
     padding: 0;
-    border: 0;
-    background: none;
-    color: var(--color-blanco);
-    font-size: 40px;
+    border: var(--borde-luz-fuerte);
+    border-radius: var(--radio-pildora);
+    background: transparent;
+    color: var(--color-texto);
+    font-size: var(--texto-30);
     line-height: var(--interlineado-titulo);
   }
 
   .cerrar span {
-    transform: translateY(-10%);
+    transform: translateY(-5%);
   }
 
   .listaMovil {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-1);
     max-height: 100%;
   }
 
   .listaMovil .enlace {
     padding: var(--relleno-boton);
-    border: 0;
-    border-radius: 0;
-    background: var(--color-naranja);
-    color: var(--color-blanco);
+    color: var(--color-texto);
     font-family: var(--fuente-titulos);
     font-size: var(--texto-30);
     font-weight: var(--peso-regular);
+  }
+
+  .listaMovil .enlace:hover,
+  .listaMovil .enlace:focus-visible {
+    color: var(--color-naranja);
   }
 }

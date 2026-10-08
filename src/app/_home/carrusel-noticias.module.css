@@ -1,12 +1,11 @@
 /*
- * Carrusel "Últimas Noticias": copia del raven-posts-carousel (skin cover) de
- * kanuby.com. 4 tarjetas por vista desde 1024px, 2 desde 768px y 1 debajo,
- * con 15px entre tarjetas, igual que los breakpoints del Swiper publicado.
+ * Carrusel "Últimas Noticias" en el sistema oscuro: tarjetas de foto con velo
+ * de oscuridad. 4 tarjetas por vista desde 1024px, 2 desde 768px y 1 debajo.
  */
 
 .pista {
   --por-vista: 1;
-  --separacion: 15px;
+  --separacion: var(--espacio-2);
 
   display: flex;
   gap: var(--separacion);
@@ -46,14 +45,23 @@
 .tarjeta {
   display: flex;
   position: relative;
-  justify-content: center;
   align-items: flex-end;
   height: 50vh;
-  padding: 60px 40px;
+  padding: var(--espacio-3);
   overflow: hidden;
-  border-radius: var(--radio-md);
-  background: var(--color-azul);
+  border: var(--borde-luz);
+  border-radius: var(--radio-tarjeta);
+  background: var(--color-superficie);
   word-break: break-word;
+  transition:
+    border-color var(--transicion),
+    box-shadow var(--transicion);
+}
+
+.tarjeta:hover,
+.tarjeta:focus-within {
+  border: var(--borde-acento);
+  box-shadow: var(--sombra-resplandor);
 }
 
 .imagen {
@@ -71,23 +79,20 @@
 .capa {
   position: absolute;
   inset: 0;
-  z-index: 3;
-  background-color: #0f3446de;
-  transition: all 0.7s ease-in-out;
-}
-
-.tarjeta:hover .capa {
-  background-color: var(--color-azul);
+  background: var(--velo-foto);
 }
 
 .contenido {
+  display: flex;
   position: relative;
-  z-index: 3;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espacio-2);
   width: 100%;
 }
 
 .titulo {
-  color: var(--color-blanco);
+  color: var(--color-texto);
   font-family: var(--fuente-titulos);
   font-size: var(--texto-20);
   font-weight: var(--peso-regular);
@@ -95,10 +100,20 @@
 }
 
 .leerMas {
-  display: inline-block;
-  color: var(--color-blanco);
+  color: var(--color-naranja);
   font-family: var(--fuente-texto);
-  font-weight: var(--peso-regular);
-  text-align: center;
-  transition: all 0.3s ease-in-out;
+  font-size: var(--texto-14);
+  font-weight: var(--peso-medium);
+}
+
+.titulo a:focus-visible,
+.leerMas:focus-visible {
+  outline: var(--anillo-foco);
+  outline-offset: var(--anillo-foco-separacion);
+}
+
+@media (max-width: 767px) {
+  .tarjeta {
+    border-radius: var(--radio-tarjeta-movil);
+  }
 }

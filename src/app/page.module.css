@@ -1,142 +1,223 @@
 /*
- * Home: copia de la página 1496 de kanuby.com.
- * Los valores sin token aparecen una sola vez en el sitio publicado.
+ * Home en el sistema oscuro: hero con resplandor, los dos negocios en
+ * tarjeta, franja de confianza y carrusel de noticias.
  */
 
-/* Hero (contenedor a0ea302) */
-.hero {
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: flex-start;
-  gap: var(--espacio-3) var(--espacio-5);
-  min-height: 90vh;
-  padding-top: 11%;
-  overflow: hidden;
-  background: var(--color-blanco);
+/* Ancho común de las secciones */
+.hero,
+.necesitas,
+.confianza,
+.noticias {
+  width: 100%;
+  max-width: calc(var(--ancho-contenido) + 2 * var(--espacio-2));
+  margin-inline: auto;
+  padding-inline: var(--espacio-2);
 }
 
-/* La ilustración es un fondo en el publicado: abajo al centro, contenida. */
-.heroImagen {
-  position: absolute;
-  inset: 0;
+.tituloSeccion {
+  color: var(--color-texto);
+  font-size: var(--texto-40);
+  font-weight: var(--peso-medium);
+  line-height: var(--interlineado-encabezado);
+  text-align: center;
+}
+
+/* Hero: el resplandor (kb-resplandor) ocupa todo el ancho de la ventana */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--espacio-3);
+  max-width: none;
+  min-height: 80vh;
+  padding-top: calc(var(--espacio-seccion) + var(--espacio-6));
+  padding-bottom: var(--espacio-seccion);
+  text-align: center;
+}
+
+.heroTitulo {
+  color: var(--color-texto);
+  font-size: var(--texto-70);
+  font-weight: var(--peso-semibold);
+  line-height: var(--interlineado-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.heroAcento {
+  color: var(--color-naranja);
+}
+
+.heroTexto {
+  max-width: var(--medida-texto);
+  color: var(--color-texto-secundario);
+  font-size: var(--texto-20);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-parrafo);
+}
+
+/* ¿Qué necesitas? */
+.necesitas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-5);
+}
+
+.negocios {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espacio-3);
+}
+
+.negocio {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition:
+    border-color var(--transicion),
+    box-shadow var(--transicion);
+}
+
+.negocio:hover {
+  border: var(--borde-acento);
+}
+
+.negocioMedia {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--color-superficie-baja);
+}
+
+.negocioMedia img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+/* Imagen recortada sin fondo: entera, sobre un resplandor */
+.negocioRecorte {
+  padding: var(--espacio-4) var(--espacio-3) var(--espacio-1);
+  background: var(--resplandor-suave), var(--color-superficie-baja);
+}
+
+.negocioRecorte img {
   object-fit: contain;
   object-position: bottom center;
 }
 
-.heroContenido {
+.negocioCuerpo {
   display: flex;
-  position: relative;
+  flex: 1;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--espacio-2);
-  width: 90%;
+  padding: var(--espacio-4);
 }
 
-.heroTitulo {
-  z-index: 99;
+.negocioTitulo {
   color: var(--color-naranja);
-  font-size: 52px;
-  line-height: var(--interlineado-50);
-  text-align: center;
+  font-size: var(--texto-32);
+  font-weight: var(--peso-medium);
+  line-height: var(--interlineado-encabezado);
 }
 
-.divisor {
-  padding: 6px 0;
-  font-size: 0;
-  line-height: 0;
-  text-align: center;
-}
-
-.divisor span {
-  display: inline-block;
-  width: 20%;
-  height: 1px;
-  background: var(--color-negro);
-}
-
-.heroTexto {
-  align-self: center;
-  width: 50%;
-  color: var(--color-gris-oscuro);
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-20);
+.negocioTexto {
+  flex: 1;
+  color: var(--color-texto-secundario);
+  font-size: var(--texto-18);
   font-weight: var(--peso-light);
-  text-align: center;
+  line-height: var(--interlineado-parrafo);
 }
 
-/* Últimas Noticias (contenedores 87d7f02 y 3683e5a) */
+/* Franja de confianza: una línea de píldoras, abierta a más datos */
+.confianza {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--espacio-1);
+  padding-block: var(--espacio-6) 0;
+}
+
+.confianzaDato {
+  color: var(--color-naranja);
+  font-weight: var(--peso-semibold);
+}
+
+/* Últimas Noticias */
 .noticias {
   display: flex;
   flex-direction: column;
-  padding: var(--relleno-seccion-sm);
-  overflow: hidden;
+  gap: var(--espacio-4);
+  padding-block: var(--espacio-seccion);
 }
 
-.noticiasCaja {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espacio-3);
-  padding: 3%;
-  border-radius: var(--radio-md);
-  box-shadow: 0 0 19px 0 rgba(0, 0, 0, 0.14);
-}
-
-.noticiasTitulo {
-  z-index: 99;
-  color: var(--color-naranja);
-  font-size: var(--texto-40);
+@media (max-width: 1024px) {
+  .heroTitulo {
+    font-size: var(--texto-60);
+  }
 }
 
 @media (max-width: 767px) {
+  .hero,
+  .necesitas,
+  .confianza,
+  .noticias {
+    padding-inline: var(--margen-lateral-movil);
+  }
+
   .hero {
     min-height: 70vh;
-    padding: 18% var(--relleno-seccion-xl) 0;
-  }
-
-  .heroImagen {
-    inset: auto auto 0 50%;
-    width: 651px;
-    max-width: none;
-    height: auto;
-    transform: translateX(-50%);
-  }
-
-  .heroContenido {
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    padding-top: calc(var(--espacio-seccion-movil) + var(--espacio-6));
+    padding-bottom: var(--espacio-seccion-movil);
   }
 
   .heroTitulo {
-    font-size: var(--texto-42);
-    line-height: var(--interlineado-40);
+    font-size: var(--texto-40);
   }
 
-  .divisor {
-    padding: 0;
-  }
-
-  .divisor span {
-    width: 55%;
+  .heroTitulo br {
+    display: none;
   }
 
   .heroTexto {
-    width: 100%;
+    font-size: var(--texto-17);
+  }
+
+  .tituloSeccion {
+    font-size: var(--texto-32);
+  }
+
+  .necesitas {
+    gap: var(--espacio-3);
+  }
+
+  .negocios {
+    grid-template-columns: 1fr;
+    gap: var(--espacio-2);
+  }
+
+  .negocio {
+    border-radius: var(--radio-tarjeta-movil);
+  }
+
+  .negocioCuerpo {
+    padding: var(--espacio-3) var(--espacio-2);
+  }
+
+  .negocioTitulo {
+    font-size: var(--texto-26);
+  }
+
+  .negocioTexto {
+    font-size: var(--texto-16);
+  }
+
+  .confianza {
+    padding-top: var(--espacio-4);
   }
 
   .noticias {
-    padding: var(--relleno-seccion);
-  }
-
-  .noticiasCaja {
-    padding: var(--relleno-seccion-lg);
-  }
-
-  .noticiasTitulo {
-    font-size: 28px;
-    line-height: var(--interlineado-40);
-    text-align: center;
+    gap: var(--espacio-3);
+    padding-block: var(--espacio-seccion-movil);
   }
 }

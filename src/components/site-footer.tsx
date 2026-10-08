@@ -20,7 +20,7 @@ export function SiteFooter() {
               alt="Kanuby, ir al inicio"
               width={1593}
               height={338}
-              sizes="(max-width: 767px) 56vw, 13vw"
+              sizes="160px"
             />
           </Link>
           <p className={styles.texto}>
@@ -53,7 +53,7 @@ export function SiteFooter() {
             alt="Camioneta naranja de Kanuby con el lema Rápido, fácil y seguro"
             width={1080}
             height={800}
-            sizes="(max-width: 767px) 62vw, 18vw"
+            sizes="(max-width: 767px) 80vw, (max-width: 1024px) 60vw, 330px"
           />
         </div>
       </div>
@@ -70,7 +70,7 @@ export function SiteFooter() {
             alt="Created by SCNDAL"
             width={1814}
             height={221}
-            sizes="(max-width: 767px) 173px, 190px"
+            sizes="150px"
           />
         </a>
         <p className={styles.copyright}>

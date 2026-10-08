@@ -1,11 +1,19 @@
 /*
  * Tokens de diseño: única fuente de verdad de los valores del sitio.
  *
- * Todos los valores salen del sitio publicado (kanuby.com, Elementor) y solo
- * entran los que se repiten en al menos dos plantillas. Lo que aparece una sola
- * vez se queda en el módulo de la página que lo usa.
+ * Sistema oscuro: fondo casi negro en el azul de la marca, superficies en el
+ * azul #0F3446 y el naranja #EC5B2A como único acento vibrante.
  *
- * Breakpoints del sitio publicado (no pueden ser variables en media queries):
+ * Contraste (WCAG AA):
+ *   - Blanco, --color-texto-secundario y --color-texto-tenue cumplen 4.5:1
+ *     sobre el fondo y sobre --color-superficie.
+ *   - El naranja cumple 4.5:1 sobre el fondo (5.4:1): sirve para cualquier
+ *     texto. Sobre --color-superficie (3.8:1) solo para texto grande,
+ *     títulos, números y acentos.
+ *   - Texto sobre naranja: --color-fondo (5.4:1). El blanco no cumple.
+ *   - --color-superficie-alta es solo para estados (hover) con texto blanco.
+ *
+ * Breakpoints (no pueden ser variables en media queries):
  *   tablet  @media (max-width: 1024px)
  *   móvil   @media (max-width: 767px)
  *
@@ -16,18 +24,68 @@
 @layer base, patrones, interacciones;
 
 :root {
-  /* Colores */
-  --color-naranja: #ec5b2a;
-  --color-azul: #0f3446;
-  --color-blanco: #ffffff;
-  --color-negro: #000000;
-  --color-whatsapp: #34e603;
+  /* Fondo y superficies, de más hundido a más elevado */
+  --color-fondo: #04151e;
+  --color-superficie-baja: #082430;
+  --color-superficie: #0f3446;
+  --color-superficie-alta: #154257;
 
-  /* Grises */
-  --color-gris-claro: #e7ebed;
-  --color-gris-medio: #75787a;
-  --color-gris-texto: #555758;
-  --color-gris-oscuro: #555555;
+  /* Acento */
+  --color-naranja: #ec5b2a;
+  --color-naranja-claro: #f47b50;
+
+  /* Texto */
+  --color-blanco: #ffffff;
+  --color-texto: var(--color-blanco);
+  --color-texto-secundario: #a9bcc6;
+  --color-texto-tenue: #869ca8;
+  --color-texto-sobre-acento: var(--color-fondo);
+
+  /* Bordes finos luminosos */
+  --borde-luz: 1px solid rgb(255 255 255 / 0.1);
+  --borde-luz-fuerte: 1px solid rgb(255 255 255 / 0.18);
+  --borde-acento: 1px solid rgb(236 91 42 / 0.5);
+
+  /* Degradados y resplandores de naranja a oscuridad */
+  --degradado-naranja-oscuridad: linear-gradient(
+    180deg,
+    rgb(236 91 42 / 0.22),
+    rgb(4 21 30 / 0) 70%
+  );
+  --resplandor-acento: radial-gradient(
+    ellipse 60% 55% at 50% 0%,
+    rgb(236 91 42 / 0.45),
+    rgb(236 91 42 / 0.12) 45%,
+    rgb(4 21 30 / 0) 75%
+  );
+  --resplandor-suave: radial-gradient(
+    ellipse 50% 60% at 50% 100%,
+    rgb(236 91 42 / 0.16),
+    rgb(4 21 30 / 0) 70%
+  );
+  /* Velo sobre fotos: oscuridad abajo para que el texto se lea */
+  --velo-foto: linear-gradient(
+    0deg,
+    rgb(4 21 30 / 0.96) 15%,
+    rgb(4 21 30 / 0.6) 55%,
+    rgb(4 21 30 / 0.15)
+  );
+
+  /* Sombras */
+  --sombra-elevada: 0 24px 48px -24px rgb(0 0 0 / 0.6);
+  --sombra-resplandor: 0 0 32px -4px rgb(236 91 42 / 0.45);
+
+  /*
+   * Vidrio: solo en lo que flota sobre imagen, degradado o resplandor.
+   * El tinte es la superficie con la opacidad justa para que el texto blanco
+   * se lea sobre cualquier fondo; sin backdrop-filter cae a la superficie
+   * sólida. En móvil el desenfoque baja para no castigar el rendimiento.
+   */
+  --vidrio-fondo: rgb(15 52 70 / 0.72);
+  --vidrio-fondo-solido: var(--color-superficie);
+  --vidrio-desenfoque: 16px;
+  --vidrio-desenfoque-movil: 10px;
+  --vidrio-saturacion: 140%;
 
   /* Fuentes: las variables --font-* las define next/font en el layout */
   --fuente-titulos: var(--font-outfit), sans-serif;
@@ -42,7 +100,6 @@
    * Tamaños de texto. Una sola escala para escritorio y móvil, nombrada por
    * su valor en px. Los marcados con (m) solo aparecen en móvil.
    */
-  --texto-10: 10px; /* (m) */
   --texto-12: 12px;
   --texto-13: 13px;
   --texto-14: 14px;
@@ -84,13 +141,21 @@
   --interlineado-32: 32px;
   --interlineado-40: 40px; /* (m) */
   --interlineado-50: 50px;
+  /* Sistema oscuro: titulares grandes y párrafos de lectura */
+  --interlineado-display: 1.08;
+  --interlineado-parrafo: 1.6;
 
   /* Tracking */
   --tracking-sm: 0.5px;
   --tracking-md: 1px;
+  --tracking-display: -0.02em;
 
   /* Layout */
   --ancho-contenido: 1140px;
+  --medida-texto: 62ch;
+  --margen-lateral-movil: 16px;
+  --espacio-seccion: 120px;
+  --espacio-seccion-movil: 72px;
 
   /* Espacios (gaps entre elementos) */
   --espacio-1: 10px;
@@ -108,6 +173,11 @@
   --relleno-seccion-lg: 8%;
   --relleno-seccion-xl: 10%;
 
+  /* Radios generosos del sistema oscuro */
+  --radio-tarjeta: 28px;
+  --radio-tarjeta-movil: 20px;
+  --radio-pildora: 999px;
+
   /* Radios */
   --radio-xs: 8px;
   --radio-sm: 10px;
@@ -118,12 +188,32 @@
 
   /* Botones */
   --relleno-boton: 8px 32px;
+  --relleno-boton-sistema: 14px 28px;
+  --relleno-pildora: 8px 16px;
+
+  /* Foco y movimiento */
+  --anillo-foco: 2px solid var(--color-naranja-claro);
+  --anillo-foco-separacion: 3px;
+  --transicion: 0.2s ease;
+  --objetivo-tactil: 44px;
 
   /* Bordes */
   --borde-boton: 2px;
   --borde-fino: 0.5px;
 
-  /* Sombras */
+  /*
+   * Réplica: valores del sitio anterior que siguen usando las páginas aún sin
+   * adaptar al sistema oscuro. Se eliminan conforme se adapten.
+   */
+  --color-azul: var(--color-superficie);
+  --color-negro: #000000;
+  --color-whatsapp: #34e603;
+  --color-gris-claro: #e7ebed;
+  --color-gris-medio: #75787a;
+  --color-gris-texto: #555758;
+  --color-gris-oscuro: #555555;
+
+  /* Sombras de la réplica */
   --sombra-tarjeta: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   --sombra-suave: 0 0 10px -4px rgba(0, 0, 0, 0.32);
   --sombra-flotante: 2px 8px 23px 3px rgba(0, 0, 0, 0.2);
