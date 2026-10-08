@@ -102,7 +102,7 @@ export default function Home() {
                       alt={negocio.imagen.alt}
                       width={negocio.imagen.width}
                       height={negocio.imagen.height}
-                      sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1180px) 50vw, 560px"
+                      sizes="(max-width: 767px) 92vw, 46vw"
                     />
                   </div>
                   <div className={styles.negocioCuerpo}>

@@ -10,9 +10,7 @@
 
 .principal,
 .creditos {
-  max-width: calc(var(--ancho-contenido) + 2 * var(--espacio-2));
-  margin-inline: auto;
-  padding-inline: var(--espacio-2);
+  padding-inline: var(--relleno-seccion);
 }
 
 .principal {
@@ -123,11 +121,6 @@
 }
 
 @media (max-width: 767px) {
-  .principal,
-  .creditos {
-    padding-inline: var(--margen-lateral-movil);
-  }
-
   .principal {
     grid-template-columns: 1fr;
     gap: var(--espacio-4);

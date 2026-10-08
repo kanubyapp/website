@@ -53,7 +53,7 @@ export function SiteFooter() {
             alt="Camioneta naranja de Kanuby con el lema Rápido, fácil y seguro"
             width={1080}
             height={800}
-            sizes="(max-width: 767px) 80vw, (max-width: 1024px) 60vw, 330px"
+            sizes="(max-width: 767px) 74vw, (max-width: 1024px) 55vw, 26vw"
           />
         </div>
       </div>
