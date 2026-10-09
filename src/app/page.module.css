@@ -1,12 +1,12 @@
 /*
- * Home en el sistema oscuro: hero con resplandor, "¿Qué necesitas?" en tres
- * tarjetas retrato, franja de confianza y carrusel de noticias.
+ * Home en el sistema oscuro: hero con resplandor y los datos de confianza
+ * arriba del H1, los servicios en tres tarjetas retrato dentro de una
+ * tarjeta de vidrio, y el carrusel de noticias.
  */
 
 /* Ancho común de las secciones */
 .hero,
 .necesitas,
-.confianza,
 .noticias {
   padding-inline: var(--relleno-seccion);
 }
@@ -53,23 +53,26 @@
 }
 
 /*
- * ¿Qué necesitas?: tres columnas angostas con tarjetas altas tipo retrato.
+ * Servicios: tres columnas con tarjetas altas tipo retrato.
  * La primera, el valor de Kanuby sobre la superficie con resplandor; las de
  * negocio, con la foto a toda la tarjeta y el texto abajo sobre el velo.
  */
 .necesitas {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espacio-5);
+  padding-block: var(--espacio-3);
 }
 
+/* Tarjeta grande de vidrio oscuro: el resplandor suave de la sección se ve a través */
+.necesitasCaja {
+  padding: var(--espacio-2);
+  border-radius: var(--radio-tarjeta);
+  box-shadow: var(--sombra-elevada);
+}
+
+/* Las tres reparten todo el ancho de la tarjeta grande */
 .negocios {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--espacio-3);
-  width: 100%;
-  max-width: var(--ancho-contenido);
-  margin-inline: auto;
+  gap: var(--espacio-2);
 }
 
 .valor,
@@ -210,13 +213,12 @@
   font-weight: var(--peso-medium);
 }
 
-/* Franja de confianza: una línea de píldoras, abierta a más datos */
+/* Datos de confianza en el hero: píldoras centradas, abierta a más datos */
 .confianza {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--espacio-1);
-  padding-block: var(--espacio-6) 0;
 }
 
 .confianzaDato {
@@ -261,8 +263,9 @@
     font-size: var(--texto-32);
   }
 
-  .necesitas {
-    gap: var(--espacio-3);
+  .necesitasCaja {
+    padding: var(--espacio-1);
+    border-radius: var(--radio-tarjeta-movil);
   }
 
   /* Apiladas; la del valor toma la altura de su texto */
@@ -291,10 +294,6 @@
   .valorTitulo,
   .negocioTitulo {
     font-size: var(--texto-26);
-  }
-
-  .confianza {
-    padding-top: var(--espacio-4);
   }
 
   .noticias {

@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 /*
- * "¿Qué necesitas?": una tarjeta con el valor de Kanuby y una por negocio.
+ * Servicios: una tarjeta con el valor de Kanuby y una por negocio.
  * Las de negocio llevan su foto de fondo, tres datos con ícono, "Ver más" a
  * la página del servicio y "Contactar", que abre el popup de su servicio.
  */
@@ -99,6 +99,13 @@ export default function Home() {
       <HeaderHome />
       <main>
         <section className={`kb-resplandor ${styles.hero}`}>
+          {/* Datos de confianza. Lista abierta: aquí entrará la calificación de Google. */}
+          <ul className={styles.confianza}>
+            <li className="kb-pildora">
+              <strong className={styles.confianzaDato}>+20 años</strong> de experiencia
+            </li>
+            <li className="kb-pildora">Mudanzas en Monterrey y a CDMX</li>
+          </ul>
           <h1 className={styles.heroTitulo}>
             Mudanzas y Minibodegas <br />
             <span className={styles.heroAcento}>en Nuevo León</span>
@@ -111,73 +118,65 @@ export default function Home() {
           </p>
         </section>
 
-        <section className={styles.necesitas} aria-labelledby="que-necesitas">
-          <h2 id="que-necesitas" className={styles.tituloSeccion}>
-            ¿Qué necesitas?
-          </h2>
-          <ul className={styles.negocios}>
-            <li>
-              <article className={`kb-tarjeta ${styles.valor}`}>
-                <h3 className={styles.valorTitulo}>¿Cómo te ayudamos?</h3>
-                <p className={styles.valorTexto}>
-                  Llevamos más de 20 años moviendo y resguardando lo que más le importa a
-                  familias y empresas de Nuevo León. Un solo equipo se encarga de todo:
-                  empacamos, cargamos, trasladamos y, si lo necesitas, guardamos tus cosas en
-                  una minibodega segura hasta que estés listo.
-                </p>
-              </article>
-            </li>
-            {negocios.map((negocio) => (
-              <li key={negocio.href}>
-                <CotizacionProvider tipo={negocio.cotizacion}>
-                  <article className={`kb-tarjeta ${styles.negocio}`}>
-                    <Image
-                      src={negocio.imagen.src}
-                      alt={negocio.imagen.alt}
-                      width={negocio.imagen.width}
-                      height={negocio.imagen.height}
-                      sizes="(max-width: 767px) 92vw, 380px"
-                      className={`${styles.negocioFoto} ${negocio.recorte ? styles.negocioRecorte : ""}`}
-                    />
-                    <div className={styles.negocioCuerpo}>
-                      <h3 className={styles.negocioTitulo}>{negocio.titulo}</h3>
-                      <p className={styles.negocioTexto}>{negocio.texto}</p>
-                      <ul className={styles.datos}>
-                        {negocio.datos.map(({ texto, Icono }) => (
-                          <li key={texto} className={styles.dato}>
-                            <Icono className={styles.datoIcono} />
-                            {texto}
-                          </li>
-                        ))}
-                      </ul>
-                      <div className={styles.negocioBotones}>
-                        <Link
-                          href={negocio.href}
-                          className={`kb-vidrio kb-boton-secundario ${styles.negocioBoton}`}
-                          aria-label={`Ver más de ${negocio.titulo}`}
-                        >
-                          Ver más
-                        </Link>
-                        <BotonCotizar
-                          texto="Contactar"
-                          className={`kb-boton-principal ${styles.negocioBoton} ${styles.contactar}`}
-                        />
-                      </div>
-                    </div>
-                  </article>
-                </CotizacionProvider>
+        <section className={`kb-resplandor-suave ${styles.necesitas}`}>
+          {/* Tarjeta grande de vidrio sobre el resplandor de la sección */}
+          <div className={`kb-vidrio ${styles.necesitasCaja}`}>
+            <ul className={styles.negocios}>
+              <li>
+                <article className={`kb-tarjeta ${styles.valor}`}>
+                  <h3 className={styles.valorTitulo}>¿Cómo te ayudamos?</h3>
+                  <p className={styles.valorTexto}>
+                    Llevamos más de 20 años moviendo y resguardando lo que más le importa a
+                    familias y empresas de Nuevo León. Un solo equipo se encarga de todo:
+                    empacamos, cargamos, trasladamos y, si lo necesitas, guardamos tus cosas en
+                    una minibodega segura hasta que estés listo.
+                  </p>
+                </article>
               </li>
-            ))}
-          </ul>
+              {negocios.map((negocio) => (
+                <li key={negocio.href}>
+                  <CotizacionProvider tipo={negocio.cotizacion}>
+                    <article className={`kb-tarjeta ${styles.negocio}`}>
+                      <Image
+                        src={negocio.imagen.src}
+                        alt={negocio.imagen.alt}
+                        width={negocio.imagen.width}
+                        height={negocio.imagen.height}
+                        sizes="(max-width: 767px) 92vw, 31vw"
+                        className={`${styles.negocioFoto} ${negocio.recorte ? styles.negocioRecorte : ""}`}
+                      />
+                      <div className={styles.negocioCuerpo}>
+                        <h3 className={styles.negocioTitulo}>{negocio.titulo}</h3>
+                        <p className={styles.negocioTexto}>{negocio.texto}</p>
+                        <ul className={styles.datos}>
+                          {negocio.datos.map(({ texto, Icono }) => (
+                            <li key={texto} className={styles.dato}>
+                              <Icono className={styles.datoIcono} />
+                              {texto}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className={styles.negocioBotones}>
+                          <Link
+                            href={negocio.href}
+                            className={`kb-vidrio kb-boton-secundario ${styles.negocioBoton}`}
+                            aria-label={`Ver más de ${negocio.titulo}`}
+                          >
+                            Ver más
+                          </Link>
+                          <BotonCotizar
+                            texto="Contactar"
+                            className={`kb-boton-principal ${styles.negocioBoton} ${styles.contactar}`}
+                          />
+                        </div>
+                      </div>
+                    </article>
+                  </CotizacionProvider>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
-
-        {/* Lista abierta: aquí entrará la calificación de Google. */}
-        <ul className={styles.confianza}>
-          <li className="kb-pildora">
-            <strong className={styles.confianzaDato}>+20 años</strong> de experiencia
-          </li>
-          <li className="kb-pildora">Mudanzas en Monterrey y a CDMX</li>
-        </ul>
 
         <section
           className={`kb-resplandor-suave ${styles.noticias}`}
