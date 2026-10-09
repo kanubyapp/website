@@ -1,7 +1,8 @@
 /*
  * Carrusel "Últimas Noticias" en el sistema oscuro: tarjetas de foto con velo
  * de oscuridad. Tarjetas por vista fraccionarias para que la siguiente asome
- * cortada: 3 completas desde 1024px, 2 desde 768px y 1 debajo.
+ * cortada: 3 completas desde 1025px, 2 desde 768px y 1 debajo (los mismos
+ * cortes que el resto del sitio).
  */
 
 .pista {
@@ -32,7 +33,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .pista {
     --por-vista: 3.35;
   }
