@@ -1,12 +1,12 @@
 /*
  * Footer compartido: una tarjeta oscura con el resplandor naranja suave desde
- * abajo, como las tarjetas de las secciones adaptadas, separada de los bordes
- * de la ventana con el margen lateral del sitio.
+ * abajo, como las tarjetas de las secciones adaptadas, separada 20px de los
+ * lados y del borde inferior de la ventana.
  */
 
-/* Abajo, el mismo margen que a los lados: un % del relleno se mide sobre el ancho */
+/* La tarjeta queda a 20px de los lados y del borde inferior de la pantalla */
 .footer {
-  padding: var(--espacio-4) var(--relleno-seccion) var(--relleno-seccion);
+  padding: var(--espacio-4) var(--espacio-2) var(--espacio-2);
 }
 
 .tarjeta {
