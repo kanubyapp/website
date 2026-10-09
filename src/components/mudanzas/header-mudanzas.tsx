@@ -6,9 +6,10 @@ import { useEffect, useId, useRef, useState } from "react";
 import { IconoMenu } from "@/components/iconos";
 
 /*
- * Header de las páginas de mudanzas: logo kanubymudanzas, anclas a las
- * secciones de la propia página y, a la derecha, las acciones de cada página.
- * Debajo de 768px el menú pasa a pantalla completa.
+ * Header de las páginas de mudanzas: píldora de vidrio con el logo
+ * kanubymudanzas, anclas a las secciones de la propia página y, a la derecha,
+ * las acciones de cada página. Debajo de 768px el menú pasa a pantalla
+ * completa.
  */
 
 type Enlace = { href: string; texto: string };
@@ -47,41 +48,49 @@ export function HeaderMudanzas({
 
   return (
     <header className={`kb-header ${className}`}>
-      <Link href="/" className="kb-header-logo">
-        <Image
-          src="/images/kanubymudanzas.svg"
-          alt="Kanuby Mudanzas, ir al inicio"
-          width={1024}
-          height={100}
-          sizes="250px"
-          loading="eager"
-        />
-      </Link>
+      <div className="kb-vidrio kb-header-barra">
+        <Link href="/" className="kb-header-logo">
+          <Image
+            src="/images/kanubymudanzas-blanco.svg"
+            alt="Kanuby Mudanzas, ir al inicio"
+            width={1024}
+            height={100}
+            sizes="250px"
+            loading="eager"
+          />
+        </Link>
 
-      <nav className="kb-header-menu" aria-label="Secciones">
-        <ul className="kb-header-lista">
-          {enlaces.map((enlace) => (
-            <li key={enlace.href}>
-              <a href={enlace.href} className="kb-header-enlace">
-                {enlace.texto}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+        <nav className="kb-header-menu" aria-label="Secciones">
+          <ul className="kb-header-lista">
+            {enlaces.map((enlace) => (
+              <li key={enlace.href}>
+                <a href={enlace.href} className="kb-header-enlace">
+                  {enlace.texto}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-      <button
-        ref={botonAbrir}
-        type="button"
-        className="kb-header-abrir"
-        aria-expanded={abierto}
-        aria-controls={idMenu}
-        aria-label="Abrir menú"
-        onClick={() => setAbierto(true)}
-      >
-        <IconoMenu />
-      </button>
+        <button
+          ref={botonAbrir}
+          type="button"
+          className="kb-header-abrir"
+          aria-expanded={abierto}
+          aria-controls={idMenu}
+          aria-label="Abrir menú"
+          onClick={() => setAbierto(true)}
+        >
+          <IconoMenu />
+        </button>
 
+        {acciones}
+      </div>
+
+      {/*
+        El menú móvil va fuera de la barra: el backdrop-filter del vidrio
+        convertiría la barra en el contenedor de su position: fixed.
+      */}
       <nav
         id={idMenu}
         className="kb-header-movil"
@@ -111,8 +120,6 @@ export function HeaderMudanzas({
           ))}
         </ul>
       </nav>
-
-      {acciones}
     </header>
   );
 }

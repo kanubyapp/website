@@ -12,11 +12,6 @@
   gap: var(--espacio-2);
 }
 
-/* En el publicado las olas son blancas sobre el fondo blanco. */
-.hero :global(.kb-hero-olas svg) {
-  fill: var(--color-blanco);
-}
-
 .hero :global(.kb-hero-contenido) {
   justify-content: center;
   width: 55%;
@@ -29,9 +24,9 @@
   text-align: left;
 }
 
-/* El H1 de la página: el h2 pequeño del publicado, con su mismo aspecto */
+/* El H1 de la página: pequeño, bajo el titular rotativo */
 .titulo {
-  color: var(--color-azul);
+  color: var(--color-texto);
   font-size: var(--texto-18);
   font-weight: var(--peso-semibold);
 }
@@ -81,8 +76,10 @@
   line-height: 20px;
 }
 
+/* Las ciudades que rotan van en naranja */
 .rotativoDinamico {
   display: inline-block;
+  color: var(--color-naranja);
   white-space: nowrap;
 }
 

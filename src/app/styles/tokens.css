@@ -119,7 +119,6 @@
   --texto-40: 40px;
   --texto-42: 42px; /* (m) */
   --texto-44: 44px;
-  --texto-48: 48px;
   --texto-50: 50px;
   --texto-60: 60px;
   --texto-70: 70px;
@@ -140,7 +139,6 @@
   --interlineado-30: 30px;
   --interlineado-32: 32px;
   --interlineado-40: 40px; /* (m) */
-  --interlineado-50: 50px;
   /* Sistema oscuro: titulares grandes y párrafos de lectura */
   --interlineado-display: 1.08;
   --interlineado-parrafo: 1.6;
@@ -198,7 +196,6 @@
 
   /* Bordes */
   --borde-boton: 2px;
-  --borde-fino: 0.5px;
 
   /*
    * Réplica: valores del sitio anterior que siguen usando las páginas aún sin
@@ -210,10 +207,8 @@
   --color-gris-claro: #e7ebed;
   --color-gris-medio: #75787a;
   --color-gris-texto: #555758;
-  --color-gris-oscuro: #555555;
 
   /* Sombras de la réplica */
   --sombra-tarjeta: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  --sombra-suave: 0 0 10px -4px rgba(0, 0, 0, 0.32);
   --sombra-flotante: 2px 8px 23px 3px rgba(0, 0, 0, 0.2);
 }

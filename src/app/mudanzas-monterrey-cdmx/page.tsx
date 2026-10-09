@@ -59,7 +59,7 @@ export default function MudanzasMonterreyCdmx() {
           <BotonCotizar
             texto="Cotiza Ahora"
             subtexto="Whatsapp"
-            className="kb-boton-dos-lineas kb-boton-header"
+            className="kb-boton-principal kb-boton-dos-lineas kb-boton-header"
           />
         }
       />
@@ -75,7 +75,7 @@ export default function MudanzasMonterreyCdmx() {
             <BotonCotizar
               texto="Cotiza Ahora por"
               subtexto="Whatsapp"
-              className="kb-boton-dos-lineas kb-boton-hero"
+              className="kb-boton-principal kb-boton-dos-lineas kb-boton-hero"
             />
           }
           fondoImagen={
@@ -84,7 +84,7 @@ export default function MudanzasMonterreyCdmx() {
               alt="Mapa de México con la ruta de Monterrey a la Ciudad de México"
               width={1024}
               height={1024}
-              sizes="(max-width: 767px) 84vw, 38vw"
+              sizes="(max-width: 767px) 92vw, 41vw"
               className={styles.mapa}
             />
           }

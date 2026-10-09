@@ -93,7 +93,10 @@ export default function MudanzasEmpresariales() {
                 <span className={styles.llamanosNumero}>8183363637</span>
               </span>
             </a>
-            <BotonCotizar texto="Cotizar Ahora" className={styles.botonHeader} />
+            <BotonCotizar
+              texto="Cotizar Ahora"
+              className={`kb-boton-principal ${styles.botonHeader}`}
+            />
           </div>
         }
       />
@@ -144,7 +147,12 @@ export default function MudanzasEmpresariales() {
           className={styles.hero}
           titulo="Mudamos tu Empresa en Monterrey"
           texto="En Kanuby somos expertos en reubicación empresarial. Nos encargamos de todo para que tu empresa no pare."
-          boton={<BotonCotizar texto="Cotiza Ahora" className={styles.botonSimple} />}
+          boton={
+            <BotonCotizar
+              texto="Cotiza Ahora"
+              className={`kb-boton-principal ${styles.botonSimple}`}
+            />
+          }
         />
 
         <PorQueMudanzas

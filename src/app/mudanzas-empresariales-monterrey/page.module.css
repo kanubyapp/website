@@ -5,11 +5,10 @@
  * Los valores sin token aparecen una sola vez en el publicado.
  */
 
-/* Header: logo de 700px, menú centrado y acciones a la derecha */
+/* Header: logo, menú centrado y acciones a la derecha */
 
 .header :global(.kb-header-logo) {
-  flex: 0 1 700px;
-  width: auto;
+  flex: 0 1 250px;
   min-width: 0;
 }
 
@@ -40,13 +39,14 @@
 .llamanos {
   display: inline-flex;
   align-items: center;
-  color: var(--color-azul);
+  color: var(--color-texto);
   line-height: 1;
   text-align: left;
-  transition: all 0.5s;
+  transition: color var(--transicion);
 }
 
-.llamanos:hover {
+.llamanos:hover,
+.llamanos:focus-visible {
   color: var(--color-naranja);
 }
 
@@ -77,17 +77,11 @@
   letter-spacing: var(--tracking-md);
 }
 
-/* "Cotizar Ahora" del header: botón de Elementor, no raven-button */
+/* "Cotizar Ahora" del header: botón principal de una línea */
 .botonHeader {
   gap: 10px;
-  border-radius: var(--radio-md);
   font-family: var(--fuente-texto);
   font-size: var(--texto-18);
-  transition: all 0.3s;
-}
-
-.botonHeader:hover {
-  background: var(--color-naranja);
 }
 
 .botonHeader :global(.kb-boton-cotizar-icono) {
@@ -129,37 +123,51 @@
 
 .barraSocial {
   display: flex;
-  padding: 0 var(--relleno-seccion);
-  overflow: hidden;
+  padding: var(--espacio-2) var(--relleno-seccion) 0;
 }
 
+/* Píldora con el lenguaje del header: íconos en círculo, hover elevado */
 .redes {
   display: flex;
   flex-wrap: wrap;
-  align-self: flex-start;
-  padding: 8px 6px 8px 22px;
-  border-radius: 0 0 15px 15px;
-  background: var(--color-naranja);
+  gap: var(--espacio-1);
+  padding: calc(var(--espacio-1) / 2);
+  border: var(--borde-luz);
+  border-radius: var(--radio-pildora);
+  background: var(--color-superficie-baja);
 }
 
 .red {
   display: flex;
+  justify-content: center;
   align-items: center;
-  padding: 0 10px 0 0;
+  width: var(--objetivo-tactil);
+  height: var(--objetivo-tactil);
+  padding: 0;
   border: 0;
+  border-radius: var(--radio-pildora);
   background: none;
-  color: var(--color-blanco);
+  color: var(--color-texto-secundario);
   cursor: pointer;
-  transition: color 0.3s;
+  transition:
+    color var(--transicion),
+    background-color var(--transicion);
 }
 
-.red:hover {
-  color: var(--color-azul);
+.red:hover,
+.red:focus-visible {
+  background: var(--color-superficie-alta);
+  color: var(--color-texto);
+}
+
+.red:focus-visible {
+  outline: var(--anillo-foco);
+  outline-offset: var(--anillo-foco-separacion);
 }
 
 .red svg {
-  width: var(--texto-14);
-  height: var(--texto-14);
+  width: var(--texto-16);
+  height: var(--texto-16);
   fill: currentColor;
 }
 
@@ -167,6 +175,18 @@
 
 .hero :global(.kb-hero-contenido) {
   padding: 10px;
+}
+
+/* En el hero, el botón de una línea es el principal naranja */
+.hero .botonSimple {
+  border: 1px solid var(--color-naranja-claro);
+  border-radius: var(--radio-pildora);
+}
+
+.hero .botonSimple:hover,
+.hero .botonSimple:focus-visible {
+  border-color: var(--color-naranja-claro);
+  background: var(--color-naranja-claro);
 }
 
 .hero :global(.kb-hero-texto) {
@@ -236,11 +256,6 @@
     gap: var(--espacio-2);
   }
 
-  .header :global(.kb-header-logo) {
-    flex: none;
-    width: 250px;
-  }
-
   .acciones {
     flex-basis: 100%;
     justify-content: space-between;
@@ -251,13 +266,9 @@
     font-size: var(--texto-16);
   }
 
-  .redes {
-    align-self: center;
-    padding: 10px 20px;
-  }
-
-  .redes li {
-    margin-inline: 6px;
+  .barraSocial {
+    justify-content: center;
+    padding-top: var(--espacio-1);
   }
 
   .botonSimple {

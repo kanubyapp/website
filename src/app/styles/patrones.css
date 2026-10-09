@@ -254,19 +254,49 @@
     color: var(--color-naranja);
   }
 
-  /* Header */
+  /*
+   * Botón de cotizar con el aspecto del botón principal del sistema oscuro
+   * (header y hero de mudanzas). Va con las dos clases porque el de cotizar
+   * se declara después y ganaría el fondo.
+   */
+  .kb-boton-cotizar.kb-boton-principal {
+    border: 1px solid var(--color-naranja-claro);
+    border-radius: var(--radio-pildora);
+    background: var(--color-naranja);
+    color: var(--color-texto-sobre-acento);
+    transition:
+      background-color var(--transicion),
+      box-shadow var(--transicion);
+  }
+
+  .kb-boton-cotizar.kb-boton-principal:hover,
+  .kb-boton-cotizar.kb-boton-principal:focus-visible {
+    background: var(--color-naranja-claro);
+    color: var(--color-texto-sobre-acento);
+    box-shadow: var(--sombra-resplandor);
+  }
+
+  /*
+   * Header de mudanzas: píldora de vidrio a ancho completo, con el margen
+   * lateral del sitio. Va en el flujo y flota sobre el resplandor del hero.
+   */
 
   .kb-header {
+    padding: var(--espacio-2) var(--relleno-seccion) 0;
+  }
+
+  .kb-header-barra {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: var(--espacio-2) var(--espacio-4);
-    padding: var(--relleno-seccion-xs) var(--relleno-seccion-sm);
-    background: var(--color-blanco);
-    box-shadow: var(--sombra-suave);
+    padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-3);
+    border-radius: var(--radio-pildora);
+    box-shadow: var(--sombra-elevada);
   }
 
   .kb-header-logo {
+    flex-shrink: 0;
     width: 250px;
   }
 
@@ -277,26 +307,36 @@
   .kb-header-lista {
     display: flex;
     flex-wrap: wrap;
+    gap: var(--espacio-1);
   }
 
   .kb-header-enlace {
     display: flex;
     align-items: center;
-    padding: 10px 20px;
-    border: var(--borde-fino) solid transparent;
-    border-radius: var(--radio-lg);
-    background: var(--color-blanco);
-    color: var(--color-azul);
+    padding: var(--relleno-pildora);
+    border: 1px solid transparent;
+    border-radius: var(--radio-pildora);
+    color: var(--color-texto-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-14);
     font-weight: var(--peso-medium);
     white-space: nowrap;
+    transition:
+      color var(--transicion),
+      background-color var(--transicion);
   }
 
-  .kb-header-enlace:hover {
-    border-color: var(--color-naranja);
-    background: var(--color-naranja);
-    color: var(--color-blanco);
+  .kb-header-enlace:hover,
+  .kb-header-enlace:focus-visible {
+    background: var(--color-superficie-alta);
+    color: var(--color-texto);
+  }
+
+  .kb-header-enlace:focus-visible,
+  .kb-header-abrir:focus-visible,
+  .kb-header-cerrar:focus-visible {
+    outline: var(--anillo-foco);
+    outline-offset: var(--anillo-foco-separacion);
   }
 
   .kb-header-abrir,
@@ -304,7 +344,12 @@
     display: none;
   }
 
-  /* Hero */
+  /*
+   * Hero de mudanzas: fondo oscuro con el resplandor naranja de la home. El
+   * resplandor sube por detrás del header y de las barras hasta el borde de
+   * la página: sin z-index propio en el hero, el ::before con z-index -1 se
+   * pinta debajo de todo el contenido.
+   */
 
   .kb-hero {
     display: flex;
@@ -313,29 +358,16 @@
     align-items: center;
     gap: var(--espacio-3) var(--espacio-5);
     min-height: 70vh;
-    padding: 0 var(--relleno-seccion-lg);
-    background: var(--color-blanco);
+    padding: var(--espacio-6) var(--relleno-seccion) var(--espacio-seccion);
   }
 
-  .kb-hero-olas {
+  .kb-hero::before {
+    content: "";
     position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-    direction: ltr;
-    transform: rotate(180deg);
-  }
-
-  .kb-hero-olas svg {
-    display: block;
-    position: relative;
-    left: 50%;
-    width: calc(195% + 1.3px);
-    height: 500px;
-    fill: var(--color-gris-claro);
-    transform: translateX(-50%) rotateY(180deg);
+    inset: calc(var(--espacio-seccion) * -2) 0 0;
+    z-index: -1;
+    background: var(--resplandor-acento), var(--degradado-naranja-oscuridad);
+    pointer-events: none;
   }
 
   .kb-hero-contenido {
@@ -348,30 +380,32 @@
   }
 
   .kb-hero-titulo {
-    z-index: 99;
-    color: var(--color-naranja);
-    font-size: var(--texto-48);
-    line-height: var(--interlineado-50);
+    color: var(--color-texto);
+    font-size: var(--texto-60);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-display);
+    letter-spacing: var(--tracking-display);
   }
 
   .kb-hero-divisor {
-    padding: 6px 0;
     font-size: 0;
     line-height: 0;
   }
 
   .kb-hero-divisor span {
     display: inline-block;
-    width: 20%;
-    height: 1px;
-    background: var(--color-negro);
+    width: var(--espacio-6);
+    height: 2px;
+    border-radius: var(--radio-pildora);
+    background: var(--color-naranja);
   }
 
   .kb-hero-texto {
-    color: var(--color-gris-oscuro);
+    color: var(--color-texto-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-20);
     font-weight: var(--peso-light);
+    line-height: var(--interlineado-parrafo);
   }
 
   .kb-hero-imagen {
@@ -1060,9 +1094,12 @@
   /* Móvil */
 
   @media (max-width: 767px) {
-    .kb-boton-hero,
     .kb-boton-servicios {
       display: none;
+    }
+
+    .kb-boton-hero {
+      align-self: center;
     }
 
     .kb-boton-header {
@@ -1071,13 +1108,19 @@
     }
 
     .kb-header {
+      padding: var(--espacio-1) var(--relleno-seccion) 0;
+    }
+
+    .kb-header-barra {
       flex-wrap: wrap;
       gap: var(--espacio-1);
-      padding: var(--relleno-seccion);
+      padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-2);
+      border-radius: var(--radio-tarjeta-movil);
     }
 
     .kb-header-logo {
-      align-self: center;
+      flex-shrink: 1;
+      min-width: 0;
     }
 
     .kb-header-menu {
@@ -1086,21 +1129,25 @@
 
     .kb-header-abrir {
       display: inline-flex;
-      padding: 12px 14px;
-      border: 0;
-      border-radius: var(--radio-sm);
-      background: var(--color-azul);
-      color: var(--color-blanco);
-      font-size: var(--texto-30);
-      line-height: var(--interlineado-titulo);
+      flex-shrink: 0;
+      justify-content: center;
+      align-items: center;
+      width: var(--objetivo-tactil);
+      height: var(--objetivo-tactil);
+      padding: 0;
+      border: var(--borde-luz-fuerte);
+      border-radius: var(--radio-pildora);
+      background: transparent;
+      color: var(--color-texto);
     }
 
     .kb-header-abrir svg {
-      width: auto;
-      height: 1em;
+      width: 18px;
+      height: 18px;
       fill: currentColor;
     }
 
+    /* Menú a pantalla completa: superficie sólida, sin vidrio */
     .kb-header-movil {
       display: flex;
       position: fixed;
@@ -1110,10 +1157,12 @@
       align-items: center;
       overflow-y: auto;
       overscroll-behavior: contain;
-      background: var(--color-blanco);
+      background: var(--color-fondo);
       opacity: 0;
       visibility: hidden;
-      transition: all 0.25s ease-in-out;
+      transition:
+        opacity var(--transicion),
+        visibility var(--transicion);
     }
 
     .kb-header-movil[data-abierto="true"] {
@@ -1124,53 +1173,50 @@
     .kb-header-cerrar {
       display: flex;
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: var(--espacio-2);
+      right: var(--relleno-seccion);
       justify-content: center;
       align-items: center;
-      width: 32px;
-      height: 32px;
+      width: var(--objetivo-tactil);
+      height: var(--objetivo-tactil);
       padding: 0;
-      border: 0;
-      background: none;
-      color: var(--color-azul);
-      font-size: var(--texto-32);
-      line-height: 1;
-    }
-
-    .kb-header-cerrar:hover {
-      color: var(--color-naranja);
+      border: var(--borde-luz-fuerte);
+      border-radius: var(--radio-pildora);
+      background: transparent;
+      color: var(--color-texto);
+      font-size: var(--texto-30);
+      line-height: var(--interlineado-titulo);
     }
 
     .kb-header-cerrar span {
-      transform: translateY(-10%);
+      transform: translateY(-5%);
     }
 
     .kb-header-lista-movil {
       display: flex;
       flex-direction: column;
-      width: 100%;
+      align-items: center;
+      gap: var(--espacio-1);
       max-height: 100%;
     }
 
     .kb-header-enlace-movil {
       display: flex;
       padding: var(--relleno-boton);
-      background: var(--color-blanco);
-      color: var(--color-naranja);
+      color: var(--color-texto);
       font-family: var(--fuente-titulos);
-      font-size: var(--texto-26);
+      font-size: var(--texto-30);
       font-weight: var(--peso-regular);
+    }
+
+    .kb-header-enlace-movil:hover,
+    .kb-header-enlace-movil:focus-visible {
+      color: var(--color-naranja);
     }
 
     .kb-hero {
       flex-wrap: wrap;
-      padding: 18% var(--relleno-seccion-lg) 0;
-    }
-
-    .kb-hero-olas svg {
-      width: calc(279% + 1.3px);
-      height: 226px;
+      padding: var(--espacio-4) var(--relleno-seccion) var(--espacio-seccion-movil);
     }
 
     .kb-hero-contenido {
@@ -1180,21 +1226,16 @@
     }
 
     .kb-hero-titulo {
-      font-size: var(--texto-42);
-      line-height: var(--interlineado-40);
+      font-size: var(--texto-40);
       text-align: center;
     }
 
     .kb-hero-divisor {
-      padding: 0;
       text-align: center;
     }
 
-    .kb-hero-divisor span {
-      width: 55%;
-    }
-
     .kb-hero-texto {
+      font-size: var(--texto-17);
       text-align: center;
     }
 
