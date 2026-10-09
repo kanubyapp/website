@@ -4,13 +4,17 @@
  * la que muestra el sitio publicado.
  */
 
+/*
+ * La fecha va fija, tal como se muestra ("Hace 9 semanas"), o como la fecha
+ * real de la reseña (publicada, AAAA-MM-DD), que el carrusel muestra relativa
+ * ("hace 2 años"), calculada en el navegador para que no envejezca.
+ */
 export type Testimonio = {
   nombre: string;
-  fecha: string;
   estrellas: number;
   texto: string;
   avatar: string;
-};
+} & ({ fecha: string } | { publicada: string });
 
 export const testimonios: Testimonio[] = [
   {

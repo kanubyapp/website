@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { IconoAnterior, IconoEstrella, IconoSiguiente } from "@/components/iconos";
+import { fechaRelativa } from "@/lib/fechas";
 import type { Testimonio } from "@/lib/testimonios";
 
 /*
@@ -13,20 +14,36 @@ import type { Testimonio } from "@/lib/testimonios";
  *
  * El bucle se hace con tres copias de la lista: se navega por la del centro y,
  * al salir de ella, se salta sin animación a la posición equivalente.
+ *
+ * Las fechas reales (publicada) se muestran relativas desde hoy, solo en el
+ * navegador: en el servidor quedan vacías. id es el ancla de la sección y pie
+ * va debajo del carrusel.
  */
 
 const AUTOPLAY_MS = 5000;
 const TRANSICION_MS = 500;
 
+let hoyCliente: number | null = null;
+const sinSuscripcion = () => () => {};
+
 export function Testimonios({
+  id = "testimonios",
   titulo,
   texto,
   testimonios,
+  pie,
 }: {
+  id?: string;
   titulo: React.ReactNode;
   texto: string;
   testimonios: Testimonio[];
+  pie?: React.ReactNode;
 }) {
+  const hoy = useSyncExternalStore(
+    sinSuscripcion,
+    () => (hoyCliente ??= Date.now()),
+    () => null,
+  );
   const total = testimonios.length;
   const [indice, setIndice] = useState(total);
   const [animar, setAnimar] = useState(false);
@@ -83,7 +100,7 @@ export function Testimonios({
   );
 
   return (
-    <section id="testimonios" className="kb-testimonios">
+    <section id={id} className="kb-testimonios">
       <div className="kb-testimonios-cabecera">
         {titulo}
         <p className="kb-testimonios-texto">{texto}</p>
@@ -139,7 +156,11 @@ export function Testimonios({
                   />
                   <div className="kb-testimonio-datos">
                     <p className="kb-testimonio-nombre">{testimonio.nombre}</p>
-                    <p className="kb-testimonio-fecha">{testimonio.fecha}</p>
+                    <p className="kb-testimonio-fecha">
+                      {"fecha" in testimonio
+                        ? testimonio.fecha
+                        : hoy && fechaRelativa(testimonio.publicada, new Date(hoy))}
+                    </p>
                     <div
                       className="kb-estrellas"
                       role="img"
@@ -177,6 +198,8 @@ export function Testimonios({
           <IconoSiguiente />
         </button>
       </div>
+
+      {pie}
     </section>
   );
 }

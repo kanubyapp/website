@@ -4,13 +4,13 @@ import { Faq } from "@/components/faq";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
+import { Testimonios } from "@/components/mudanzas/testimonios";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import { tamanoDeSuperficie } from "@/lib/whatsapp";
 import { Banner } from "./banner";
 import { preguntas, resenas, textoPlano, type Bloque } from "./datos";
 import { HeaderMinibodegas } from "./header-minibodegas";
-import { Resenas } from "./resenas";
 import styles from "./page.module.css";
 
 const titulo = "Minibodegas en Monterrey";
@@ -240,18 +240,22 @@ export default function Minibodegas() {
           </div>
         </section>
 
-        <section id="clientes" className={styles.clientes}>
-          <h2 className={styles.clientesTitulo}>Nuestros Clientes...</h2>
-          <Resenas resenas={resenas} />
-          <a
-            href={perfilGoogle}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.botonEnlace}
-          >
-            Ver todas las reseñas en Google
-          </a>
-        </section>
+        <Testimonios
+          id="clientes"
+          titulo={<h2 className="kb-testimonios-titulo">Nuestros Clientes...</h2>}
+          texto="Familias y empresas de Monterrey guardan con Kanuby lo que más les importa. Esto es lo que dicen de nuestras minibodegas."
+          testimonios={resenas}
+          pie={
+            <a
+              href={perfilGoogle}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.botonEnlace}
+            >
+              Ver todas las reseñas en Google
+            </a>
+          }
+        />
 
         <section id="ubicacion" className={styles.ubicacion}>
           <div className={`kb-tarjeta ${styles.ubicacionCaja}`}>

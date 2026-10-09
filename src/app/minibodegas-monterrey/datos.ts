@@ -1,3 +1,5 @@
+import type { Testimonio } from "@/lib/testimonios";
+
 /*
  * Contenido de /minibodegas-monterrey/ copiado del publicado: preguntas
  * frecuentes y reseñas de Google (antes widget de Trustindex, ahora estáticas
@@ -118,26 +120,18 @@ export function textoPlano(bloques: Bloque[]): string {
     .join(" ");
 }
 
-export type Resena = {
-  nombre: string;
-  /** AAAA-MM-DD, del data-time del widget publicado */
-  fecha: string;
-  estrellas: number;
-  avatar: string;
-  texto: string;
-};
-
-export const resenas: Resena[] = [
+/* Reseñas de Google del widget publicado; publicada sale de su data-time */
+export const resenas: Testimonio[] = [
   {
     nombre: "Elsy Gutierrez",
-    fecha: "2024-06-07",
+    publicada: "2024-06-07",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/elsy-gutierrez.png",
     texto: "Excelente servicio, muy puntuales y súper profesionales",
   },
   {
     nombre: "Felipeduardo Villarreal",
-    fecha: "2024-04-29",
+    publicada: "2024-04-29",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/felipeduardo-villarreal.png",
     texto:
@@ -145,7 +139,7 @@ export const resenas: Resena[] = [
   },
   {
     nombre: "Alejandro Lozano",
-    fecha: "2024-04-19",
+    publicada: "2024-04-19",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/alejandro-lozano.png",
     texto:
@@ -153,7 +147,7 @@ export const resenas: Resena[] = [
   },
   {
     nombre: "Marcela Santos",
-    fecha: "2024-03-25",
+    publicada: "2024-03-25",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/marcela-santos.png",
     texto:
@@ -161,7 +155,7 @@ export const resenas: Resena[] = [
   },
   {
     nombre: "Daniel Escalon",
-    fecha: "2024-03-14",
+    publicada: "2024-03-14",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/daniel-escalon.png",
     texto:
@@ -169,7 +163,7 @@ export const resenas: Resena[] = [
   },
   {
     nombre: "Brenn Balderas",
-    fecha: "2024-03-11",
+    publicada: "2024-03-11",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/brenn-balderas.png",
     texto:
@@ -177,7 +171,7 @@ export const resenas: Resena[] = [
   },
   {
     nombre: "Mario De La Portilla",
-    fecha: "2024-03-04",
+    publicada: "2024-03-04",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/mario-de-la-portilla.png",
     texto:
@@ -185,14 +179,14 @@ export const resenas: Resena[] = [
   },
   {
     nombre: "Ulyses Argomedo",
-    fecha: "2024-02-14",
+    publicada: "2024-02-14",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/ulyses-argomedo.png",
     texto: "Muy recomendable.... Soy cuidadosos con la manipulación y acomodo de los muebles.",
   },
   {
     nombre: "Adolfo Orduno",
-    fecha: "2024-01-13",
+    publicada: "2024-01-13",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/adolfo-orduno.png",
     texto:
@@ -200,7 +194,7 @@ export const resenas: Resena[] = [
   },
   {
     nombre: "Danna Trueba",
-    fecha: "2024-01-11",
+    publicada: "2024-01-11",
     estrellas: 5,
     avatar: "/images/minibodegas/resenas/danna-trueba.png",
     texto:
