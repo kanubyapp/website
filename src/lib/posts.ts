@@ -12,6 +12,8 @@
  * nivel original para que se vean igual.
  */
 
+import { contarPalabras, tiempoLectura } from "./lectura.ts";
+
 export type CategoriaSlug = "mudanzas" | "minibodegas" | "sin-categoria";
 
 export const categorias: Record<CategoriaSlug, string> = {
@@ -51,15 +53,18 @@ export type Post = {
     /** <title> completo del publicado */
     titulo: string;
     descripcion: string | null;
-    /** wordCount del JSON-LD de Article */
+    /** wordCount del JSON-LD de Article: se calcula del contenido (lectura.ts) */
     palabras: number;
-    /** "Tiempo de lectura" de Yoast */
+    /** Tiempo de lectura: se calcula del contenido (lectura.ts) */
     lectura: string | null;
   };
   contenido: BloquePost[];
 };
 
-export const posts: Post[] = [
+/** Un post tal como se escribe aquí: sin palabras ni tiempo de lectura, que se calculan */
+type PostPublicado = Omit<Post, "seo"> & { seo: Omit<Post["seo"], "palabras" | "lectura"> };
+
+const publicados: PostPublicado[] = [
   {
     "slug": "como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza",
     "titulo": "Cómo organizar tu nuevo hogar después de la mudanza",
@@ -76,9 +81,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Cómo organizar tu nuevo hogar después de la mudanza - Kanuby",
-      "descripcion": "Descubre cómo organizar tu nuevo hogar después de tu mudanza. Tips prácticos para que disfrutes tu espacio desde el primer día",
-      "palabras": 359,
-      "lectura": "2 minutos"
+      "descripcion": "Descubre cómo organizar tu nuevo hogar después de tu mudanza. Tips prácticos para que disfrutes tu espacio desde el primer día"
     },
     "contenido": [
       {
@@ -221,9 +224,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Mudanzas premium en San Pedro Garza García",
-      "descripcion": "Mudanzas en San Pedro Garza García. Traslados seguros, rápidos y personalizados en Monterrey. ¡Tu mudanza sin complicaciones!",
-      "palabras": 377,
-      "lectura": "2 minutos"
+      "descripcion": "Mudanzas en San Pedro Garza García. Traslados seguros, rápidos y personalizados en Monterrey. ¡Tu mudanza sin complicaciones!"
     },
     "contenido": [
       {
@@ -376,9 +377,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Múdate de oficina sin complicaciones",
-      "descripcion": "Realiza la mudanza de tu oficina sin pausa en tus operaciones. Aprende las mejores estrategias para mudarte sin contratiempos.",
-      "palabras": 339,
-      "lectura": "2 minutos"
+      "descripcion": "Realiza la mudanza de tu oficina sin pausa en tus operaciones. Aprende las mejores estrategias para mudarte sin contratiempos."
     },
     "contenido": [
       {
@@ -515,9 +514,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Evita estos errores al mudarte.",
-      "descripcion": "Te damos consejos prácticos para que tu mudanza sea sencilla, rápida, sin sorpresas y evita los errores más comunes al mudarte .",
-      "palabras": 340,
-      "lectura": "2 minutos"
+      "descripcion": "Te damos consejos prácticos para que tu mudanza sea sencilla, rápida, sin sorpresas y evita los errores más comunes al mudarte ."
     },
     "contenido": [
       {
@@ -652,9 +649,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Mudanza urgente en Monterrey",
-      "descripcion": "¿Necesitas una mudanza urgente en Monterrey? Contamos con soluciones rápidas, seguras y profesionales para trasladarte sin estrés ni demoras.",
-      "palabras": 340,
-      "lectura": "2 minutos"
+      "descripcion": "¿Necesitas una mudanza urgente en Monterrey? Contamos con soluciones rápidas, seguras y profesionales para trasladarte sin estrés ni demoras."
     },
     "contenido": [
       {
@@ -807,9 +802,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Servicios de mudanza profesional",
-      "descripcion": "Servicios de mudanza profesional con atención personalizada, seguridad y rapidez. Hacemos que tu traslado sea fácil y sin preocupaciones.",
-      "palabras": 416,
-      "lectura": "2 minutos"
+      "descripcion": "Servicios de mudanza profesional con atención personalizada, seguridad y rapidez. Hacemos que tu traslado sea fácil y sin preocupaciones."
     },
     "contenido": [
       {
@@ -954,9 +947,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Mudanzas residenciales en Monterrey",
-      "descripcion": "Servicio profesional de mudanzas en Monterrey con atención personalizada. Haz tu traslado fácil y sin preocupaciones.",
-      "palabras": 355,
-      "lectura": "2 minutos"
+      "descripcion": "Servicio profesional de mudanzas en Monterrey con atención personalizada. Haz tu traslado fácil y sin preocupaciones."
     },
     "contenido": [
       {
@@ -1098,9 +1089,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Checklist para tu mudanza en Monterrey",
-      "descripcion": "Organiza tu mudanza en Monterrey con nuestra checklist práctica. No olvides ningún detalle y haz tu traslado fácil y sin estrés.",
-      "palabras": 386,
-      "lectura": "2 minutos"
+      "descripcion": "Organiza tu mudanza en Monterrey con nuestra checklist práctica. No olvides ningún detalle y haz tu traslado fácil y sin estrés."
     },
     "contenido": [
       {
@@ -1311,9 +1300,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Mejores mudanzas en Monterrey: cómo elegir un servicio confiable",
-      "descripcion": "Descubre cómo elegir un servicio de mudanzas en Monterrey profesional, seguro y sin contratiempos. Guía rápida para tomar la mejor decisión.",
-      "palabras": 339,
-      "lectura": "2 minutos"
+      "descripcion": "Descubre cómo elegir un servicio de mudanzas en Monterrey profesional, seguro y sin contratiempos. Guía rápida para tomar la mejor decisión."
     },
     "contenido": [
       {
@@ -1468,9 +1455,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Guía para conocer las tarifas en mudanzas",
-      "descripcion": "Descubre los factores en las tarifas de mudanzas. Conoce qué servicios incluye un traslado profesional y cómo elegir la mejor opción.",
-      "palabras": 392,
-      "lectura": "2 minutos"
+      "descripcion": "Descubre los factores en las tarifas de mudanzas. Conoce qué servicios incluye un traslado profesional y cómo elegir la mejor opción."
     },
     "contenido": [
       {
@@ -1649,9 +1634,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "¿Tu casa está en remodelación? Una minibodega puede salvarte - Kanuby",
-      "descripcion": "Si vas a remodelar tu casa en Monterrey, una minibodega protege tus muebles del polvo y los golpes mientras trabajan. Te explicamos cómo aprovecharla.",
-      "palabras": 10,
-      "lectura": "1 minuto"
+      "descripcion": "Si vas a remodelar tu casa en Monterrey, una minibodega protege tus muebles del polvo y los golpes mientras trabajan. Te explicamos cómo aprovecharla."
     },
     "contenido": [
       {
@@ -1877,9 +1860,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Consejos para guardar archivo muerto en minibodega - Kanuby",
-      "descripcion": "Cómo guardar el archivo muerto de tu negocio en una minibodega: organización, protección de documentos y consejos para encontrar todo cuando lo necesites.",
-      "palabras": 7,
-      "lectura": "1 minuto"
+      "descripcion": "Cómo guardar el archivo muerto de tu negocio en una minibodega: organización, protección de documentos y consejos para encontrar todo cuando lo necesites."
     },
     "contenido": [
       {
@@ -2036,7 +2017,7 @@ export const posts: Post[] = [
   },
   {
     "slug": "como-organizar-tu-minibodega-facilmente",
-    "titulo": "Cómo organizar tu minibodega facilmente",
+    "titulo": "Cómo organizar tu minibodega fácilmente",
     "fecha": "2025-05-13T23:10:04+00:00",
     "modificado": "2025-05-14T00:46:47+00:00",
     "categorias": [
@@ -2049,10 +2030,8 @@ export const posts: Post[] = [
       "alt": "Minibodega abierta con cajas de madera ordenadas"
     },
     "seo": {
-      "titulo": "Cómo organizar tu minibodega facilmente - Kanuby",
-      "descripcion": "Consejos prácticos para organizar tu minibodega, aprovechar cada metro y encontrar tus cosas sin mover todo. Fácil, rápido y sin estrés.",
-      "palabras": 6,
-      "lectura": "1 minuto"
+      "titulo": "Cómo organizar tu minibodega fácilmente - Kanuby",
+      "descripcion": "Consejos prácticos para organizar tu minibodega, aprovechar cada metro y encontrar tus cosas sin mover todo. Fácil, rápido y sin estrés."
     },
     "contenido": [
       {
@@ -2257,9 +2236,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Guía para elegir el tamaño ideal de tu minibodega - Kanuby",
-      "descripcion": "¿3.5, 7 o 14 m²? Esta guía te ayuda a calcular qué tamaño de minibodega necesitas según lo que vas a guardar, para no pagar de más ni quedarte corto.",
-      "palabras": 11,
-      "lectura": "1 minuto"
+      "descripcion": "¿3.5, 7 o 14 m²? Esta guía te ayuda a calcular qué tamaño de minibodega necesitas según lo que vas a guardar, para no pagar de más ni quedarte corto."
     },
     "contenido": [
       {
@@ -2470,9 +2447,7 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Así es una mudanza con recolección y minibodega incluida: paso a paso - Kanuby",
-      "descripcion": "Así funciona una mudanza con recolección y minibodega incluida con Kanuby: recogemos tus cosas, las guardamos y te las llevamos cuando estés listo.",
-      "palabras": 13,
-      "lectura": "1 minuto"
+      "descripcion": "Así funciona una mudanza con recolección y minibodega incluida con Kanuby: recogemos tus cosas, las guardamos y te las llevamos cuando estés listo."
     },
     "contenido": [
       {
@@ -2639,7 +2614,7 @@ export const posts: Post[] = [
   },
   {
     "slug": "cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025",
-    "titulo": "¿Cuánto cuesta rentar una minibodega en Monterrey? Guía 2025",
+    "titulo": "¿Cuánto cuesta rentar una minibodega en Monterrey? Guía 2026",
     "fecha": "2025-05-13T23:04:34+00:00",
     "modificado": "2025-05-14T00:43:58+00:00",
     "categorias": [
@@ -2652,12 +2627,212 @@ export const posts: Post[] = [
       "alt": "Persona emplayando muebles con película plástica"
     },
     "seo": {
-      "titulo": "¿Cuánto cuesta rentar una minibodega en Monterrey? Guía 2025 - Kanuby",
-      "descripcion": null,
-      "palabras": 10,
-      "lectura": "1 minuto"
+      "titulo": "¿Cuánto cuesta rentar una minibodega en Monterrey? Guía 2026 - Kanuby",
+      "descripcion": "¿De qué depende el costo de rentar una minibodega en Monterrey? Tamaño, tiempo, servicios incluidos y cómo pedir una cotización justa para lo que necesitas."
     },
-    "contenido": []
+    "contenido": [
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Si estás pensando en rentar una minibodega, una de las primeras preguntas es cuánto te va a costar. La respuesta corta es que depende. La respuesta útil es saber exactamente de qué depende, para que compares bien y pagues solo por lo que de verdad necesitas."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "1. El tamaño de la minibodega"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Es el factor que más pesa. Entre más metros, mayor el costo mensual. En Kanuby manejamos minibodegas de 3.5, 7 y 14 m², así que lo primero es elegir el tamaño correcto: ni tan chico que tus cosas no quepan, ni tan grande que pagues por espacio vacío."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Si no sabes cuál necesitas, en nuestro blog tienes ",
+          {
+            "enlace": "/guia-para-elegir-el-tamano-ideal-de-tu-minibodega/",
+            "texto": [
+              "una guía para elegir el tamaño ideal"
+            ]
+          },
+          ", y también puedes escribirnos con tu lista para ayudarte a calcularlo."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "2. El tiempo que la vas a usar"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "No es lo mismo guardar tus cosas un par de meses mientras remodelas que tenerlas guardadas por un año. Al pedir tu cotización, menciona por cuánto tiempo crees que la vas a necesitar."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "3. Los servicios que incluyes"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Hay una gran diferencia entre rentar solo el espacio y que alguien se encargue de todo. Algunos servicios que pueden formar parte de tu cotización:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            {
+              "negrita": [
+                "Recolección a domicilio:"
+              ]
+            },
+            " pasamos por tus cosas a tu casa u oficina."
+          ],
+          [
+            {
+              "negrita": [
+                "Empaque y embalaje:"
+              ]
+            },
+            " protegemos tus muebles y objetos para que lleguen intactos."
+          ],
+          [
+            {
+              "negrita": [
+                "Entrega:"
+              ]
+            },
+            " te llevamos tus cosas de regreso cuando las necesites."
+          ],
+          [
+            {
+              "negrita": [
+                "Material de empaque:"
+              ]
+            },
+            " cajas, cinta y protección para tus pertenencias."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cada servicio que incluyes te ahorra tiempo, esfuerzo y el costo de rentar un camión o pedir ayuda por tu cuenta."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "4. Lo que vas a guardar"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Algunas cosas requieren más cuidado que otras. Muebles grandes, objetos frágiles o equipo de oficina pueden necesitar más trabajo de empaque y manejo, y eso se refleja en la cotización."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Cómo comparar opciones sin equivocarte"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cuando compares minibodegas, no te quedes solo con el precio mensual del espacio. Pregunta siempre:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "¿Incluye recolección y entrega, o tengo que llevar todo yo?"
+          ],
+          [
+            "¿Qué tan fácil es acceder a mis cosas cuando las necesito?"
+          ],
+          [
+            "¿Qué tan seguro es el lugar?"
+          ],
+          [
+            "¿Hay cargos adicionales que no estoy viendo?"
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "A veces la opción que parece más barata termina saliendo más cara cuando sumas el camión, la gasolina y el tiempo que pierdes cargando."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Cómo pedir una cotización precisa"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Entre más información nos des, más exacta será tu cotización. Cuéntanos:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": true,
+        "items": [
+          [
+            "Qué vas a guardar, aunque sea a grandes rasgos."
+          ],
+          [
+            "Por cuánto tiempo."
+          ],
+          [
+            "Si necesitas que recojamos tus cosas o tú las llevas."
+          ],
+          [
+            "Desde qué zona de Monterrey."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Con eso te damos un precio claro y a la medida, sin sorpresas."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cotiza tu minibodega con nosotros por WhatsApp y recibe una propuesta hecha para lo que realmente necesitas."
+        ]
+      }
+    ]
   },
   {
     "slug": "mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte",
@@ -2676,11 +2851,238 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Mudanzas y minibodegas: la combinación perfecta si aún no puedes instalarte - Kanuby",
-      "descripcion": null,
-      "palabras": 13,
-      "lectura": "1 minuto"
+      "descripcion": "Si ya dejaste tu casa pero la nueva aún no está lista, combinar mudanza y minibodega es la solución. Te explicamos cuándo conviene y cómo funciona."
     },
-    "contenido": []
+    "contenido": [
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Hay mudanzas que no caben en un solo día. Entregas el departamento a fin de mes, pero la casa nueva te la dan hasta dentro de tres semanas. O te mudas de ciudad y todavía no encuentras dónde vivir. O la remodelación de tu nuevo hogar se alargó más de lo planeado."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "En todos esos casos, mudarte en dos tiempos es la salida, y combinar mudanza y minibodega es la forma más sencilla de hacerlo."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "El problema de los \"tiempos muertos\""
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cuando hay un hueco entre la casa que dejas y la que recibes, aparecen las complicaciones: dónde guardar los muebles, cómo pagar dos mudanzas distintas, a quién pedirle prestada una cochera, cómo coordinar a varios proveedores. Muchas personas terminan amontonando sus cosas en casa de algún familiar, con el riesgo de que se maltraten o se pierdan."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Cómo funciona la combinación"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "La idea es simple: una sola empresa se encarga de todo el trayecto."
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": true,
+        "items": [
+          [
+            {
+              "negrita": [
+                "Recolectamos"
+              ]
+            },
+            " tus cosas en la casa que dejas."
+          ],
+          [
+            {
+              "negrita": [
+                "Las guardamos"
+              ]
+            },
+            " en una minibodega segura el tiempo que necesites."
+          ],
+          [
+            {
+              "negrita": [
+                "Te las llevamos"
+              ]
+            },
+            " a tu nuevo hogar cuando estés listo para instalarte."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Tú no tienes que rentar un camión dos veces, ni coordinar con nadie más, ni preocuparte por dónde quedan tus cosas mientras tanto."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Cuándo te conviene"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            {
+              "negrita": [
+                "Vendiste y compraste, pero las fechas no coinciden."
+              ]
+            },
+            " Es el caso más común."
+          ],
+          [
+            {
+              "negrita": [
+                "Estás remodelando"
+              ]
+            },
+            " la casa a la que te vas a mudar."
+          ],
+          [
+            {
+              "negrita": [
+                "Te vas a otra ciudad"
+              ]
+            },
+            ", por ejemplo de Monterrey a CDMX, y necesitas tiempo para encontrar dónde vivir."
+          ],
+          [
+            {
+              "negrita": [
+                "Vas a vivir un tiempo fuera"
+              ]
+            },
+            " y quieres conservar tus muebles sin seguir pagando renta."
+          ],
+          [
+            {
+              "negrita": [
+                "Te estás reorganizando"
+              ]
+            },
+            ": una separación, un cambio de trabajo o un ajuste familiar."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Ventajas de hacerlo con una sola empresa"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            {
+              "negrita": [
+                "Menos manejo de tus cosas."
+              ]
+            },
+            " Entre menos veces se carguen y descarguen, menos riesgo de golpes."
+          ],
+          [
+            {
+              "negrita": [
+                "Un solo responsable."
+              ]
+            },
+            " Si tienes una duda, sabes a quién llamar."
+          ],
+          [
+            {
+              "negrita": [
+                "Flexibilidad."
+              ]
+            },
+            " Si tu fecha de entrega cambia, tus cosas siguen seguras hasta que estés listo."
+          ],
+          [
+            {
+              "negrita": [
+                "Tranquilidad."
+              ]
+            },
+            " No tienes que estar al pendiente de lo que dejaste en casa de alguien más."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Consejos para que todo salga bien"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": true,
+        "items": [
+          [
+            {
+              "negrita": [
+                "Separa lo que vas a necesitar"
+              ]
+            },
+            " en esas semanas y llévalo contigo: ropa, documentos, medicinas y lo de trabajo."
+          ],
+          [
+            {
+              "negrita": [
+                "Etiqueta las cajas"
+              ]
+            },
+            " con su contenido y la habitación de destino en la casa nueva."
+          ],
+          [
+            {
+              "negrita": [
+                "Calcula el tiempo con margen."
+              ]
+            },
+            " Las entregas y las obras suelen retrasarse."
+          ],
+          [
+            {
+              "negrita": [
+                "Avísanos con anticipación"
+              ]
+            },
+            " cuando ya tengas fecha para instalarte, para programar la entrega."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Mudarte en dos tiempos no tiene por qué ser el doble de complicado. Cotiza tu mudanza con minibodega incluida y deja que nos encarguemos de todo el trayecto."
+        ]
+      }
+    ]
   },
   {
     "slug": "guia-para-mudarte-a-monterrey-desde-otra-ciudad",
@@ -2698,11 +3100,180 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Guía para mudarte a Monterrey desde otra ciudad - Kanuby",
-      "descripcion": null,
-      "palabras": 9,
-      "lectura": "1 minuto"
+      "descripcion": "Guía práctica para mudarte a Monterrey desde otra ciudad: cómo planear, qué considerar al elegir zona y cómo organizar tu mudanza sin estrés."
     },
-    "contenido": []
+    "contenido": [
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Mudarte a Monterrey es emocionante. Es una ciudad con muchas oportunidades de trabajo, buena calidad de vida y una cultura muy propia. Pero también es una mudanza grande: cambias de casa, de ciudad y, muchas veces, de rutina completa. Planear bien hace toda la diferencia."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "1. Empieza con tiempo"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Una mudanza entre ciudades necesita más planeación que una local. Lo ideal es empezar a organizarte con varias semanas de anticipación: cotizar, definir fechas y decidir qué te llevas y qué no."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "2. Decide qué te llevas"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Mover muebles a otra ciudad tiene un costo, así que vale la pena preguntarte qué de verdad quieres conservar. Muebles viejos, electrodomésticos que ya fallan o cosas que no usas desde hace años pueden quedarse: véndelos, regálalos o dónalos antes de mudarte."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "3. Conoce las zonas de la ciudad"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "El área metropolitana de Monterrey es grande y cada zona tiene su propio estilo. Antes de elegir dónde vivir, piensa en:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            {
+              "negrita": [
+                "Dónde vas a trabajar o estudiar."
+              ]
+            },
+            " El tráfico en horas pico puede ser pesado, así que vivir cerca de tus actividades diarias te ahorra mucho tiempo."
+          ],
+          [
+            {
+              "negrita": [
+                "Tu presupuesto."
+              ]
+            },
+            " Las rentas y los precios cambian mucho de una zona a otra."
+          ],
+          [
+            {
+              "negrita": [
+                "Tu estilo de vida."
+              ]
+            },
+            " Hay zonas más tranquilas y residenciales, y otras más céntricas y con más vida."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Si puedes, visita la ciudad antes y recorre las zonas que te interesan a distintas horas del día."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "4. Considera el clima"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Monterrey es una ciudad de clima extremoso, con veranos muy calurosos. Si tu mudanza es en esos meses, conviene hacerla temprano en la mañana, cuidar los objetos sensibles al calor y asegurarte de que la casa nueva tenga ventilación o clima listo para cuando llegues."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "5. Organiza los trámites"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Antes y después de mudarte hay pendientes que conviene no dejar para el final:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Contratar luz, agua, gas e internet en tu nuevo domicilio."
+          ],
+          [
+            "Actualizar tu dirección en el banco, el trabajo y tus servicios."
+          ],
+          [
+            "Inscribir a tus hijos en la escuela, si es el caso."
+          ],
+          [
+            "Ubicar clínicas, supermercados y servicios cerca de tu nueva casa."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "6. Si todavía no tienes dónde vivir"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Es muy común llegar a una ciudad nueva sin tener todavía la casa definitiva. En ese caso, una minibodega es una gran aliada: guardas tus cosas mientras buscas con calma dónde vivir, sin tener que decidir con prisa."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "7. Elige bien a tu empresa de mudanzas"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "En una mudanza entre ciudades, tus cosas viajan muchos kilómetros. Elige una empresa con experiencia en este tipo de servicio, que te dé una cotización clara y que proteja bien tus pertenencias."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "En Kanuby tenemos más de 20 años haciendo mudanzas, incluidas las de Monterrey a CDMX y de CDMX a Monterrey. Empacamos, cargamos y trasladamos todo por ti, y si lo necesitas, guardamos tus cosas en una minibodega hasta que estés listo para instalarte."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Bienvenido a Monterrey. Cotiza tu mudanza con nosotros y llega sin preocupaciones."
+        ]
+      }
+    ]
   },
   {
     "slug": "checklist-definitiva-para-mudarte-en-monterrey-sin-estres",
@@ -2720,11 +3291,213 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Checklist definitiva para mudarte en Monterrey sin estrés - Kanuby",
-      "descripcion": null,
-      "palabras": 9,
-      "lectura": "1 minuto"
+      "descripcion": "La checklist más completa para tu mudanza en Monterrey: qué hacer semanas antes, días antes, el día de la mudanza y al llegar a tu nuevo hogar."
     },
-    "contenido": []
+    "contenido": [
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Una mudanza tiene muchas piezas que mover, y no solo hablamos de muebles. Fechas, trámites, cajas, servicios y pendientes de último minuto. La mejor forma de no olvidar nada es tener una lista y seguirla paso a paso."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Esta es la checklist que recomendamos a nuestros clientes."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Un mes antes"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Define la fecha de tu mudanza."
+          ],
+          [
+            "Cotiza con empresas de mudanzas y confirma la que elijas."
+          ],
+          [
+            "Haz un inventario de lo que vas a mover."
+          ],
+          [
+            "Decide qué vas a vender, regalar o donar."
+          ],
+          [
+            "Si vas a necesitar una minibodega, resérvala."
+          ],
+          [
+            "Consigue material de empaque: cajas, cinta, papel y plástico."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Dos semanas antes"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Empieza a empacar lo que menos usas: libros, decoración, ropa de otra temporada."
+          ],
+          [
+            "Etiqueta cada caja con su contenido y la habitación de destino."
+          ],
+          [
+            "Programa el cambio o la contratación de luz, agua, gas e internet."
+          ],
+          [
+            "Avisa tu cambio de domicilio al banco, al trabajo y a tus servicios."
+          ],
+          [
+            "Si rentas, confirma con el arrendador la fecha de entrega y la revisión del inmueble."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Una semana antes"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Empaca casi todo, dejando solo lo indispensable."
+          ],
+          [
+            "Desarma los muebles que se puedan desarmar y guarda los tornillos en bolsas etiquetadas."
+          ],
+          [
+            "Confirma la hora y los detalles con la empresa de mudanzas."
+          ],
+          [
+            "Prepara una maleta con lo que vas a necesitar los primeros días."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Dos días antes"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Descongela y limpia el refrigerador."
+          ],
+          [
+            "Desconecta y prepara los electrodomésticos."
+          ],
+          [
+            "Separa documentos importantes, joyas y objetos de valor para llevarlos contigo."
+          ],
+          [
+            "Confirma el acceso en tu casa nueva: llaves, estacionamiento y permisos del edificio o fraccionamiento."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "El día de la mudanza"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Ten a la mano tu maleta, documentos y cargadores."
+          ],
+          [
+            "Revisa cada cuarto, closet y cajón antes de salir."
+          ],
+          [
+            "Toma fotos de cómo dejas la casa, sobre todo si es rentada."
+          ],
+          [
+            "Indica al equipo qué cajas son frágiles y cuáles van a qué habitación."
+          ],
+          [
+            "Lleva agua y algo de comer: el día es largo."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Al llegar a tu nuevo hogar"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Revisa que haya llegado todo y en buen estado."
+          ],
+          [
+            "Arma primero la cama y prepara el baño; lo demás puede esperar."
+          ],
+          [
+            "Desempaca por prioridades: cocina básica, ropa y artículos de limpieza."
+          ],
+          [
+            "Ubica la caja de luz y la llave de agua."
+          ],
+          [
+            "Date tiempo: acomodar una casa toma días, no horas."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Un consejo extra"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "La mayoría del estrés de una mudanza viene de intentar hacerlo todo uno mismo. En Kanuby nos encargamos de empacar, cargar y trasladar tus cosas, y si lo necesitas, también de desarmar y armar tus muebles. Tú solo sigues esta lista con calma."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cotiza tu mudanza con nosotros y tacha el pendiente más grande de tu lista."
+        ]
+      }
+    ]
   },
   {
     "slug": "los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey",
@@ -2742,11 +3515,197 @@ export const posts: Post[] = [
     },
     "seo": {
       "titulo": "Los mejores días y horarios para hacer tu mudanza en Monterrey - Kanuby",
-      "descripcion": null,
-      "palabras": 12,
-      "lectura": null
+      "descripcion": "¿Qué día y a qué hora conviene mudarte en Monterrey? Consejos sobre clima, tráfico, temporadas y horarios para que tu mudanza sea más fácil."
     },
-    "contenido": []
+    "contenido": [
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Elegir bien el día y la hora de tu mudanza puede hacerla mucho más sencilla. El clima, el tráfico y la temporada del año influyen en qué tan rápido y cómodo sale todo. Estos son los puntos que conviene considerar en Monterrey."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "La mejor hora: temprano en la mañana"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "En Monterrey el calor puede ser intenso, sobre todo en verano. Empezar temprano tiene varias ventajas:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "El calor todavía no es tan fuerte, lo que es mejor para el equipo y para tus cosas."
+          ],
+          [
+            "Hay más horas de luz para terminar con calma."
+          ],
+          [
+            "Si surge un imprevisto, hay tiempo para resolverlo el mismo día."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Los objetos sensibles al calor, como electrónicos, velas, plantas o documentos, también sufren menos si el traslado es temprano."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Evita las horas pico"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "El tráfico en el área metropolitana puede ser pesado en las horas de entrada y salida de trabajo y escuelas. Una mudanza que esquiva esos horarios avanza más rápido y con menos estrés. Si tu ruta cruza zonas muy transitadas, tómalo en cuenta al elegir la hora."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Entre semana o fin de semana"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Los fines de semana son cómodos porque no tienes que faltar al trabajo, pero suelen ser los días con más demanda. Si puedes mudarte entre semana, normalmente tendrás más opciones de fecha y horario."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Las fechas más solicitadas"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Hay temporadas en las que muchas personas se mudan al mismo tiempo:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            {
+              "negrita": [
+                "Fin y principio de mes"
+              ]
+            },
+            ", cuando vencen y empiezan los contratos de renta."
+          ],
+          [
+            {
+              "negrita": [
+                "Las vacaciones de verano"
+              ]
+            },
+            ", porque las familias aprovechan antes del regreso a clases."
+          ],
+          [
+            {
+              "negrita": [
+                "El fin de año."
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Si tu mudanza cae en estas fechas, reserva con más anticipación para asegurar el día que quieres."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Ojo con la temporada de lluvias"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "En algunos meses, Monterrey puede tener lluvias fuertes. Si tu mudanza coincide con esa temporada, revisa el pronóstico unos días antes y asegúrate de que tus cosas vayan bien protegidas con plástico y emplayado."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Consideraciones del edificio o fraccionamiento"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Si vives en un edificio o en un fraccionamiento privado, revisa:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Los horarios permitidos para mudanzas."
+          ],
+          [
+            "Si necesitas reservar el elevador o avisar en caseta."
+          ],
+          [
+            "Dónde se puede estacionar el camión."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Tenerlo resuelto antes evita retrasos el mismo día."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "El mejor día es el que planeas con tiempo"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Más allá del día de la semana, lo que más ayuda es organizarte con anticipación y elegir una empresa que llegue puntual y trabaje rápido. En Kanuby te ayudamos a elegir la fecha y el horario que mejor te convienen según tu ruta y lo que vas a mover."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cotiza tu mudanza con nosotros y elige el momento ideal para mudarte."
+        ]
+      }
+    ]
   },
   {
     "slug": "como-elegir-una-empresa-de-mudanzas-confiable-en-monterrey",
@@ -2759,11 +3718,182 @@ export const posts: Post[] = [
     "imagen": null,
     "seo": {
       "titulo": "Cómo elegir una empresa de mudanzas confiable en Monterrey - Kanuby",
-      "descripcion": null,
-      "palabras": 10,
-      "lectura": null
+      "descripcion": "Cómo elegir una empresa de mudanzas confiable en Monterrey: qué revisar, qué preguntar y qué señales de alerta evitar antes de contratar."
     },
-    "contenido": []
+    "contenido": [
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Contratar una empresa de mudanzas es confiarle todo lo que tienes a un equipo que acabas de conocer. Por eso vale la pena tomarse unos minutos para elegir bien. Una buena empresa te ahorra estrés, tiempo y dinero; una mala puede convertir tu mudanza en una pesadilla."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Estos son los puntos que conviene revisar."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "1. Experiencia comprobable"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Pregunta cuánto tiempo llevan en el negocio y qué tipo de mudanzas hacen. No es lo mismo mover un departamento dentro de la ciudad que una oficina completa o una mudanza a otra ciudad. Una empresa con años de experiencia ya resolvió los problemas que a ti te preocupan."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "2. Opiniones reales de clientes"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Las reseñas en Google son una de las mejores referencias. Fíjate no solo en la calificación, sino en cuántas opiniones tiene y qué dicen: puntualidad, cuidado de los muebles, trato del personal. Diez reseñas perfectas dicen menos que cien reseñas muy buenas."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "3. Una cotización clara"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Una empresa seria te explica qué incluye su servicio antes de que contrates. Pide que te detallen:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Qué se va a mover y desde dónde hasta dónde."
+          ],
+          [
+            "Si incluye empaque, desarmado y armado de muebles."
+          ],
+          [
+            "Cuántas personas y qué vehículo van a usar."
+          ],
+          [
+            "Si hay cargos adicionales por pisos, distancia o artículos especiales."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Si la cotización es vaga o cambia mucho el día de la mudanza, es una mala señal."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "4. Cuidado de tus cosas"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Pregunta cómo protegen los muebles y los objetos frágiles. Una buena empresa usa cobijas, emplayado y material de empaque adecuado, y sabe cómo cargar cada pieza sin dañarla ni dañar tu casa."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "5. Comunicación"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Desde la primera conversación te das cuenta de cómo trabaja una empresa. ¿Responden rápido? ¿Contestan tus dudas con claridad? ¿Confirman fechas y horarios? La forma en que te atienden antes de contratar suele ser la forma en que te atienden el día de la mudanza."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Señales de alerta"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            {
+              "negrita": [
+                "Un precio demasiado bajo"
+              ]
+            },
+            " comparado con los demás. Muchas veces se compensa con cargos sorpresa o con un servicio descuidado."
+          ],
+          [
+            {
+              "negrita": [
+                "Piden el pago completo por adelantado"
+              ]
+            },
+            " sin ninguna garantía."
+          ],
+          [
+            {
+              "negrita": [
+                "No tienen reseñas ni referencias"
+              ]
+            },
+            " que puedas consultar."
+          ],
+          [
+            {
+              "negrita": [
+                "No quieren detallar"
+              ]
+            },
+            " qué incluye el servicio."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Lo que puedes esperar de Kanuby"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "En Kanuby tenemos más de 20 años haciendo mudanzas en Monterrey, a CDMX y para empresas. Nuestros clientes nos califican con 4.9 en Google. Te damos una cotización clara, empacamos, cargamos y trasladamos todo por ti, y si lo necesitas, guardamos tus cosas en una minibodega."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cotiza tu mudanza con nosotros y compara: la confianza se nota desde el primer mensaje."
+        ]
+      }
+    ]
   },
   {
     "slug": "errores-comunes-al-mudarse-en-monterrey-y-como-evitarlos",
@@ -2776,11 +3906,190 @@ export const posts: Post[] = [
     "imagen": null,
     "seo": {
       "titulo": "Errores comunes al mudarse en Monterrey (y cómo evitarlos) - Kanuby",
-      "descripcion": null,
-      "palabras": 10,
-      "lectura": null
+      "descripcion": "Los errores más comunes al mudarse en Monterrey y cómo evitarlos: planeación, empaque, clima, tráfico y los detalles que más se olvidan."
     },
-    "contenido": []
+    "contenido": [
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Casi todas las mudanzas complicadas tienen algo en común: se pudieron evitar con un poco de planeación. Estos son los errores que más vemos y cómo no cometerlos."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "1. Dejar todo para el final"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Empacar una casa completa toma más tiempo del que parece. Si empiezas una noche antes, terminas metiendo todo sin orden y sin protección. Empieza a empacar con al menos dos semanas de anticipación, comenzando por lo que menos usas."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "2. Mudar cosas que ya no necesitas"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cada mueble y cada caja de más ocupa espacio en el camión y tiempo de trabajo. Antes de empacar, separa lo que vas a vender, regalar o donar. Te vas a mudar más ligero y vas a llegar a una casa más ordenada."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "3. Usar cajas inadecuadas"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Las cajas viejas o de distintos tamaños se rompen, se aplastan y no se apilan bien. Usa cajas firmes, del mismo tamaño en lo posible, y no las sobrecargues: lo pesado en cajas chicas, lo ligero en grandes."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "4. No etiquetar"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Sin etiquetas, desempacar se convierte en abrir cajas al azar. Escribe en cada caja qué contiene y a qué habitación va, y marca bien las que son frágiles."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "5. No proteger los muebles"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Un rayón en una mesa o un golpe en un refrigerador se evita con cobijas, plástico y emplayado. Proteger bien cuesta poco comparado con reparar."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "6. Ignorar el calor"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Monterrey tiene veranos muy calurosos. Mudarse al mediodía agota a todos y puede dañar objetos sensibles, como electrónicos, velas o documentos. Si puedes, empieza temprano."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "7. No considerar el tráfico"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Las horas pico pueden alargar mucho un traslado. Planea los horarios para evitar las horas de entrada y salida de trabajo y escuelas, sobre todo si cruzas la ciudad."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "8. Olvidar las reglas del edificio o fraccionamiento"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Muchos edificios y fraccionamientos privados tienen horarios para mudanzas, piden aviso previo o reservar el elevador. Revisarlo antes evita que el camión se quede esperando en la entrada."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "9. No tener a la mano lo indispensable"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Prepara una maleta o caja con lo que vas a necesitar el primer día: ropa, medicinas, cargadores, documentos, artículos de baño y algo para la cocina. Así no tendrás que abrir veinte cajas para encontrar tu cepillo de dientes."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "10. No revisar todo al llegar"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Antes de que el equipo se vaya, revisa que hayan llegado todas las cajas y que los muebles estén en buen estado. Es más fácil resolver cualquier detalle en el momento."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "11. Contratar solo por precio"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "La opción más barata no siempre es la más económica. Una empresa sin experiencia puede salir cara si rompe tus cosas o se retrasa. Revisa opiniones, experiencia y qué incluye el servicio."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Mudarte sin errores"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "En Kanuby llevamos más de 20 años ayudando a familias y empresas a mudarse sin estos dolores de cabeza. Empacamos, protegemos, cargamos y trasladamos todo por ti."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cotiza tu mudanza con nosotros y evita los errores desde el principio."
+        ]
+      }
+    ]
   },
   {
     "slug": "las-mejores-zonas-para-mudarte-en-monterrey-si-buscas-seguridad-y-conectividad",
@@ -2793,15 +4102,204 @@ export const posts: Post[] = [
     "imagen": null,
     "seo": {
       "titulo": "Las mejores zonas para mudarte en Monterrey si buscas seguridad y conectividad - Kanuby",
-      "descripcion": null,
-      "palabras": 12,
-      "lectura": null
+      "descripcion": "Conoce algunas de las zonas más buscadas para vivir en Monterrey y su área metropolitana, y qué considerar si buscas tranquilidad y buena conectividad."
     },
-    "contenido": []
+    "contenido": [
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Elegir dónde vivir es tan importante como elegir la casa. En el área metropolitana de Monterrey hay zonas para todos los estilos de vida y presupuestos, y la mejor para ti depende de dónde trabajas, cómo te mueves y qué buscas en tu día a día."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Esta guía te da un panorama general de algunas de las zonas más buscadas, para que empieces tu búsqueda con más claridad."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Qué considerar antes de elegir"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            {
+              "negrita": [
+                "Distancia a tus actividades diarias."
+              ]
+            },
+            " El tráfico en horas pico puede ser pesado; vivir cerca del trabajo o la escuela te regala tiempo."
+          ],
+          [
+            {
+              "negrita": [
+                "Acceso a vías principales."
+              ]
+            },
+            " Estar cerca de avenidas importantes facilita moverte por la ciudad."
+          ],
+          [
+            {
+              "negrita": [
+                "Servicios cercanos."
+              ]
+            },
+            " Supermercados, escuelas, hospitales y farmacias."
+          ],
+          [
+            {
+              "negrita": [
+                "Tranquilidad."
+              ]
+            },
+            " Cada persona la vive distinto; lo mejor es visitar la zona a distintas horas y preguntar a quienes ya viven ahí."
+          ]
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "San Pedro Garza García"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Es uno de los municipios más buscados del área metropolitana. Concentra zonas residenciales, corporativos, centros comerciales y restaurantes, sobre todo alrededor de Valle Oriente. Suele ser de las zonas con mayor costo de vivienda."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Cumbres"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Al poniente de Monterrey, es una zona residencial muy popular entre familias, con muchos fraccionamientos, escuelas y comercios. Ha crecido mucho en los últimos años."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Carretera Nacional"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Al sur de la ciudad, es atractiva para quienes buscan rodearse de naturaleza, con vistas a la sierra y desarrollos residenciales más recientes. Conviene considerar los tiempos de traslado hacia el resto de la ciudad en horas pico."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Contry y el sur de Monterrey"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Zonas residenciales consolidadas, con buena oferta de servicios y acceso a vías principales hacia el centro y el sur de la ciudad."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Centro y Obispado"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Para quienes prefieren la vida urbana, el centro de Monterrey y la zona del Obispado ofrecen cercanía a oficinas, universidades, cultura y transporte público."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Apodaca, Escobedo y el norte de la ciudad"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Municipios con opciones de vivienda más accesibles y cercanía a parques industriales y al aeropuerto. Son una buena opción para quienes trabajan en esa zona."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Guadalupe y Santa Catarina"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Al oriente y al poniente del área metropolitana, respectivamente, con amplia oferta de vivienda y buena conexión hacia Monterrey."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Un consejo importante"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Las zonas cambian con el tiempo y cada colonia es distinta, incluso dentro del mismo municipio. Antes de decidir, visita la zona, recorre las calles de día y de noche, y platica con vecinos. Esa información vale más que cualquier lista."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Cuando ya elegiste tu nueva casa"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "En Kanuby hacemos mudanzas en todo Monterrey y su área metropolitana. Empacamos, cargamos y trasladamos todo por ti, y si tu nueva casa todavía no está lista, guardamos tus cosas en una minibodega mientras tanto."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cotiza tu mudanza con nosotros y llega a tu nueva zona sin preocupaciones."
+        ]
+      }
+    ]
   },
   {
     "slug": "cuanto-cuesta-una-mudanza-en-monterrey-en-2025",
-    "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2025?",
+    "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2026?",
     "fecha": "2025-05-13T22:52:54+00:00",
     "modificado": "2025-05-13T22:56:10+00:00",
     "categorias": [
@@ -2809,14 +4307,221 @@ export const posts: Post[] = [
     ],
     "imagen": null,
     "seo": {
-      "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2025? - Kanuby",
-      "descripcion": null,
-      "palabras": 8,
-      "lectura": null
+      "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2026? - Kanuby",
+      "descripcion": "¿De qué depende el costo de una mudanza en Monterrey? Volumen, distancia, accesos, servicios incluidos y cómo pedir una cotización justa."
     },
-    "contenido": []
+    "contenido": [
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cada mudanza es distinta, y por eso su costo también lo es. No es lo mismo mover un departamento de una recámara que una casa completa, ni hacerlo dentro de la misma colonia que de Monterrey a CDMX. Entender qué influye en el precio te ayuda a comparar bien y a pedir una cotización justa."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "1. El volumen de tus cosas"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Es el factor principal. Entre más muebles y cajas, más espacio en el camión, más personas y más tiempo de trabajo. Por eso es tan útil depurar antes de mudarte: todo lo que no te llevas, no lo pagas."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "2. La distancia"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Una mudanza dentro de Monterrey y su área metropolitana no cuesta lo mismo que una a otra ciudad. En las mudanzas foráneas, como de Monterrey a CDMX, influyen los kilómetros, las casetas y el tiempo de traslado."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "3. Los accesos"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Subir una sala por escaleras hasta un cuarto piso no es lo mismo que cargarla en una casa de una planta. Pisos, elevadores, distancia entre el camión y la puerta, y calles estrechas influyen en el trabajo del equipo."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "4. Los servicios que incluyes"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Una mudanza puede ser solo carga y traslado, o puede incluir todo:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "Empaque y desempaque."
+          ],
+          [
+            "Embalaje especial para objetos frágiles."
+          ],
+          [
+            "Desarmado y armado de muebles."
+          ],
+          [
+            "Material de empaque."
+          ],
+          [
+            "Almacenaje temporal en minibodega."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cada servicio suma, pero también te ahorra tiempo, esfuerzo y el riesgo de que tus cosas se dañen."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "5. Artículos especiales"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Pianos, cajas fuertes, obras de arte, equipos de oficina o electrodomésticos muy grandes requieren más cuidado y, a veces, más personal."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "6. La fecha"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Hay temporadas con más demanda, como fin de mes, vacaciones de verano y fin de año. Reservar con anticipación te ayuda a conseguir la fecha que quieres."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Cómo comparar cotizaciones"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "No compares solo el número final. Revisa qué incluye cada cotización:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": false,
+        "items": [
+          [
+            "¿Incluye empaque o tienes que empacar tú?"
+          ],
+          [
+            "¿Cuántas personas van a trabajar?"
+          ],
+          [
+            "¿Hay cargos adicionales por pisos, distancia o artículos especiales?"
+          ],
+          [
+            "¿Qué opiniones tiene la empresa?"
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Una cotización más barata que no incluye empaque ni protección puede salir más cara si algo se rompe."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
+          "Cómo obtener una cotización precisa"
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Entre más información compartas, más exacta será tu cotización. Cuéntanos:"
+        ]
+      },
+      {
+        "tipo": "lista",
+        "ordenada": true,
+        "items": [
+          [
+            "Qué vas a mover, por ejemplo cuántas recámaras y muebles grandes."
+          ],
+          [
+            "Desde dónde y hacia dónde."
+          ],
+          [
+            "Cómo son los accesos: pisos, elevador, estacionamiento."
+          ],
+          [
+            "Qué servicios necesitas."
+          ],
+          [
+            "La fecha aproximada."
+          ]
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "En Kanuby te damos una cotización clara y a la medida, sin sorpresas el día de la mudanza."
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
+          "Cotiza tu mudanza con nosotros por WhatsApp y conoce el costo de tu mudanza en minutos."
+        ]
+      }
+    ]
   }
 ];
+
+/* Cada post, con su número de palabras y su tiempo de lectura calculados de su contenido real */
+export const posts: Post[] = publicados.map((post) => {
+  const palabras = contarPalabras(post.contenido);
+  return { ...post, seo: { ...post.seo, palabras, lectura: tiempoLectura(palabras) } };
+});
 
 /** Los posts más recientes primero, como los ordena WordPress. */
 export function postsRecientes(cantidad: number): Post[] {

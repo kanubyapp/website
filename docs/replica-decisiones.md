@@ -42,14 +42,5 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
 - [ ] Decisiones editoriales en el contenido de los posts (se copian tal cual):
   - /como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza/: repite la idea "mantener el orden a largo plazo" en dos frases seguidas.
   - /servicio-de-mudanza-profesional-en-monterrey/: dos títulos-pregunta seguidos que dicen lo mismo ("¿Qué servicios están incluidos en una mudanza?" y "¿Qué incluye un servicio de mudanza profesional en Monterrey?").
-- [ ] Posts publicados sin contenido (en el sitio y en la API de WordPress; se replican vacíos):
-  - cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025
-  - mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte
-  - guia-para-mudarte-a-monterrey-desde-otra-ciudad
-  - checklist-definitiva-para-mudarte-en-monterrey-sin-estres
-  - los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey
-  - como-elegir-una-empresa-de-mudanzas-confiable-en-monterrey
-  - errores-comunes-al-mudarse-en-monterrey-y-como-evitarlos
-  - las-mejores-zonas-para-mudarte-en-monterrey-si-buscas-seguridad-y-conectividad
-  - cuanto-cuesta-una-mudanza-en-monterrey-en-2025
+- [x] Posts publicados sin contenido: resuelto. Los 14 posts vacíos ya tienen contenido (docs/posts-tanda-1.md, -2.md y -3.md).
 - [ ] Antes de publicar: inventariar las redirecciones 301 que tenga configuradas WordPress (por ejemplo /checklist-para-mudarte-en-monterrey-sin-complicaciones/ → /checklist-mudanza-monterrey/) para replicarlas en el sitio nuevo.
