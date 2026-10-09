@@ -6,17 +6,8 @@
 
 /* Ancho común de las secciones */
 .hero,
-.necesitas,
-.noticias {
+.necesitas {
   padding-inline: var(--relleno-seccion);
-}
-
-.tituloSeccion {
-  color: var(--color-texto);
-  font-size: var(--texto-40);
-  font-weight: var(--peso-medium);
-  line-height: var(--interlineado-encabezado);
-  text-align: center;
 }
 
 /* Hero: el resplandor (kb-resplandor) ocupa todo el ancho de la ventana */
@@ -226,17 +217,59 @@
   font-weight: var(--peso-semibold);
 }
 
-/* Últimas Noticias */
+/*
+ * Últimas Noticias: columna de texto fija a la izquierda y el carrusel a la
+ * derecha, sin margen derecho para que la última tarjeta quede cortada por
+ * el borde de la pantalla.
+ */
 .noticias {
+  display: grid;
+  grid-template-columns: minmax(260px, 26%) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--espacio-5);
+  padding: var(--espacio-seccion) 0 var(--espacio-seccion) var(--relleno-seccion);
+}
+
+.noticiasTexto {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-4);
-  padding-block: var(--espacio-seccion);
+  align-items: flex-start;
+  gap: var(--espacio-2);
+}
+
+.noticiasTitulo {
+  color: var(--color-texto);
+  font-size: var(--texto-40);
+  font-weight: var(--peso-semibold);
+  line-height: var(--interlineado-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.noticiasParrafo {
+  margin-bottom: var(--espacio-1);
+  color: var(--color-texto-secundario);
+  font-size: var(--texto-17);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-parrafo);
+}
+
+.noticiasCarrusel {
+  min-width: 0;
 }
 
 @media (max-width: 1024px) {
   .heroTitulo {
     font-size: var(--texto-60);
+  }
+
+  /* Tablet y móvil: texto arriba y carrusel abajo, que sigue llegando al borde derecho */
+  .noticias {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espacio-3);
+  }
+
+  .noticiasTexto {
+    padding-right: var(--relleno-seccion);
   }
 }
 
@@ -257,10 +290,6 @@
 
   .heroTexto {
     font-size: var(--texto-17);
-  }
-
-  .tituloSeccion {
-    font-size: var(--texto-32);
   }
 
   .necesitasCaja {
@@ -297,7 +326,10 @@
   }
 
   .noticias {
-    gap: var(--espacio-3);
     padding-block: var(--espacio-seccion-movil);
+  }
+
+  .noticiasTitulo {
+    font-size: var(--texto-32);
   }
 }

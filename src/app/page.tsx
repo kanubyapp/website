@@ -182,16 +182,28 @@ export default function Home() {
           className={`kb-resplandor-suave ${styles.noticias}`}
           aria-labelledby="ultimas-noticias"
         >
-          <h2 id="ultimas-noticias" className={styles.tituloSeccion}>
-            Últimas Noticias
-          </h2>
-          <CarruselNoticias
-            posts={postsRecientes(10).map(({ slug, titulo, imagen }) => ({
-              slug,
-              titulo,
-              imagen,
-            }))}
-          />
+          <div className={styles.noticiasTexto}>
+            <h2 id="ultimas-noticias" className={styles.noticiasTitulo}>
+              Últimas Noticias
+            </h2>
+            <p className={styles.noticiasParrafo}>
+              Guías y consejos para que tu mudanza o tu minibodega salgan sin estrés: cómo
+              empacar, cuánto cuesta, qué tamaño elegir y más.
+            </p>
+            <Link href="/blog/" className="kb-boton-secundario">
+              Ver todo el blog
+            </Link>
+          </div>
+          {/* El carrusel llega al borde derecho de la pantalla y la última tarjeta asoma cortada */}
+          <div className={styles.noticiasCarrusel}>
+            <CarruselNoticias
+              posts={postsRecientes(10).map(({ slug, titulo, imagen }) => ({
+                slug,
+                titulo,
+                imagen,
+              }))}
+            />
+          </div>
         </section>
       </main>
       <SiteFooter />

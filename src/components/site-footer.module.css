@@ -16,9 +16,10 @@
   background: var(--resplandor-suave), var(--color-superficie);
 }
 
+/* Cuatro columnas; la de Kanuby, con el párrafo, más ancha */
 .principal {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr repeat(3, 1fr);
   align-items: start;
   gap: var(--espacio-5);
 }
@@ -101,11 +102,16 @@
   line-height: var(--interlineado-base);
 }
 
-/* El webtag solo existe en negro: se pinta en blanco para el fondo oscuro. */
+/* Variante en blanco del webtag, con la marca del hexágono en el azul de la superficie */
 .webtag img {
   width: 150px;
-  filter: brightness(0) invert(1);
   opacity: 0.7;
+}
+
+@media (max-width: 1024px) {
+  .principal {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 767px) {

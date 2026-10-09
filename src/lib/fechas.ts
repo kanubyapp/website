@@ -19,3 +19,19 @@ export function fechaRelativa(fecha: string, hoy: Date): string {
   if (dias < 365) return plural(Math.floor(dias / 30), "mes", "meses");
   return plural(Math.floor(dias / 365), "año", "años");
 }
+
+/*
+ * Fecha de publicación de un post para mostrar ("13 de mayo de 2025"), en la
+ * hora de Monterrey: las fechas del sitio publicado vienen en UTC.
+ */
+const FECHA_LARGA = new Intl.DateTimeFormat("es-MX", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "America/Monterrey",
+});
+
+/** iso: fecha ISO 8601 con zona, como las de src/lib/posts.ts */
+export function fechaLarga(iso: string): string {
+  return FECHA_LARGA.format(new Date(iso));
+}

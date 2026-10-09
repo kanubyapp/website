@@ -4,6 +4,7 @@ import {
   eventoWhatsApp,
   LIMITE_ESPERA_MS,
   negocioDePost,
+  negocioDePagina,
   registrarConversion,
 } from "./conversiones.ts";
 import { envioCotizacion } from "./envio-cotizacion.ts";
@@ -138,4 +139,13 @@ test("si GTM no responde, redirige al vencer el límite corto", () => {
   assert.ok(LIMITE_ESPERA_MS <= 1000);
   reloj.pendientes[0].funcion();
   assert.equal(redirecciones, 1);
+});
+
+test("páginas sin negocio propio: /social/ y /blog/ emiten whatsapp_minibodega, por el mensaje de minibodega", () => {
+  assert.equal(negocioDePagina["/social/"], "minibodega");
+  assert.equal(negocioDePagina["/blog/"], "minibodega");
+  assert.deepEqual(eventoWhatsApp(negocioDePagina["/blog/"], "/blog/"), {
+    event: "whatsapp_minibodega",
+    pagina: "/blog/",
+  });
 });

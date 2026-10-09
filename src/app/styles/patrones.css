@@ -1041,6 +1041,106 @@
   }
 
   /*
+   * Franja de confianza (páginas de mudanzas, bajo el hero): cuatro puntos en
+   * fila separados por líneas finas verticales; en tablet, dos filas de dos;
+   * en móvil, uno debajo de otro con líneas horizontales.
+   */
+  .kb-confianza {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0 var(--relleno-seccion);
+    padding: var(--espacio-3) 0;
+    background: var(--resplandor-suave), var(--color-superficie);
+  }
+
+  .kb-confianza-punto {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-2);
+    padding: var(--espacio-1) var(--espacio-3);
+  }
+
+  .kb-confianza-punto + .kb-confianza-punto {
+    border-left: var(--borde-luz-fuerte);
+  }
+
+  .kb-confianza-icono {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    color: var(--color-naranja);
+  }
+
+  .kb-confianza-estrellas {
+    display: flex;
+    flex-shrink: 0;
+    gap: 2px;
+  }
+
+  .kb-confianza-estrellas svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--color-naranja);
+  }
+
+  .kb-confianza-textos {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .kb-confianza-dato {
+    color: var(--color-texto);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-18);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-encabezado);
+  }
+
+  .kb-confianza-detalle {
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-14);
+    line-height: var(--interlineado-encabezado);
+  }
+
+  @media (max-width: 1024px) {
+    .kb-confianza {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      padding: var(--espacio-1) 0;
+    }
+
+    .kb-confianza-punto {
+      padding-block: var(--espacio-2);
+    }
+
+    .kb-confianza-punto:nth-child(odd) {
+      border-left: 0;
+    }
+
+    .kb-confianza-punto:nth-child(n + 3) {
+      border-top: var(--borde-luz);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .kb-confianza {
+      grid-template-columns: minmax(0, 1fr);
+      border-radius: var(--radio-tarjeta-movil);
+    }
+
+    .kb-confianza-punto + .kb-confianza-punto {
+      border-top: var(--borde-luz);
+      border-left: 0;
+    }
+
+    .kb-confianza-punto {
+      padding-inline: var(--espacio-2);
+    }
+  }
+
+  /*
    * Testimonios (/mudanzas-monterrey/ y /mudanzas-monterrey-cdmx/): cabecera
    * y carrusel de tarjetas del sistema que sangra hacia la derecha. El
    * relleno de las tarjetas es fijo: un porcentaje se calcularía sobre el

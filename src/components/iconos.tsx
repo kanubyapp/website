@@ -216,3 +216,26 @@ export function IconoDuda({ className }: Props) {
     </IconoLinea>
   );
 }
+
+/* Franja de confianza de mudanzas: medalla y caja, con el estilo de línea */
+
+export function IconoMedalla({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <circle cx="12" cy="9" r="6" />
+      <path d="m9 14.2-1.6 7.3L12 19l4.6 2.5-1.6-7.3" />
+      <path d="m12 6.5.8 1.7 1.8.2-1.3 1.3.3 1.8-1.6-.9-1.6.9.3-1.8-1.3-1.3 1.8-.2z" />
+    </IconoLinea>
+  );
+}
+
+export function IconoCaja({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <path d="M21 8 12 3 3 8v8l9 5 9-5V8z" />
+      <path d="m3 8 9 5 9-5" />
+      <path d="M12 13v8" />
+      <path d="m7.5 5.5 9 5" />
+    </IconoLinea>
+  );
+}

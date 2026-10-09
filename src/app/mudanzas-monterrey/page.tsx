@@ -4,6 +4,7 @@ import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonCotizarHeader } from "@/components/mudanzas/boton-cotizar-header";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
+import { FranjaConfianza } from "@/components/mudanzas/franja-confianza";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
 import {
   HeroMudanzas,
@@ -63,6 +64,8 @@ export default function MudanzasMonterrey() {
             />
           }
         />
+
+        <FranjaConfianza />
 
         <PorQueMudanzas
           id="porque"

@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
+import { FranjaConfianza } from "@/components/mudanzas/franja-confianza";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
 import {
   HeroMudanzas,
@@ -154,6 +155,8 @@ export default function MudanzasEmpresariales() {
             />
           }
         />
+
+        <FranjaConfianza />
 
         <PorQueMudanzas
           id="porque"

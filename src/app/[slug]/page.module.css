@@ -317,8 +317,7 @@
 .cierreRedes a:focus-visible,
 .cierreLista a:focus-visible,
 .cierreLogo:focus-visible,
-.cta:focus-visible,
-.webtag:focus-visible {
+.cta:focus-visible {
   outline: var(--anillo-foco);
   outline-offset: var(--anillo-foco-separacion);
 }
@@ -383,29 +382,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-/* Créditos del cierre */
-
-.creditos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--espacio-1);
-  padding: var(--espacio-3) var(--relleno-seccion) 0;
-}
-
-.webtag img {
-  width: 200px;
-}
-
-.copyright {
-  color: var(--color-naranja);
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-14);
-  font-weight: var(--peso-medium);
-  line-height: var(--interlineado-titulo);
-  text-align: end;
 }
 
 /* Tablet */
@@ -584,19 +560,5 @@
 
   .cierreColumna {
     display: none;
-  }
-
-  .creditos {
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .webtag img {
-    width: 173px;
-  }
-
-  .copyright {
-    font-size: var(--texto-12);
-    text-align: center;
   }
 }

@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonCotizarHeader } from "@/components/mudanzas/boton-cotizar-header";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
+import { FranjaConfianza } from "@/components/mudanzas/franja-confianza";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
 import {
   HeroMudanzas,
@@ -86,6 +87,8 @@ export default function MudanzasMonterreyCdmx() {
             />
           }
         />
+
+        <FranjaConfianza />
 
         <PorQueMudanzas
           id="porque"

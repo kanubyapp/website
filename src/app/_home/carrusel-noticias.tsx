@@ -78,7 +78,7 @@ export function CarruselNoticias({
                   alt={post.imagen.alt}
                   width={post.imagen.width}
                   height={post.imagen.height}
-                  sizes="(min-width: 1024px) 23vw, (min-width: 768px) 46vw, 92vw"
+                  sizes="(min-width: 1024px) 21vw, (min-width: 768px) 42vw, 80vw"
                 />
               </div>
             )}

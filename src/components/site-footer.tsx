@@ -4,15 +4,31 @@ import styles from "./site-footer.module.css";
 
 /*
  * Footer compartido con la estructura del de legacy: una sola tarjeta oscura
- * con el logo, el párrafo y "Descubre más", y abajo, dentro de la misma
- * tarjeta, la franja de créditos separada por una línea fina.
+ * con cuatro columnas (Kanuby, Servicios, Más información y Contacto), y
+ * abajo, dentro de la misma tarjeta, la franja de créditos separada por una
+ * línea fina.
  */
 
-const enlaces = [
-  { href: "/", texto: "Inicio" },
-  { href: "/mudanzas-monterrey/", texto: "Mudanzas en Monterrey" },
-  { href: "/minibodegas-monterrey/", texto: "Minibodegas en Monterrey" },
-  { href: "/mudanzas-empresariales-monterrey/", texto: "Movimiento de oficinas" },
+const menus = [
+  {
+    id: "footer-servicios",
+    titulo: "Servicios",
+    enlaces: [
+      { href: "/mudanzas-monterrey/", texto: "Mudanzas en Monterrey" },
+      { href: "/mudanzas-monterrey-cdmx/", texto: "Mudanzas de Monterrey a CDMX" },
+      { href: "/mudanzas-empresariales-monterrey/", texto: "Mudanzas empresariales" },
+      { href: "/minibodegas-monterrey/", texto: "Minibodegas en Monterrey" },
+    ],
+  },
+  {
+    id: "footer-informacion",
+    titulo: "Más información",
+    enlaces: [
+      { href: "/", texto: "Inicio" },
+      { href: "/blog/", texto: "Blog" },
+      { href: "https://kanubypack.com", texto: "Empaque y Embalaje" },
+    ],
+  },
 ];
 
 export function SiteFooter() {
@@ -41,20 +57,35 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <nav className={styles.menu} aria-labelledby="footer-menu-titulo">
-            <p id="footer-menu-titulo" className={styles.menuTitulo}>
-              Descubre más
-            </p>
-            <ul className={styles.menuLista}>
-              {enlaces.map((enlace) => (
-                <li key={enlace.href}>
-                  <Link href={enlace.href} className={styles.menuEnlace}>
-                    {enlace.texto}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {menus.map((menu) => (
+            <nav key={menu.id} className={styles.menu} aria-labelledby={menu.id}>
+              <p id={menu.id} className={styles.menuTitulo}>
+                {menu.titulo}
+              </p>
+              <ul className={styles.menuLista}>
+                {menu.enlaces.map((enlace) => (
+                  <li key={enlace.href}>
+                    {enlace.href.startsWith("http") ? (
+                      <a href={enlace.href} className={styles.menuEnlace}>
+                        {enlace.texto}
+                      </a>
+                    ) : (
+                      <Link href={enlace.href} className={styles.menuEnlace}>
+                        {enlace.texto}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+
+          <div className={styles.menu}>
+            <p className={styles.menuTitulo}>Contacto</p>
+            <a href="tel:+528110287087" className={styles.menuEnlace}>
+              81 1028 7087
+            </a>
+          </div>
         </div>
 
         <div className={styles.creditos}>
@@ -66,10 +97,10 @@ export function SiteFooter() {
             className={styles.webtag}
           >
             <Image
-              src="/images/Black-webtag.png"
-              alt="Created by SCNDAL"
-              width={1814}
-              height={221}
+              src="/images/website-tag-editable-blanco.svg"
+              alt="Designed by SCNDAL"
+              width={1746}
+              height={208}
               sizes="150px"
             />
           </a>

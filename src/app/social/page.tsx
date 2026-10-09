@@ -11,6 +11,7 @@ import {
 import { EnlaceWhatsApp } from "@/components/enlace-whatsapp";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
+import { negocioDePagina } from "@/lib/conversiones";
 import { posts } from "@/lib/posts";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import styles from "./page.module.css";
@@ -141,7 +142,7 @@ export default function Social() {
                 {href.startsWith("https://wa.me/") ? (
                   <EnlaceWhatsApp
                     href={href}
-                    negocio="minibodega"
+                    negocio={negocioDePagina["/social/"]}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={etiqueta}

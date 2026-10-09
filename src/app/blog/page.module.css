@@ -1,0 +1,166 @@
+/*
+ * /blog/: cabecera con el título y el filtro de categorías sobre el
+ * resplandor, y la rejilla de tarjetas de los posts.
+ */
+
+.cabecera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-3);
+  padding: var(--espacio-6) var(--relleno-seccion) var(--espacio-5);
+  text-align: center;
+}
+
+.titulo {
+  color: var(--color-texto);
+  font-size: var(--texto-60);
+  font-weight: var(--peso-semibold);
+  line-height: var(--interlineado-display);
+  letter-spacing: var(--tracking-display);
+}
+
+/* Filtro: píldoras que llevan a las páginas de categoría */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--espacio-1);
+}
+
+.filtro {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--objetivo-tactil);
+  padding: var(--relleno-pildora);
+  border: var(--borde-luz-fuerte);
+  border-radius: var(--radio-pildora);
+  background: var(--color-superficie-baja);
+  color: var(--color-texto-secundario);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-14);
+  font-weight: var(--peso-medium);
+  transition:
+    color var(--transicion),
+    border-color var(--transicion);
+}
+
+.filtro:hover,
+.filtro:focus-visible {
+  border: var(--borde-acento);
+  color: var(--color-texto);
+}
+
+.filtro[aria-current="page"] {
+  border-color: var(--color-naranja);
+  background: var(--color-naranja);
+  color: var(--color-texto-sobre-acento);
+}
+
+.filtro:focus-visible,
+.enlace:focus-visible {
+  outline: var(--anillo-foco);
+  outline-offset: var(--anillo-foco-separacion);
+}
+
+/* Rejilla de posts */
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--espacio-3);
+  padding: 0 var(--relleno-seccion) var(--espacio-seccion);
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition:
+    border-color var(--transicion),
+    box-shadow var(--transicion);
+}
+
+.tarjeta:hover,
+.tarjeta:focus-within {
+  border: var(--borde-acento);
+  box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
+}
+
+/* Sin imagen destacada queda el resplandor del sistema */
+.imagen {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--resplandor-acento), var(--color-superficie-baja);
+}
+
+.imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cuerpo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--espacio-1);
+  padding: var(--espacio-3);
+}
+
+/* Categoría en naranja claro: el de marca no cumple AA a este tamaño sobre la superficie */
+.categorias {
+  color: var(--color-naranja-claro);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-13);
+  font-weight: var(--peso-semibold);
+  letter-spacing: var(--tracking-md);
+  text-transform: uppercase;
+}
+
+.tarjetaTitulo {
+  flex: 1;
+  color: var(--color-texto);
+  font-size: var(--texto-20);
+  font-weight: var(--peso-medium);
+  line-height: var(--interlineado-encabezado);
+}
+
+/* Toda la tarjeta es clicable: el enlace del título se extiende sobre ella */
+.enlace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.fecha {
+  color: var(--color-texto-tenue);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-14);
+}
+
+@media (max-width: 1024px) {
+  .rejilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .cabecera {
+    padding: var(--espacio-4) var(--relleno-seccion) var(--espacio-4);
+  }
+
+  .titulo {
+    font-size: var(--texto-44);
+  }
+
+  .rejilla {
+    grid-template-columns: 1fr;
+    gap: var(--espacio-2);
+    padding-bottom: var(--espacio-seccion-movil);
+  }
+
+  .tarjeta {
+    border-radius: var(--radio-tarjeta-movil);
+  }
+}
