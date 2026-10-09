@@ -6,13 +6,15 @@ import { useEffect, useRef, useState } from "react";
 import { IconoMenu } from "@/components/iconos";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { TelefonoHeader } from "@/components/telefono-header";
+import { useHeaderCompacto } from "@/components/use-header-compacto";
 import styles from "./page.module.css";
 
 /*
  * Header de minibodegas: la píldora de vidrio de las páginas de mudanzas
  * (patrón kb-header) con el logo naranja, el teléfono, las anclas a las
  * secciones de la página y "Cotiza Ahora", que abre el formulario de
- * minibodega. Debajo de 768px el menú pasa a pantalla completa.
+ * minibodega. Es sticky y se compacta al bajar (useHeaderCompacto). Debajo de
+ * 768px el menú pasa a pantalla completa y lleva también "Cotiza Ahora".
  */
 
 const enlaces = [
@@ -26,6 +28,9 @@ export function HeaderMinibodegas() {
   const [abierto, setAbierto] = useState(false);
   const botonAbrir = useRef<HTMLButtonElement>(null);
   const botonCerrar = useRef<HTMLButtonElement>(null);
+  const elementoHeader = useRef<HTMLElement>(null);
+  const barra = useRef<HTMLDivElement>(null);
+  useHeaderCompacto(elementoHeader, barra);
 
   useEffect(() => {
     if (!abierto) return;
@@ -46,8 +51,8 @@ export function HeaderMinibodegas() {
   }
 
   return (
-    <header className={`kb-header ${styles.header}`}>
-      <div className="kb-vidrio kb-header-barra">
+    <header ref={elementoHeader} className={`kb-header ${styles.header}`}>
+      <div ref={barra} className="kb-vidrio kb-header-barra">
         <Link href="/" className="kb-header-logo">
           <Image
             src="/images/kanuby-orange.svg"
@@ -85,10 +90,13 @@ export function HeaderMinibodegas() {
           <IconoMenu />
         </button>
 
-        <BotonCotizar
-          texto="Cotiza Ahora"
-          className={`kb-boton-principal ${styles.headerBoton}`}
-        />
+        {/* En móvil, con el header compacto, la acción pasa al menú */}
+        <div className="kb-header-acciones">
+          <BotonCotizar
+            texto="Cotiza Ahora"
+            className={`kb-boton-principal ${styles.headerBoton}`}
+          />
+        </div>
       </div>
 
       {/*
@@ -123,6 +131,12 @@ export function HeaderMinibodegas() {
             </li>
           ))}
         </ul>
+        <div className="kb-header-acciones-movil">
+          <BotonCotizar
+            texto="Cotiza Ahora"
+            className={`kb-boton-principal ${styles.headerBoton}`}
+          />
+        </div>
       </nav>
     </header>
   );

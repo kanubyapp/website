@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { TelefonoHeader } from "@/components/telefono-header";
+import { useHeaderCompacto } from "@/components/use-header-compacto";
 import styles from "./header-home.module.css";
 
 const enlaces = [
@@ -33,6 +34,10 @@ export function HeaderHome() {
   const [abierto, setAbierto] = useState(false);
   const botonAbrir = useRef<HTMLButtonElement>(null);
   const botonCerrar = useRef<HTMLButtonElement>(null);
+  const elementoHeader = useRef<HTMLElement>(null);
+  const barra = useRef<HTMLDivElement>(null);
+  // El header de la home es fijo: no ocupa espacio, no hace falta reservarlo.
+  useHeaderCompacto(elementoHeader, barra, { reservar: false });
 
   useEffect(() => {
     if (!abierto) return;
@@ -53,8 +58,8 @@ export function HeaderHome() {
   }
 
   return (
-    <header className={styles.header}>
-      <div className={`kb-vidrio ${styles.barra}`}>
+    <header ref={elementoHeader} className={styles.header}>
+      <div ref={barra} className={`kb-vidrio ${styles.barra}`}>
         <Link href="/" className={styles.logo}>
           <Image
             src="/images/kanuby-orange.svg"

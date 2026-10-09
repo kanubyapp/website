@@ -15,6 +15,15 @@
     text-size-adjust: 100%;
   }
 
+  /*
+   * Margen de anclaje: el header sticky publica en --alto-header dónde termina
+   * su barra (useHeaderCompacto); el título de la sección queda debajo, con un
+   * respiro. Sin header, solo el respiro.
+   */
+  html {
+    scroll-padding-top: calc(var(--alto-header, 0px) + var(--espacio-2));
+  }
+
   /* Saltos a anclas de la misma página: suaves, salvo con "reducir movimiento" */
   @media (prefers-reduced-motion: no-preference) {
     html {

@@ -4,13 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { IconoMenu } from "@/components/iconos";
+import { useHeaderCompacto } from "@/components/use-header-compacto";
 import { TelefonoHeader } from "@/components/telefono-header";
 
 /*
- * Header de las páginas de mudanzas: píldora de vidrio con el logo
+ * Header de las páginas de mudanzas: píldora de vidrio sticky con el logo
  * kanubymudanzas, anclas a las secciones de la propia página y, a la derecha,
- * las acciones de cada página. Debajo de 768px el menú pasa a pantalla
- * completa.
+ * las acciones de cada página. Al bajar se compacta (useHeaderCompacto).
+ * Debajo de 768px el menú pasa a pantalla completa y lleva también las
+ * acciones.
  */
 
 type Enlace = { href: string; texto: string };
@@ -28,6 +30,9 @@ export function HeaderMudanzas({
   const botonAbrir = useRef<HTMLButtonElement>(null);
   const botonCerrar = useRef<HTMLButtonElement>(null);
   const idMenu = useId();
+  const elementoHeader = useRef<HTMLElement>(null);
+  const barra = useRef<HTMLDivElement>(null);
+  useHeaderCompacto(elementoHeader, barra);
 
   useEffect(() => {
     if (!abierto) return;
@@ -48,8 +53,8 @@ export function HeaderMudanzas({
   }
 
   return (
-    <header className={`kb-header ${className}`}>
-      <div className="kb-vidrio kb-header-barra">
+    <header ref={elementoHeader} className={`kb-header ${className}`}>
+      <div ref={barra} className="kb-vidrio kb-header-barra">
         <Link href="/" className="kb-header-logo">
           <Image
             src="/images/kanubymudanzas-blanco.svg"
@@ -87,7 +92,8 @@ export function HeaderMudanzas({
           <IconoMenu />
         </button>
 
-        {acciones}
+        {/* En móvil, con el header compacto, las acciones pasan al menú */}
+        <div className="kb-header-acciones">{acciones}</div>
       </div>
 
       {/*
@@ -122,6 +128,7 @@ export function HeaderMudanzas({
             </li>
           ))}
         </ul>
+        <div className="kb-header-acciones-movil">{acciones}</div>
       </nav>
     </header>
   );

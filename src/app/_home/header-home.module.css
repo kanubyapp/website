@@ -9,15 +9,6 @@
   z-index: 100;
 }
 
-/*
- * Con el header fijo, el salto a un ancla deja la sección debajo de la
- * píldora: margen arriba del alto de la píldora (su relleno y el control más
- * alto, de 44px) más su separación del borde y un respiro igual.
- */
-:global(html):has(.header) {
-  scroll-padding-top: calc(var(--espacio-2) * 2 + var(--espacio-1) * 2 + var(--objetivo-tactil));
-}
-
 .barra {
   display: flex;
   justify-content: space-between;
@@ -26,11 +17,32 @@
   padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-3);
   border-radius: var(--radio-pildora);
   box-shadow: var(--sombra-elevada);
+  transition:
+    padding var(--transicion),
+    background-color var(--transicion);
 }
 
 .logo {
   flex-shrink: 0;
   width: 140px;
+  transition: width var(--transicion);
+}
+
+/* Al bajar: menos alto, logo más chico y vidrio más opaco */
+:global(:root[data-header-compacto]) .barra {
+  padding-block: calc(var(--espacio-1) / 2);
+  background: var(--vidrio-fondo-compacto);
+}
+
+:global(:root[data-header-compacto]) .logo {
+  width: 116px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barra,
+  .logo {
+    transition: none;
+  }
 }
 
 .logo img {
@@ -203,6 +215,10 @@
 
   .logo {
     width: 120px;
+  }
+
+  :global(:root[data-header-compacto]) .logo {
+    width: 100px;
   }
 
   .menu {

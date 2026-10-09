@@ -59,6 +59,10 @@
   width: 140px;
 }
 
+:global(:root[data-header-compacto]) .header :global(.kb-header-logo) {
+  width: 116px;
+}
+
 .headerBoton {
   padding: var(--relleno-pildora);
 }

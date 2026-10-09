@@ -653,8 +653,23 @@
    * lateral del sitio. Va en el flujo y flota sobre el resplandor del hero.
    */
 
+  /*
+   * Sticky: se queda arriba al bajar y se compacta (useHeaderCompacto marca
+   * data-header-compacto en <html>). Conserva el alto de su tamaño normal
+   * (--alto-reservado) para no mover el contenido; esa franja es transparente
+   * y no recibe clics.
+   */
   .kb-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    min-height: var(--alto-reservado, auto);
     padding: var(--espacio-2) var(--relleno-seccion) 0;
+    pointer-events: none;
+  }
+
+  .kb-header > * {
+    pointer-events: auto;
   }
 
   .kb-header-barra {
@@ -665,11 +680,41 @@
     padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-3);
     border-radius: var(--radio-pildora);
     box-shadow: var(--sombra-elevada);
+    transition:
+      padding var(--transicion),
+      background-color var(--transicion);
   }
 
   .kb-header-logo {
     flex-shrink: 0;
     width: 250px;
+    transition: width var(--transicion);
+  }
+
+  /* Al bajar: menos alto, logo más chico y vidrio más opaco */
+  :root[data-header-compacto] .kb-header-barra {
+    padding-block: calc(var(--espacio-1) / 2);
+    background: var(--vidrio-fondo-compacto);
+  }
+
+  :root[data-header-compacto] .kb-header-logo {
+    width: 200px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kb-header-barra,
+    .kb-header-logo {
+      transition: none;
+    }
+  }
+
+  /* Las acciones de la barra; en el menú móvil van repetidas */
+  .kb-header-acciones {
+    display: contents;
+  }
+
+  .kb-header-acciones-movil {
+    display: none;
   }
 
   .kb-header-logo img {
@@ -1860,6 +1905,7 @@
       position: fixed;
       inset: 0;
       z-index: 1000;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       overflow-y: auto;
@@ -1919,6 +1965,21 @@
     .kb-header-enlace-movil:hover,
     .kb-header-enlace-movil:focus-visible {
       color: var(--color-naranja);
+    }
+
+    .kb-header-acciones-movil {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: var(--espacio-2);
+      margin-top: var(--espacio-4);
+      padding-inline: var(--relleno-seccion);
+    }
+
+    /* Compacto en móvil: una sola fila con logo, teléfono y menú */
+    :root[data-header-compacto] .kb-header-acciones {
+      display: none;
     }
 
     .kb-hero {
