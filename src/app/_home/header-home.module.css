@@ -44,15 +44,47 @@
   font-size: var(--texto-14);
   font-weight: var(--peso-medium);
   white-space: nowrap;
-  transition:
-    color var(--transicion),
-    background-color var(--transicion);
+}
+
+/*
+ * Menú de escritorio: al pasar el cursor o con foco, el texto pasa a naranja
+ * y debajo crece desde el centro una línea naranja con brillo. El naranja
+ * claro es el que cumple AA a este tamaño sobre el vidrio del header.
+ */
+.lista .enlace {
+  position: relative;
+  transition: color var(--transicion);
+}
+
+.lista .enlace::after {
+  content: "";
+  position: absolute;
+  right: var(--espacio-2);
+  bottom: 2px;
+  left: var(--espacio-2);
+  height: 2px;
+  border-radius: var(--radio-pildora);
+  background: var(--color-naranja);
+  box-shadow: var(--brillo-linea);
+  transform: scaleX(0);
+  transition: transform var(--transicion);
 }
 
 .lista .enlace:hover,
 .lista .enlace:focus-visible {
-  background: var(--color-superficie-alta);
-  color: var(--color-texto);
+  color: var(--color-naranja-claro);
+}
+
+.lista .enlace:hover::after,
+.lista .enlace:focus-visible::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lista .enlace,
+  .lista .enlace::after {
+    transition: none;
+  }
 }
 
 .enlace:focus-visible,

@@ -74,6 +74,8 @@
   /* Sombras */
   --sombra-elevada: 0 24px 48px -24px rgb(0 0 0 / 0.6);
   --sombra-resplandor: 0 0 32px -4px rgb(236 91 42 / 0.45);
+  /* Brillo de líneas finas de acento (subrayado del menú) */
+  --brillo-linea: 0 0 8px rgb(236 91 42 / 0.8);
 
   /*
    * Vidrio: solo en lo que flota sobre imagen, degradado o resplandor.

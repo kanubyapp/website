@@ -5,44 +5,6 @@
  * Los valores sin token aparecen una sola vez en el publicado.
  */
 
-/* Barra de teléfono */
-
-.barraTelefono {
-  display: flex;
-  padding: var(--espacio-2) var(--relleno-seccion) 0;
-}
-
-.telefono {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--espacio-1);
-  padding: var(--relleno-pildora);
-  border: var(--borde-luz);
-  border-radius: var(--radio-pildora);
-  background: var(--color-superficie-baja);
-  color: var(--color-texto-secundario);
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-14);
-  font-weight: var(--peso-medium);
-  line-height: var(--interlineado-titulo);
-  transition: border-color var(--transicion);
-}
-
-.telefono b {
-  color: var(--color-naranja);
-  font-weight: var(--peso-semibold);
-}
-
-.telefono:hover,
-.telefono:focus-visible {
-  border: var(--borde-acento);
-}
-
-.telefono:focus-visible {
-  outline: var(--anillo-foco);
-  outline-offset: var(--anillo-foco-separacion);
-}
-
 /* Botón flotante (popup 4915): abajo a la derecha, 2% de un cuadro de 25vw */
 
 .flotante {
@@ -67,11 +29,6 @@
 }
 
 @media (max-width: 767px) {
-  .barraTelefono {
-    justify-content: center;
-    padding-top: var(--espacio-1);
-  }
-
   .servicios :global(.kb-servicio-tarjeta:first-child .kb-servicio-icono) {
     width: 80%;
   }

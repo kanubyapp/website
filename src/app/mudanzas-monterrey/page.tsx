@@ -55,12 +55,6 @@ export default function MudanzasMonterrey() {
       />
 
       <main>
-        <div className={styles.barraTelefono}>
-          <a href="tel:8183363637" className={styles.telefono}>
-            Llama Ahora: <b>81 8336 3637</b>
-          </a>
-        </div>
-
         <HeroMudanzas
           titulo="Servicio de Fletes y Mudanzas en Monterrey"
           texto="En Kanuby cambiamos la forma de mudarse, contamos con el mejor servicio de fletes y mudanzas en Monterrey."
