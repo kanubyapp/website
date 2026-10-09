@@ -14,8 +14,9 @@ import styles from "@/app/[slug]/page.module.css";
  * Header de los posts: píldora de vidrio con el logo, el teléfono, el menú con
  * dos submenús (Mudanzas y Minibodegas → Monterrey) y el botón "Cotiza Aquí",
  * que lleva a WhatsApp con el mensaje de minibodega (en pendientes). Debajo
- * de 768px el menú pasa a pantalla completa, fuera de la barra de vidrio, y
- * lleva también "Cotiza Aquí". Es sticky y se compacta al bajar.
+ * de 768px la barra queda en una sola fila (logo, teléfono y menú) y el menú
+ * pasa a pantalla completa, fuera de la barra de vidrio, con "Cotiza Aquí" al
+ * final. Es sticky y se compacta al bajar.
  */
 
 const menu = [
@@ -126,7 +127,7 @@ export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
           <IconoMenu />
         </button>
 
-        {/* En móvil, con el header compacto, la acción pasa al menú */}
+        {/* En móvil la acción pasa al menú */}
         <div className={styles.headerAcciones}>
           <EnlaceWhatsApp
             href={COTIZA_AQUI}
@@ -172,6 +173,9 @@ export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
                   </li>
                 ))}
               </ul>
+            </li>
+          ))}
+        </ul>
         <div className={styles.headerAccionesMovil}>
           <EnlaceWhatsApp
             href={COTIZA_AQUI}
@@ -184,9 +188,6 @@ export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
             Cotiza Aquí
           </EnlaceWhatsApp>
         </div>
-            </li>
-          ))}
-        </ul>
       </nav>
     </header>
   );

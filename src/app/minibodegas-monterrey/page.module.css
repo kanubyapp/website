@@ -167,12 +167,13 @@
 
 /* Tamaños: tres tarjetas de vidrio sobre la foto velada de los contenedores */
 
+/* Sin relleno abajo: el banner se monta sobre el borde inferior de la tarjeta */
 .tamanos {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--espacio-2);
-  padding: var(--espacio-seccion) var(--relleno-seccion);
+  padding: var(--espacio-seccion) var(--relleno-seccion) 0;
   text-align: center;
 }
 
@@ -368,11 +369,19 @@
   gap: var(--espacio-2);
 }
 
-/* Banner: tarjeta con resplandor naranja, el camión y "Contáctanos" */
+/*
+ * Banner flotante: cristal claro del popup (kb-cristal, con su borde y la
+ * sombra de la tarjeta), al 70% del ancho de la sección de tamaños y
+ * centrado. Sube la mitad de su alto (medido en banner.tsx) para quedar
+ * montado sobre el borde inferior de la tarjeta de tamaños, por encima de ella.
+ */
 
 .banner {
   display: flex;
+  position: relative;
+  z-index: 1;
   flex-direction: column;
+  margin-top: calc(var(--banner-alto, 0px) / -2);
   padding: 0 var(--relleno-seccion) var(--espacio-seccion);
 }
 
@@ -380,12 +389,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  align-self: center;
   gap: var(--espacio-4);
+  width: 70%;
   padding: var(--espacio-3) var(--espacio-5);
   overflow: visible;
-  border: var(--borde-acento);
-  background: var(--resplandor-acento), var(--color-superficie);
-  box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
 }
 
 .bannerCamion {
@@ -947,7 +955,7 @@
   }
 
   .tamanos {
-    padding: var(--espacio-seccion-movil) var(--relleno-seccion);
+    padding: var(--espacio-seccion-movil) var(--relleno-seccion) 0;
   }
 
   .tamanosCaja {
@@ -997,15 +1005,18 @@
     padding-bottom: var(--espacio-seccion-movil);
   }
 
+  /* En móvil, a lo ancho del contenido y en columna: camión, título y botón */
   .bannerTarjeta {
     flex-direction: column;
     gap: var(--espacio-3);
+    width: 100%;
     padding: var(--espacio-4) var(--espacio-3);
     border-radius: var(--radio-tarjeta-movil);
   }
 
+  /* Sin el desplazamiento con el scroll: en columna se saldría de la pantalla */
   .bannerCamion {
-    display: none;
+    transform: none;
   }
 
   .bannerIlustracion {

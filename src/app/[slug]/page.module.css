@@ -507,11 +507,10 @@
     padding: var(--espacio-1) var(--relleno-seccion) 0;
   }
 
+  /* Una sola fila, como la home: logo, teléfono y menú */
   .headerBarra {
-    flex-wrap: wrap;
     gap: var(--espacio-1);
     padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-2);
-    border-radius: var(--radio-tarjeta-movil);
   }
 
   .headerLogo {
@@ -635,13 +634,9 @@
     padding-inline: var(--relleno-seccion);
   }
 
-  /* Compacto en móvil: una sola fila con logo, teléfono y menú */
-  :global(:root[data-header-compacto]) .headerAcciones {
+  /* "Cotiza Aquí" va en el menú a pantalla completa */
+  .headerAcciones {
     display: none;
-  }
-
-  :global(:root[data-header-compacto]) .headerBarra {
-    border-radius: var(--radio-pildora);
   }
 
   :global(:root[data-header-compacto]) .headerLogo {

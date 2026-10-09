@@ -7,7 +7,9 @@ import styles from "./page.module.css";
 
 /*
  * Banner con el camión, la ilustración "¿No sabes cómo elegir?" y el botón
- * "Contáctanos". Como en el publicado, el camión entra desde la izquierda
+ * "Contáctanos", en cristal claro, montado sobre el borde inferior de la
+ * tarjeta de tamaños: mitad sobre ella y mitad fuera. Para eso sube la mitad
+ * de su alto, que se mide aquí (--banner-alto). Como en el publicado, el camión entra desde la izquierda
  * (fadeInLeft) al aparecer en pantalla y se desplaza en horizontal al hacer
  * scroll (motion effects de Elementor, solo escritorio y tablet). Con
  * "reducir movimiento" no hay ninguna de las dos animaciones.
@@ -19,6 +21,20 @@ const DESPLAZAMIENTO_MAXIMO = 50;
 export function Banner() {
   const { abrir } = useCotizacion();
   const camion = useRef<HTMLDivElement>(null);
+  const banner = useRef<HTMLElement>(null);
+  const tarjeta = useRef<HTMLDivElement>(null);
+
+  // Alto de la tarjeta, para subirla la mitad sobre la de tamaños.
+  useEffect(() => {
+    const seccion = banner.current;
+    const elemento = tarjeta.current;
+    if (!seccion || !elemento) return;
+    const observador = new ResizeObserver(() => {
+      seccion.style.setProperty("--banner-alto", `${elemento.offsetHeight}px`);
+    });
+    observador.observe(elemento);
+    return () => observador.disconnect();
+  }, []);
 
   useEffect(() => {
     const elemento = camion.current;
@@ -62,8 +78,8 @@ export function Banner() {
   }, []);
 
   return (
-    <section className={styles.banner}>
-      <div className={`kb-tarjeta ${styles.bannerTarjeta}`}>
+    <section ref={banner} className={styles.banner}>
+      <div ref={tarjeta} className={`kb-tarjeta kb-cristal ${styles.bannerTarjeta}`}>
         <div ref={camion} className={styles.bannerCamion}>
           <Image
             src="/images/minibodegas/camionvolador.png"
@@ -75,7 +91,7 @@ export function Banner() {
         </div>
         <div className={styles.bannerIlustracion}>
           <Image
-            src="/images/nosabescomoblanco.svg"
+            src="/images/nosabescomoazul.svg"
             alt="¿No sabes cómo elegir?"
             width={1024}
             height={257}

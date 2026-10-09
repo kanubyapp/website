@@ -14,7 +14,8 @@ import styles from "./page.module.css";
  * (patrón kb-header) con el logo naranja, el teléfono, las anclas a las
  * secciones de la página y "Cotiza Ahora", que abre el formulario de
  * minibodega. Es sticky y se compacta al bajar (useHeaderCompacto). Debajo de
- * 768px el menú pasa a pantalla completa y lleva también "Cotiza Ahora".
+ * 768px la barra queda en una sola fila (logo, teléfono y menú) y el menú
+ * pasa a pantalla completa con "Cotiza Ahora".
  */
 
 const enlaces = [
@@ -51,7 +52,7 @@ export function HeaderMinibodegas() {
   }
 
   return (
-    <header ref={elementoHeader} className={`kb-header ${styles.header}`}>
+    <header ref={elementoHeader} className={`kb-header kb-header-una-fila ${styles.header}`}>
       <div ref={barra} className="kb-vidrio kb-cristal-liquido kb-header-barra">
         <Link href="/" className="kb-header-logo">
           <Image

@@ -2108,8 +2108,9 @@
     }
 
     /*
-     * Header de mudanzas: también arriba en una sola fila, como la home (logo,
-     * teléfono y menú); la acción queda en el menú a pantalla completa.
+     * Headers de mudanzas y minibodegas: también arriba en una sola fila, como
+     * la home (logo, teléfono y menú); la acción queda en el menú a pantalla
+     * completa.
      */
     .kb-header-una-fila .kb-header-barra {
       flex-wrap: nowrap;
