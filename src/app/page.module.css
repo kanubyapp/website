@@ -274,37 +274,104 @@
 }
 
 /*
- * "+20 años de experiencia" destaca con un resplandor naranja alrededor que
- * pulsa muy lento (8 s por ciclo). Es la sombra de una capa del tamaño de la
- * píldora: solo se pinta por fuera, así que la píldora no cambia. Con
- * "reducir movimiento" queda fijo.
+ * "+20 años de experiencia" destaca como un letrero de neón:
+ * - ::before es el resplandor naranja (la sombra de una capa del tamaño de la
+ *   píldora: solo se pinta por fuera). Al cargar se enciende con un par de
+ *   parpadeos y queda prendido; después late cada 2.8 s.
+ * - ::after es un destello de luz blanca suave que cruza la píldora de
+ *   izquierda a derecha cada 4.5 s, recortado a su forma.
+ * Con isolation, las dos capas (z-index -1) quedan por encima del fondo de la
+ * píldora y por debajo del texto. Con "reducir movimiento", encendida fija.
  */
 .confianzaDestacada {
   position: relative;
+  isolation: isolate;
 }
 
-.confianzaDestacada::before {
+.confianzaDestacada::before,
+.confianzaDestacada::after {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: -1;
   border-radius: inherit;
-  box-shadow: var(--sombra-resplandor);
   pointer-events: none;
+}
+
+.confianzaDestacada::before {
+  box-shadow: var(--sombra-resplandor);
+}
+
+.confianzaDestacada::after {
+  background: linear-gradient(
+      100deg,
+      transparent 35%,
+      color-mix(in srgb, var(--color-blanco) 28%, transparent) 50%,
+      transparent 65%
+    )
+    no-repeat;
+  background-position: 200% 0;
+  background-size: 250% 100%;
+  opacity: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .confianzaDestacada::before {
-    animation: confianza-pulso 4s ease-in-out infinite alternate;
+    animation:
+      confianza-encendido 1.2s linear both,
+      confianza-latido 1.4s ease-in-out 1.2s infinite alternate;
+  }
+
+  .confianzaDestacada::after {
+    opacity: 1;
+    animation: confianza-destello 4.5s ease-in-out 1.6s infinite;
   }
 }
 
-@keyframes confianza-pulso {
-  from {
+/* Parpadeos rápidos y queda prendido */
+@keyframes confianza-encendido {
+  0% {
+    opacity: 0;
+  }
+
+  10%,
+  35%,
+  60%,
+  100% {
+    opacity: 1;
+  }
+
+  20% {
+    opacity: 0.15;
+  }
+
+  45% {
     opacity: 0.35;
+  }
+}
+
+/* Late visible: baja un poco la intensidad y el halo se abre */
+@keyframes confianza-latido {
+  from {
+    opacity: 1;
+    transform: scale(1);
   }
 
   to {
-    opacity: 1;
+    opacity: 0.55;
+    transform: scale(1.06, 1.15);
+  }
+}
+
+/* Cruza en el primer tramo del ciclo y descansa el resto */
+@keyframes confianza-destello {
+  0% {
+    background-position: 200% 0;
+  }
+
+  30%,
+  100% {
+    background-position: -100% 0;
   }
 }
 
