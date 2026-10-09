@@ -9,10 +9,10 @@ import { TelefonoHeader } from "@/components/telefono-header";
 import styles from "./page.module.css";
 
 /*
- * Header propio de minibodegas (template 5436 de kanuby.com): tarjeta blanca
- * redondeada con logo naranja, anclas a las secciones de la página y botón
- * "Cotiza Ahora" que abre el formulario de minibodega. Debajo de 768px el menú
- * pasa a pantalla completa.
+ * Header de minibodegas: la píldora de vidrio de las páginas de mudanzas
+ * (patrón kb-header) con el logo naranja, el teléfono, las anclas a las
+ * secciones de la página y "Cotiza Ahora", que abre el formulario de
+ * minibodega. Debajo de 768px el menú pasa a pantalla completa.
  */
 
 const enlaces = [
@@ -46,26 +46,26 @@ export function HeaderMinibodegas() {
   }
 
   return (
-    <header className={styles.header}>
-      <div className={styles.headerTarjeta}>
-        <Link href="/" className={styles.headerLogo}>
+    <header className={`kb-header ${styles.header}`}>
+      <div className="kb-vidrio kb-header-barra">
+        <Link href="/" className="kb-header-logo">
           <Image
             src="/images/kanuby-orange.svg"
             alt="Kanuby, ir al inicio"
             width={1593}
             height={338}
-            sizes="150px"
+            sizes="140px"
             loading="eager"
           />
         </Link>
 
         <TelefonoHeader />
 
-        <nav className={styles.headerMenu} aria-label="Secciones">
-          <ul className={styles.headerLista}>
+        <nav className="kb-header-menu" aria-label="Secciones">
+          <ul className="kb-header-lista">
             {enlaces.map((enlace) => (
               <li key={enlace.href}>
-                <a href={enlace.href} className={styles.headerEnlace}>
+                <a href={enlace.href} className="kb-header-enlace">
                   {enlace.texto}
                 </a>
               </li>
@@ -76,7 +76,7 @@ export function HeaderMinibodegas() {
         <button
           ref={botonAbrir}
           type="button"
-          className={styles.headerAbrir}
+          className="kb-header-abrir"
           aria-expanded={abierto}
           aria-controls="menu-movil-minibodegas"
           aria-label="Abrir menú"
@@ -85,38 +85,45 @@ export function HeaderMinibodegas() {
           <IconoMenu />
         </button>
 
-        <nav
-          id="menu-movil-minibodegas"
-          className={styles.headerMovil}
-          data-abierto={abierto}
-          aria-label="Secciones"
-        >
-          <button
-            ref={botonCerrar}
-            type="button"
-            className={styles.headerCerrar}
-            aria-label="Cerrar menú"
-            onClick={cerrar}
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <ul className={styles.headerListaMovil}>
-            {enlaces.map((enlace) => (
-              <li key={enlace.href}>
-                <a
-                  href={enlace.href}
-                  className={styles.headerEnlaceMovil}
-                  onClick={() => setAbierto(false)}
-                >
-                  {enlace.texto}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <BotonCotizar texto="Cotiza Ahora" className={styles.headerBoton} />
+        <BotonCotizar
+          texto="Cotiza Ahora"
+          className={`kb-boton-principal ${styles.headerBoton}`}
+        />
       </div>
+
+      {/*
+        El menú móvil va fuera de la barra: el backdrop-filter del vidrio
+        convertiría la barra en el contenedor de su position: fixed.
+      */}
+      <nav
+        id="menu-movil-minibodegas"
+        className="kb-header-movil"
+        data-abierto={abierto}
+        aria-label="Secciones"
+      >
+        <button
+          ref={botonCerrar}
+          type="button"
+          className="kb-header-cerrar"
+          aria-label="Cerrar menú"
+          onClick={cerrar}
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <ul className="kb-header-lista-movil">
+          {enlaces.map((enlace) => (
+            <li key={enlace.href}>
+              <a
+                href={enlace.href}
+                className="kb-header-enlace-movil"
+                onClick={() => setAbierto(false)}
+              >
+                {enlace.texto}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </header>
   );
 }

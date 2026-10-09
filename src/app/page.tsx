@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  IconoBodegaChica,
+  IconoBodegaGrande,
+  IconoBodegaMediana,
+  IconoCasa,
+  IconoEdificio,
+  IconoRuta,
+} from "@/components/iconos";
+import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
+import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { SiteFooter } from "@/components/site-footer";
 import { postsRecientes } from "@/lib/posts";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
@@ -28,14 +38,19 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
+/*
+ * "¿Qué necesitas?": una tarjeta con el valor de Kanuby y una por negocio.
+ * Las de negocio llevan su foto de fondo, tres datos con ícono, "Ver más" a
+ * la página del servicio y "Contactar", que abre el popup de su servicio.
+ */
 const negocios = [
   {
     titulo: "Mudanzas",
     texto:
       "Mudanzas locales, a CDMX y empresariales. Nuestro equipo empaca, carga y traslada todo por ti.",
-    boton: "Ver mudanzas",
     href: "/mudanzas-monterrey/",
-    // La imagen de /mudanzas-monterrey/ es un recorte sin fondo.
+    cotizacion: "mudanza",
+    // La imagen de /mudanzas-monterrey/ es un recorte sin fondo: va entera.
     recorte: true,
     imagen: {
       src: "/images/ddddd.png",
@@ -43,13 +58,18 @@ const negocios = [
       width: 2048,
       height: 1365,
     },
+    datos: [
+      { texto: "Local", Icono: IconoCasa },
+      { texto: "A CDMX", Icono: IconoRuta },
+      { texto: "Empresarial", Icono: IconoEdificio },
+    ],
   },
   {
     titulo: "Minibodegas",
     texto:
       "Espacios seguros de 3.5, 7 y 14 m² para guardar lo que necesites, el tiempo que lo necesites.",
-    boton: "Ver minibodegas",
     href: "/minibodegas-monterrey/",
+    cotizacion: "minibodega",
     recorte: false,
     imagen: {
       src: "/images/minibodegas/contenedores.png",
@@ -57,8 +77,13 @@ const negocios = [
       width: 1376,
       height: 768,
     },
+    datos: [
+      { texto: "3.5 m²", Icono: IconoBodegaChica },
+      { texto: "7 m²", Icono: IconoBodegaMediana },
+      { texto: "14 m²", Icono: IconoBodegaGrande },
+    ],
   },
-];
+] as const;
 
 const jsonLd = jsonLdBase({ ruta: "/", nombre: titulo, descripcion });
 
@@ -91,28 +116,56 @@ export default function Home() {
             ¿Qué necesitas?
           </h2>
           <ul className={styles.negocios}>
+            <li>
+              <article className={`kb-tarjeta ${styles.valor}`}>
+                <h3 className={styles.valorTitulo}>¿Cómo te ayudamos?</h3>
+                <p className={styles.valorTexto}>
+                  Llevamos más de 20 años moviendo y resguardando lo que más le importa a
+                  familias y empresas de Nuevo León. Un solo equipo se encarga de todo:
+                  empacamos, cargamos, trasladamos y, si lo necesitas, guardamos tus cosas en
+                  una minibodega segura hasta que estés listo.
+                </p>
+              </article>
+            </li>
             {negocios.map((negocio) => (
               <li key={negocio.href}>
-                <article className={`kb-tarjeta ${styles.negocio}`}>
-                  <div
-                    className={`${styles.negocioMedia} ${negocio.recorte ? styles.negocioRecorte : ""}`}
-                  >
+                <CotizacionProvider tipo={negocio.cotizacion}>
+                  <article className={`kb-tarjeta ${styles.negocio}`}>
                     <Image
                       src={negocio.imagen.src}
                       alt={negocio.imagen.alt}
                       width={negocio.imagen.width}
                       height={negocio.imagen.height}
-                      sizes="(max-width: 767px) 92vw, 46vw"
+                      sizes="(max-width: 767px) 92vw, 380px"
+                      className={`${styles.negocioFoto} ${negocio.recorte ? styles.negocioRecorte : ""}`}
                     />
-                  </div>
-                  <div className={styles.negocioCuerpo}>
-                    <h3 className={styles.negocioTitulo}>{negocio.titulo}</h3>
-                    <p className={styles.negocioTexto}>{negocio.texto}</p>
-                    <Link href={negocio.href} className="kb-boton-principal">
-                      {negocio.boton}
-                    </Link>
-                  </div>
-                </article>
+                    <div className={styles.negocioCuerpo}>
+                      <h3 className={styles.negocioTitulo}>{negocio.titulo}</h3>
+                      <p className={styles.negocioTexto}>{negocio.texto}</p>
+                      <ul className={styles.datos}>
+                        {negocio.datos.map(({ texto, Icono }) => (
+                          <li key={texto} className={styles.dato}>
+                            <Icono className={styles.datoIcono} />
+                            {texto}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className={styles.negocioBotones}>
+                        <Link
+                          href={negocio.href}
+                          className={`kb-vidrio kb-boton-secundario ${styles.negocioBoton}`}
+                          aria-label={`Ver más de ${negocio.titulo}`}
+                        >
+                          Ver más
+                        </Link>
+                        <BotonCotizar
+                          texto="Contactar"
+                          className={`kb-boton-principal ${styles.negocioBoton} ${styles.contactar}`}
+                        />
+                      </div>
+                    </div>
+                  </article>
+                </CotizacionProvider>
               </li>
             ))}
           </ul>

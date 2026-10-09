@@ -143,7 +143,6 @@
   --texto-36: 36px;
   --texto-38: 38px; /* (m) */
   --texto-40: 40px;
-  --texto-42: 42px; /* (m) */
   --texto-44: 44px;
   --texto-50: 50px;
   --texto-60: 60px;
@@ -189,7 +188,6 @@
   --espacio-6: 60px;
 
   /* Relleno de secciones: Elementor lo expresa en % del ancho */
-  --relleno-seccion-xs: 1%;
   --relleno-seccion-sm: 2%;
   --relleno-seccion: 4%;
   --relleno-seccion-md: 6%;
@@ -231,7 +229,6 @@
   --color-negro: #000000;
   --color-whatsapp: #34e603;
   --color-gris-claro: #e7ebed;
-  --color-gris-medio: #75787a;
 
   /* Sombras de la réplica */
   --sombra-tarjeta: 0 0 10px 0 rgba(0, 0, 0, 0.2);

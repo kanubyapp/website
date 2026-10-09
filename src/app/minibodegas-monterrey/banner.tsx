@@ -6,7 +6,7 @@ import { useCotizacion } from "@/components/mudanzas/cotizacion";
 import styles from "./page.module.css";
 
 /*
- * Banner naranja con el camión, la ilustración "¿No sabes cómo elegir?" y el botón
+ * Banner con el camión, la ilustración "¿No sabes cómo elegir?" y el botón
  * "Contáctanos". Como en el publicado, el camión entra desde la izquierda
  * (fadeInLeft) al aparecer en pantalla y se desplaza en horizontal al hacer
  * scroll (motion effects de Elementor, solo escritorio y tablet). Con
@@ -63,7 +63,7 @@ export function Banner() {
 
   return (
     <section className={styles.banner}>
-      <div className={styles.bannerTarjeta}>
+      <div className={`kb-tarjeta ${styles.bannerTarjeta}`}>
         <div ref={camion} className={styles.bannerCamion}>
           <Image
             src="/images/minibodegas/camionvolador.png"
@@ -84,7 +84,7 @@ export function Banner() {
         </div>
         <button
           type="button"
-          className={styles.bannerBoton}
+          className={`kb-boton-principal ${styles.bannerBoton}`}
           aria-haspopup="dialog"
           onClick={abrir}
         >

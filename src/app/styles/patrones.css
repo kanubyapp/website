@@ -117,6 +117,19 @@
     color: var(--color-texto);
   }
 
+  /* Secundario de vidrio (sobre foto): conserva el fondo del vidrio */
+  .kb-vidrio.kb-boton-secundario {
+    background: var(--vidrio-fondo-solido);
+  }
+
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    @media (prefers-reduced-transparency: no-preference) {
+      .kb-vidrio.kb-boton-secundario {
+        background: var(--vidrio-fondo);
+      }
+    }
+  }
+
   .kb-boton-secundario:hover,
   .kb-boton-secundario:focus-visible {
     border: var(--borde-acento);
@@ -1044,22 +1057,34 @@
     right: 0;
   }
 
-  /* Acordeón de preguntas frecuentes (raven-advanced-accordion) */
+  /*
+   * Acordeón de preguntas frecuentes (/minibodegas-monterrey/ y
+   * /mudanzas-empresariales-monterrey/): superficie sólida con bordes finos.
+   * En modo grupo las preguntas comparten una tarjeta; en modo independiente
+   * cada una es su propia tarjeta. La pregunta abierta lleva el acento: borde
+   * naranja e ícono naranja; el texto sigue en blanco para cumplir AA.
+   */
 
   .kb-acordeon {
     overflow: hidden;
-    border: 1px solid #d6d6d6;
+    border: var(--borde-luz);
+    border-radius: var(--radio-tarjeta-movil);
+    background: var(--color-superficie);
+    transition: border-color var(--transicion);
   }
 
   .kb-acordeones {
     display: flex;
     flex-direction: column;
-    gap: var(--espacio-2);
+    gap: var(--espacio-1);
   }
 
-  .kb-acordeon-item:not(:last-child) .kb-acordeon-boton,
-  .kb-acordeon-item:not(:last-child) .kb-acordeon-cuerpo {
-    border-bottom: 1px solid #d6d6d6;
+  .kb-acordeones .kb-acordeon:has([data-activa="true"]) {
+    border: var(--borde-acento);
+  }
+
+  .kb-acordeon-item:not(:last-child) {
+    border-bottom: var(--borde-luz);
   }
 
   .kb-acordeon-encabezado {
@@ -1071,35 +1096,39 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    gap: var(--espacio-2);
     width: 100%;
-    padding: 20px 15px 18px 25px;
+    padding: var(--espacio-2) var(--espacio-3);
     border: 0;
-    background: var(--color-blanco);
-    color: var(--color-negro);
+    background: transparent;
+    color: var(--color-texto-secundario);
     text-align: left;
     cursor: pointer;
+    transition:
+      background-color var(--transicion),
+      color var(--transicion);
   }
 
-  .kb-acordeon-item[data-activa="true"] .kb-acordeon-boton,
   .kb-acordeon-boton:hover {
-    background: #f8f8f8;
+    background: var(--color-superficie-alta);
+    color: var(--color-texto);
+  }
+
+  .kb-acordeon-item[data-activa="true"] .kb-acordeon-boton {
+    color: var(--color-naranja);
+  }
+
+  .kb-acordeon-boton:focus-visible {
+    outline: var(--anillo-foco);
+    outline-offset: calc(var(--anillo-foco-separacion) * -1);
   }
 
   .kb-acordeon-titulo {
-    color: var(--color-naranja);
+    color: var(--color-texto);
     font-family: var(--fuente-titulos);
-    font-size: var(--texto-16);
-    font-weight: var(--peso-semibold);
-    line-height: 19.3px;
-  }
-
-  .kb-acordeon-boton:hover .kb-acordeon-titulo {
-    color: var(--color-negro);
-  }
-
-  .kb-acordeon-item[data-activa="true"] .kb-acordeon-titulo {
-    color: var(--color-azul);
+    font-size: var(--texto-18);
+    font-weight: var(--peso-medium);
+    line-height: var(--interlineado-encabezado);
   }
 
   .kb-acordeon-icono {
@@ -1110,10 +1139,11 @@
   }
 
   .kb-acordeon-cuerpo {
-    padding: 25px;
-    background: var(--color-blanco);
-    color: var(--color-negro);
+    padding: 0 var(--espacio-3) var(--espacio-3);
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-texto);
     font-size: var(--texto-16);
+    line-height: var(--interlineado-parrafo);
   }
 
   .kb-acordeon-cuerpo p,
@@ -1121,8 +1151,12 @@
     margin-bottom: 1rem;
   }
 
+  .kb-acordeon-cuerpo > :last-child {
+    margin-bottom: 0;
+  }
+
   .kb-acordeon-cuerpo ul {
-    padding-left: 40px;
+    padding-left: var(--espacio-4);
     list-style: disc;
   }
 

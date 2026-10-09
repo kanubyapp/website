@@ -103,7 +103,7 @@ export default function Minibodegas() {
       <main>
         <section className={styles.hero}>
           <Image
-            src="/images/minibodegas/container.png"
+            src="/images/minibodegas/hero-minibodegas.webp"
             alt="Persona metiendo un sillón en un contenedor naranja de Kanuby"
             width={1920}
             height={1080}
@@ -118,8 +118,11 @@ export default function Minibodegas() {
             llave.
           </p>
           <div className={styles.heroBotones}>
-            <BotonCotizar texto="Cotizar Mi bodega" className={styles.botonPrincipal} />
-            <a href="#tamanos" className={`${styles.botonEnlace} ${styles.ocultoMovil}`}>
+            <BotonCotizar
+              texto="Cotizar Mi bodega"
+              className={`kb-boton-principal ${styles.botonPrincipal}`}
+            />
+            <a href="#tamanos" className={`kb-boton-secundario ${styles.ocultoMovil}`}>
               Ver Tamaños y Precios
             </a>
           </div>
@@ -142,7 +145,7 @@ export default function Minibodegas() {
             />
             <div className={styles.tamanosRejilla}>
               {tamanos.map((tamano) => (
-                <div key={tamano.nombre} className={styles.tamano}>
+                <div key={tamano.nombre} className={`kb-vidrio ${styles.tamano}`}>
                   <div className={styles.tamanoCabecera}>
                     <h3 className={styles.tamanoNombre}>{tamano.nombre}</h3>
                     <span className={styles.tamanoSuperficie}>
@@ -163,7 +166,10 @@ export default function Minibodegas() {
                       <strong>Largo:</strong> {tamano.medidas[2]}
                     </li>
                   </ol>
-                  <BotonCotizar texto="Cotizar Ahora" className={styles.tamanoBoton} />
+                  <BotonCotizar
+                    texto="Cotizar Ahora"
+                    className={`kb-boton-principal ${styles.tamanoBoton}`}
+                  />
                 </div>
               ))}
             </div>
@@ -171,7 +177,7 @@ export default function Minibodegas() {
         </section>
 
         <section id="porque" className={styles.porque}>
-          <div className={styles.porqueTarjeta}>
+          <div className={`kb-tarjeta ${styles.porqueTarjeta}`}>
             <div className={styles.porqueImagen}>
               <Image
                 src="/images/minibodegas/hombre-tablet.jpg"
@@ -193,8 +199,11 @@ export default function Minibodegas() {
                 de tus manos.
               </p>
               <div className={styles.porqueBotones}>
-                <BotonCotizar texto="Cotizar Espacio" className={styles.botonPrincipal} />
-                <a href="#tamanos" className={styles.botonContorno}>
+                <BotonCotizar
+                  texto="Cotizar Espacio"
+                  className={`kb-boton-principal ${styles.botonPrincipal}`}
+                />
+                <a href="#tamanos" className="kb-boton-secundario">
                   Ver Tamaños
                 </a>
               </div>
@@ -210,7 +219,10 @@ export default function Minibodegas() {
               <h2 className={styles.faqTitulo}>Preguntas Frecuentes</h2>
               <p className={styles.faqAntetitulo}>¿Alguna duda?</p>
               <p className={styles.faqTexto}>Lo tenemos cubierto…</p>
-              <BotonCotizar texto="Cotizar Espacio" className={styles.botonPrincipal} />
+              <BotonCotizar
+                texto="Cotizar Espacio"
+                className={`kb-boton-principal ${styles.botonPrincipal}`}
+              />
             </div>
           </div>
           <div className={styles.faqPreguntas}>
@@ -239,7 +251,7 @@ export default function Minibodegas() {
         </section>
 
         <section id="ubicacion" className={styles.ubicacion}>
-          <div className={styles.ubicacionCaja}>
+          <div className={`kb-tarjeta ${styles.ubicacionCaja}`}>
             <h2 className={styles.ubicacionTitulo}>Ubícanos</h2>
             <p className={styles.ubicacionDireccion}>
               CARR NACIONAL KM258 SN 5TA SN EMILIO, Los Rodríguez, 67300 Santiago, N.L.
@@ -248,7 +260,7 @@ export default function Minibodegas() {
               href={perfilGoogle}
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.botonEnlace}
+              className={`kb-boton-secundario ${styles.comoLlegar}`}
             >
               Cómo Llegar
             </a>
@@ -265,7 +277,7 @@ export default function Minibodegas() {
       </main>
 
       <SiteFooter />
-      <BotonFlotante className={styles.flotante} />
+      <BotonFlotante className={`kb-vidrio ${styles.flotante}`} />
     </CotizacionProvider>
   );
 }

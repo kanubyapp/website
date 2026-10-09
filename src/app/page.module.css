@@ -1,6 +1,6 @@
 /*
- * Home en el sistema oscuro: hero con resplandor, los dos negocios en
- * tarjeta, franja de confianza y carrusel de noticias.
+ * Home en el sistema oscuro: hero con resplandor, "¿Qué necesitas?" en tres
+ * tarjetas retrato, franja de confianza y carrusel de noticias.
  */
 
 /* Ancho común de las secciones */
@@ -52,7 +52,11 @@
   line-height: var(--interlineado-parrafo);
 }
 
-/* ¿Qué necesitas? */
+/*
+ * ¿Qué necesitas?: tres columnas angostas con tarjetas altas tipo retrato.
+ * La primera, el valor de Kanuby sobre la superficie con resplandor; las de
+ * negocio, con la foto a toda la tarjeta y el texto abajo sobre el velo.
+ */
 .necesitas {
   display: flex;
   flex-direction: column;
@@ -61,68 +65,149 @@
 
 .negocios {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--espacio-3);
+  width: 100%;
+  max-width: var(--ancho-contenido);
+  margin-inline: auto;
 }
 
+.valor,
 .negocio {
   display: flex;
+  position: relative;
   flex-direction: column;
+  justify-content: flex-end;
   height: 100%;
+  aspect-ratio: 3 / 4;
   transition:
     border-color var(--transicion),
     box-shadow var(--transicion);
 }
 
+.valor:hover,
 .negocio:hover {
   border: var(--borde-acento);
+  box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
 }
 
-.negocioMedia {
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background: var(--color-superficie-baja);
+.valor {
+  gap: var(--espacio-2);
+  padding: var(--espacio-4) var(--espacio-3);
+  background: var(--resplandor-acento), var(--color-superficie);
 }
 
-.negocioMedia img {
+.valorTitulo {
+  color: var(--color-texto);
+  font-size: var(--texto-32);
+  font-weight: var(--peso-semibold);
+  line-height: var(--interlineado-encabezado);
+  letter-spacing: var(--tracking-display);
+}
+
+.valorTexto {
+  color: var(--color-texto-secundario);
+  font-size: var(--texto-16);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-parrafo);
+}
+
+/* La foto ocupa toda la tarjeta; el velo oscuro sube desde abajo */
+.negocioFoto {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Imagen recortada sin fondo: entera, sobre un resplandor */
+/* Imagen recortada sin fondo: entera arriba, sobre el resplandor */
 .negocioRecorte {
-  padding: var(--espacio-4) var(--espacio-3) var(--espacio-1);
-  background: var(--resplandor-suave), var(--color-superficie-baja);
+  padding: var(--espacio-4) var(--espacio-2) 0;
+  background: var(--resplandor-acento), var(--color-superficie);
+  object-fit: contain;
+  object-position: top center;
 }
 
-.negocioRecorte img {
-  object-fit: contain;
-  object-position: bottom center;
+.negocio::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--velo-foto);
+  pointer-events: none;
 }
 
 .negocioCuerpo {
   display: flex;
-  flex: 1;
+  position: relative;
+  z-index: 1;
   flex-direction: column;
-  align-items: flex-start;
   gap: var(--espacio-2);
-  padding: var(--espacio-4);
+  padding: var(--espacio-3);
 }
 
 .negocioTitulo {
-  color: var(--color-naranja);
+  color: var(--color-texto);
   font-size: var(--texto-32);
-  font-weight: var(--peso-medium);
+  font-weight: var(--peso-semibold);
   line-height: var(--interlineado-encabezado);
+  letter-spacing: var(--tracking-display);
 }
 
 .negocioTexto {
-  flex: 1;
   color: var(--color-texto-secundario);
-  font-size: var(--texto-18);
-  font-weight: var(--peso-light);
+  font-size: var(--texto-14);
   line-height: var(--interlineado-parrafo);
+}
+
+/* Tres datos con ícono, separados por líneas finas verticales */
+.datos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dato {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-1);
+  padding-inline: var(--espacio-1);
+  color: var(--color-texto);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-13);
+  font-weight: var(--peso-medium);
+  text-align: center;
+}
+
+.dato + .dato {
+  border-left: var(--borde-luz-fuerte);
+}
+
+.datoIcono {
+  width: 22px;
+  height: 22px;
+  color: var(--color-naranja);
+}
+
+.negocioBotones {
+  display: flex;
+  gap: var(--espacio-1);
+}
+
+.negocioBoton {
+  flex: 1;
+  justify-content: center;
+  padding: var(--relleno-pildora);
+  font-size: var(--texto-14);
+}
+
+.contactar :global(.kb-boton-cotizar-icono) {
+  display: none;
+}
+
+.contactar :global(.kb-boton-cotizar-texto) {
+  font-size: var(--texto-14);
+  font-weight: var(--peso-medium);
 }
 
 /* Franja de confianza: una línea de píldoras, abierta a más datos */
@@ -180,25 +265,32 @@
     gap: var(--espacio-3);
   }
 
+  /* Apiladas; la del valor toma la altura de su texto */
   .negocios {
     grid-template-columns: 1fr;
     gap: var(--espacio-2);
   }
 
+  .valor,
   .negocio {
     border-radius: var(--radio-tarjeta-movil);
+  }
+
+  .valor {
+    aspect-ratio: auto;
+  }
+
+  .negocio {
+    aspect-ratio: 4 / 5;
   }
 
   .negocioCuerpo {
     padding: var(--espacio-3) var(--espacio-2);
   }
 
+  .valorTitulo,
   .negocioTitulo {
     font-size: var(--texto-26);
-  }
-
-  .negocioTexto {
-    font-size: var(--texto-16);
   }
 
   .confianza {

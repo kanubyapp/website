@@ -2,15 +2,16 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { IconoEstrella } from "@/components/iconos";
 import { fechaRelativa } from "@/lib/fechas";
 import type { Resena } from "./datos";
 import styles from "./page.module.css";
 
 /*
- * Reseñas de Google en estático, con el diseño del widget de Trustindex de
- * kanuby.com (layout "slider", borde claro): hasta 3 tarjetas visibles según
- * el ancho, avance automático cada 6 s que se pausa al pasar el ratón, flechas
- * desde 1024px y barra de progreso en móvil. Cada texto se corta a 4 líneas
+ * Reseñas de Google en estático, con el comportamiento del widget de
+ * Trustindex de kanuby.com (layout "slider") y tarjetas del sistema oscuro:
+ * hasta 3 tarjetas visibles según el ancho, avance automático cada 6 s que se
+ * pausa al pasar el ratón, flechas desde 1024px y barra de progreso en móvil. Cada texto se corta a 4 líneas
  * con "Leer más". La fecha relativa se calcula en el navegador, como el widget.
  */
 
@@ -118,7 +119,7 @@ export function Resenas({ resenas }: { resenas: Resena[] }) {
                 aria-hidden={!visible || undefined}
                 inert={!visible || undefined}
               >
-                <div className={styles.resenaTarjeta}>
+                <div className={`kb-tarjeta ${styles.resenaTarjeta}`}>
                   <div className={styles.resenaCabecera}>
                     <Image
                       src="/images/minibodegas/resenas/google.svg"
@@ -148,13 +149,7 @@ export function Resenas({ resenas }: { resenas: Resena[] }) {
                     aria-label={`${resena.estrellas} de 5 estrellas`}
                   >
                     {Array.from({ length: resena.estrellas }, (_, estrella) => (
-                      <Image
-                        key={estrella}
-                        src="/images/minibodegas/resenas/estrella.svg"
-                        alt=""
-                        width={17}
-                        height={17}
-                      />
+                      <IconoEstrella key={estrella} className={styles.resenaEstrella} />
                     ))}
                     <Image
                       src="/images/minibodegas/resenas/verificado.svg"
