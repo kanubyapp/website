@@ -53,7 +53,8 @@ export function tamanoDeSuperficie(superficie: string): TamanoMinibodega | null 
   return esTamanoMinibodega(tamano) ? tamano : null;
 }
 
-function validarContacto(datos: Cotizacion): ErroresCotizacion {
+/** Nombre y teléfono obligatorios (popup de cotización y registro de la calculadora) */
+export function validarContacto(datos: Pick<Cotizacion, "nombre" | "telefono">): ErroresCotizacion {
   const errores: ErroresCotizacion = {};
   if (!datos.nombre.trim()) errores.nombre = "Escribe tu nombre.";
   if (!datos.telefono.trim()) errores.telefono = "Escribe tu teléfono.";

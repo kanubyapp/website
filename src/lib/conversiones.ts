@@ -1,4 +1,5 @@
 import type { CategoriaSlug } from "./posts.ts";
+import type { TamanoMinibodega } from "./whatsapp.ts";
 
 /*
  * Eventos de conversión para el dataLayer. El sitio solo los emite; GTM los
@@ -8,6 +9,12 @@ import type { CategoriaSlug } from "./posts.ts";
  *     y va a redirigir a WhatsApp. Llevan la página y la opción del paso 1.
  *   whatsapp_mudanza / whatsapp_minibodega: clic en un enlace que abre
  *     WhatsApp directo, sin formulario. Llevan la página.
+ * Y dos de la calculadora de espacio, independientes de los cuatro:
+ *   calculadora_registro: la persona completó nombre y teléfono. Lleva la
+ *     página; los datos personales no van al dataLayer.
+ *   calculadora_solicitud: pidió su minibodega y va a redirigir a WhatsApp.
+ *     Lleva la página y el tamaño recomendado, o "excede" si no cabe ni en
+ *     la más grande.
  */
 
 declare global {
@@ -20,7 +27,9 @@ export type Negocio = "mudanza" | "minibodega";
 
 export type EventoConversion =
   | { event: `cotizacion_${Negocio}`; pagina: string; opcion: string }
-  | { event: `whatsapp_${Negocio}`; pagina: string };
+  | { event: `whatsapp_${Negocio}`; pagina: string }
+  | { event: "calculadora_registro"; pagina: string }
+  | { event: "calculadora_solicitud"; pagina: string; tamano: TamanoMinibodega | "excede" };
 
 export function eventoCotizacion(negocio: Negocio, pagina: string, opcion: string): EventoConversion {
   return { event: `cotizacion_${negocio}`, pagina, opcion };
@@ -28,6 +37,17 @@ export function eventoCotizacion(negocio: Negocio, pagina: string, opcion: strin
 
 export function eventoWhatsApp(negocio: Negocio, pagina: string): EventoConversion {
   return { event: `whatsapp_${negocio}`, pagina };
+}
+
+export function eventoCalculadoraRegistro(pagina: string): EventoConversion {
+  return { event: "calculadora_registro", pagina };
+}
+
+export function eventoCalculadoraSolicitud(
+  pagina: string,
+  tamano: TamanoMinibodega | "excede",
+): EventoConversion {
+  return { event: "calculadora_solicitud", pagina, tamano };
 }
 
 /**

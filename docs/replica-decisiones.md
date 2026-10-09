@@ -9,7 +9,7 @@ Decisiones aprobadas por el equipo para la réplica. Aplican a todas las tareas.
 3. Formularios: el popup de cotización usa la estructura del modal de legacy, en dos pasos. Paso 1: el tipo de servicio como tarjetas que avanzan al tocarlas (mudanza: Mudanza local, Mudanza de Monterrey a CDMX, Mudanza empresarial; minibodega: 3.5 m², 7 m², 14 m², No estoy seguro). Paso 2: nombre y teléfono, los dos obligatorios; ya no se pide correo. Redirige en la misma pestaña a WhatsApp al número +52 1 81 1028 7087 (wa.me/5218110287087) con un mensaje prellenado:
    Mudanza: "Hola Kanuby, soy {nombre}. Me interesa cotizar {una mudanza local | una mudanza de Monterrey a CDMX | una mudanza empresarial}."
    Minibodega: "Hola Kanuby, soy {nombre}. Me interesa rentar una minibodega de {3.5 m² | 7 m² | 14 m²}." Si elige "No estoy seguro": "Hola Kanuby, soy {nombre}. Me interesa rentar una minibodega, aún no sé qué tamaño necesito."
-   No guardan datos en ningún lado: validan y redirigen. Al completarse, el servidor manda un correo de aviso al equipo con Resend (src/lib/correo.ts), sin frenar la redirección.
+   El popup no guarda datos: valida y redirige. La calculadora de espacio de /minibodegas-monterrey/ sí guarda en el navegador (localStorage) el nombre, el teléfono y el inventario conforme avanza (src/lib/guardado-calculadora.ts), y de ahí no sale nada salvo el mensaje de WhatsApp que la persona envía. Al completarse el popup, el servidor manda un correo de aviso al equipo con Resend (src/lib/correo.ts), sin frenar la redirección.
 4. Botón flotante: se replica en las mismas páginas y abre el formulario igual que hoy, pero el popup sí se puede cerrar (botón de cerrar, Esc y clic fuera).
 5. Instagram: el feed se omite en esta fase, sin dejar espacio vacío. Trustindex: las 10 reseñas de minibodegas se pasan como contenido estático y ya no usan el diseño del widget: van en el mismo componente de testimonios de las páginas de mudanzas, con su fecha relativa calculada en el navegador y el enlace al perfil de Google debajo del carrusel.
 6. GTM, Google Ads y Meta Pixel: sí, en la tarea 12. Antes de incluirlos revisa qué etiquetas se disparan dentro del contenedor de GTM y cuáles están pegadas directo en el HTML, y repórtalo para no duplicar eventos.
@@ -41,6 +41,11 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
 - [ ] Los enlaces de Cobertura que dan 404.
 - [ ] Las meta descriptions y og:image faltantes.
 - [ ] El mensaje de minibodega en los posts de mudanzas.
+- [ ] Calculadora de espacio de /minibodegas-monterrey/:
+  - Si las medidas publicadas de las minibodegas son interiores. La calculadora las toma así (src/lib/minibodegas.ts).
+  - Validar la tabla de volúmenes de los objetos y el margen de acomodo de 30% (src/lib/catalogo-calculadora.ts), hoy estimaciones de referencia.
+  - Si el texto de la tarjeta Mediana ("los muebles de una recámara pequeña") sigue cuadrando con la calculadora: con la tabla actual, una recámara típica cabe en la Chica.
+  - Que el aviso de privacidad mencione que la calculadora guarda nombre, teléfono e inventario en el navegador.
 - [ ] Posts que enlazan a una imagen en lugar de a una página (se copian tal cual, apuntando al archivo en kanuby.com/wp-content):
   - /mudanzas-premium-san-pedro/: "kanubymudanzas" → kanubymudanzas.svg
   - /mudanzas-oficina-monterrey-cambio-sin-interrumpir/: "kanubyminibodegas" → kanubyminibodegas.svg

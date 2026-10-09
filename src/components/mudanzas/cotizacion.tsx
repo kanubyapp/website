@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { createContext, useContext, useEffect, useId, useReducer, useRef, useState } from "react";
+import { useDialogoModal } from "@/components/use-dialogo-modal";
 import {
   IconoBodegaChica,
   IconoBodegaGrande,
@@ -37,7 +38,8 @@ import {
  * necesitas?", con Mudanza y Minibodega; desde el paso 1 se regresa a él.
  * Cualquier botón de la página lo abre con useCotizacion().abrir(). Se cierra con su botón, con Esc y con clic fuera;
  * mientras está abierto el foco queda dentro, el fondo no hace scroll
- * (interacciones.css) y al cerrar el foco vuelve a quien lo abrió.
+ * (interacciones.css) y al cerrar el foco vuelve a quien lo abrió
+ * (useDialogoModal, compartido con la calculadora de espacio).
  */
 
 type Icono = (props: { className?: string }) => React.ReactNode;
@@ -99,9 +101,6 @@ export function useCotizacion() {
 
 const ordenCampos = ["nombre", "telefono"] as const;
 
-const ENFOCABLES =
-  'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
 export function CotizacionProvider({
   tipo = "mudanza",
   children,
@@ -109,12 +108,9 @@ export function CotizacionProvider({
   tipo?: keyof typeof FORMULARIOS | "eleccion";
   children: React.ReactNode;
 }) {
-  const dialogo = useRef<HTMLDialogElement>(null);
-  const caja = useRef<HTMLDivElement>(null);
+  const { caja, abierto, abrir: abrirDialogo, cerrar, propsDialogo } = useDialogoModal();
   /* Primer control del paso activo: ahí va el foco al entrar en el paso. */
   const entradaPaso = useRef<HTMLButtonElement & HTMLInputElement>(null);
-  /* Quien abrió el popup, para devolverle el foco al cerrar. */
-  const abridor = useRef<HTMLElement | null>(null);
   /* Mientras espera a que salga el evento, otro envío no registra de nuevo. */
   const enviando = useRef(false);
   /* Contra bots (aviso por correo): cuándo se abrió y el campo trampa. */
@@ -122,7 +118,6 @@ export function CotizacionProvider({
   const trampa = useRef<HTMLInputElement>(null);
   const id = useId();
 
-  const [abierto, setAbierto] = useState(false);
   const [flujo, despachar] = useReducer(
     flujoCotizacion,
     tipo === "eleccion" ? null : tipo,
@@ -142,41 +137,13 @@ export function CotizacionProvider({
 
   function abrir(opcion?: string) {
     abiertoEn.current = Date.now();
-    abridor.current = document.activeElement as HTMLElement | null;
     enviando.current = false;
     despachar({ tipo: "reiniciar" });
     if (opcion) despachar({ tipo: "preseleccionar", valor: opcion });
     setNombre("");
     setTelefono("");
     setErrores({});
-    dialogo.current?.showModal();
-    setAbierto(true);
-  }
-
-  function cerrar() {
-    dialogo.current?.close();
-  }
-
-  /* El evento close llega con el botón, con Esc y con clic fuera. */
-  function alCerrar() {
-    setAbierto(false);
-    abridor.current?.focus();
-  }
-
-  /* Trampa de Tab: del último control al primero y al revés. */
-  function alTeclear(evento: React.KeyboardEvent<HTMLDialogElement>) {
-    if (evento.key !== "Tab" || !caja.current) return;
-    const enfocables = caja.current.querySelectorAll<HTMLElement>(ENFOCABLES);
-    if (enfocables.length === 0) return;
-    const primero = enfocables[0];
-    const ultimo = enfocables[enfocables.length - 1];
-    if (evento.shiftKey && document.activeElement === primero) {
-      evento.preventDefault();
-      ultimo.focus();
-    } else if (!evento.shiftKey && document.activeElement === ultimo) {
-      evento.preventDefault();
-      primero.focus();
-    }
+    abrirDialogo();
   }
 
   function enviar(evento: React.FormEvent<HTMLFormElement>) {
@@ -236,16 +203,10 @@ export function CotizacionProvider({
       {children}
 
       <dialog
-        ref={dialogo}
+        {...propsDialogo}
         className="kb-popup"
         data-lenis-prevent
         aria-labelledby={`${id}-titulo`}
-        onClose={alCerrar}
-        onKeyDown={alTeclear}
-        onClick={(evento) => {
-          // El clic en el fondo oscuro llega al propio <dialog>.
-          if (evento.target === dialogo.current) cerrar();
-        }}
       >
         <div ref={caja} className="kb-cristal kb-popup-caja">
           <button

@@ -1,0 +1,312 @@
+/*
+ * Calculadora de espacio: el modal del popup de cotización (patrones
+ * kb-popup y kb-campo) más ancho, para la minibodega en isométrico junto al
+ * catálogo. En móvil ocupa toda la pantalla, con la vista arriba y el botón
+ * de cierre fijo abajo.
+ */
+
+.dialogo {
+  width: min(92vw, var(--ancho-contenido));
+}
+
+.registro {
+  max-width: var(--medida-texto);
+  margin-inline: auto;
+}
+
+.enlace {
+  color: var(--color-texto-oscuro);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.enlace:focus-visible {
+  outline: var(--anillo-foco-claro);
+  outline-offset: var(--anillo-foco-separacion);
+}
+
+/* Paso 2: la vista a la izquierda, el catálogo a la derecha y el cierre abajo */
+.inventario {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--espacio-3);
+}
+
+.vista {
+  display: flex;
+  position: sticky;
+  top: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-1);
+}
+
+.isometrico {
+  width: 100%;
+  height: auto;
+}
+
+.ocupacion {
+  color: var(--color-texto-oscuro-secundario);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-16);
+}
+
+/* Número grande: el naranja de marca solo cumple en texto grande sobre el cristal */
+.porcentaje {
+  color: var(--color-naranja);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-40);
+  font-weight: var(--peso-semibold);
+  line-height: var(--interlineado-titulo);
+}
+
+.resultado {
+  color: var(--color-texto-oscuro);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-16);
+  line-height: var(--interlineado-parrafo);
+}
+
+/* Isométrico: paredes claras y bloques naranjas, una cara por tono */
+
+.piso,
+.pared {
+  fill: var(--color-naranja-tenue);
+  stroke: var(--color-texto-oscuro-secundario);
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.arista {
+  fill: none;
+  stroke: var(--color-texto-oscuro-secundario);
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.caraArriba,
+.caraAncho,
+.caraLargo {
+  stroke: var(--color-blanco);
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.caraArriba {
+  fill: var(--color-naranja-claro);
+}
+
+.caraAncho {
+  fill: var(--color-naranja);
+}
+
+.caraLargo {
+  fill: var(--color-naranja-oscuro);
+}
+
+/* Movimiento: solo sin "reducir movimiento". Las unidades son metros del dibujo. */
+@media (prefers-reduced-motion: no-preference) {
+  .bodega,
+  .bloque {
+    transition: transform var(--transicion);
+  }
+
+  .entrando {
+    animation: entrar var(--transicion) both;
+  }
+
+  .saliendo {
+    animation: salir var(--transicion) both;
+  }
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(-0.6px);
+  }
+}
+
+@keyframes salir {
+  to {
+    opacity: 0;
+    transform: translateY(-0.6px);
+  }
+}
+
+/* Catálogo */
+
+.catalogo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  text-align: left;
+}
+
+.catalogo :global(.kb-popup-pregunta) {
+  text-align: center;
+}
+
+.pestanas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--espacio-1);
+}
+
+.pestana {
+  min-height: var(--objetivo-tactil);
+  padding: var(--relleno-pildora);
+  border: var(--borde-campo-claro);
+  border-radius: var(--radio-pildora);
+  background: var(--color-blanco);
+  color: var(--color-texto-oscuro-secundario);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-14);
+  font-weight: var(--peso-medium);
+  transition:
+    border-color var(--transicion),
+    background-color var(--transicion),
+    color var(--transicion);
+}
+
+.pestana:hover,
+.pestana[aria-selected="true"] {
+  border-color: var(--color-naranja);
+  background: var(--color-naranja-tenue);
+  color: var(--color-texto-oscuro);
+}
+
+.objetos {
+  display: flex;
+  flex-direction: column;
+}
+
+.objeto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espacio-1);
+  padding-block: var(--espacio-1);
+  border-bottom: var(--borde-claro);
+}
+
+.objetoNombre {
+  color: var(--color-texto-oscuro);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-16);
+}
+
+.contador {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--espacio-1);
+}
+
+.contadorBoton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--objetivo-tactil);
+  height: var(--objetivo-tactil);
+  border: var(--borde-campo-claro);
+  border-radius: var(--radio-pildora);
+  background: var(--color-blanco);
+  color: var(--color-texto-oscuro);
+  font-size: var(--texto-20);
+  line-height: var(--interlineado-titulo);
+  transition:
+    border-color var(--transicion),
+    background-color var(--transicion);
+}
+
+.contadorBoton:hover {
+  border-color: var(--color-naranja);
+  background: var(--color-naranja-tenue);
+}
+
+.contadorBoton[aria-disabled="true"] {
+  border-color: var(--color-naranja-tenue);
+  color: var(--color-texto-oscuro-secundario);
+}
+
+.pestana:focus-visible,
+.contadorBoton:focus-visible {
+  outline: var(--anillo-foco-claro);
+  outline-offset: var(--anillo-foco-separacion);
+}
+
+.cantidad {
+  min-width: 2ch;
+  color: var(--color-texto-oscuro);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-18);
+  font-weight: var(--peso-semibold);
+  text-align: center;
+}
+
+.cierre {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-1);
+}
+
+.cierre :global(.kb-popup-enviar) {
+  width: auto;
+}
+
+/* Sin objetos todavía: apagado en los tonos del cristal */
+.cierre :global(.kb-popup-enviar:disabled) {
+  border-color: var(--color-naranja-tenue);
+  background: var(--color-naranja-tenue);
+  box-shadow: none;
+  color: var(--color-texto-oscuro-secundario);
+  cursor: not-allowed;
+}
+
+/* Móvil: pantalla completa, una columna y el cierre fijo abajo */
+
+@media (max-width: 767px) {
+  .dialogo {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+  }
+
+  .caja {
+    min-height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+
+  .inventario {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .vista {
+    position: static;
+  }
+
+  .cierre {
+    position: sticky;
+    bottom: 0;
+    margin-inline: calc(var(--espacio-2) * -1);
+    padding: var(--espacio-2);
+    border-top: var(--borde-claro);
+    background: var(--cristal-fondo-solido);
+  }
+
+  .cierre :global(.kb-popup-enviar) {
+    width: 100%;
+  }
+}
