@@ -26,9 +26,13 @@
     interpolate-size: allow-keywords;
   }
 
-  /* Saltos a anclas de la misma página: suaves, salvo con "reducir movimiento" */
+  /*
+   * Saltos a anclas de la misma página: suaves, salvo con "reducir
+   * movimiento". Con el desplazamiento suave de Lenis activo (clase lenis),
+   * el salto lo anima Lenis (ScrollSuave) y el nativo va instantáneo.
+   */
   @media (prefers-reduced-motion: no-preference) {
-    html {
+    html:not(.lenis) {
       scroll-behavior: smooth;
     }
   }

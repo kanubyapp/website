@@ -107,6 +107,7 @@ export function HeaderMinibodegas() {
       <nav
         id="menu-movil-minibodegas"
         className="kb-header-movil"
+        data-lenis-prevent
         data-abierto={abierto}
         aria-label="Secciones"
       >

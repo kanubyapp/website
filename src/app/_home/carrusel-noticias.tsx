@@ -61,6 +61,7 @@ export function CarruselNoticias({
       ref={pista}
       className={styles.pista}
       aria-label="Últimas noticias"
+      data-lenis-prevent-horizontal
       onPointerDown={alPresionar}
       onPointerMove={alMover}
       onPointerUp={alSoltar}

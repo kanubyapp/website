@@ -146,7 +146,13 @@ export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
         El menú móvil va fuera de la barra: el backdrop-filter del vidrio
         convertiría la barra en el contenedor de su position: fixed.
       */}
-      <nav id={idMenu} className={styles.headerMovil} data-abierto={abierto} aria-label="Principal">
+      <nav
+        id={idMenu}
+        className={styles.headerMovil}
+        data-abierto={abierto}
+        data-lenis-prevent
+        aria-label="Principal"
+      >
         <button
           ref={botonCerrar}
           type="button"

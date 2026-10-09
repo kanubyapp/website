@@ -225,6 +225,7 @@ export function CotizacionProvider({
       <dialog
         ref={dialogo}
         className="kb-popup"
+        data-lenis-prevent
         aria-labelledby={`${id}-titulo`}
         onClose={alCerrar}
         onKeyDown={alTeclear}

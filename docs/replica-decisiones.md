@@ -11,7 +11,7 @@ Decisiones aprobadas por el equipo para la réplica. Aplican a todas las tareas.
    Minibodega: "Hola Kanuby, soy {nombre}. Me interesa rentar una minibodega de {3.5 m² | 7 m² | 14 m²}." Si elige "No estoy seguro": "Hola Kanuby, soy {nombre}. Me interesa rentar una minibodega, aún no sé qué tamaño necesito."
    No envían correo ni guardan datos en ningún lado; solo validan y redirigen.
 4. Botón flotante: se replica en las mismas páginas y abre el formulario igual que hoy, pero el popup sí se puede cerrar (botón de cerrar, Esc y clic fuera).
-5. Instagram: el feed se omite en esta fase, sin dejar espacio vacío. Trustindex: las 10 reseñas se pasan como contenido estático, con el mismo diseño, y un enlace al perfil de Google.
+5. Instagram: el feed se omite en esta fase, sin dejar espacio vacío. Trustindex: las 10 reseñas de minibodegas se pasan como contenido estático y ya no usan el diseño del widget: van en el mismo componente de testimonios de las páginas de mudanzas, con su fecha relativa calculada en el navegador y el enlace al perfil de Google debajo del carrusel.
 6. GTM, Google Ads y Meta Pixel: sí, en la tarea 12. Antes de incluirlos revisa qué etiquetas se disparan dentro del contenedor de GTM y cuáles están pegadas directo en el HTML, y repórtalo para no duplicar eventos.
 7. Glancyr: no se usa. El menú móvil va con Outfit.
 8. DDDDD: se descarga la variante de 2048px como origen.

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Outfit } from "next/font/google";
+import { ScrollSuave } from "@/components/scroll-suave";
+import "lenis/dist/lenis.css";
 import "./styles/tokens.css";
 import "./styles/base.css";
 import "./styles/patrones.css";
@@ -41,7 +43,10 @@ export default function RootLayout({
       className={`${outfit.variable} ${dmSans.variable}`}
       data-scroll-behavior="smooth"
     >
-      <body>{children}</body>
+      <body>
+        <ScrollSuave />
+        {children}
+      </body>
     </html>
   );
 }

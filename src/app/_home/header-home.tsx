@@ -101,6 +101,7 @@ export function HeaderHome() {
       <nav
         id="menu-movil-home"
         className={`kb-resplandor ${styles.movil}`}
+        data-lenis-prevent
         data-abierto={abierto}
         aria-label="Principal"
       >

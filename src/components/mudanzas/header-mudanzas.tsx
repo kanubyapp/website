@@ -113,6 +113,7 @@ export function HeaderMudanzas({
       <nav
         id={idMenu}
         className="kb-header-movil"
+        data-lenis-prevent
         data-abierto={abierto}
         aria-label="Secciones"
       >
