@@ -86,7 +86,7 @@ export function Banner() {
           type="button"
           className={`kb-boton-principal ${styles.bannerBoton}`}
           aria-haspopup="dialog"
-          onClick={abrir}
+          onClick={() => abrir()}
         >
           Contáctanos
         </button>

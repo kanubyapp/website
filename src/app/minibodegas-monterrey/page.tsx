@@ -6,6 +6,7 @@ import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
+import { tamanoDeSuperficie } from "@/lib/whatsapp";
 import { Banner } from "./banner";
 import { preguntas, resenas, textoPlano, type Bloque } from "./datos";
 import { HeaderMinibodegas } from "./header-minibodegas";
@@ -107,7 +108,7 @@ export default function Minibodegas() {
             alt="Persona metiendo un sillón en un contenedor naranja de Kanuby"
             width={1188}
             height={910}
-            sizes="(max-width: 767px) 92vw, (max-width: 1024px) 40vw, 50vw"
+            sizes="(max-width: 767px) 92vw, (max-width: 1024px) 45vw, 55vw"
             className={styles.heroFondo}
             preload
           />
@@ -129,7 +130,7 @@ export default function Minibodegas() {
         </section>
 
         <section id="tamanos" className={styles.tamanos}>
-          <h2 className={styles.tamanosTitulo}>Una para cada Necesidad</h2>
+          <h2 className={styles.tamanosTitulo}>El espacio justo para lo que guardas</h2>
           <p className={styles.tamanosTexto}>
             Desde artículos de decoración hasta el inventario de tu negocio, tenemos el tamaño
             perfecto para lo que necesites guardar.
@@ -166,8 +167,10 @@ export default function Minibodegas() {
                       <strong>Largo:</strong> {tamano.medidas[2]}
                     </li>
                   </ol>
+                  {/* Abre el popup con este tamaño ya elegido, en el paso 2 */}
                   <BotonCotizar
                     texto="Cotizar Ahora"
+                    opcion={tamanoDeSuperficie(tamano.superficie) ?? undefined}
                     className={`kb-boton-principal ${styles.tamanoBoton}`}
                   />
                 </div>

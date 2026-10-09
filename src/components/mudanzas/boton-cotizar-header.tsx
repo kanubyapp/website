@@ -56,7 +56,7 @@ export function BotonCotizarHeader({ className = "" }: { className?: string }) {
       className={`kb-boton-cotizar ${className}`}
       aria-haspopup="dialog"
       aria-label="Cotiza ahora por WhatsApp"
-      onClick={abrir}
+      onClick={() => abrir()}
     >
       {/* key: al cambiar de frase el ícono se monta de nuevo y repite el giro */}
       <IconoWhatsApp key={estado.cambios} className={`kb-boton-cotizar-icono${giro}`} />

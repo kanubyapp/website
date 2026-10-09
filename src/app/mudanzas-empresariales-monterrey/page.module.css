@@ -5,101 +5,6 @@
  * Los valores sin token aparecen una sola vez en el publicado.
  */
 
-/* Header: logo, menú centrado y acciones a la derecha */
-
-.header :global(.kb-header-logo) {
-  flex: 0 1 auto;
-  min-width: 0;
-}
-
-.header :global(.kb-header-menu) {
-  flex: 0 1 100%;
-  min-width: 0;
-}
-
-.header :global(.kb-header-lista) {
-  justify-content: center;
-  gap: var(--espacio-4);
-}
-
-.header :global(.kb-header-enlace) {
-  border-width: var(--borde-boton);
-}
-
-.acciones {
-  display: flex;
-  flex: 0 1 100%;
-  align-self: center;
-  justify-content: flex-end;
-  align-items: center;
-  gap: var(--espacio-6);
-  min-width: 0;
-}
-
-.llamanos {
-  display: inline-flex;
-  align-items: center;
-  color: var(--color-texto);
-  line-height: 1;
-  text-align: left;
-  transition: color var(--transicion);
-}
-
-/* Sobre el cristal blanco del header compacto, en azul noche */
-:global(:root[data-header-compacto]) .llamanos {
-  color: var(--color-texto-oscuro);
-}
-
-.llamanos:hover,
-.llamanos:focus-visible {
-  color: var(--color-naranja);
-}
-
-.llamanosIcono {
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
-  margin-right: 14px;
-  fill: currentColor;
-}
-
-.llamanosTextos {
-  display: flex;
-  flex-direction: column;
-}
-
-.llamanosTexto {
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-14);
-  font-weight: var(--peso-regular);
-}
-
-.llamanosNumero {
-  padding-top: 2px;
-  font-family: var(--fuente-titulos);
-  font-size: var(--texto-24);
-  font-weight: var(--peso-medium);
-  letter-spacing: var(--tracking-md);
-}
-
-/* "Cotizar Ahora" del header: botón principal de una línea */
-.botonHeader {
-  gap: 10px;
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-18);
-}
-
-.botonHeader :global(.kb-boton-cotizar-icono) {
-  width: 1em;
-  height: 1em;
-  margin: 0;
-}
-
-.botonHeader :global(.kb-boton-cotizar-texto) {
-  font-family: inherit;
-  font-size: inherit;
-}
-
 /* Botón de una línea del hero */
 .botonSimple {
   align-self: flex-start;
@@ -122,58 +27,6 @@
   font-weight: var(--peso-light);
   line-height: var(--interlineado-22);
   letter-spacing: var(--tracking-md);
-}
-
-/* Barra de redes sociales */
-
-.barraSocial {
-  display: flex;
-  padding: var(--espacio-2) var(--relleno-seccion) 0;
-}
-
-/* Píldora con el lenguaje del header: íconos en círculo, hover elevado */
-.redes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espacio-1);
-  padding: calc(var(--espacio-1) / 2);
-  border: var(--borde-luz);
-  border-radius: var(--radio-pildora);
-  background: var(--color-superficie-baja);
-}
-
-.red {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: var(--objetivo-tactil);
-  height: var(--objetivo-tactil);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radio-pildora);
-  background: none;
-  color: var(--color-texto-secundario);
-  cursor: pointer;
-  transition:
-    color var(--transicion),
-    background-color var(--transicion);
-}
-
-.red:hover,
-.red:focus-visible {
-  background: var(--color-superficie-alta);
-  color: var(--color-texto);
-}
-
-.red:focus-visible {
-  outline: var(--anillo-foco);
-  outline-offset: var(--anillo-foco-separacion);
-}
-
-.red svg {
-  width: var(--texto-16);
-  height: var(--texto-16);
-  fill: currentColor;
 }
 
 /* Hero y por qué: ajustes de esta página */
@@ -249,25 +102,6 @@
 }
 
 @media (max-width: 767px) {
-  .header {
-    gap: var(--espacio-2);
-  }
-
-  .acciones {
-    flex-basis: 100%;
-    justify-content: space-between;
-    gap: 0;
-  }
-
-  .llamanosNumero {
-    font-size: var(--texto-16);
-  }
-
-  .barraSocial {
-    justify-content: center;
-    padding-top: var(--espacio-1);
-  }
-
   .botonSimple {
     align-self: center;
   }

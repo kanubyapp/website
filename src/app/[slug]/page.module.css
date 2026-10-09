@@ -222,7 +222,9 @@
   display: none;
 }
 
+/* Mismo alto que los botones de acción de los demás headers */
 .headerBoton {
+  min-height: var(--objetivo-tactil);
   padding: var(--relleno-pildora);
   font-family: var(--fuente-texto);
   font-size: var(--texto-14);
@@ -636,6 +638,10 @@
   /* Compacto en móvil: una sola fila con logo, teléfono y menú */
   :global(:root[data-header-compacto]) .headerAcciones {
     display: none;
+  }
+
+  :global(:root[data-header-compacto]) .headerBarra {
+    border-radius: var(--radio-pildora);
   }
 
   :global(:root[data-header-compacto]) .headerLogo {

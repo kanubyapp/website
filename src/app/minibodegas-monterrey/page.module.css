@@ -63,7 +63,9 @@
   width: 116px;
 }
 
+/* Mismo alto que los botones de acción de los demás headers */
 .headerBoton {
+  min-height: var(--objetivo-tactil);
   padding: var(--relleno-pildora);
 }
 
@@ -86,10 +88,17 @@
  * z-index -1 se pinta debajo de todo el contenido.
  */
 
+/*
+ * Columna de la imagen: 55% del ancho del hero (el hero ocupa toda la
+ * ventana, así que 55vw), hasta el margen derecho. Las filas de arriba y de
+ * abajo absorben la altura sobrante de la imagen: el texto queda junto, con la
+ * separación del hero de la home, y centrado con la imagen.
+ */
 .hero {
   display: grid;
   position: relative;
-  grid-template-columns: minmax(0, 45%) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) 55vw;
+  grid-template-rows: 1fr auto auto auto 1fr;
   align-content: center;
   align-items: center;
   gap: var(--espacio-3) var(--espacio-5);
@@ -97,11 +106,23 @@
   padding: var(--espacio-6) var(--relleno-seccion) var(--espacio-seccion);
 }
 
-/* El texto en la columna izquierda */
+/* El texto en la columna izquierda, en las filas del centro */
 .heroTitulo,
 .heroTexto,
 .heroBotones {
   grid-column: 1;
+}
+
+.heroTitulo {
+  grid-row: 2;
+}
+
+.heroTexto {
+  grid-row: 3;
+}
+
+.heroBotones {
+  grid-row: 4;
 }
 
 .hero::before {
@@ -115,7 +136,7 @@
 
 /* La imagen, completa en la columna derecha y centrada con el bloque de texto */
 .heroFondo {
-  grid-row: 1 / span 3;
+  grid-row: 1 / -1;
   grid-column: 2;
   width: 100%;
   height: auto;
@@ -130,7 +151,6 @@
 }
 
 .heroTexto {
-  max-width: 90%;
   color: var(--color-texto-secundario);
   font-family: var(--fuente-texto);
   font-size: var(--texto-20);
@@ -842,7 +862,7 @@
 
 @media (max-width: 1024px) {
   .hero {
-    grid-template-columns: minmax(0, 55%) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 45vw;
   }
 
   .heroTitulo {
@@ -876,16 +896,32 @@
     width: 100%;
   }
 
+  /* Logo más chico en móvil, como el de la home y el blog */
+  .header :global(.kb-header-logo) {
+    width: 120px;
+  }
+
+  :global(:root[data-header-compacto]) .header :global(.kb-header-logo) {
+    width: 100px;
+  }
+
   /* En móvil la imagen va debajo del texto, entera */
   .hero {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
     min-height: 0;
     padding: var(--espacio-4) var(--relleno-seccion) var(--espacio-seccion-movil);
     text-align: center;
   }
 
+  .heroTitulo,
+  .heroTexto,
+  .heroBotones,
   .heroFondo {
     grid-row: auto;
+  }
+
+  .heroFondo {
     grid-column: 1;
     order: 1;
   }

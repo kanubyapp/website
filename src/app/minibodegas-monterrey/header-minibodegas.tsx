@@ -59,7 +59,7 @@ export function HeaderMinibodegas() {
             alt="Kanuby, ir al inicio"
             width={1593}
             height={338}
-            sizes="140px"
+            sizes="(max-width: 767px) 120px, 140px"
             loading="eager"
           />
         </Link>

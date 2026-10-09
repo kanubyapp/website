@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ContenidoPost } from "@/components/blog/contenido-post";
+import { HeaderBlog } from "@/components/blog/header-blog";
 import { SiteFooter } from "@/components/site-footer";
+import { negocioDePost } from "@/lib/conversiones";
 import { categorias, postsDeCategoria, type CategoriaSlug } from "@/lib/posts";
 import styles from "./archivo-categoria.module.css";
 
 /*
- * Archivo de una categoría del blog en el sistema oscuro: sin header visible,
- * todos los posts de la categoría (sin paginación) con su título, su imagen
+ * Archivo de una categoría del blog en el sistema oscuro: el header del blog
+ * (su "Cotiza Aquí" cuenta con el negocio de la categoría, como un post de
+ * ella), todos los posts de la categoría (sin paginación) con su título, su imagen
  * destacada y su contenido completo, y el footer global. Son "noindex,
  * follow", como en el publicado.
  */
@@ -31,6 +34,7 @@ export function metadataCategoria(categoria: CategoriaSlug): Metadata {
 export function ArchivoCategoria({ categoria }: { categoria: CategoriaSlug }) {
   return (
     <>
+      <HeaderBlog negocio={negocioDePost([categoria])} />
       <main className={styles.archivo}>
         {postsDeCategoria(categoria).map((post) => (
           <article key={post.slug} className={styles.post}>

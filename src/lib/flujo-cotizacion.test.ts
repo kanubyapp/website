@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { envioCotizacion } from "./envio-cotizacion.ts";
+import { tamanoDeSuperficie } from "./whatsapp.ts";
 import { flujoCotizacion, flujoInicial, type AccionFlujo, type FlujoCotizacion } from "./flujo-cotizacion.ts";
 
 const aplicar = (estado: FlujoCotizacion, ...acciones: AccionFlujo[]) =>
@@ -149,4 +150,65 @@ test("en la home, elegir Minibodega y completar emite cotizacion_minibodega con 
     pagina: "/",
     opcion: "No estoy seguro",
   });
+});
+
+/* Apertura con tamaño preseleccionado (tarjetas de tamaño de /minibodegas-monterrey/) */
+
+test("abrir con un tamaño preseleccionado va directo al paso 2 con ese tamaño", () => {
+  const estado = aplicar(flujoInicial("minibodega"), { tipo: "preseleccionar", valor: "7 m²" });
+  assert.deepEqual(estado, { paso: "datos", negocio: "minibodega", tipo: "7 m²", conPrevio: false });
+});
+
+test("desde el tamaño preseleccionado se regresa al paso 1 con ese tamaño marcado, y se puede cambiar", () => {
+  const enServicio = aplicar(
+    flujoInicial("minibodega"),
+    { tipo: "preseleccionar", valor: "14 m²" },
+    { tipo: "volver" },
+  );
+  assert.equal(enServicio.paso, "servicio");
+  assert.equal(enServicio.tipo, "14 m²");
+  const cambiado = flujoCotizacion(enServicio, { tipo: "elegir", valor: "3.5 m²" });
+  assert.equal(cambiado.paso, "datos");
+  assert.equal(cambiado.tipo, "3.5 m²");
+});
+
+test("reabrir sin tamaño vuelve a empezar en el paso 1", () => {
+  const estado = aplicar(
+    flujoInicial("minibodega"),
+    { tipo: "preseleccionar", valor: "7 m²" },
+    { tipo: "reiniciar" },
+  );
+  assert.deepEqual(estado, flujoInicial("minibodega"));
+});
+
+test("en el popup general (sin servicio todavía) no se puede preseleccionar", () => {
+  const inicial = flujoInicial(null);
+  assert.deepEqual(flujoCotizacion(inicial, { tipo: "preseleccionar", valor: "7 m²" }), inicial);
+});
+
+test("con tamaño preseleccionado, el mensaje y el evento llevan ese tamaño", () => {
+  for (const [superficie, tamano] of [["3.5", "3.5 m²"], ["7", "7 m²"], ["14", "14 m²"]] as const) {
+    const opcion = tamanoDeSuperficie(superficie);
+    assert.equal(opcion, tamano);
+    const estado = aplicar(flujoInicial("minibodega"), { tipo: "preseleccionar", valor: opcion! });
+    const resultado = envioCotizacion(
+      "minibodega",
+      { nombre: "Ana", telefono: "8112345678", tipo: estado.tipo! },
+      "/minibodegas-monterrey/",
+    );
+    assert.ok(resultado.valido);
+    assert.deepEqual(resultado.evento, {
+      event: "cotizacion_minibodega",
+      pagina: "/minibodegas-monterrey/",
+      opcion: tamano,
+    });
+    assert.equal(
+      new URL(resultado.url).searchParams.get("text"),
+      `Hola Kanuby, soy Ana. Me interesa rentar una minibodega de ${tamano}.`,
+    );
+  }
+});
+
+test("una superficie que no es de las tres opciones no preselecciona nada", () => {
+  assert.equal(tamanoDeSuperficie("10"), null);
 });

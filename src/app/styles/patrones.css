@@ -571,9 +571,11 @@
     line-height: var(--interlineado-24);
   }
 
+  /* Mismo alto que los botones de acción de los demás headers */
   .kb-boton-header {
     align-self: flex-start;
-    padding: 10px 20px 8px;
+    height: var(--objetivo-tactil);
+    padding: 0 20px;
   }
 
   .kb-boton-header .kb-boton-cotizar-texto {
@@ -2098,6 +2100,23 @@
 
     /* Compacto en móvil: una sola fila con logo, teléfono y menú */
     :root[data-header-compacto] .kb-header-acciones {
+      display: none;
+    }
+
+    :root[data-header-compacto] .kb-header-barra {
+      border-radius: var(--radio-pildora);
+    }
+
+    /*
+     * Header de mudanzas: también arriba en una sola fila, como la home (logo,
+     * teléfono y menú); la acción queda en el menú a pantalla completa.
+     */
+    .kb-header-una-fila .kb-header-barra {
+      flex-wrap: nowrap;
+      border-radius: var(--radio-pildora);
+    }
+
+    .kb-header-una-fila .kb-header-acciones {
       display: none;
     }
 

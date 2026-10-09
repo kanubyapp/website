@@ -42,6 +42,16 @@ export function esTamanoMinibodega(valor: string): valor is TamanoMinibodega {
   return (TAMANOS_MINIBODEGA as readonly string[]).includes(valor);
 }
 
+/**
+ * Tamaño del paso 1 que corresponde a una superficie en m² ("3.5", "7" o
+ * "14", como las tarjetas de tamaño de /minibodegas-monterrey/). Otra
+ * superficie no corresponde a ninguno: null.
+ */
+export function tamanoDeSuperficie(superficie: string): TamanoMinibodega | null {
+  const tamano = `${superficie} m²`;
+  return esTamanoMinibodega(tamano) ? tamano : null;
+}
+
 function validarContacto(datos: Cotizacion): ErroresCotizacion {
   const errores: ErroresCotizacion = {};
   if (!datos.nombre.trim()) errores.nombre = "Escribe tu nombre.";

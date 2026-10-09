@@ -16,12 +16,15 @@ export function BotonCotizar({
   subtexto,
   href,
   negocio = null,
+  opcion,
   className = "",
 }: {
   texto: string;
   subtexto?: string;
   href?: string;
   negocio?: Negocio | null;
+  /** Opción del paso 1 ya elegida: el popup abre directo en el paso 2 */
+  opcion?: string;
   className?: string;
 }) {
   const { abrir } = useCotizacion();
@@ -54,7 +57,7 @@ export function BotonCotizar({
       type="button"
       className={`kb-boton-cotizar ${className}`}
       aria-haspopup="dialog"
-      onClick={abrir}
+      onClick={() => abrir(opcion)}
     >
       {contenido}
     </button>

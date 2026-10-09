@@ -10,6 +10,10 @@ import type { Negocio } from "./conversiones.ts";
  *   home): "¿Qué necesitas?", Mudanza o Minibodega. Elegir lleva al flujo de
  *   ese servicio; desde su paso "servicio", "volver" regresa aquí.
  *
+ * - "preseleccionar": abre directo en "datos" con la opción ya elegida (las
+ *   tarjetas de tamaño de /minibodegas-monterrey/); "volver" lleva al paso 1
+ *   con esa opción marcada. Solo en un popup que ya tiene servicio.
+ *
  * Cada apertura reinicia al primer paso de su popup.
  */
 
@@ -27,6 +31,7 @@ export type FlujoCotizacion = {
 export type AccionFlujo =
   | { tipo: "elegirNegocio"; valor: Negocio }
   | { tipo: "elegir"; valor: string }
+  | { tipo: "preseleccionar"; valor: string }
   | { tipo: "volver" }
   | { tipo: "reiniciar" };
 
@@ -49,6 +54,9 @@ export function flujoCotizacion(estado: FlujoCotizacion, accion: AccionFlujo): F
         tipo: accion.valor === estado.negocio ? estado.tipo : null,
       };
     case "elegir":
+      return { ...estado, paso: "datos", tipo: accion.valor };
+    case "preseleccionar":
+      if (!estado.negocio) return estado;
       return { ...estado, paso: "datos", tipo: accion.valor };
     case "volver":
       if (estado.paso === "datos") return { ...estado, paso: "servicio" };

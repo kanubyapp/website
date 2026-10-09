@@ -87,7 +87,8 @@ const NEGOCIOS: { valor: Negocio; nombre: string; Icono: Icono }[] = [
   { valor: "minibodega", nombre: "Minibodega", Icono: IconoBodegaMediana },
 ];
 
-const CotizacionContexto = createContext<{ abrir: () => void } | null>(null);
+/* abrir(opcion): con una opción del paso 1, el popup abre directo en el paso 2 con ella */
+const CotizacionContexto = createContext<{ abrir: (opcion?: string) => void } | null>(null);
 
 export function useCotizacion() {
   const contexto = useContext(CotizacionContexto);
@@ -135,10 +136,11 @@ export function CotizacionProvider({
     if (abierto) entradaPaso.current?.focus();
   }, [abierto, flujo.paso]);
 
-  function abrir() {
+  function abrir(opcion?: string) {
     abridor.current = document.activeElement as HTMLElement | null;
     enviando.current = false;
     despachar({ tipo: "reiniciar" });
+    if (opcion) despachar({ tipo: "preseleccionar", valor: opcion });
     setNombre("");
     setTelefono("");
     setErrores({});

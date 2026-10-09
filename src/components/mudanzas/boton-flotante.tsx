@@ -12,7 +12,7 @@ export function BotonFlotante({ className }: { className: string }) {
       className={className}
       aria-label="Cotizar por WhatsApp"
       aria-haspopup="dialog"
-      onClick={abrir}
+      onClick={() => abrir()}
     >
       <IconoWhatsApp />
     </button>

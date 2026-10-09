@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { IconoFacebook, IconoInstagram, IconoLinkedin, IconoTelefono } from "@/components/iconos";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
-import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
+import { BotonCotizarHeader } from "@/components/mudanzas/boton-cotizar-header";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { FranjaConfianza } from "@/components/mudanzas/franja-confianza";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
@@ -80,70 +79,16 @@ export default function MudanzasEmpresariales() {
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLdFaq) }}
       />
       <HeaderMudanzas
-        className={styles.header}
         enlaces={[
           { href: "#porque", texto: "¿Por qué Kanuby?" },
           { href: "#servicios", texto: "Servicios" },
         ]}
         acciones={
-          <div className={styles.acciones}>
-            <a href="tel:+5218183363637" className={styles.llamanos}>
-              <IconoTelefono className={styles.llamanosIcono} />
-              <span className={styles.llamanosTextos}>
-                <span className={styles.llamanosTexto}>Llámanos</span>
-                <span className={styles.llamanosNumero}>8183363637</span>
-              </span>
-            </a>
-            <BotonCotizar
-              texto="Cotizar Ahora"
-              className={`kb-boton-principal ${styles.botonHeader}`}
-            />
-          </div>
+          <BotonCotizarHeader className="kb-boton-principal kb-boton-dos-lineas kb-boton-header" />
         }
       />
 
       <main>
-        <div className={styles.barraSocial}>
-          <ul className={styles.redes}>
-            <li>
-              <a
-                href="https://www.facebook.com/KanubyBodegas/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook de Kanuby"
-                className={styles.red}
-              >
-                <IconoFacebook />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.instagram.com/kanuby.mx/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram de Kanuby"
-                className={styles.red}
-              >
-                <IconoInstagram />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://mx.linkedin.com/company/kanuby"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn de Kanuby"
-                className={styles.red}
-              >
-                <IconoLinkedin />
-              </a>
-            </li>
-            <li>
-              <BotonFlotante className={styles.red} />
-            </li>
-          </ul>
-        </div>
-
         <HeroMudanzas
           className={styles.hero}
           titulo="Mudamos tu Empresa en Monterrey"
