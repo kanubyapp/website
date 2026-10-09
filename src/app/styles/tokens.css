@@ -144,6 +144,8 @@
   /* Sombras */
   --sombra-elevada: 0 24px 48px -24px rgb(0 0 0 / 0.6);
   --sombra-resplandor: 0 0 32px -4px rgb(236 91 42 / 0.45);
+  /* Sombra que asienta un recorte sin fondo sobre su superficie (filter) */
+  --sombra-recorte: drop-shadow(0 16px 12px rgb(0 0 0 / 0.55));
   /* Brillo de líneas finas de acento (subrayado del menú) */
   --brillo-linea: 0 0 8px rgb(236 91 42 / 0.8);
 

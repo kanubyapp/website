@@ -104,7 +104,7 @@ export default function Home() {
         <section className={`kb-resplandor ${styles.hero}`}>
           {/* Datos de confianza. Lista abierta: aquí entrará la calificación de Google. */}
           <ul className={styles.confianza}>
-            <li className="kb-pildora">
+            <li className={`kb-pildora ${styles.confianzaDestacada}`}>
               <strong className={styles.confianzaDato}>+20 años</strong> de experiencia
             </li>
             <li className="kb-pildora">Mudanzas en Monterrey y a CDMX</li>

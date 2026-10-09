@@ -1,0 +1,9 @@
+/*
+ * /mudanzas-monterrey/: lo propio de esta página. Lo compartido con las
+ * otras páginas de mudanzas está en patrones.css (clases kb-*).
+ */
+
+/* Hero: el camión sin fondo, con una sombra que sigue su silueta y lo asienta */
+.camion {
+  filter: var(--sombra-recorte);
+}

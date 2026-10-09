@@ -28,6 +28,17 @@ type Tarjeta = {
   texto: string;
 };
 
+/* Imagen del hero que comparten las páginas de mudanzas y /social/ */
+const IMAGEN_HERO = {
+  src: "/images/ddddd.png",
+  alt: "Camión de mudanzas naranja de Kanuby con el lema “Tu vecino nunca aprenderá a cantar… Nosotros te mudamos”",
+  width: 2048,
+  height: 1365,
+  sizes: "(max-width: 767px) 92vw, 51vw",
+};
+
+type ImagenHero = typeof IMAGEN_HERO & { className?: string };
+
 export function HeroMudanzas({
   titulo,
   decoracion,
@@ -35,6 +46,7 @@ export function HeroMudanzas({
   texto,
   boton,
   fondoImagen,
+  imagen = IMAGEN_HERO,
   className = "",
 }: {
   titulo: React.ReactNode;
@@ -48,6 +60,8 @@ export function HeroMudanzas({
   boton: React.ReactNode;
   /** Imagen detrás de la foto principal (el mapa en /mudanzas-monterrey-cdmx/) */
   fondoImagen?: React.ReactNode;
+  /** Otra imagen principal para una página; sin ella, la compartida */
+  imagen?: ImagenHero;
   className?: string;
 }) {
   return (
@@ -70,11 +84,12 @@ export function HeroMudanzas({
       <div className="kb-hero-imagen">
         {fondoImagen}
         <Image
-          src="/images/ddddd.png"
-          alt="Camión de mudanzas naranja de Kanuby con el lema “Tu vecino nunca aprenderá a cantar… Nosotros te mudamos”"
-          width={2048}
-          height={1365}
-          sizes="(max-width: 767px) 92vw, 51vw"
+          src={imagen.src}
+          alt={imagen.alt}
+          width={imagen.width}
+          height={imagen.height}
+          sizes={imagen.sizes}
+          className={imagen.className}
           preload
         />
       </div>

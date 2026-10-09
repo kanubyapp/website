@@ -274,16 +274,52 @@
 }
 
 /*
+ * "+20 años de experiencia" destaca con un resplandor naranja alrededor que
+ * pulsa muy lento (8 s por ciclo). Es la sombra de una capa del tamaño de la
+ * píldora: solo se pinta por fuera, así que la píldora no cambia. Con
+ * "reducir movimiento" queda fijo.
+ */
+.confianzaDestacada {
+  position: relative;
+}
+
+.confianzaDestacada::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--sombra-resplandor);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .confianzaDestacada::before {
+    animation: confianza-pulso 4s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes confianza-pulso {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/*
  * Últimas Noticias: columna de texto fija a la izquierda y el carrusel a la
  * derecha, sin margen derecho para que la última tarjeta quede cortada por
- * el borde de la pantalla.
+ * el borde de la pantalla. A la izquierda, el mismo margen que la tarjeta de
+ * vidrio de servicios (dos márgenes del sitio), para que queden alineadas.
  */
 .noticias {
   display: grid;
   grid-template-columns: minmax(260px, 26%) minmax(0, 1fr);
   align-items: center;
   gap: var(--espacio-5);
-  padding: var(--espacio-seccion) 0 var(--espacio-seccion) var(--relleno-seccion);
+  padding: var(--espacio-seccion) 0 var(--espacio-seccion) calc(var(--relleno-seccion) * 2);
 }
 
 .noticiasTexto {

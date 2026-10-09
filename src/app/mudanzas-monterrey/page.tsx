@@ -15,6 +15,7 @@ import {
 import { Testimonios } from "@/components/mudanzas/testimonios";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import { testimonios } from "@/lib/testimonios";
+import styles from "./page.module.css";
 
 const titulo = "Mudanzas en Monterrey";
 
@@ -53,6 +54,15 @@ export default function MudanzasMonterrey() {
 
       <main>
         <HeroMudanzas
+          imagen={{
+            src: "/images/mudanzas/truck-kanuby.webp",
+            alt: "Camión de mudanzas de Kanuby, con cabina blanca y caja naranja con el logo y www.kanuby.com",
+            width: 2048,
+            height: 1152,
+            // La columna de la imagen: unos 49vw (92vw en móvil).
+            sizes: "(max-width: 767px) 92vw, 49vw",
+            className: styles.camion,
+          }}
           titulo="Servicio de Fletes y Mudanzas en Monterrey"
           texto="En Kanuby cambiamos la forma de mudarse, contamos con el mejor servicio de fletes y mudanzas en Monterrey."
           boton={
