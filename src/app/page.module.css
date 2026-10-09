@@ -179,12 +179,20 @@
   object-fit: cover;
 }
 
-/* Imagen recortada sin fondo: entera arriba, sobre el resplandor */
+/*
+ * Imagen recortada sin fondo: entera arriba, sobre el resplandor de la
+ * tarjeta, con una sombra oscura debajo que la asienta. El resplandor va en
+ * la tarjeta y no en la imagen: la sombra sigue la silueta del recorte.
+ */
+.negocio:has(.negocioRecorte) {
+  background: var(--resplandor-acento), var(--color-superficie);
+}
+
 .negocioRecorte {
   padding: var(--espacio-4) var(--espacio-2) 0;
-  background: var(--resplandor-acento), var(--color-superficie);
   object-fit: contain;
   object-position: top center;
+  filter: var(--sombra-recorte);
 }
 
 .negocio::after {
