@@ -5,4 +5,8 @@
  */
 
 @layer interacciones {
+  /* Con el popup de cotización abierto, el fondo no hace scroll */
+  html:has(.kb-popup[open]) {
+    overflow: hidden;
+  }
 }

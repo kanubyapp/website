@@ -6,9 +6,9 @@ Decisiones aprobadas por el equipo para la réplica. Aplican a todas las tareas.
 
 1. Commit previo: ya está hecho, el working directory está limpio.
 2. Blog: se replican los 24 posts y las 3 páginas de categoría (/mudanzas/, /minibodegas/, /sin-categoria/), en la tarea 11.
-3. Formularios: los dos redirigen a WhatsApp al número +52 1 81 1028 7087 (wa.me/5218110287087) con un mensaje prellenado armado con los campos del formulario:
-   Mudanza: "Hola Kanuby, soy {nombre}. Me interesa cotizar {una mudanza local | una mudanza nacional | un flete}. Mi correo es {correo}."
-   Minibodega: "Hola Kanuby, soy {nombre}. Me interesa rentar una minibodega de {3.5 m² | 7 m² | 14 m²}. Mi correo es {correo}." Si elige "No estoy seguro": "Hola Kanuby, soy {nombre}. Me interesa rentar una minibodega, aún no sé qué tamaño necesito. Mi correo es {correo}."
+3. Formularios: el popup de cotización usa la estructura del modal de legacy, en dos pasos. Paso 1: el tipo de servicio como tarjetas que avanzan al tocarlas (mudanza: Mudanza local, Mudanza de Monterrey a CDMX, Mudanza empresarial; minibodega: 3.5 m², 7 m², 14 m², No estoy seguro). Paso 2: nombre y teléfono, los dos obligatorios; ya no se pide correo. Redirige en la misma pestaña a WhatsApp al número +52 1 81 1028 7087 (wa.me/5218110287087) con un mensaje prellenado:
+   Mudanza: "Hola Kanuby, soy {nombre}. Me interesa cotizar {una mudanza local | una mudanza de Monterrey a CDMX | una mudanza empresarial}."
+   Minibodega: "Hola Kanuby, soy {nombre}. Me interesa rentar una minibodega de {3.5 m² | 7 m² | 14 m²}." Si elige "No estoy seguro": "Hola Kanuby, soy {nombre}. Me interesa rentar una minibodega, aún no sé qué tamaño necesito."
    No envían correo ni guardan datos en ningún lado; solo validan y redirigen.
 4. Botón flotante: se replica en las mismas páginas y abre el formulario igual que hoy, pero el popup sí se puede cerrar (botón de cerrar, Esc y clic fuera).
 5. Instagram: el feed se omite en esta fase, sin dejar espacio vacío. Trustindex: las 10 reseñas se pasan como contenido estático, con el mismo diseño, y un enlace al perfil de Google.

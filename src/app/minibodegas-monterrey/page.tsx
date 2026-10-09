@@ -89,7 +89,7 @@ const tamanos = [
 
 export default function Minibodegas() {
   return (
-    <CotizacionProvider tipo="minibodega" className={styles.popup}>
+    <CotizacionProvider tipo="minibodega">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}

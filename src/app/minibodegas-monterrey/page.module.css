@@ -925,29 +925,6 @@
   border: 0;
 }
 
-/* Popup de minibodega (4947): ajustes sobre el patrón */
-
-.popup :global(.kb-popup-caja) {
-  border-radius: var(--radio-md);
-  background: var(--color-gris-claro);
-}
-
-.popup :global(.kb-popup-contenido) {
-  padding: var(--relleno-seccion-md);
-}
-
-.popup :global(.kb-popup-titulo) {
-  font-weight: var(--peso-regular);
-}
-
-.popup :global(.kb-popup-cerrar) {
-  top: 20px;
-  right: 20px;
-  background: none;
-  color: #1f2124;
-  font-size: var(--texto-20);
-}
-
 /* Botón flotante (popup 4941): 8% de un cuadro de 25vw */
 
 .flotante {
@@ -1236,10 +1213,6 @@
 
   .ubicacion .botonEnlace {
     align-self: center;
-  }
-
-  .popup :global(.kb-popup) {
-    width: 100vw;
   }
 
   .flotante {

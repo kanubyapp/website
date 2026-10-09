@@ -71,6 +71,9 @@
     rgb(4 21 30 / 0.15)
   );
 
+  /* Velo de la página detrás de un modal */
+  --velo-modal: rgb(4 21 30 / 0.75);
+
   /* Sombras */
   --sombra-elevada: 0 24px 48px -24px rgb(0 0 0 / 0.6);
   --sombra-resplandor: 0 0 32px -4px rgb(236 91 42 / 0.45);
@@ -211,5 +214,4 @@
 
   /* Sombras de la réplica */
   --sombra-tarjeta: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  --sombra-flotante: 2px 8px 23px 3px rgba(0, 0, 0, 0.2);
 }

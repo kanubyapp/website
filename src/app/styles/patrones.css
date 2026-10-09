@@ -1098,42 +1098,61 @@
     list-style: disc;
   }
 
-  /* Popup de cotización (popup 4914) */
+  /*
+   * Popup de cotización: vidrio flotando sobre la página velada. Paso 1 con
+   * las opciones como tarjetas; paso 2 con nombre y teléfono. El <dialog> es
+   * un envoltorio transparente: el clic fuera de .kb-popup-caja lo cierra.
+   */
 
   .kb-popup {
-    width: 40vw;
+    width: min(92vw, 640px);
     max-width: 100vw;
     max-height: 100vh;
     padding: 0;
     overflow: visible;
     border: 0;
     background: transparent;
+    color: var(--color-texto);
   }
 
   .kb-popup::backdrop {
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--velo-modal);
   }
 
   .kb-popup-caja {
+    display: flex;
     position: relative;
-    border-radius: var(--radio-lg);
-    background: var(--color-blanco);
-    box-shadow: var(--sombra-flotante);
+    flex-direction: column;
+    gap: var(--espacio-1);
+    max-height: calc(100vh - 2 * var(--espacio-2));
+    padding: var(--espacio-5) var(--espacio-4) var(--espacio-4);
+    overflow-y: auto;
+    border-radius: var(--radio-tarjeta);
+    box-shadow: var(--sombra-elevada);
   }
 
   .kb-popup-cerrar {
     display: flex;
     position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1;
+    top: var(--espacio-2);
+    right: var(--espacio-2);
+    justify-content: center;
+    align-items: center;
+    width: var(--objetivo-tactil);
+    height: var(--objetivo-tactil);
     padding: 0;
-    border: 0;
-    background: var(--color-naranja);
-    color: var(--color-blanco);
-    font-size: var(--texto-32);
+    border: var(--borde-luz-fuerte);
+    border-radius: var(--radio-pildora);
+    background: transparent;
+    color: var(--color-texto);
+    font-size: var(--texto-20);
     line-height: 1;
     cursor: pointer;
+    transition: background-color var(--transicion);
+  }
+
+  .kb-popup-cerrar:hover {
+    background: var(--color-superficie-alta);
   }
 
   .kb-popup-cerrar svg {
@@ -1142,122 +1161,177 @@
     fill: currentColor;
   }
 
-  .kb-popup-contenido {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espacio-2);
-    padding: var(--relleno-seccion-xl);
-  }
-
   .kb-popup-titulo {
-    color: var(--color-naranja);
-    font-size: var(--texto-36);
-    text-align: center;
+    padding-inline-end: var(--espacio-6);
+    color: var(--color-texto);
+    font-size: var(--texto-32);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-encabezado);
+    letter-spacing: var(--tracking-display);
   }
 
   .kb-popup-subtitulo {
-    color: var(--color-negro);
+    color: var(--color-texto-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-16);
-    font-weight: var(--peso-regular);
-    line-height: 1;
-    text-align: center;
+    line-height: var(--interlineado-parrafo);
   }
 
-  .kb-formulario {
+  .kb-popup-paso {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-2);
+    margin-top: var(--espacio-3);
+  }
+
+  .kb-popup-encabezado {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -10px -20px;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--espacio-1);
+  }
+
+  .kb-popup-pregunta {
+    color: var(--color-texto);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-18);
+    line-height: var(--interlineado-encabezado);
+  }
+
+  /* Volver al paso 1: píldora con la opción elegida */
+  .kb-popup-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio-1);
+    min-height: var(--objetivo-tactil);
+    padding: var(--relleno-pildora);
+    border: var(--borde-luz);
+    border-radius: var(--radio-pildora);
+    background: var(--color-superficie-baja);
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-14);
+    font-weight: var(--peso-medium);
+    transition:
+      border-color var(--transicion),
+      color var(--transicion);
+  }
+
+  .kb-popup-volver:hover {
+    border: var(--borde-acento);
+    color: var(--color-texto);
+  }
+
+  /* Opciones del paso 1: todas en una fila; en móvil, apiladas */
+  .kb-popup-opciones {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: var(--espacio-1);
+  }
+
+  .kb-popup-opcion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: var(--espacio-3) var(--espacio-2);
+    border: var(--borde-luz-fuerte);
+    border-radius: var(--radio-tarjeta-movil);
+    background: var(--color-superficie-baja);
+    color: var(--color-texto);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-16);
+    font-weight: var(--peso-medium);
+    line-height: var(--interlineado-encabezado);
+    text-align: center;
+    transition:
+      border-color var(--transicion),
+      background-color var(--transicion),
+      box-shadow var(--transicion);
+  }
+
+  .kb-popup-opcion:hover,
+  .kb-popup-opcion[aria-pressed="true"] {
+    border: var(--borde-acento);
+    background: var(--color-superficie-alta);
+    box-shadow: var(--sombra-resplandor);
   }
 
   .kb-campo {
     display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    margin-bottom: var(--espacio-2);
-    padding: 0 10px;
-  }
-
-  .kb-campo-mitad {
-    width: 50%;
+    flex-direction: column;
+    gap: var(--espacio-1);
   }
 
   .kb-campo-etiqueta {
-    width: 100%;
-    color: var(--color-negro);
-    font-family: var(--fuente-titulos);
-    font-size: var(--texto-16);
-    font-weight: var(--peso-regular);
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-14);
+    font-weight: var(--peso-medium);
     cursor: pointer;
   }
 
   .kb-campo-texto {
     width: 100%;
-    min-height: 40px;
-    padding: 5px 14px;
-    border: 1px solid #69727d;
-    border-radius: var(--radio-md);
-    background: var(--color-blanco);
-    color: #1f2124;
-    font-family: var(--fuente-titulos);
-    font-size: 15px;
-    font-weight: var(--peso-regular);
-    line-height: 1.4;
+    min-height: var(--objetivo-tactil);
+    padding: var(--relleno-boton-sistema);
+    border: var(--borde-luz-fuerte);
+    border-radius: var(--radio-pildora);
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-16);
+    line-height: var(--interlineado-titulo);
+    transition: border-color var(--transicion);
   }
 
   .kb-campo-texto::placeholder {
-    color: inherit;
-    opacity: 0.6;
+    color: var(--color-texto-tenue);
+  }
+
+  .kb-campo-texto:focus {
+    border: var(--borde-acento);
   }
 
   .kb-campo-texto[aria-invalid="true"] {
     border-color: var(--color-naranja);
   }
 
-  .kb-selector {
-    position: relative;
-    width: 100%;
-  }
-
-  .kb-selector select {
-    padding-inline-end: 30px;
-    appearance: none;
-  }
-
-  .kb-selector::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 12px;
-    border-top: 6px solid currentColor;
-    border-right: 5px solid transparent;
-    border-left: 5px solid transparent;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-
   .kb-campo-error {
-    width: 100%;
-    margin-top: 4px;
-    color: var(--color-negro);
+    color: var(--color-naranja-claro);
     font-family: var(--fuente-texto);
     font-size: var(--texto-14);
   }
 
-  .kb-enviar {
+  .kb-popup-opcion:focus-visible,
+  .kb-popup-volver:focus-visible,
+  .kb-popup-cerrar:focus-visible,
+  .kb-campo-texto:focus-visible {
+    outline: var(--anillo-foco);
+    outline-offset: var(--anillo-foco-separacion);
+  }
+
+  .kb-popup-enviar {
     width: 100%;
-    min-height: 40px;
-    padding: 12px 24px;
-    border: 0;
-    border-radius: var(--radio-xl);
-    background: var(--color-azul);
-    color: var(--color-blanco);
-    font-family: var(--fuente-titulos);
-    font-size: var(--texto-20);
-    font-weight: var(--peso-light);
-    line-height: 1;
-    cursor: pointer;
-    transition: all 0.3s;
+    margin-top: var(--espacio-1);
+    font-size: var(--texto-18);
+  }
+
+  .kb-popup-enviar-icono {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  .kb-popup-nota {
+    color: var(--color-texto-tenue);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-14);
+    line-height: var(--interlineado-parrafo);
+    text-align: center;
   }
 
   /* Tablet */
@@ -1535,8 +1609,21 @@
       --desfase: 70px;
     }
 
-    .kb-popup {
-      width: 95vw;
+    .kb-popup-caja {
+      padding: var(--espacio-6) var(--espacio-2) var(--espacio-3);
+      border-radius: var(--radio-tarjeta-movil);
+    }
+
+    .kb-popup-titulo {
+      font-size: var(--texto-24);
+    }
+
+    .kb-popup-opciones {
+      grid-auto-flow: row;
+    }
+
+    .kb-popup-opcion {
+      min-height: var(--objetivo-tactil);
     }
   }
 }

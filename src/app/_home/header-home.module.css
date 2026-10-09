@@ -87,6 +87,80 @@
   }
 }
 
+/*
+ * Destello indicador: recorre los enlaces de izquierda a derecha con el
+ * naranja y la línea del hover. Cada enlace lo toma --destello-paso después
+ * del anterior y lo sostiene un momento; tras el último, pausa hasta cerrar
+ * el ciclo. Se detiene con el cursor sobre el menú o con foco dentro (queda
+ * solo el hover) y no corre con "reducir movimiento". El orden sale de la
+ * posición del <li>: hay una regla por cada enlace del menú.
+ */
+.lista {
+  --destello-ciclo: 6s;
+  --destello-paso: 0.7s;
+}
+
+.lista li:nth-child(2) {
+  --destello-orden: 1;
+}
+
+.lista li:nth-child(3) {
+  --destello-orden: 2;
+}
+
+.lista li:nth-child(4) {
+  --destello-orden: 3;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lista .enlace,
+  .lista .enlace::after {
+    animation: var(--destello-ciclo) ease-in-out
+      calc(var(--destello-orden, 0) * var(--destello-paso)) infinite;
+  }
+
+  .lista .enlace {
+    animation-name: destello-texto;
+  }
+
+  .lista .enlace::after {
+    animation-name: destello-linea;
+  }
+
+  .lista:hover .enlace,
+  .lista:hover .enlace::after,
+  .lista:focus-within .enlace,
+  .lista:focus-within .enlace::after {
+    animation: none;
+  }
+}
+
+@keyframes destello-texto {
+  0%,
+  13%,
+  100% {
+    color: var(--color-texto-secundario);
+  }
+
+  3%,
+  9% {
+    color: var(--color-naranja-claro);
+  }
+}
+
+@keyframes destello-linea {
+  0%,
+  13%,
+  100% {
+    transform: scaleX(0);
+  }
+
+  3%,
+  9% {
+    transform: scaleX(1);
+  }
+}
+
 .enlace:focus-visible,
 .abrir:focus-visible,
 .cerrar:focus-visible {
