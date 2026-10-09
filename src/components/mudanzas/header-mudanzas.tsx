@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { IconoMenu } from "@/components/iconos";
+import { TelefonoHeader } from "@/components/telefono-header";
 
 /*
  * Header de las páginas de mudanzas: píldora de vidrio con el logo
@@ -59,6 +60,8 @@ export function HeaderMudanzas({
             loading="eager"
           />
         </Link>
+
+        <TelefonoHeader />
 
         <nav className="kb-header-menu" aria-label="Secciones">
           <ul className="kb-header-lista">

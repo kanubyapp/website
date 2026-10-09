@@ -203,10 +203,10 @@ export default function MudanzasEmpresariales() {
             <BotonCotizar
               texto="Cotiza Ahora"
               href="https://wa.me/528183363637"
-              className={styles.botonSimple}
+              className={`kb-boton-principal ${styles.botonSimple}`}
             />
           }
-          sizesTarjeta="(max-width: 767px) 67vw, 19vw"
+          sizesTarjeta="(max-width: 767px) 70vw, 13vw"
           tarjetas={[
             {
               icono: "/images/mudanzas/mesa-de-trabajo-1-1.png",

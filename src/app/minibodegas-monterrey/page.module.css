@@ -78,6 +78,15 @@
   background: var(--color-blanco);
 }
 
+/* Teléfono: el header sigue blanco, el número va en azul */
+.headerTarjeta :global(.kb-telefono) {
+  color: var(--color-azul);
+}
+
+.headerTarjeta :global(.kb-telefono:hover) {
+  color: var(--color-naranja);
+}
+
 .headerLogo {
   width: 150px;
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { IconoMenu } from "@/components/iconos";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
+import { TelefonoHeader } from "@/components/telefono-header";
 import styles from "./page.module.css";
 
 /*
@@ -57,6 +58,8 @@ export function HeaderMinibodegas() {
             loading="eager"
           />
         </Link>
+
+        <TelefonoHeader />
 
         <nav className={styles.headerMenu} aria-label="Secciones">
           <ul className={styles.headerLista}>

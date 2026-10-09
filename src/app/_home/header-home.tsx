@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { TelefonoHeader } from "@/components/telefono-header";
 import styles from "./header-home.module.css";
 
 const enlaces = [
@@ -64,6 +65,8 @@ export function HeaderHome() {
             preload
           />
         </Link>
+
+        <TelefonoHeader />
 
         <nav className={styles.menu} aria-label="Principal">
           <ul className={styles.lista}>

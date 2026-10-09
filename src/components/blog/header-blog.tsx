@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { IconoChevronAbajo, IconoMenu, IconoWhatsApp } from "@/components/iconos";
+import { TelefonoHeader } from "@/components/telefono-header";
 import styles from "@/app/[slug]/page.module.css";
 
 /*
@@ -93,6 +94,8 @@ export function HeaderBlog() {
           loading="eager"
         />
       </Link>
+
+      <TelefonoHeader />
 
       <nav className={styles.headerMenu} aria-label="Principal">
         <ul className={styles.headerLista}>

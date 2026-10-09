@@ -141,7 +141,7 @@ export default function MudanzasMonterreyCdmx() {
             <BotonCotizar
               texto="Cotiza Ahora por"
               subtexto="Whatsapp"
-              className="kb-boton-dos-lineas kb-boton-servicios"
+              className="kb-boton-principal kb-boton-dos-lineas kb-boton-servicios"
             />
           }
           tarjetas={[

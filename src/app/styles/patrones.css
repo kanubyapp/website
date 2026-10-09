@@ -144,6 +144,148 @@
     background: var(--resplandor-suave);
   }
 
+  /*
+   * Teléfono del header (todas las páginas): círculo naranja que timbra y el
+   * número al lado, pegado al logo (empuja el resto del header a la derecha).
+   * Repique del ícono y pulso de los aros comparten ciclo de 2 s para leerse
+   * como un solo evento; sin animación con "reducir movimiento". En móvil
+   * queda solo el círculo, con área táctil completa.
+   */
+  .kb-telefono {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--espacio-1);
+    min-height: var(--objetivo-tactil);
+    margin-inline-end: auto;
+    color: var(--color-texto);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-16);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-titulo);
+    white-space: nowrap;
+    transition: color var(--transicion);
+  }
+
+  .kb-telefono:hover {
+    color: var(--color-naranja);
+  }
+
+  .kb-telefono:focus-visible {
+    outline: var(--anillo-foco);
+    outline-offset: var(--anillo-foco-separacion);
+  }
+
+  .kb-telefono-circulo {
+    display: inline-flex;
+    position: relative;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radio-pildora);
+    background: var(--color-naranja);
+    color: var(--color-texto-sobre-acento);
+  }
+
+  .kb-telefono-pulso {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--color-naranja);
+    pointer-events: none;
+    animation: kb-telefono-pulso 2s ease-out infinite;
+  }
+
+  .kb-telefono-pulso-desfase {
+    animation-delay: -1s;
+  }
+
+  .kb-telefono-icono {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    animation: kb-telefono-repique 2s ease-in-out infinite;
+  }
+
+  @keyframes kb-telefono-pulso {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+
+    100% {
+      transform: scale(1.9);
+      opacity: 0;
+    }
+  }
+
+  /* Repique amortiguado al inicio de cada ciclo, luego quieto */
+  @keyframes kb-telefono-repique {
+    0%,
+    16%,
+    100% {
+      transform: rotate(0deg);
+    }
+
+    2% {
+      transform: rotate(16deg);
+    }
+
+    4% {
+      transform: rotate(-14deg);
+    }
+
+    6% {
+      transform: rotate(11deg);
+    }
+
+    8% {
+      transform: rotate(-8deg);
+    }
+
+    10% {
+      transform: rotate(5deg);
+    }
+
+    12% {
+      transform: rotate(-3deg);
+    }
+
+    14% {
+      transform: rotate(1deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kb-telefono-icono {
+      animation: none;
+    }
+
+    .kb-telefono-pulso {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .kb-telefono {
+      justify-content: center;
+      min-width: var(--objetivo-tactil);
+    }
+
+    /* El número sigue siendo el nombre accesible del enlace */
+    .kb-telefono-numero {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
   /* Botón base del sitio: el raven-button de JupiterX en kanuby.com */
   .kb-boton {
     display: inline-flex;
@@ -617,19 +759,22 @@
     }
   }
 
-  /* Servicios */
+  /*
+   * Servicios: intro con el camión y tarjetas con ícono, con el mismo
+   * lenguaje que "Por qué". Tres columnas; cada página puede cambiarlas.
+   */
 
   .kb-servicios {
     display: flex;
     flex-direction: column;
-    padding: var(--relleno-seccion-md) var(--relleno-seccion-lg);
+    gap: var(--espacio-4);
+    padding: var(--espacio-seccion) var(--relleno-seccion);
     overflow: hidden;
   }
 
   .kb-servicios-cabecera {
     display: flex;
     gap: var(--espacio-1);
-    padding: 0 var(--relleno-seccion) var(--relleno-seccion) 0;
   }
 
   .kb-servicios-intro {
@@ -642,16 +787,18 @@
 
   .kb-servicios-titulo {
     color: var(--color-naranja);
-    font-size: var(--texto-40);
+    font-size: var(--texto-44);
     font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-display);
+    letter-spacing: var(--tracking-display);
   }
 
   .kb-servicios-texto {
-    color: var(--color-azul);
+    color: var(--color-texto-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-20);
     font-weight: var(--peso-light);
-    line-height: var(--interlineado-32);
+    line-height: var(--interlineado-parrafo);
   }
 
   .kb-servicios-imagen {
@@ -667,33 +814,47 @@
   }
 
   .kb-servicios-tarjetas {
-    display: flex;
-    gap: var(--espacio-1) var(--espacio-4);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--espacio-3);
   }
 
-  /* Sin ancho propio: cada tarjeta toma el de su contenido */
+  /* Se combina con .kb-tarjeta: el resplandor sale de arriba, tras el ícono */
   .kb-servicio-tarjeta {
-    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-2);
+    padding: var(--espacio-4) var(--espacio-3);
+    background: var(--resplandor-acento), var(--color-superficie);
     text-align: center;
+    transition:
+      border-color var(--transicion),
+      box-shadow var(--transicion);
+  }
+
+  .kb-servicio-tarjeta:hover {
+    border: var(--borde-acento);
+    box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
   }
 
   .kb-servicio-icono {
-    width: 100%;
+    width: 60%;
   }
 
   .kb-servicio-titulo {
-    margin-bottom: 0.5rem;
-    color: var(--color-negro);
+    color: var(--color-texto);
     font-size: var(--texto-24);
+    font-weight: var(--peso-medium);
     line-height: var(--interlineado-encabezado);
-    letter-spacing: var(--tracking-sm);
   }
 
   .kb-servicio-texto {
-    color: var(--color-gris-texto);
+    color: var(--color-texto-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-18);
-    font-weight: var(--peso-regular);
+    font-weight: var(--peso-light);
+    line-height: var(--interlineado-parrafo);
   }
 
   /* Testimonios */
@@ -1310,12 +1471,12 @@
     }
 
     .kb-servicios {
-      padding: 20% var(--relleno-seccion-lg) 15%;
+      gap: var(--espacio-3);
+      padding: var(--espacio-seccion-movil) var(--relleno-seccion);
     }
 
     .kb-servicios-cabecera {
       flex-wrap: wrap;
-      padding: 0;
     }
 
     .kb-servicios-intro,
@@ -1329,6 +1490,7 @@
     }
 
     .kb-servicios-texto {
+      font-size: var(--texto-17);
       text-align: center;
     }
 
@@ -1338,8 +1500,13 @@
     }
 
     .kb-servicios-tarjetas {
-      flex-direction: column;
-      padding-top: var(--relleno-seccion);
+      grid-template-columns: 1fr;
+      gap: var(--espacio-2);
+    }
+
+    .kb-servicio-tarjeta {
+      padding: var(--espacio-3) var(--espacio-2);
+      border-radius: var(--radio-tarjeta-movil);
     }
 
     .kb-testimonios {

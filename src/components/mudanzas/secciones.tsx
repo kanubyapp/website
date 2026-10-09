@@ -148,7 +148,7 @@ export function ServiciosMudanzas({
   texto,
   boton,
   tarjetas,
-  sizesTarjeta = "(max-width: 767px) 67vw, 25vw",
+  sizesTarjeta = "(max-width: 767px) 70vw, 17vw",
   className = "",
 }: {
   id?: string;
@@ -173,13 +173,13 @@ export function ServiciosMudanzas({
             alt="Camión de mudanzas naranja de Kanuby"
             width={2048}
             height={1365}
-            sizes="(max-width: 767px) 84vw, 31vw"
+            sizes="(max-width: 767px) 92vw, 35vw"
           />
         </div>
       </div>
       <div className="kb-servicios-tarjetas">
         {tarjetas.map((tarjeta) => (
-          <div key={tarjeta.titulo} className="kb-servicio-tarjeta">
+          <div key={tarjeta.titulo} className="kb-tarjeta kb-servicio-tarjeta">
             <figure className="kb-servicio-icono">
               <Image
                 src={tarjeta.icono}
