@@ -52,14 +52,13 @@ const negocios = [
       "Mudanzas locales, a CDMX y empresariales. Nuestro equipo empaca, carga y traslada todo por ti.",
     href: "/mudanzas-monterrey/",
     cotizacion: "mudanza",
-    // Recorte sin fondo: va entero, arriba, con su sombra (unos 21vw de ancho).
-    recorte: true,
+    // La foto cubre la tarjeta: unos 24vw de ancho (68vw en móvil).
     imagen: {
-      src: "/images/mudanzas/truck-kanuby.webp",
-      alt: "Camión de mudanzas de Kanuby, con cabina blanca y caja naranja con el logo y www.kanuby.com",
-      width: 2048,
-      height: 1152,
-      sizes: "(max-width: 767px) 58vw, (max-width: 1024px) 20vw, 22vw",
+      src: "/images/mudanzas/mudanceros-kanuby.webp",
+      alt: "Dos mudanceros de Kanuby con playera naranja cargan un sillón emplayado entre cajas de mudanza",
+      width: 1080,
+      height: 1620,
+      sizes: "(max-width: 767px) 68vw, 24vw",
     },
     datos: [
       { texto: "Local", Icono: IconoCasa },
@@ -73,7 +72,6 @@ const negocios = [
       "Espacios seguros de 3.5, 7 y 14 m² para guardar lo que necesites, el tiempo que lo necesites.",
     href: "/minibodegas-monterrey/",
     cotizacion: "minibodega",
-    recorte: false,
     imagen: {
       src: "/images/minibodegas/contenedores.png",
       alt: "Tres contenedores naranjas de Kanuby de distinto tamaño",
@@ -151,7 +149,7 @@ export default function Home() {
                         width={negocio.imagen.width}
                         height={negocio.imagen.height}
                         sizes={negocio.imagen.sizes}
-                        className={`${styles.negocioFoto} ${negocio.recorte ? styles.negocioRecorte : ""}`}
+                        className={styles.negocioFoto}
                       />
                       <div className={styles.negocioCuerpo}>
                         <h3 className={styles.negocioTitulo}>{negocio.titulo}</h3>

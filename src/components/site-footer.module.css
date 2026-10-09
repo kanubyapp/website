@@ -79,6 +79,20 @@
   color: var(--color-naranja-claro);
 }
 
+/* Teléfono de Contacto: ícono de línea naranja a la izquierda, centrado con el número */
+.telefono {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-1);
+}
+
+.telefonoIcono {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--color-naranja);
+}
+
 .menuEnlace:focus-visible,
 .logo:focus-visible,
 .webtag:focus-visible {

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { IconoTelefonoLinea } from "@/components/iconos";
 import styles from "./site-footer.module.css";
 
 /*
@@ -82,7 +83,8 @@ export function SiteFooter() {
 
           <div className={styles.menu}>
             <p className={styles.menuTitulo}>Contacto</p>
-            <a href="tel:+528110287087" className={styles.menuEnlace}>
+            <a href="tel:+528110287087" className={`${styles.menuEnlace} ${styles.telefono}`}>
+              <IconoTelefonoLinea className={styles.telefonoIcono} />
               81 1028 7087
             </a>
           </div>

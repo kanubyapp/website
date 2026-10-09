@@ -123,6 +123,26 @@
     width: 100%;
   }
 
+  /*
+   * El tamaño móvil del titular del patrón (kb-hero-titulo). Sin esta regla
+   * quedaba en 50px: "desde Monterrey" mide 401px, no cabe en los 359 del
+   * contenido y ensanchaba la página (y descentraba el header) cada vez que
+   * rotaba a esa ciudad.
+   */
+  .hero :global(.kb-hero-titulo) {
+    font-size: var(--texto-40);
+  }
+
+  /*
+   * Centrado como el hero de las otras páginas de mudanzas: el text-align:
+   * left del titular rotativo (arriba) también pisaba el centrado móvil del
+   * patrón, y el H1 pequeño no lo tenía.
+   */
+  .hero :global(.kb-hero-titulo),
+  .titulo {
+    text-align: center;
+  }
+
   .hero :global(.kb-hero-imagen) {
     width: 100%;
   }
