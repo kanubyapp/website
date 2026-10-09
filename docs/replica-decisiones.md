@@ -15,7 +15,7 @@ Decisiones aprobadas por el equipo para la réplica. Aplican a todas las tareas.
 6. GTM, Google Ads y Meta Pixel: sí, en la tarea 12. Antes de incluirlos revisa qué etiquetas se disparan dentro del contenedor de GTM y cuáles están pegadas directo en el HTML, y repórtalo para no duplicar eventos.
 7. Glancyr: no se usa. El menú móvil va con Outfit.
 8. DDDDD: se descarga la variante de 2048px como origen.
-9. Formularios y respond.io: los formularios de cotización, además de redirigir a WhatsApp, enviarán el contacto a respond.io desde el servidor (nombre, correo, teléfono, servicio y origen "formulario web") para que respond.io detecte quién llenó el formulario pero no escribió y le dé seguimiento con plantilla. Llevarán una línea de consentimiento para ser contactado por WhatsApp. Se construye como tarea propia al terminar las tres páginas de mudanzas; mientras tanto el formulario no cambia. El campo teléfono se queda obligatorio.
+9. Formularios y respond.io: los formularios de cotización, además de redirigir a WhatsApp, enviarán el contacto a respond.io desde el servidor (nombre, teléfono, servicio y origen "formulario web"; sin correo, que el formulario ya no pide, como en la decisión 3) para que respond.io detecte quién llenó el formulario pero no escribió y le dé seguimiento con plantilla. Llevarán una línea de consentimiento para ser contactado por WhatsApp. Se construye como tarea propia al terminar las tres páginas de mudanzas; mientras tanto el formulario no cambia. El campo teléfono se queda obligatorio.
 
 ## Indexación: sitemap y robots
 
@@ -59,3 +59,26 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
 - [ ] Antes de publicar: que www.kanuby.com redirija a kanuby.com en Vercel. Si sirviera el sitio directo, sus páginas responderían con noindex (solo kanuby.com se indexa).
 - [ ] Antes de publicar: crear la variable NEXT_PUBLIC_GTM_ID en Vercel con el ID del contenedor de GTM (GTM-XXXXXXX) el día en que kanuby.com apunte al sitio nuevo. Sin ella el sitio no carga GTM y los eventos de conversión no llegan a ningún contenedor.
 - [ ] Antes de publicar: inventariar las redirecciones 301 que tenga configuradas WordPress (por ejemplo /checklist-para-mudarte-en-monterrey-sin-complicaciones/ → /checklist-mudanza-monterrey/) para replicarlas en el sitio nuevo.
+- [ ] Antes de publicar: no se migra kanuby.com a Vercel sin los legales publicados. Con los datos de la lista c) confirmados y revisados por un abogado, LEGALES_CONFIRMADOS pasa a true en src/lib/legales.ts y /aviso-de-privacidad/ y /terminos-y-condiciones/ se indexan y entran al sitemap.
+
+### c) Legales y servicios: pendientes de confirmar con Kanuby
+
+Cada uno aparece como marcador <Pendiente> en /aviso-de-privacidad/ o /terminos-y-condiciones/.
+
+1. Razón social: si es KANUBY, S.A. de C.V. (la de app.kanuby.com/terms) también para mudanzas.
+2. RFC y domicilio fiscal.
+3. Domicilio del responsable para el aviso de privacidad.
+4. Correo para privacidad y solicitudes ARCO (¿info@kanuby.com?), con su procedimiento y plazo de respuesta.
+5. Teléfono de los legales: 81 1028 7087, 81 1500 6365 u 81 8336 3637.
+6. Datos que se recaban además de nombre, teléfono y servicio (facturación, fotos o inventario) y si hay datos sensibles.
+7. Finalidades secundarias (promociones, encuestas) y cómo negarse a ellas.
+8. Proveedores que reciben datos y si hay transferencias a terceros, como aseguradoras.
+9. Etiquetas que dispara el contenedor de GTM, para la sección de cookies.
+10. Condiciones de pago y requisitos previos a la mudanza.
+11. Responsabilidad ante daño, pérdida o robo, y cómo se reporta un incidente.
+12. Cancelaciones y reprogramaciones.
+13. Fecha de publicación de los dos documentos y revisión de un abogado conforme a la LFPDPPP de marzo de 2025.
+14. Si la mudanza Monterrey–CDMX incluye el regreso: el sitio dice que sí; legacy decía que no.
+15. Si existe seguro de traslado.
+16. Qué cobertura nacional tienen.
+17. Que el personal y el transporte son propios, sin subcontratar.

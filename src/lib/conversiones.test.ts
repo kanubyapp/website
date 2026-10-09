@@ -141,9 +141,11 @@ test("si GTM no responde, redirige al vencer el límite corto", () => {
   assert.equal(redirecciones, 1);
 });
 
-test("páginas sin negocio propio: /social/ y /blog/ emiten whatsapp_minibodega, por el mensaje de minibodega", () => {
+test("páginas sin negocio propio: /social/, /blog/ y las legales emiten whatsapp_minibodega, por el mensaje de minibodega", () => {
   assert.equal(negocioDePagina["/social/"], "minibodega");
   assert.equal(negocioDePagina["/blog/"], "minibodega");
+  assert.equal(negocioDePagina["/aviso-de-privacidad/"], "minibodega");
+  assert.equal(negocioDePagina["/terminos-y-condiciones/"], "minibodega");
   assert.deepEqual(eventoWhatsApp(negocioDePagina["/blog/"], "/blog/"), {
     event: "whatsapp_minibodega",
     pagina: "/blog/",

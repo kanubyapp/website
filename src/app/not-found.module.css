@@ -1,0 +1,59 @@
+/*
+ * 404: todo centrado en una columna sobre el resplandor de sección, a la
+ * altura de la pantalla.
+ */
+
+.pagina {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--espacio-3);
+  min-height: 100svh;
+  padding: var(--espacio-5) var(--relleno-seccion);
+  text-align: center;
+}
+
+.logo {
+  width: 160px;
+}
+
+.logo img {
+  width: 100%;
+}
+
+.logo:focus-visible {
+  outline: var(--anillo-foco);
+  outline-offset: var(--anillo-foco-separacion);
+}
+
+.ilustracion {
+  width: 100%;
+  max-width: var(--medida-texto);
+  height: auto;
+}
+
+.titulo {
+  color: var(--color-texto);
+  font-size: var(--texto-44);
+  font-weight: var(--peso-semibold);
+  line-height: var(--interlineado-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.texto {
+  color: var(--color-texto-secundario);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-20);
+  line-height: var(--interlineado-parrafo);
+}
+
+@media (max-width: 767px) {
+  .titulo {
+    font-size: var(--texto-30);
+  }
+
+  .texto {
+    font-size: var(--texto-17);
+  }
+}

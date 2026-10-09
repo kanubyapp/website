@@ -44,9 +44,14 @@ export function negocioDePost(categorias: readonly CategoriaSlug[]): Negocio {
  * Negocio de las páginas que no son de un servicio. Su WhatsApp directo lleva
  * el mensaje prellenado de minibodega, así que cuentan como minibodega.
  */
-export const negocioDePagina: Record<"/social/" | "/blog/", Negocio> = {
+export const negocioDePagina: Record<
+  "/social/" | "/blog/" | "/aviso-de-privacidad/" | "/terminos-y-condiciones/",
+  Negocio
+> = {
   "/social/": "minibodega",
   "/blog/": "minibodega",
+  "/aviso-de-privacidad/": "minibodega",
+  "/terminos-y-condiciones/": "minibodega",
 };
 
 /** Lo más que espera una redirección a que el evento salga. */

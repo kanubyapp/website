@@ -149,7 +149,8 @@ Ninguna existe hoy en kanuby.com: todas responden 404. No necesitan redirección
 | `/mini-bodegas/` | Tiene equivalente | `/minibodegas-monterrey/` |
 | `/mudanzas/empresariales/` | Tiene equivalente | `/mudanzas-empresariales-monterrey/` |
 | `/mudanzas/monterrey-cdmx/` | Tiene equivalente | `/mudanzas-monterrey-cdmx/` |
-| `/privacidad/` y `/terminos/` | No tiene equivalente | 410 |
+| `/privacidad/` | Tiene equivalente | `/aviso-de-privacidad/` |
+| `/terminos/` | Tiene equivalente | `/terminos-y-condiciones/` |
 
 `/mudanzas/` de legacy coincide con la categoría actual, que existe igual.
 

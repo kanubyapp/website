@@ -281,7 +281,7 @@
 .heroTitulo {
   max-width: 24ch;
   color: var(--color-texto);
-  font-size: var(--texto-48);
+  font-size: var(--texto-50);
   font-weight: var(--peso-semibold);
   line-height: var(--interlineado-display);
   letter-spacing: var(--tracking-display);

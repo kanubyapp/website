@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { LEGALES_CONFIRMADOS, RUTAS_LEGALES } from "./legales.ts";
 import { posts } from "./posts.ts";
 
 /*
@@ -35,7 +36,8 @@ export function reglasRobots(host: string | null | undefined): MetadataRoute.Rob
 
 /*
  * Páginas indexables fuera del blog. Las de categoría (/mudanzas/,
- * /minibodegas/, /sin-categoria/) y /social/ llevan noindex y no van.
+ * /minibodegas/, /sin-categoria/) y /social/ llevan noindex y no van. Las
+ * legales entran solo cuando LEGALES_CONFIRMADOS es true (lib/legales.ts).
  */
 export const PAGINAS_INDEXABLES = [
   "/",
@@ -44,6 +46,7 @@ export const PAGINAS_INDEXABLES = [
   "/mudanzas-empresariales-monterrey/",
   "/minibodegas-monterrey/",
   "/blog/",
+  ...(LEGALES_CONFIRMADOS ? RUTAS_LEGALES : []),
 ] as const;
 
 export function entradasSitemap(): MetadataRoute.Sitemap {

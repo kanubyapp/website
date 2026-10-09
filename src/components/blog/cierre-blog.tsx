@@ -30,8 +30,6 @@ const redes = [
   { href: "https://www.tiktok.com/@kanuby.mx", etiqueta: "TikTok de Kanuby", Icono: IconoTiktok },
 ];
 
-const GL = "?_gl=1*1une87i*_gcl_au*MTUyNTMwOTQ1My4xNzQxNjE2MDYzLjE3MzA2Mzk3NjUuMTc0MTYyMTI0My4xNzQxNjIyOTAy";
-
 /* negocio: el del post según su categoría, para el evento del ícono de WhatsApp */
 export function CierreBlog({ negocio }: { negocio: Negocio | null }) {
   return (
@@ -78,12 +76,10 @@ export function CierreBlog({ negocio }: { negocio: Negocio | null }) {
         <p className={styles.cierreTitulo}>Descubre más</p>
         <ul className={styles.cierreLista}>
           <li>
-            <a href={`https://app.kanuby.com/terms${GL}`}>Términos y Condiciones</a>
+            <Link href="/terminos-y-condiciones/">Términos y Condiciones</Link>
           </li>
           <li>
-            <a href={`https://app.kanuby.com/privacy${GL}`} target="_blank" rel="noopener noreferrer">
-              Política de Privacidad
-            </a>
+            <Link href="/aviso-de-privacidad/">Aviso de privacidad</Link>
           </li>
           <li>
             <a href="https://app.kanuby.com/login" target="_blank" rel="noopener noreferrer">

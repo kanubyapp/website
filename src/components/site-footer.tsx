@@ -28,6 +28,8 @@ const menus = [
       { href: "/", texto: "Inicio" },
       { href: "/blog/", texto: "Blog" },
       { href: "https://kanubypack.com", texto: "Empaque y Embalaje" },
+      { href: "/aviso-de-privacidad/", texto: "Aviso de privacidad" },
+      { href: "/terminos-y-condiciones/", texto: "Términos y condiciones" },
     ],
   },
 ];

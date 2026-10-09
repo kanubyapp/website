@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { encabezadoNoIndex, entradasSitemap, esDominioPublico, reglasRobots } from "./indexacion.ts";
+import { LEGALES_CONFIRMADOS } from "./legales.ts";
 import { posts } from "./posts.ts";
 
 const urls = entradasSitemap().map((entrada) => entrada.url);
@@ -30,7 +31,8 @@ test("cada página del sitio está en el sitemap o lleva noindex", () => {
     const pagina = new URL(`${carpeta}/page.tsx`, app);
     if (carpeta.startsWith("[") || !existsSync(pagina)) continue;
     const codigo = readFileSync(pagina, "utf8");
-    const noindex = /index: false|metadataCategoria/.test(codigo);
+    const noindex =
+      /index: false|metadataCategoria/.test(codigo) || (/robotsLegales/.test(codigo) && !LEGALES_CONFIRMADOS);
     assert.equal(urls.includes(`https://kanuby.com/${carpeta}/`), !noindex, carpeta);
   }
 });
