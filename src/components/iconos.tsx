@@ -239,3 +239,25 @@ export function IconoCaja({ className }: Props) {
     </IconoLinea>
   );
 }
+
+/* Camión de mudanza (paso previo del popup general de la home) */
+export function IconoCamion({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <path d="M2 6h12v10H2z" />
+      <path d="M14 9h4.5l3.5 3.5V16h-8" />
+      <circle cx="6.5" cy="17.5" r="1.8" />
+      <circle cx="17.5" cy="17.5" r="1.8" />
+    </IconoLinea>
+  );
+}
+
+/* Flecha de línea hacia abajo (indicador de scroll del hero de la home) */
+export function IconoFlechaAbajo({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <path d="M12 3v17" />
+      <path d="m6 14 6 6 6-6" />
+    </IconoLinea>
+  );
+}

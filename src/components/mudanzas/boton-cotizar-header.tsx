@@ -13,7 +13,7 @@ import { useCotizacion } from "./cotizacion";
 
 /*
  * "Cotiza Ahora / Whatsapp" del header de mudanzas. La línea grande se
- * escribe sola en ciclo (Whatsapp, Cotiza ahora, Respuesta rápida) y en cada
+ * escribe sola en ciclo (Whatsapp, Escríbenos, Respuesta rápida) y en cada
  * cambio el ícono de WhatsApp gira. Las frases se apilan invisibles en la
  * misma celda y reservan siempre el ancho de la más larga, desde la primera
  * carga y también sin animación, para que el botón nunca cambie de ancho. Para lectores de pantalla siempre es "Cotiza ahora

@@ -43,6 +43,68 @@
 }
 
 /*
+ * Indicador de scroll: flecha de línea en gris claro con la punta naranja,
+ * que baja y sube en ciclo (quieta con "reducir movimiento"). Al empezar a
+ * bajar (header compacto) se desvanece.
+ */
+.indicador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--objetivo-tactil);
+  height: var(--objetivo-tactil);
+  margin-top: var(--espacio-2);
+  border-radius: var(--radio-pildora);
+  color: var(--color-texto-secundario);
+  transition:
+    opacity var(--transicion),
+    visibility var(--transicion),
+    color var(--transicion);
+}
+
+.indicador:hover {
+  color: var(--color-texto);
+}
+
+.indicador:focus-visible {
+  outline: var(--anillo-foco);
+  outline-offset: var(--anillo-foco-separacion);
+}
+
+.indicadorIcono {
+  width: 28px;
+  height: 28px;
+  stroke-width: 1.25;
+}
+
+/* La punta de la flecha en naranja */
+.indicadorIcono path:last-child {
+  stroke: var(--color-naranja);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .indicadorIcono {
+    animation: indicador-vaiven 2s ease-in-out infinite;
+  }
+}
+
+@keyframes indicador-vaiven {
+  0%,
+  100% {
+    transform: translateY(-3px);
+  }
+
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+:global(:root[data-header-compacto]) .indicador {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/*
  * Servicios: tres columnas con tarjetas altas tipo retrato.
  * La primera, el valor de Kanuby, directo sobre el vidrio; las de negocio,
  * con la foto a toda la tarjeta y el texto abajo sobre el velo.

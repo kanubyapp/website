@@ -157,7 +157,7 @@ export function Marquesina({ items, className = "" }: { items: string[]; classNa
 }
 
 /*
- * Servicios de mudanzas: el título, la introducción y su botón, y una rejilla
+ * Servicios de mudanzas: el título y la introducción, centrados, y una rejilla
  * de 10 tarjetas compactas (5 columnas en escritorio, 3 en tablet, 2 en
  * móvil). Los íconos son de Phosphor (licencia MIT), en su peso duotono.
  * Cada cuadro lleva uno de tres tonos (naranja, azul o blanco) en el orden
@@ -193,13 +193,11 @@ export function ServiciosMudanzas({
   id,
   titulo,
   texto,
-  boton,
   className = "",
 }: {
   id?: string;
   titulo: string;
   texto: string;
-  boton: React.ReactNode;
   className?: string;
 }) {
   return (
@@ -207,7 +205,6 @@ export function ServiciosMudanzas({
       <div className="kb-servicios-intro">
         <h2 className="kb-servicios-titulo">{titulo}</h2>
         <p className="kb-servicios-texto">{texto}</p>
-        {boton}
       </div>
       <ul className="kb-servicios-rejilla">
         {SERVICIOS.map(({ nombre, descripcion, Icono }, indice) => (

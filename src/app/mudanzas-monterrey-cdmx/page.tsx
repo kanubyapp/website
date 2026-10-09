@@ -136,13 +136,6 @@ export default function MudanzasMonterreyCdmx() {
           id="servicios"
           titulo="Nuestros Servicios"
           texto="Mudarse entre Monterrey y Ciudad de México no tiene que ser complicado. En Kanuby lo hacemos simple, seguro y sin sorpresas. Con más de 20 años en el negocio, sabemos exactamente qué necesitas para que tu mudanza llegue bien."
-          boton={
-            <BotonCotizar
-              texto="Cotiza Ahora por"
-              subtexto="Whatsapp"
-              className="kb-boton-principal kb-boton-dos-lineas kb-boton-servicios"
-            />
-          }
         />
 
         <Testimonios

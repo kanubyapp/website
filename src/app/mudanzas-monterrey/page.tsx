@@ -108,13 +108,6 @@ export default function MudanzasMonterrey() {
           id="servicios"
           titulo="Nuestros Servicios"
           texto="En Kanuby contamos con la experiencia de más de 20 años en mudanzas en Monterrey. Puedes confiar en nosotros, donde tu mudanza será realizada con la rapidez que nos caracteriza además de la seguridad que solo un servicio de calidad como el nuestro puede garantizar."
-          boton={
-            <BotonCotizar
-              texto="Cotiza Ahora por"
-              subtexto="Whatsapp"
-              className="kb-boton-principal kb-boton-dos-lineas kb-boton-servicios"
-            />
-          }
         />
 
         <Testimonios

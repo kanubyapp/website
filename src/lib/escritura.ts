@@ -6,7 +6,7 @@
  * usa para girar el ícono.
  */
 
-export const FRASES_COTIZAR = ["Whatsapp", "Cotiza ahora", "Respuesta rápida"] as const;
+export const FRASES_COTIZAR = ["Whatsapp", "Escríbenos", "Respuesta rápida"] as const;
 
 export type Escritura = {
   frase: number;

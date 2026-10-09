@@ -6,6 +6,7 @@ import {
   IconoBodegaChica,
   IconoBodegaGrande,
   IconoBodegaMediana,
+  IconoCamion,
   IconoCasa,
   IconoCerrar,
   IconoDuda,
@@ -13,9 +14,9 @@ import {
   IconoRuta,
   IconoWhatsApp,
 } from "@/components/iconos";
-import { registrarConversion } from "@/lib/conversiones";
+import { registrarConversion, type Negocio } from "@/lib/conversiones";
 import { envioCotizacion } from "@/lib/envio-cotizacion";
-import { FLUJO_INICIAL, flujoCotizacion } from "@/lib/flujo-cotizacion";
+import { flujoCotizacion, flujoInicial } from "@/lib/flujo-cotizacion";
 import {
   TAMANOS_MINIBODEGA,
   TIPOS_MUDANZA,
@@ -30,8 +31,10 @@ import {
  * de mudanza o el tamaño de minibodega como tarjetas que avanzan al tocarlas;
  * paso 2, nombre y teléfono. Al enviar, valida; si pasa, registra el evento
  * de conversión (cotizacion_mudanza o cotizacion_minibodega) y, cuando sale
- * o vence el límite corto, redirige a WhatsApp en la misma pestaña. Cualquier botón de la página lo abre con
- * useCotizacion().abrir(). Se cierra con su botón, con Esc y con clic fuera;
+ * o vence el límite corto, redirige a WhatsApp en la misma pestaña.
+ * Con tipo="eleccion" (botón flotante de la home) hay un paso previo, "¿Qué
+ * necesitas?", con Mudanza y Minibodega; desde el paso 1 se regresa a él.
+ * Cualquier botón de la página lo abre con useCotizacion().abrir(). Se cierra con su botón, con Esc y con clic fuera;
  * mientras está abierto el foco queda dentro, el fondo no hace scroll
  * (interacciones.css) y al cerrar el foco vuelve a quien lo abrió.
  */
@@ -78,6 +81,12 @@ const FORMULARIOS: Record<
   },
 };
 
+/* Paso previo del popup general */
+const NEGOCIOS: { valor: Negocio; nombre: string; Icono: Icono }[] = [
+  { valor: "mudanza", nombre: "Mudanza", Icono: IconoCamion },
+  { valor: "minibodega", nombre: "Minibodega", Icono: IconoBodegaMediana },
+];
+
 const CotizacionContexto = createContext<{ abrir: () => void } | null>(null);
 
 export function useCotizacion() {
@@ -95,10 +104,9 @@ export function CotizacionProvider({
   tipo = "mudanza",
   children,
 }: {
-  tipo?: keyof typeof FORMULARIOS;
+  tipo?: keyof typeof FORMULARIOS | "eleccion";
   children: React.ReactNode;
 }) {
-  const formularioActual = FORMULARIOS[tipo];
   const dialogo = useRef<HTMLDialogElement>(null);
   const caja = useRef<HTMLDivElement>(null);
   /* Primer control del paso activo: ahí va el foco al entrar en el paso. */
@@ -110,7 +118,15 @@ export function CotizacionProvider({
   const id = useId();
 
   const [abierto, setAbierto] = useState(false);
-  const [flujo, despachar] = useReducer(flujoCotizacion, FLUJO_INICIAL);
+  const [flujo, despachar] = useReducer(
+    flujoCotizacion,
+    tipo === "eleccion" ? null : tipo,
+    flujoInicial,
+  );
+  /* En el paso previo todavía no hay formulario de servicio */
+  const formularioActual =
+    flujo.paso !== "negocio" && flujo.negocio ? FORMULARIOS[flujo.negocio] : null;
+  const nombreNegocio = NEGOCIOS.find((negocio) => negocio.valor === flujo.negocio)?.nombre;
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
   const [errores, setErrores] = useState<ErroresCotizacion>({});
@@ -158,9 +174,9 @@ export function CotizacionProvider({
 
   function enviar(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
-    if (enviando.current) return;
+    if (enviando.current || !flujo.negocio) return;
     const datos: Cotizacion = { nombre, telefono, tipo: flujo.tipo ?? "" };
-    const resultado = envioCotizacion(tipo, datos, window.location.pathname);
+    const resultado = envioCotizacion(flujo.negocio, datos, window.location.pathname);
 
     if (!resultado.valido) {
       const encontrados = resultado.errores;
@@ -226,13 +242,49 @@ export function CotizacionProvider({
           </button>
 
           <h2 id={`${id}-titulo`} className="kb-popup-titulo">
-            {formularioActual.titulo}
+            {formularioActual ? formularioActual.titulo : "¿Qué necesitas?"}
           </h2>
-          <p className="kb-popup-subtitulo">{formularioActual.subtitulo}</p>
+          {formularioActual && (
+            <p className="kb-popup-subtitulo">{formularioActual.subtitulo}</p>
+          )}
 
-          {flujo.paso === "servicio" ? (
+          {!formularioActual ? (
             <div className="kb-popup-paso">
-              <p className="kb-popup-pregunta">{formularioActual.pregunta}</p>
+              <ul className="kb-popup-opciones">
+                {NEGOCIOS.map(({ valor, nombre: texto, Icono }, indice) => (
+                  <li key={valor}>
+                    <button
+                      ref={indice === 0 ? entradaPaso : undefined}
+                      type="button"
+                      className="kb-popup-opcion"
+                      aria-pressed={flujo.negocio === valor}
+                      onClick={() => {
+                        setErrores({});
+                        despachar({ tipo: "elegirNegocio", valor });
+                      }}
+                    >
+                      <Icono className="kb-popup-opcion-icono" />
+                      {texto}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : flujo.paso === "servicio" ? (
+            <div className="kb-popup-paso">
+              <div className="kb-popup-encabezado">
+                <p className="kb-popup-pregunta">{formularioActual.pregunta}</p>
+                {flujo.conPrevio && (
+                  <button
+                    type="button"
+                    className="kb-popup-volver"
+                    aria-label={`Volver al paso anterior: ${nombreNegocio}`}
+                    onClick={() => despachar({ tipo: "volver" })}
+                  >
+                    <span aria-hidden="true">←</span> {nombreNegocio}
+                  </button>
+                )}
+              </div>
               {mensajeError("tipo")}
               {/*
                 Botones, no radios: cada opción avanza en cuanto se pulsa. Con

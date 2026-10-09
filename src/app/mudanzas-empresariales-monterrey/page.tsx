@@ -199,17 +199,8 @@ export default function MudanzasEmpresariales() {
 
         <ServiciosMudanzas
           id="servicios"
-          className={styles.servicios}
           titulo="Otros Servicios"
           texto="En Kanuby, te ofrecemos un servicio “llave en mano”. Así es como garantizamos un traslado empresarial sin complicaciones"
-          boton={
-            <BotonCotizar
-              texto="Cotiza Ahora"
-              href="https://wa.me/528183363637"
-              negocio="mudanza"
-              className={`kb-boton-principal ${styles.botonSimple}`}
-            />
-          }
         />
 
         <section className={`kb-resplandor-suave ${styles.faq}`}>

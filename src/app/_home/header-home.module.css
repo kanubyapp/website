@@ -23,7 +23,8 @@
     width var(--transicion),
     padding var(--transicion),
     background-color var(--transicion),
-    border-color var(--transicion);
+    border-color var(--transicion),
+    box-shadow var(--transicion);
 }
 
 .logo {
@@ -33,14 +34,13 @@
 }
 
 /*
- * Al bajar: píldora de cristal blanco (el del popup), del ancho de su
+ * Al bajar: píldora de cristal líquido (kb-cristal-liquido), del ancho de su
  * contenido y centrada, menos alta y con el logo más chico.
  */
 :global(:root[data-header-compacto]) .barra {
   width: fit-content;
   padding-block: calc(var(--espacio-1) / 2);
-  border-color: var(--color-blanco);
-  background: var(--cristal-fondo);
+  box-shadow: var(--cristal-liquido-sombra);
 }
 
 :global(:root[data-header-compacto]) .logo {
@@ -82,9 +82,9 @@
  * claro es el que cumple AA a este tamaño sobre el vidrio del header.
  */
 /*
- * Colores del menú en variables: sobre el cristal blanco del header compacto
- * van en azul noche y el naranja oscuro (el de marca no cumple AA a este
- * tamaño sobre blanco). Los usan el hover y el destello.
+ * Colores del menú en variables, que usan el hover y el destello. Sobre el
+ * cristal del header compacto el texto se queda en azul noche también en el
+ * hover y el destello; lo único naranja es la línea, con su brillo.
  */
 .lista {
   --enlace-color: var(--color-texto-secundario);
@@ -93,7 +93,7 @@
 
 :global(:root[data-header-compacto]) .lista {
   --enlace-color: var(--color-texto-oscuro);
-  --enlace-activo: var(--color-naranja-oscuro);
+  --enlace-activo: var(--color-texto-oscuro);
 }
 
 .lista .enlace {

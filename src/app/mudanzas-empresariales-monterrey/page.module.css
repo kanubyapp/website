@@ -100,7 +100,7 @@
   font-size: inherit;
 }
 
-/* Botón de una línea del hero y de servicios */
+/* Botón de una línea del hero */
 .botonSimple {
   align-self: flex-start;
   border: var(--borde-boton) solid var(--color-azul);
@@ -176,23 +176,20 @@
   fill: currentColor;
 }
 
-/* Hero, por qué y servicios: ajustes de esta página */
+/* Hero y por qué: ajustes de esta página */
 
 .hero :global(.kb-hero-contenido) {
   padding: 10px;
 }
 
-/* En el hero y en servicios, el botón de una línea es el principal naranja */
-.hero .botonSimple,
-.servicios .botonSimple {
+/* En el hero, el botón de una línea es el principal naranja */
+.hero .botonSimple {
   border: 1px solid var(--color-naranja-claro);
   border-radius: var(--radio-pildora);
 }
 
 .hero .botonSimple:hover,
-.hero .botonSimple:focus-visible,
-.servicios .botonSimple:hover,
-.servicios .botonSimple:focus-visible {
+.hero .botonSimple:focus-visible {
   border-color: var(--color-naranja-claro);
   background: var(--color-naranja-claro);
 }

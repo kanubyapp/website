@@ -52,7 +52,7 @@ export function HeaderMinibodegas() {
 
   return (
     <header ref={elementoHeader} className={`kb-header ${styles.header}`}>
-      <div ref={barra} className="kb-vidrio kb-header-barra">
+      <div ref={barra} className="kb-vidrio kb-cristal-liquido kb-header-barra">
         <Link href="/" className="kb-header-logo">
           <Image
             src="/images/kanuby-orange.svg"

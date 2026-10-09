@@ -29,6 +29,10 @@ test("empieza con la primera frase completa y quieta, como sin animación", () =
   assert.ok(espera(inicial) >= 1000, "se queda visible unos segundos");
 });
 
+test("las frases del ciclo: Whatsapp, Escríbenos y Respuesta rápida", () => {
+  assert.deepEqual(FRASES_COTIZAR, ["Whatsapp", "Escríbenos", "Respuesta rápida"]);
+});
+
 test("borra la frase letra por letra y escribe la siguiente letra por letra", () => {
   const { textos } = avanzarHasta(escrituraInicial(frases), (e) => e.frase === 1 && e.fase === "pausa");
   assert.deepEqual(textos.slice(0, 9), [
@@ -42,8 +46,8 @@ test("borra la frase letra por letra y escribe la siguiente letra por letra", ()
     "W",
     "", // borrada: cambia a la siguiente frase
   ]);
-  assert.deepEqual(textos.slice(9, 12), ["C", "Co", "Cot"]);
-  assert.equal(textos.at(-1), "Cotiza ahora");
+  assert.deepEqual(textos.slice(9, 12), ["E", "Es", "Esc"]);
+  assert.equal(textos.at(-1), "Escríbenos");
 });
 
 test("recorre las tres frases en orden y vuelve a la primera", () => {
@@ -54,7 +58,7 @@ test("recorre las tres frases en orden y vuelve a la primera", () => {
     estado = avanzarHasta(estado, (e) => e.fase === "pausa").estado;
     completas.push(textoVisible(estado, frases));
   }
-  assert.deepEqual(completas, ["Cotiza ahora", "Respuesta rápida", "Whatsapp"]);
+  assert.deepEqual(completas, ["Escríbenos", "Respuesta rápida", "Whatsapp"]);
 });
 
 test("cada cambio de frase suma uno a cambios (el ícono gira en cada uno)", () => {

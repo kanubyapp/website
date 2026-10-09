@@ -7,9 +7,11 @@ import {
   IconoBodegaMediana,
   IconoCasa,
   IconoEdificio,
+  IconoFlechaAbajo,
   IconoRuta,
 } from "@/components/iconos";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
+import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { SiteFooter } from "@/components/site-footer";
 import { postsRecientes } from "@/lib/posts";
@@ -116,9 +118,13 @@ export default function Home() {
             embalaje. Contamos con soluciones únicas a la medida de los
             clientes más exigentes.
           </p>
+          {/* Indicador de scroll: lleva a los servicios y se desvanece al bajar */}
+          <a href="#servicios" className={styles.indicador} aria-label="Ir a servicios">
+            <IconoFlechaAbajo className={styles.indicadorIcono} />
+          </a>
         </section>
 
-        <section className={`kb-resplandor-suave ${styles.necesitas}`}>
+        <section id="servicios" className={`kb-resplandor-suave ${styles.necesitas}`}>
           {/* Tarjeta grande de vidrio sobre el resplandor de la sección */}
           <div className={`kb-vidrio ${styles.necesitasCaja}`}>
             <ul className={styles.negocios}>
@@ -207,6 +213,11 @@ export default function Home() {
         </section>
       </main>
       <SiteFooter />
+
+      {/* Botón flotante: el popup empieza en "¿Qué necesitas?" (Mudanza o Minibodega) */}
+      <CotizacionProvider tipo="eleccion">
+        <BotonFlotante className="kb-vidrio kb-flotante" />
+      </CotizacionProvider>
     </>
   );
 }

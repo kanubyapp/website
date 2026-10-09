@@ -40,7 +40,8 @@
     width var(--transicion),
     padding var(--transicion),
     background-color var(--transicion),
-    border-color var(--transicion);
+    border-color var(--transicion),
+    box-shadow var(--transicion);
 }
 
 .headerLogo {
@@ -50,16 +51,16 @@
 }
 
 /*
- * Al bajar: píldora de cristal blanco (el del popup), del ancho de su
+ * Al bajar: píldora de cristal líquido (kb-cristal-liquido), del ancho de su
  * contenido y centrada, menos alta y con el logo más chico. Sobre el
- * cristal, enlaces en azul noche; el hover, en naranja oscuro (el de marca no
- * cumple AA a este tamaño sobre blanco) con la línea naranja.
+ * cristal, enlaces en azul noche también en el hover: lo único que se pone
+ * naranja es la línea de abajo, con su brillo (un texto naranja no cumpliría
+ * AA con contenido oscuro detrás del cristal).
  */
 :global(:root[data-header-compacto]) .headerBarra {
   width: fit-content;
   padding-block: calc(var(--espacio-1) / 2);
-  border-color: var(--color-blanco);
-  background: var(--cristal-fondo);
+  box-shadow: var(--cristal-liquido-sombra);
 }
 
 :global(:root[data-header-compacto]) .headerEnlace {
@@ -69,7 +70,7 @@
 :global(:root[data-header-compacto]) .headerEnlace:hover,
 :global(:root[data-header-compacto]) .headerItem[data-abierto="true"] .headerEnlace {
   background: transparent;
-  color: var(--color-naranja-oscuro);
+  color: var(--color-texto-oscuro);
 }
 
 /* Línea naranja del hover: solo en el header compacto */
@@ -86,6 +87,7 @@
   height: 2px;
   border-radius: var(--radio-pildora);
   background: var(--color-naranja);
+  box-shadow: var(--brillo-linea);
   transform: scaleX(0);
   transition: transform var(--transicion);
 }

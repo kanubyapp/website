@@ -54,7 +54,7 @@ export function HeaderMudanzas({
 
   return (
     <header ref={elementoHeader} className={`kb-header ${className}`}>
-      <div ref={barra} className="kb-vidrio kb-header-barra">
+      <div ref={barra} className="kb-vidrio kb-cristal-liquido kb-header-barra">
         {/* Sobre el cristal blanco del header compacto va el logo original */}
         <Link href="/" className="kb-header-logo">
           <Image

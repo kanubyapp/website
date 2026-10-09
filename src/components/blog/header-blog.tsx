@@ -92,7 +92,7 @@ export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
 
   return (
     <header ref={elementoHeader} className={styles.header}>
-      <div ref={barra} className={`kb-vidrio ${styles.headerBarra}`}>
+      <div ref={barra} className={`kb-vidrio kb-cristal-liquido ${styles.headerBarra}`}>
         <Link href="/" className={styles.headerLogo}>
           <Image
             src="/images/kanuby-orange.svg"

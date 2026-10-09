@@ -159,8 +159,12 @@
   }
 
   /*
-   * Fondo con resplandor: el naranja sale de arriba y se apaga hacia la
-   * oscuridad. Con .kb-resplandor-suave el resplandor sube desde abajo.
+   * Fondo con resplandor de sección: un halo naranja que se apaga hacia la
+   * oscuridad y llega a cero antes de los bordes de arriba y de abajo de su
+   * sección, para que el fondo de la página siga continuo sin cortes. Con
+   * .kb-resplandor-suave, el mismo halo más tenue. Los resplandores pegados
+   * al borde (--resplandor-acento, --resplandor-suave) son para tarjetas, que
+   * sí tienen borde.
    */
   .kb-resplandor,
   .kb-resplandor-suave {
@@ -178,11 +182,11 @@
   }
 
   .kb-resplandor::before {
-    background: var(--resplandor-acento), var(--degradado-naranja-oscuridad);
+    background: var(--resplandor-seccion);
   }
 
   .kb-resplandor-suave::before {
-    background: var(--resplandor-suave);
+    background: var(--resplandor-seccion-suave);
   }
 
   /*
@@ -616,13 +620,11 @@
     }
   }
 
-  .kb-boton-header:hover,
-  .kb-boton-servicios:hover {
+  .kb-boton-header:hover {
     background: var(--color-naranja);
   }
 
-  .kb-boton-hero,
-  .kb-boton-servicios {
+  .kb-boton-hero {
     align-self: flex-start;
   }
 
@@ -691,7 +693,8 @@
       width var(--transicion),
       padding var(--transicion),
       background-color var(--transicion),
-      border-color var(--transicion);
+      border-color var(--transicion),
+      box-shadow var(--transicion);
   }
 
   .kb-header-logo {
@@ -701,20 +704,52 @@
   }
 
   /*
-   * Al bajar: píldora de cristal blanco (el del popup), del ancho de su
+   * Al bajar: píldora de cristal líquido (kb-cristal-liquido), del ancho de su
    * contenido y centrada, menos alta y con el logo más chico. Sobre el
-   * cristal, enlaces en azul noche; el hover, en naranja oscuro (el de marca
-   * no cumple AA a este tamaño sobre blanco) con la línea naranja.
+   * cristal, enlaces en azul noche también en el hover: lo único que se pone
+   * naranja es la línea de abajo, con su brillo (un texto naranja no cumpliría
+   * AA con contenido oscuro detrás del cristal).
    */
   :root[data-header-compacto] .kb-header-barra {
     width: fit-content;
     padding-block: calc(var(--espacio-1) / 2);
-    border-color: var(--color-blanco);
-    background: var(--cristal-fondo);
+    box-shadow: var(--cristal-liquido-sombra);
   }
 
   :root[data-header-compacto] .kb-header-logo {
     width: 200px;
+  }
+
+  /*
+   * Cristal líquido de la píldora compacta (los tres headers): sin soporte de
+   * backdrop-filter, o con "reducir transparencias", queda el cristal blanco
+   * casi opaco del popup. En móvil, menos desenfoque.
+   */
+  :root[data-header-compacto] .kb-cristal-liquido {
+    border-color: var(--color-blanco);
+    background: var(--cristal-fondo);
+  }
+
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    @media (prefers-reduced-transparency: no-preference) {
+      :root[data-header-compacto] .kb-cristal-liquido {
+        border-color: var(--cristal-liquido-borde);
+        background: var(--cristal-liquido-reflejo), var(--cristal-liquido-fondo);
+        -webkit-backdrop-filter: blur(var(--cristal-liquido-desenfoque))
+          saturate(var(--cristal-liquido-saturacion));
+        backdrop-filter: blur(var(--cristal-liquido-desenfoque))
+          saturate(var(--cristal-liquido-saturacion));
+      }
+
+      @media (max-width: 767px) {
+        :root[data-header-compacto] .kb-cristal-liquido {
+          -webkit-backdrop-filter: blur(var(--cristal-liquido-desenfoque-movil))
+            saturate(var(--cristal-liquido-saturacion));
+          backdrop-filter: blur(var(--cristal-liquido-desenfoque-movil))
+            saturate(var(--cristal-liquido-saturacion));
+        }
+      }
+    }
   }
 
   /* Logo de mudanzas: la versión con "Mudanzas" en azul para el cristal */
@@ -734,7 +769,7 @@
   :root[data-header-compacto] .kb-header-enlace:hover,
   :root[data-header-compacto] .kb-header-enlace:focus-visible {
     background: transparent;
-    color: var(--color-naranja-oscuro);
+    color: var(--color-texto-oscuro);
   }
 
   :root[data-header-compacto] .kb-header-abrir {
@@ -804,6 +839,7 @@
     height: 2px;
     border-radius: var(--radio-pildora);
     background: var(--color-naranja);
+    box-shadow: var(--brillo-linea);
     transform: scaleX(0);
     transition: transform var(--transicion);
   }
@@ -1117,12 +1153,15 @@
     padding: var(--espacio-seccion) var(--relleno-seccion);
   }
 
+  /* Título e introducción centrados, con ancho de lectura cómodo */
   .kb-servicios-intro {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--espacio-2);
     max-width: var(--medida-texto);
+    margin-inline: auto;
+    text-align: center;
   }
 
   .kb-servicios-titulo {
@@ -1917,10 +1956,6 @@
   /* Móvil */
 
   @media (max-width: 767px) {
-    .kb-boton-servicios {
-      display: none;
-    }
-
     .kb-boton-hero {
       align-self: center;
     }
@@ -2128,11 +2163,6 @@
     .kb-servicios {
       gap: var(--espacio-3);
       padding: var(--espacio-seccion-movil) var(--relleno-seccion);
-    }
-
-    .kb-servicios-intro {
-      align-items: center;
-      text-align: center;
     }
 
     .kb-servicios-titulo {
