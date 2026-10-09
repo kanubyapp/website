@@ -102,7 +102,6 @@
   align-content: center;
   align-items: center;
   gap: var(--espacio-3) var(--espacio-5);
-  min-height: 90vh;
   padding: var(--espacio-6) var(--relleno-seccion) var(--espacio-seccion);
 }
 
@@ -167,13 +166,17 @@
 
 /* Tamaños: tres tarjetas de vidrio sobre la foto velada de los contenedores */
 
-/* Sin relleno abajo: el banner se monta sobre el borde inferior de la tarjeta */
+/*
+ * Arriba, con el relleno inferior del hero, la separación entre secciones de
+ * la home. Sin relleno abajo: el banner se monta sobre el borde inferior de
+ * la tarjeta.
+ */
 .tamanos {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--espacio-2);
-  padding: var(--espacio-seccion) var(--relleno-seccion) 0;
+  padding: var(--espacio-3) var(--relleno-seccion) 0;
   text-align: center;
 }
 
@@ -873,6 +876,25 @@
     grid-template-columns: minmax(0, 1fr) 45vw;
   }
 
+  /*
+   * Banner en columna (camión, título y botón): en una fila, al 70% del
+   * ancho, el camión y el título se encogerían de más.
+   */
+  .bannerTarjeta {
+    flex-direction: column;
+    gap: var(--espacio-3);
+    padding: var(--espacio-4) var(--espacio-3);
+  }
+
+  /* Sin el desplazamiento con el scroll: en columna se saldría de la tarjeta */
+  .bannerCamion {
+    transform: none;
+  }
+
+  .bannerBoton {
+    width: 100%;
+  }
+
   .heroTitulo {
     font-size: var(--texto-48);
   }
@@ -917,7 +939,6 @@
   .hero {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: none;
-    min-height: 0;
     padding: var(--espacio-4) var(--relleno-seccion) var(--espacio-seccion-movil);
     text-align: center;
   }
@@ -955,7 +976,7 @@
   }
 
   .tamanos {
-    padding: var(--espacio-seccion-movil) var(--relleno-seccion) 0;
+    padding: var(--espacio-3) var(--relleno-seccion) 0;
   }
 
   .tamanosCaja {
@@ -1005,26 +1026,14 @@
     padding-bottom: var(--espacio-seccion-movil);
   }
 
-  /* En móvil, a lo ancho del contenido y en columna: camión, título y botón */
+  /* En móvil, además, a lo ancho del contenido */
   .bannerTarjeta {
-    flex-direction: column;
-    gap: var(--espacio-3);
     width: 100%;
-    padding: var(--espacio-4) var(--espacio-3);
     border-radius: var(--radio-tarjeta-movil);
-  }
-
-  /* Sin el desplazamiento con el scroll: en columna se saldría de la pantalla */
-  .bannerCamion {
-    transform: none;
   }
 
   .bannerIlustracion {
     width: 70%;
-  }
-
-  .bannerBoton {
-    width: 100%;
   }
 
   .faq {
