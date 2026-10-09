@@ -35,7 +35,7 @@ export function reglasRobots(host: string | null | undefined): MetadataRoute.Rob
 
 /*
  * Páginas indexables fuera del blog. Las de categoría (/mudanzas/,
- * /minibodegas/, /sin-categoria/) llevan noindex y no van.
+ * /minibodegas/, /sin-categoria/) y /social/ llevan noindex y no van.
  */
 export const PAGINAS_INDEXABLES = [
   "/",
@@ -44,7 +44,6 @@ export const PAGINAS_INDEXABLES = [
   "/mudanzas-empresariales-monterrey/",
   "/minibodegas-monterrey/",
   "/blog/",
-  "/social/",
 ] as const;
 
 export function entradasSitemap(): MetadataRoute.Sitemap {

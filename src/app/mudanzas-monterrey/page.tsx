@@ -19,9 +19,12 @@ import { testimonios } from "@/lib/testimonios";
 import styles from "./page.module.css";
 
 const titulo = "Mudanzas en Monterrey";
+const descripcion =
+  "Mudanzas en Monterrey de casas, departamentos y oficinas. Empacamos, cargamos y trasladamos tus muebles con cuidado. Más de 20 años de experiencia.";
 
 export const metadata: Metadata = {
   title: titulo,
+  description: descripcion,
   alternates: { canonical: "/mudanzas-monterrey/" },
   openGraph: {
     type: "article",
@@ -29,6 +32,7 @@ export const metadata: Metadata = {
     url: "/mudanzas-monterrey/",
     siteName: "Kanuby",
     title: `${titulo} - Kanuby`,
+    description: descripcion,
   },
   twitter: { card: "summary_large_image" },
 };
@@ -59,14 +63,16 @@ export default function MudanzasMonterrey() {
           fondo={
             // Decorativa: fondo difuso y muy tenue. Calidad 40 y la mitad de
             // resolución (sizes 50vw): el desenfoque oculta la diferencia.
-            // Sin prioridad, para no competir con el camión.
+            // Es el elemento más grande al cargar (LCP) y pesa muy poco: se
+            // pide de inmediato y con prioridad alta, junto con el camión.
             <Image
               src="/images/mudanzas/fondo-hero-mudanzas.webp"
               alt=""
               fill
               sizes="50vw"
               quality={40}
-              fetchPriority="low"
+              loading="eager"
+              fetchPriority="high"
               className={styles.fondoHero}
             />
           }
@@ -79,7 +85,7 @@ export default function MudanzasMonterrey() {
             sizes: "(max-width: 767px) 92vw, 49vw",
           }}
           titulo="Servicio de Mudanzas en Monterrey"
-          texto="En Kanuby cambiamos la forma de mudarse, contamos con el mejor servicio de mudanzas en Monterrey."
+          texto="Mudanzas en Monterrey y su área metropolitana, de casas, departamentos y oficinas. Empacamos, cargamos y trasladamos tus muebles con cuidado, con más de 20 años de experiencia y la opción de guardar tus cosas en una minibodega si las necesitas."
           boton={
             <BotonCotizar
               texto="Cotiza Ahora por"

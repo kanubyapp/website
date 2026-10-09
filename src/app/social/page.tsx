@@ -22,6 +22,8 @@ const ruta = "/social/";
 export const metadata: Metadata = {
   title: titulo,
   alternates: { canonical: ruta },
+  // Página de enlaces para redes sociales: no se indexa ni va en el sitemap.
+  robots: { index: false, follow: true },
   openGraph: {
     type: "article",
     locale: "es_MX",

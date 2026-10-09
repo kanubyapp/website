@@ -7,7 +7,7 @@ import { posts } from "./posts.ts";
 const urls = entradasSitemap().map((entrada) => entrada.url);
 
 test("el sitemap lleva las páginas indexables y todos los posts, con URL absoluta y barra final", () => {
-  for (const ruta of ["/", "/mudanzas-monterrey/", "/mudanzas-monterrey-cdmx/", "/mudanzas-empresariales-monterrey/", "/minibodegas-monterrey/", "/blog/", "/social/"])
+  for (const ruta of ["/", "/mudanzas-monterrey/", "/mudanzas-monterrey-cdmx/", "/mudanzas-empresariales-monterrey/", "/minibodegas-monterrey/", "/blog/"])
     assert.ok(urls.includes(`https://kanuby.com${ruta}`), ruta);
   for (const post of posts) assert.ok(urls.includes(`https://kanuby.com/${post.slug}/`), post.slug);
   for (const url of urls) assert.match(url, /^https:\/\/kanuby\.com\/(.*\/)?$/);
@@ -19,8 +19,8 @@ test("los posts llevan su fecha de modificación", () => {
   assert.equal(entrada?.lastModified, posts[0].modificado);
 });
 
-test("el sitemap deja fuera las páginas con noindex (las de categoría)", () => {
-  for (const ruta of ["/mudanzas/", "/minibodegas/", "/sin-categoria/"])
+test("el sitemap deja fuera las páginas con noindex (las de categoría y /social/)", () => {
+  for (const ruta of ["/mudanzas/", "/minibodegas/", "/sin-categoria/", "/social/"])
     assert.ok(!urls.includes(`https://kanuby.com${ruta}`), ruta);
 });
 

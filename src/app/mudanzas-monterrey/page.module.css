@@ -42,6 +42,15 @@
   font-size: var(--texto-50);
 }
 
+/*
+ * Párrafo un poco más grande que el del patrón (20px) en escritorio y tablet.
+ * El interlineado del patrón es relativo y escala con él; el color y el ancho
+ * de columna no cambian.
+ */
+.hero :global(.kb-hero-texto) {
+  font-size: var(--texto-22);
+}
+
 /* Hero más alto en escritorio; el patrón centra texto y camión en él */
 @media (min-width: 1025px) {
   .hero {
@@ -57,5 +66,10 @@
 
   .hero :global(.kb-hero-titulo) {
     font-size: var(--texto-40);
+  }
+
+  /* El mismo aumento proporcional sobre los 17px del patrón en móvil */
+  .hero :global(.kb-hero-texto) {
+    font-size: var(--texto-18);
   }
 }

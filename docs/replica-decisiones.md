@@ -22,7 +22,7 @@ Decisiones aprobadas por el equipo para la réplica. Aplican a todas las tareas.
 - El sitio solo se indexa en kanuby.com. La decisión se toma en cada petición por el dominio que pidió el visitante o el buscador (el encabezado Host), no por una variable de entorno: el mismo despliegue de producción responde en kanuby.com y en su URL de vercel.app, y solo el Host los distingue. La lógica está en src/lib/indexacion.ts, con pruebas.
 - En kanuby.com: /robots.txt permite el rastreo y apunta a https://kanuby.com/sitemap.xml, y las páginas responden normal.
 - En cualquier otro dominio (la URL de Vercel, las vistas previas, www.kanuby.com, localhost): /robots.txt bloquea todo (Disallow: /) y todas las respuestas llevan el encabezado X-Robots-Tag: noindex, nofollow, que agrega src/proxy.ts. Funciona también con las páginas estáticas, porque no depende del HTML.
-- /sitemap.xml lista las páginas indexables y los 24 posts con URL absoluta en https://kanuby.com y barra final; los posts llevan su fecha de modificación. Las páginas de categoría, que llevan noindex, no van. Una página nueva tiene que entrar al sitemap (PAGINAS_INDEXABLES) o llevar noindex: una prueba lo exige.
+- /sitemap.xml lista las páginas indexables y los 24 posts con URL absoluta en https://kanuby.com y barra final; los posts llevan su fecha de modificación. Las páginas de categoría y /social/, que llevan noindex, no van. Una página nueva tiene que entrar al sitemap (PAGINAS_INDEXABLES) o llevar noindex: una prueba lo exige.
 - Al publicar no hay que cambiar nada: en cuanto kanuby.com apunte al sitio nuevo, ese dominio se indexa y los demás siguen bloqueados.
 
 ## Errores del sitio publicado
