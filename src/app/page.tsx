@@ -77,7 +77,8 @@ const negocios = [
       alt: "Tres contenedores naranjas de Kanuby de distinto tamaño",
       width: 1376,
       height: 768,
-      sizes: "(max-width: 767px) 92vw, 31vw",
+      // Cubre la tarjeta, como la de Mudanzas: unos 24vw (68vw en móvil).
+      sizes: "(max-width: 767px) 68vw, 24vw",
     },
     datos: [
       { texto: "3.5 m²", Icono: IconoBodegaChica },
