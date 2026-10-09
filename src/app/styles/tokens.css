@@ -216,7 +216,5 @@
    * adaptar al sistema oscuro. Se eliminan conforme se adapten.
    */
   --color-azul: var(--color-superficie);
-  --color-negro: #000000;
   --color-whatsapp: #34e603;
-  --color-gris-claro: #e7ebed;
 }

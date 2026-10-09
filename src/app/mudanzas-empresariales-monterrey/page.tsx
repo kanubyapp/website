@@ -243,7 +243,7 @@ export default function MudanzasEmpresariales() {
           ]}
         />
 
-        <section className={styles.faq}>
+        <section className={`kb-resplandor-suave ${styles.faq}`}>
           <div className={styles.faqContenido}>
             <div className={styles.faqImagen}>
               <Image
@@ -251,7 +251,7 @@ export default function MudanzasEmpresariales() {
                 alt="Caja abierta con signos de interrogación"
                 width={954}
                 height={807}
-                sizes="(max-width: 767px) 47vw, 580px"
+                sizes="(max-width: 767px) 46vw, 456px"
               />
             </div>
             <p className={styles.faqAntetitulo}>¿Alguna Duda?</p>

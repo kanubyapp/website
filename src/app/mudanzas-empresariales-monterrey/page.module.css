@@ -210,11 +210,14 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-/* Preguntas frecuentes */
+/*
+ * Preguntas frecuentes en el sistema oscuro: sobre el resplandor suave de la
+ * sección, la caja de signos, el antetítulo naranja, el título en blanco y el
+ * acordeón compartido.
+ */
 
 .faq {
-  padding: 10px;
-  background: var(--color-gris-claro);
+  padding: var(--espacio-seccion) var(--relleno-seccion);
 }
 
 .faqContenido {
@@ -224,25 +227,27 @@
   gap: var(--espacio-2);
   max-width: var(--ancho-contenido);
   margin: 0 auto;
-  padding: 10px 0;
 }
 
 .faqImagen img {
-  width: 51%;
+  width: 40%;
 }
 
 .faqAntetitulo {
   color: var(--color-naranja);
   font-family: var(--fuente-titulos);
-  font-size: var(--texto-40);
+  font-size: var(--texto-44);
   font-weight: var(--peso-semibold);
-  line-height: var(--interlineado-titulo);
+  line-height: var(--interlineado-display);
+  letter-spacing: var(--tracking-display);
 }
 
 .faqTitulo {
-  color: var(--color-negro);
-  font-size: 27px;
-  font-weight: var(--peso-regular);
+  margin-bottom: var(--espacio-2);
+  color: var(--color-texto);
+  font-size: var(--texto-26);
+  font-weight: var(--peso-medium);
+  line-height: var(--interlineado-encabezado);
 }
 
 /* Acordeón: ajustes de esta página sobre el patrón */
@@ -291,6 +296,10 @@
     width: 80%;
   }
 
+  .faq {
+    padding-block: var(--espacio-seccion-movil);
+  }
+
   .faqImagen,
   .faqAntetitulo,
   .faqTitulo {
@@ -298,14 +307,15 @@
   }
 
   .faqImagen img {
+    width: 50%;
     margin: 0 auto;
   }
 
   .faqAntetitulo {
-    font-size: var(--texto-30);
+    font-size: var(--texto-32);
   }
 
   .faqTitulo {
-    font-size: var(--texto-22);
+    font-size: var(--texto-20);
   }
 }
