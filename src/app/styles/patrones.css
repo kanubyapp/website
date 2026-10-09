@@ -1387,23 +1387,26 @@
 
   /*
    * Testimonios (/mudanzas-monterrey/ y /mudanzas-monterrey-cdmx/): cabecera
-   * y carrusel de tarjetas del sistema que sangra hacia la derecha. El
-   * relleno de las tarjetas es fijo: un porcentaje se calcularía sobre el
-   * ancho de toda la pista, no de la tarjeta.
+   * centrada y carrusel centrado de tarjetas del sistema, con una tarjeta
+   * cortada a cada lado. El relleno de las tarjetas es fijo: un porcentaje se
+   * calcularía sobre el ancho de toda la pista, no de la tarjeta.
    */
 
   .kb-testimonios {
     display: flex;
     flex-direction: column;
     gap: var(--espacio-4);
-    padding: 0 0 var(--espacio-seccion) var(--relleno-seccion);
+    padding-bottom: var(--espacio-seccion);
   }
 
+  /* Título, texto y divisor centrados; el texto, en ancho de lectura */
   .kb-testimonios-cabecera {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--espacio-2);
-    padding-right: var(--relleno-seccion);
+    padding-inline: var(--relleno-seccion);
+    text-align: center;
   }
 
   .kb-testimonios-titulo {
@@ -1424,23 +1427,28 @@
   }
 
   .kb-testimonios-divisor {
-    width: 100%;
+    width: min(100%, var(--medida-texto));
     margin: var(--espacio-1) 0 0;
     border: 0;
     border-top: var(--borde-luz);
   }
 
+  /*
+   * Carrusel centrado: la ventana deja un margen igual a cada lado
+   * (--desfase), donde asoman cortadas la tarjeta anterior y la siguiente; las
+   * completas quedan al centro. Las flechas van sobre las tarjetas cortadas.
+   */
   .kb-carrusel {
     --por-vista: 4;
     --separacion: var(--espacio-2);
-    --desfase: 80px;
+    --desfase: 120px;
 
     position: relative;
   }
 
   .kb-carrusel-ventana {
     padding-block: var(--espacio-1);
-    padding-right: var(--desfase);
+    padding-inline: var(--desfase);
     overflow: hidden;
   }
 
@@ -1571,12 +1579,13 @@
     fill: currentColor;
   }
 
+  /* Centradas sobre la parte visible de cada tarjeta cortada */
   .kb-carrusel-anterior {
-    left: calc(var(--objetivo-tactil) / -2);
+    left: max(0px, calc((var(--desfase) - var(--separacion) - var(--objetivo-tactil)) / 2));
   }
 
   .kb-carrusel-siguiente {
-    right: var(--espacio-2);
+    right: max(0px, calc((var(--desfase) - var(--separacion) - var(--objetivo-tactil)) / 2));
   }
 
   /*
@@ -2191,11 +2200,6 @@
       padding-bottom: var(--espacio-seccion-movil);
     }
 
-    .kb-testimonios-cabecera {
-      align-items: center;
-      text-align: center;
-    }
-
     .kb-testimonios-titulo {
       font-size: var(--texto-32);
     }
@@ -2206,11 +2210,12 @@
 
     .kb-carrusel {
       --por-vista: 1;
-      --desfase: 70px;
+      --desfase: 56px;
     }
 
-    .kb-carrusel-anterior {
-      left: 0;
+    /* En móvil se navega deslizando con el dedo: sin flechas */
+    .kb-carrusel-flecha {
+      display: none;
     }
 
     .kb-popup-caja {

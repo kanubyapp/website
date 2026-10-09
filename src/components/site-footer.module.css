@@ -103,7 +103,7 @@
   line-height: var(--interlineado-base);
 }
 
-/* Variante en blanco del webtag, con la marca del hexágono en el azul de la superficie */
+/* Variante en blanco del webtag */
 .webtag img {
   width: 150px;
   opacity: 0.7;

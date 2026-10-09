@@ -98,9 +98,9 @@ export function SiteFooter() {
           >
             <Image
               src="/images/website-tag-editable-blanco.svg"
-              alt="Designed by SCNDAL"
-              width={1746}
-              height={208}
+              alt="Created by SCNDAL"
+              width={1813}
+              height={221}
               sizes="150px"
             />
           </a>
