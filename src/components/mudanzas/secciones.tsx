@@ -47,6 +47,7 @@ export function HeroMudanzas({
   boton,
   fondoImagen,
   imagen = IMAGEN_HERO,
+  fondo,
   className = "",
 }: {
   titulo: React.ReactNode;
@@ -62,10 +63,13 @@ export function HeroMudanzas({
   fondoImagen?: React.ReactNode;
   /** Otra imagen principal para una página; sin ella, la compartida */
   imagen?: ImagenHero;
+  /** Imagen de fondo de todo el hero, detrás del texto y la imagen */
+  fondo?: React.ReactNode;
   className?: string;
 }) {
   return (
     <section className={`kb-hero ${className}`}>
+      {fondo}
       <div className="kb-hero-contenido">
         {decoracion ? (
           <div className="kb-hero-titulo" aria-hidden="true">

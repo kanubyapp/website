@@ -3,7 +3,59 @@
  * otras páginas de mudanzas está en patrones.css (clases kb-*).
  */
 
-/* Hero: el camión sin fondo, con una sombra que sigue su silueta y lo asienta */
-.camion {
-  filter: var(--sombra-recorte);
+/*
+ * Hero: la foto de Monterrey de noche de fondo, a todo el hero, muy tenue.
+ * Capas, de abajo arriba: la foto (z-index -2), el velo lateral (::after,
+ * también -2 pero pintado después) y el resplandor naranja del patrón
+ * (::before, -1). El texto y el camión van encima (z-index 1).
+ */
+.fondoHero {
+  z-index: -2;
+  object-fit: cover;
+  /* Encuadre desde abajo: el Cerro de la Silla queda detrás del camión */
+  object-position: center bottom;
+  opacity: 0.55;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--velo-lateral);
+  pointer-events: none;
+}
+
+/*
+ * El bloque de texto, a dos márgenes del sitio del borde izquierdo, como en
+ * /minibodegas-monterrey/. El hero ya tiene uno; el otro va de relleno en el
+ * bloque, para que el camión no se mueva. Ese relleno se mide contra el
+ * contenido del hero, que es el 92% de su ancho (100% menos los dos
+ * márgenes): de ahí el / 0.92, para que sea un margen del ancho del hero.
+ */
+.hero :global(.kb-hero-contenido) {
+  padding-left: calc(var(--relleno-seccion) / 0.92);
+}
+
+/* Título un poco más chico que el del patrón en escritorio y tablet */
+.hero :global(.kb-hero-titulo) {
+  font-size: var(--texto-50);
+}
+
+/* Hero más alto en escritorio; el patrón centra texto y camión en él */
+@media (min-width: 1025px) {
+  .hero {
+    min-height: 85vh;
+  }
+}
+
+/* En móvil, el margen y el tamaño de título del patrón */
+@media (max-width: 767px) {
+  .hero :global(.kb-hero-contenido) {
+    padding-left: 0;
+  }
+
+  .hero :global(.kb-hero-titulo) {
+    font-size: var(--texto-40);
+  }
 }

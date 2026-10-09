@@ -88,6 +88,18 @@
     rgb(236 91 42 / 0.45),
     rgb(4 21 30 / 0) 70%
   );
+  /*
+   * Velo lateral: casi sólido a la izquierda, donde va el texto, y se abre
+   * hacia la derecha para que la foto de fondo se perciba (hero de
+   * /mudanzas-monterrey/).
+   */
+  --velo-lateral: linear-gradient(
+    90deg,
+    rgb(4 21 30 / 0.97),
+    rgb(4 21 30 / 0.92) 40%,
+    rgb(4 21 30 / 0.5) 72%,
+    rgb(4 21 30 / 0.25)
+  );
   /* Velo sobre fotos: oscuridad abajo para que el texto se lea */
   --velo-foto: linear-gradient(
     0deg,
@@ -144,8 +156,6 @@
   /* Sombras */
   --sombra-elevada: 0 24px 48px -24px rgb(0 0 0 / 0.6);
   --sombra-resplandor: 0 0 32px -4px rgb(236 91 42 / 0.45);
-  /* Sombra que asienta un recorte sin fondo sobre su superficie (filter) */
-  --sombra-recorte: drop-shadow(0 16px 12px rgb(0 0 0 / 0.55));
   /* Brillo de líneas finas de acento (subrayado del menú) */
   --brillo-linea: 0 0 8px rgb(236 91 42 / 0.8);
 

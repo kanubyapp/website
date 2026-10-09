@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonCotizarHeader } from "@/components/mudanzas/boton-cotizar-header";
@@ -54,6 +55,21 @@ export default function MudanzasMonterrey() {
 
       <main>
         <HeroMudanzas
+          className={styles.hero}
+          fondo={
+            // Decorativa: fondo difuso y muy tenue. Calidad 40 y la mitad de
+            // resolución (sizes 50vw): el desenfoque oculta la diferencia.
+            // Sin prioridad, para no competir con el camión.
+            <Image
+              src="/images/mudanzas/fondo-hero-mudanzas.webp"
+              alt=""
+              fill
+              sizes="50vw"
+              quality={40}
+              fetchPriority="low"
+              className={styles.fondoHero}
+            />
+          }
           imagen={{
             src: "/images/mudanzas/truck-kanuby.webp",
             alt: "Camión de mudanzas de Kanuby, con cabina blanca y caja naranja con el logo y www.kanuby.com",
@@ -61,10 +77,9 @@ export default function MudanzasMonterrey() {
             height: 1152,
             // La columna de la imagen: unos 49vw (92vw en móvil).
             sizes: "(max-width: 767px) 92vw, 49vw",
-            className: styles.camion,
           }}
-          titulo="Servicio de Fletes y Mudanzas en Monterrey"
-          texto="En Kanuby cambiamos la forma de mudarse, contamos con el mejor servicio de fletes y mudanzas en Monterrey."
+          titulo="Servicio de Mudanzas en Monterrey"
+          texto="En Kanuby cambiamos la forma de mudarse, contamos con el mejor servicio de mudanzas en Monterrey."
           boton={
             <BotonCotizar
               texto="Cotiza Ahora por"
