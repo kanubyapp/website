@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { DM_Sans, Outfit } from "next/font/google";
 import { ScrollSuave } from "@/components/scroll-suave";
+import { contenedorGtm } from "@/lib/gtm";
 import "lenis/dist/lenis.css";
 import "./styles/tokens.css";
 import "./styles/base.css";
@@ -30,6 +32,13 @@ export const metadata: Metadata = {
   },
 };
 
+/*
+ * GTM solo si existe NEXT_PUBLIC_GTM_ID (se da de alta en Vercel al publicar).
+ * GoogleTagManager (@next/third-parties) carga gtm.js después de hidratar,
+ * sin bloquear la carga; el <noscript> es el respaldo sin JavaScript.
+ */
+const gtm = contenedorGtm(process.env.NEXT_PUBLIC_GTM_ID);
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -43,7 +52,13 @@ export default function RootLayout({
       className={`${outfit.variable} ${dmSans.variable}`}
       data-scroll-behavior="smooth"
     >
+      {gtm && <GoogleTagManager gtmId={gtm.id} />}
       <body>
+        {gtm && (
+          <noscript>
+            <iframe src={gtm.iframe} title="Google Tag Manager" width="0" height="0" hidden />
+          </noscript>
+        )}
         <ScrollSuave />
         {children}
       </body>

@@ -43,4 +43,5 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
   - /como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza/: repite la idea "mantener el orden a largo plazo" en dos frases seguidas.
   - /servicio-de-mudanza-profesional-en-monterrey/: dos títulos-pregunta seguidos que dicen lo mismo ("¿Qué servicios están incluidos en una mudanza?" y "¿Qué incluye un servicio de mudanza profesional en Monterrey?").
 - [x] Posts publicados sin contenido: resuelto. Los 14 posts vacíos ya tienen contenido (docs/posts-tanda-1.md, -2.md y -3.md).
+- [ ] Antes de publicar: crear la variable NEXT_PUBLIC_GTM_ID en Vercel con el ID del contenedor de GTM (GTM-XXXXXXX) el día en que kanuby.com apunte al sitio nuevo. Sin ella el sitio no carga GTM y los eventos de conversión no llegan a ningún contenedor.
 - [ ] Antes de publicar: inventariar las redirecciones 301 que tenga configuradas WordPress (por ejemplo /checklist-para-mudarte-en-monterrey-sin-complicaciones/ → /checklist-mudanza-monterrey/) para replicarlas en el sitio nuevo.
