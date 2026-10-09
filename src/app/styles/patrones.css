@@ -190,9 +190,11 @@
   }
 
   /*
-   * Botón flotante de WhatsApp (/mudanzas-monterrey/ y
-   * /minibodegas-monterrey/): se combina con .kb-vidrio; círculo fijo abajo a
-   * la derecha con el ícono en naranja. Abre el popup de cotización.
+   * Botón flotante de WhatsApp (home, /mudanzas-monterrey/ y
+   * /minibodegas-monterrey/): círculo naranja sólido fijo abajo a la derecha,
+   * con el ícono en blanco (3.4:1, cumple para gráficos) y un resplandor
+   * naranja alrededor; al pasar el cursor, el naranja se aclara. Abre el popup
+   * de cotización.
    */
   .kb-flotante {
     display: inline-flex;
@@ -205,15 +207,17 @@
     width: 64px;
     height: 64px;
     padding: 0;
+    border: 1px solid var(--color-naranja-claro);
     border-radius: var(--radio-pildora);
-    color: var(--color-naranja);
+    background: var(--color-naranja);
+    color: var(--color-blanco);
     box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
     cursor: pointer;
-    transition: border-color var(--transicion);
+    transition: background-color var(--transicion);
   }
 
   .kb-flotante:hover {
-    border: var(--borde-acento);
+    background: var(--color-naranja-claro);
   }
 
   .kb-flotante:focus-visible {

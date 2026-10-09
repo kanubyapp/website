@@ -216,7 +216,7 @@ export default function Home() {
 
       {/* Botón flotante: el popup empieza en "¿Qué necesitas?" (Mudanza o Minibodega) */}
       <CotizacionProvider tipo="eleccion">
-        <BotonFlotante className="kb-vidrio kb-flotante" />
+        <BotonFlotante className="kb-flotante" />
       </CotizacionProvider>
     </>
   );

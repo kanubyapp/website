@@ -123,7 +123,7 @@ export default function MudanzasMonterrey() {
       </main>
 
       <SiteFooter />
-      <BotonFlotante className="kb-vidrio kb-flotante" />
+      <BotonFlotante className="kb-flotante" />
     </CotizacionProvider>
   );
 }
