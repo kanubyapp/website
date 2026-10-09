@@ -123,7 +123,7 @@ export default function Home() {
           <div className={`kb-vidrio ${styles.necesitasCaja}`}>
             <ul className={styles.negocios}>
               <li>
-                <article className={`kb-tarjeta ${styles.valor}`}>
+                <article className={styles.valor}>
                   <h3 className={styles.valorTitulo}>¿Cómo te ayudamos?</h3>
                   <p className={styles.valorTexto}>
                     Llevamos más de 20 años moviendo y resguardando lo que más le importa a

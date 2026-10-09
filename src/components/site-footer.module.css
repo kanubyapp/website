@@ -4,8 +4,9 @@
  * de la ventana con el margen lateral del sitio.
  */
 
+/* Abajo, el mismo margen que a los lados: un % del relleno se mide sobre el ancho */
 .footer {
-  padding: var(--espacio-4) var(--relleno-seccion) var(--espacio-2);
+  padding: var(--espacio-4) var(--relleno-seccion) var(--relleno-seccion);
 }
 
 .tarjeta {

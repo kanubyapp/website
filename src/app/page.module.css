@@ -5,8 +5,7 @@
  */
 
 /* Ancho común de las secciones */
-.hero,
-.necesitas {
+.hero {
   padding-inline: var(--relleno-seccion);
 }
 
@@ -45,16 +44,17 @@
 
 /*
  * Servicios: tres columnas con tarjetas altas tipo retrato.
- * La primera, el valor de Kanuby sobre la superficie con resplandor; las de
- * negocio, con la foto a toda la tarjeta y el texto abajo sobre el velo.
+ * La primera, el valor de Kanuby, directo sobre el vidrio; las de negocio,
+ * con la foto a toda la tarjeta y el texto abajo sobre el velo.
  */
+/* Esta sección lleva el doble del margen lateral del sitio */
 .necesitas {
-  padding-block: var(--espacio-3);
+  padding: var(--espacio-3) calc(var(--relleno-seccion) * 2);
 }
 
 /* Tarjeta grande de vidrio oscuro: el resplandor suave de la sección se ve a través */
 .necesitasCaja {
-  padding: var(--espacio-2);
+  padding: var(--espacio-6);
   border-radius: var(--radio-tarjeta);
   box-shadow: var(--sombra-elevada);
 }
@@ -74,21 +74,23 @@
   justify-content: flex-end;
   height: 100%;
   aspect-ratio: 3 / 4;
+}
+
+.negocio {
   transition:
     border-color var(--transicion),
     box-shadow var(--transicion);
 }
 
-.valor:hover,
 .negocio:hover {
   border: var(--borde-acento);
   box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
 }
 
+/* El valor de Kanuby va directo sobre el vidrio, sin tarjeta propia */
 .valor {
   gap: var(--espacio-2);
-  padding: var(--espacio-4) var(--espacio-3);
-  background: var(--resplandor-acento), var(--color-superficie);
+  padding: var(--espacio-3) var(--espacio-2) var(--espacio-3) 0;
 }
 
 .valorTitulo {
@@ -262,6 +264,10 @@
     font-size: var(--texto-60);
   }
 
+  .necesitasCaja {
+    padding: var(--espacio-4);
+  }
+
   /* Tablet y móvil: texto arriba y carrusel abajo, que sigue llegando al borde derecho */
   .noticias {
     grid-template-columns: minmax(0, 1fr);
@@ -293,7 +299,7 @@
   }
 
   .necesitasCaja {
-    padding: var(--espacio-1);
+    padding: var(--espacio-3);
     border-radius: var(--radio-tarjeta-movil);
   }
 
@@ -303,7 +309,6 @@
     gap: var(--espacio-2);
   }
 
-  .valor,
   .negocio {
     border-radius: var(--radio-tarjeta-movil);
   }
