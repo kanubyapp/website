@@ -108,7 +108,7 @@ export default function Minibodegas() {
             alt="Persona metiendo un sillón en un contenedor naranja de Kanuby"
             width={1188}
             height={910}
-            sizes="(max-width: 767px) 92vw, (max-width: 1024px) 45vw, 55vw"
+            sizes="(max-width: 767px) 92vw, (max-width: 1024px) 58vw, 70vw"
             className={styles.heroFondo}
             preload
           />

@@ -88,19 +88,25 @@
  */
 
 /*
- * Columna de la imagen: 55% del ancho del hero (el hero ocupa toda la
- * ventana, así que 55vw), hasta el borde derecho de la pantalla, para que el
- * corte recto del contenedor de la imagen quede fuera de la vista. El texto,
- * a dos márgenes del sitio del borde izquierdo. Con barra de desplazamiento
- * clásica, 55vw rebasa por el ancho de la barra: overflow-x: clip lo recorta
- * sin scroll horizontal (y deja subir el resplandor). Las filas de arriba y
- * de abajo absorben la altura sobrante de la imagen: el texto queda junto,
- * con la separación del hero de la home, y centrado con la imagen.
+ * El texto, a dos márgenes del sitio del borde izquierdo, en una columna de
+ * ancho de lectura (37vw menos la separación: el que tenía junto a una
+ * imagen de 55vw). La imagen ocupa el 70% del ancho del hero (el hero
+ * ocupa toda la ventana, así que en vw) hasta el borde derecho de la
+ * pantalla, para que el corte recto de su contenedor quede fuera de la
+ * vista. Como no caben lado a lado, la imagen pasa por detrás del borde
+ * derecho del bloque de texto: el texto va encima. Con barra de
+ * desplazamiento clásica, los vw rebasan por el ancho de la barra:
+ * overflow-x: clip lo recorta sin scroll horizontal (y deja subir el
+ * resplandor). Las filas de arriba y de abajo absorben la altura sobrante de
+ * la imagen: el texto queda junto, con la separación del hero de la home, y
+ * centrado con la imagen.
  */
 .hero {
+  --hero-imagen: 70vw;
+
   display: grid;
   position: relative;
-  grid-template-columns: minmax(0, 1fr) 55vw;
+  grid-template-columns: calc(37vw - var(--espacio-5)) minmax(0, 1fr);
   grid-template-rows: 1fr auto auto auto 1fr;
   align-content: center;
   align-items: center;
@@ -113,6 +119,8 @@
 .heroTitulo,
 .heroTexto,
 .heroBotones {
+  position: relative;
+  z-index: 1;
   grid-column: 1;
 }
 
@@ -137,11 +145,12 @@
   pointer-events: none;
 }
 
-/* La imagen, completa en la columna derecha y centrada con el bloque de texto */
+/* La imagen, completa, pegada a la derecha y centrada con el bloque de texto */
 .heroFondo {
   grid-row: 1 / -1;
-  grid-column: 2;
-  width: 100%;
+  grid-column: 1 / -1;
+  justify-self: end;
+  width: var(--hero-imagen);
   height: auto;
 }
 
@@ -610,8 +619,11 @@
 /* Tablet */
 
 @media (max-width: 1024px) {
+  /* Tablet: en la misma proporción que antes respecto al escritorio (45/55) */
   .hero {
-    grid-template-columns: minmax(0, 1fr) 45vw;
+    --hero-imagen: calc(70vw * 45 / 55);
+
+    grid-template-columns: calc(47vw - var(--espacio-5)) minmax(0, 1fr);
   }
 
   .heroTitulo {
@@ -670,6 +682,8 @@
 
   .heroFondo {
     grid-column: 1;
+    justify-self: stretch;
+    width: 100%;
     order: 1;
   }
 
