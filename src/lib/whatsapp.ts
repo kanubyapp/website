@@ -1,6 +1,7 @@
 /*
  * Formularios de cotización: validan, arman el mensaje y redirigen a
- * WhatsApp. No envían correo ni guardan datos (docs/replica-decisiones.md).
+ * WhatsApp. No guardan datos; el aviso por correo al equipo va aparte
+ * (correo.ts).
  */
 
 export const NUMERO_WHATSAPP = "5218110287087";

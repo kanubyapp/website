@@ -1714,6 +1714,16 @@
     background: var(--velo-modal);
   }
 
+  /* Campo trampa contra bots del formulario: fuera de la vista */
+  .kb-popup-trampa {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
   .kb-popup-caja {
     display: flex;
     position: relative;

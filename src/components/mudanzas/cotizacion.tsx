@@ -15,6 +15,7 @@ import {
   IconoWhatsApp,
 } from "@/components/iconos";
 import { registrarConversion, type Negocio } from "@/lib/conversiones";
+import { avisarCotizacion } from "@/lib/aviso-cotizacion";
 import { envioCotizacion } from "@/lib/envio-cotizacion";
 import { flujoCotizacion, flujoInicial } from "@/lib/flujo-cotizacion";
 import {
@@ -116,6 +117,9 @@ export function CotizacionProvider({
   const abridor = useRef<HTMLElement | null>(null);
   /* Mientras espera a que salga el evento, otro envío no registra de nuevo. */
   const enviando = useRef(false);
+  /* Contra bots (aviso por correo): cuándo se abrió y el campo trampa. */
+  const abiertoEn = useRef(0);
+  const trampa = useRef<HTMLInputElement>(null);
   const id = useId();
 
   const [abierto, setAbierto] = useState(false);
@@ -137,6 +141,7 @@ export function CotizacionProvider({
   }, [abierto, flujo.paso]);
 
   function abrir(opcion?: string) {
+    abiertoEn.current = Date.now();
     abridor.current = document.activeElement as HTMLElement | null;
     enviando.current = false;
     despachar({ tipo: "reiniciar" });
@@ -194,6 +199,14 @@ export function CotizacionProvider({
 
     setErrores({});
     enviando.current = true;
+    // Aviso por correo al equipo: sale sin esperar y no frena la redirección.
+    avisarCotizacion({
+      ...datos,
+      negocio: flujo.negocio,
+      pagina: window.location.pathname,
+      sitio: trampa.current?.value ?? "",
+      ms: Date.now() - abiertoEn.current,
+    });
     registrarConversion(resultado.evento, {
       alSalir: () => window.location.assign(resultado.url),
     });
@@ -372,6 +385,20 @@ export function CotizacionProvider({
                 />
                 {mensajeError("telefono")}
               </div>
+
+              {/*
+                Campo trampa contra bots: oculto para las personas y fuera del
+                orden de tabulación. Si llega lleno, no sale el correo de aviso.
+              */}
+              <input
+                ref={trampa}
+                type="text"
+                name="sitio"
+                className="kb-popup-trampa"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
 
               <button type="submit" className="kb-boton-principal kb-popup-enviar">
                 <IconoWhatsApp className="kb-popup-enviar-icono" />
