@@ -15,7 +15,6 @@ import {
 import { Testimonios } from "@/components/mudanzas/testimonios";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import { testimonios } from "@/lib/testimonios";
-import styles from "./page.module.css";
 
 const titulo = "Mudanzas en Monterrey";
 
@@ -116,30 +115,6 @@ export default function MudanzasMonterrey() {
               className="kb-boton-principal kb-boton-dos-lineas kb-boton-servicios"
             />
           }
-          className={styles.servicios}
-          tarjetas={[
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-1-1.png",
-              alt: "Caja de mudanza con un escudo de protección",
-              titulo: "Fletes Terrestres",
-              texto:
-                "Transportamos tu televisor, mueble, refrigerador o cualquier otro artículo para que tú no cargues.",
-            },
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-2-1.png",
-              alt: "Carrito de carga con cajas de mudanza",
-              titulo: "Mudanza Local",
-              texto:
-                "El mejor servicio de fletes y mudanzas. Somos los únicos capaces de hacerlo todo por ti.",
-            },
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-4.png",
-              alt: "Edificio de oficinas",
-              titulo: "Mudanza corporativa",
-              texto:
-                "Podemos mudar todo lo de tu oficina del punto A al B garantizado, además de rápido, fácil.",
-            },
-          ]}
         />
 
         <Testimonios
@@ -155,7 +130,7 @@ export default function MudanzasMonterrey() {
       </main>
 
       <SiteFooter />
-      <BotonFlotante className={styles.flotante} />
+      <BotonFlotante className="kb-vidrio kb-flotante" />
     </CotizacionProvider>
   );
 }

@@ -134,7 +134,6 @@ export default function MudanzasMonterreyCdmx() {
 
         <ServiciosMudanzas
           id="servicios"
-          className={styles.servicios}
           titulo="Nuestros Servicios"
           texto="Mudarse entre Monterrey y Ciudad de México no tiene que ser complicado. En Kanuby lo hacemos simple, seguro y sin sorpresas. Con más de 20 años en el negocio, sabemos exactamente qué necesitas para que tu mudanza llegue bien."
           boton={
@@ -144,29 +143,6 @@ export default function MudanzasMonterreyCdmx() {
               className="kb-boton-principal kb-boton-dos-lineas kb-boton-servicios"
             />
           }
-          tarjetas={[
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-1-1.png",
-              alt: "Caja de mudanza con un escudo de protección",
-              titulo: "Empaque profesional",
-              texto:
-                "Emplayamos, protegemos y etiquetamos todo antes de subirlo al camión. Tus muebles, electrodomésticos y objetos delicados viajan seguros de extremo a extremo.",
-            },
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-2-1.png",
-              alt: "Carrito de carga con cajas de mudanza",
-              titulo: "Transporte directo MTY↔CDMX",
-              texto:
-                "Camión exclusivo para tu mudanza de Monterrey a CDMX o de CDMX a Monterrey. Sin escalas, sin cambios de unidad, sin que tus cosas pasen por bodegas intermedias.",
-            },
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-4.png",
-              alt: "Edificio de oficinas",
-              titulo: "Carga y descarga incluida",
-              texto:
-                "Nuestro equipo sube todo en origen y baja todo en destino. Tú solo dinos dónde va cada cosa.",
-            },
-          ]}
         />
 
         <Testimonios

@@ -186,6 +186,53 @@
   }
 
   /*
+   * Botón flotante de WhatsApp (/mudanzas-monterrey/ y
+   * /minibodegas-monterrey/): se combina con .kb-vidrio; círculo fijo abajo a
+   * la derecha con el ícono en naranja. Abre el popup de cotización.
+   */
+  .kb-flotante {
+    display: inline-flex;
+    position: fixed;
+    right: var(--espacio-3);
+    bottom: var(--espacio-3);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    padding: 0;
+    border-radius: var(--radio-pildora);
+    color: var(--color-naranja);
+    box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
+    cursor: pointer;
+    transition: border-color var(--transicion);
+  }
+
+  .kb-flotante:hover {
+    border: var(--borde-acento);
+  }
+
+  .kb-flotante:focus-visible {
+    outline: var(--anillo-foco);
+    outline-offset: var(--anillo-foco-separacion);
+  }
+
+  .kb-flotante svg {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+  }
+
+  @media (max-width: 767px) {
+    .kb-flotante {
+      right: var(--espacio-2);
+      bottom: var(--espacio-2);
+      width: 56px;
+      height: 56px;
+    }
+  }
+
+  /*
    * Prosa: el contenido de los posts sobre fondo oscuro (posts y páginas de
    * categoría). Párrafos en gris claro (9:1), títulos y negritas en blanco,
    * enlaces en naranja subrayados (5.4:1 sobre el fondo) y un ancho de
@@ -816,8 +863,7 @@
     box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
   }
 
-  .kb-porque-icono,
-  .kb-servicio-icono {
+  .kb-porque-icono {
     margin: 0 auto;
   }
 
@@ -825,14 +871,12 @@
     width: 60%;
   }
 
-  .kb-porque-icono img,
-  .kb-servicio-icono img {
+  .kb-porque-icono img {
     width: 100%;
     transition: transform 0.3s;
   }
 
-  .kb-porque-icono img:hover,
-  .kb-servicio-icono img:hover {
+  .kb-porque-icono img:hover {
     transform: scale(1.1);
   }
 
@@ -943,29 +987,26 @@
   }
 
   /*
-   * Servicios: intro con el camión y tarjetas con ícono, con el mismo
-   * lenguaje que "Por qué". Tres columnas; cada página puede cambiarlas.
+   * Servicios: título, introducción y botón, y una rejilla de 10 tarjetas
+   * compactas (5 columnas, 3 en tablet, 2 en móvil), con el contenido
+   * centrado. El ícono va en un cuadro de uno de tres tonos (data-tono) sobre
+   * un resplandor naranja que se intensifica al pasar el cursor. La capa
+   * duotono de Phosphor es el trazo con atributo opacity.
    */
 
   .kb-servicios {
     display: flex;
     flex-direction: column;
-    gap: var(--espacio-4);
+    gap: var(--espacio-5);
     padding: var(--espacio-seccion) var(--relleno-seccion);
-    overflow: hidden;
-  }
-
-  .kb-servicios-cabecera {
-    display: flex;
-    gap: var(--espacio-1);
   }
 
   .kb-servicios-intro {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: flex-start;
     gap: var(--espacio-2);
-    width: 45%;
+    max-width: var(--medida-texto);
   }
 
   .kb-servicios-titulo {
@@ -979,65 +1020,110 @@
   .kb-servicios-texto {
     color: var(--color-texto-secundario);
     font-family: var(--fuente-texto);
-    font-size: var(--texto-20);
-    font-weight: var(--peso-light);
-    line-height: var(--interlineado-parrafo);
-  }
-
-  .kb-servicios-imagen {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 58%;
-  }
-
-  .kb-servicios-imagen img {
-    width: 70%;
-    margin-left: auto;
-  }
-
-  .kb-servicios-tarjetas {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--espacio-3);
-  }
-
-  /* Se combina con .kb-tarjeta: el resplandor sale de arriba, tras el ícono */
-  .kb-servicio-tarjeta {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--espacio-2);
-    padding: var(--espacio-4) var(--espacio-3);
-    background: var(--resplandor-acento), var(--color-superficie);
-    text-align: center;
-    transition:
-      border-color var(--transicion),
-      box-shadow var(--transicion);
-  }
-
-  .kb-servicio-tarjeta:hover {
-    border: var(--borde-acento);
-    box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
-  }
-
-  .kb-servicio-icono {
-    width: 60%;
-  }
-
-  .kb-servicio-titulo {
-    color: var(--color-texto);
-    font-size: var(--texto-24);
-    font-weight: var(--peso-medium);
-    line-height: var(--interlineado-encabezado);
-  }
-
-  .kb-servicio-texto {
-    color: var(--color-texto-secundario);
-    font-family: var(--fuente-texto);
     font-size: var(--texto-18);
     font-weight: var(--peso-light);
     line-height: var(--interlineado-parrafo);
+  }
+
+  .kb-servicios-rejilla {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--espacio-2);
+  }
+
+  /* Se combina con .kb-tarjeta */
+  .kb-servicio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-1);
+    text-align: center;
+    padding: var(--espacio-3) var(--espacio-2);
+    border-radius: var(--radio-tarjeta-movil);
+    transition: border-color var(--transicion);
+  }
+
+  .kb-servicio:hover {
+    border: var(--borde-acento);
+  }
+
+  /* El resplandor va detrás del cuadro */
+  .kb-servicio-icono {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: var(--espacio-1);
+    border-radius: var(--radio-tarjeta-movil);
+    color: var(--color-texto);
+    isolation: isolate;
+  }
+
+  .kb-servicio-icono::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    z-index: -1;
+    border-radius: var(--radio-pildora);
+    background: var(--resplandor-icono);
+    opacity: 0.5;
+    transition: opacity var(--transicion);
+  }
+
+  .kb-servicio:hover .kb-servicio-icono::before {
+    opacity: 1;
+  }
+
+  .kb-servicio-icono svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Azul: vidrio oscuro, ícono en blanco con el detalle naranja */
+  .kb-servicio-icono[data-tono="azul"] svg [opacity] {
+    fill: var(--color-naranja);
+    opacity: 0.85;
+  }
+
+  /* Naranja: cuadro naranja, ícono en azul noche */
+  .kb-servicio-icono[data-tono="naranja"] {
+    border: 1px solid var(--color-naranja-claro);
+    background: var(--color-naranja);
+    color: var(--color-texto-oscuro);
+  }
+
+  /* Blanco: cuadro blanco, ícono en azul noche con el detalle naranja */
+  .kb-servicio-icono[data-tono="blanco"] {
+    border: 1px solid var(--color-blanco);
+    background: var(--color-blanco);
+    color: var(--color-texto-oscuro);
+  }
+
+  .kb-servicio-icono[data-tono="blanco"] svg [opacity] {
+    fill: var(--color-naranja);
+    opacity: 0.85;
+  }
+
+  .kb-servicio-nombre {
+    color: var(--color-texto);
+    font-size: var(--texto-17);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-encabezado);
+  }
+
+  .kb-servicio-descripcion {
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-14);
+    line-height: var(--interlineado-parrafo);
+  }
+
+  @media (max-width: 1024px) {
+    .kb-servicios-rejilla {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 
   /*
@@ -1912,38 +1998,26 @@
       padding: var(--espacio-seccion-movil) var(--relleno-seccion);
     }
 
-    .kb-servicios-cabecera {
-      flex-wrap: wrap;
-    }
-
-    .kb-servicios-intro,
-    .kb-servicios-imagen {
-      width: 100%;
+    .kb-servicios-intro {
+      align-items: center;
+      text-align: center;
     }
 
     .kb-servicios-titulo {
       font-size: var(--texto-36);
-      text-align: center;
     }
 
     .kb-servicios-texto {
       font-size: var(--texto-17);
-      text-align: center;
     }
 
-    .kb-servicios-imagen img {
-      width: 100%;
-      margin: 0 auto;
+    .kb-servicios-rejilla {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--espacio-1);
     }
 
-    .kb-servicios-tarjetas {
-      grid-template-columns: 1fr;
-      gap: var(--espacio-2);
-    }
-
-    .kb-servicio-tarjeta {
-      padding: var(--espacio-3) var(--espacio-2);
-      border-radius: var(--radio-tarjeta-movil);
+    .kb-servicio {
+      padding: var(--espacio-2);
     }
 
     .kb-testimonios {

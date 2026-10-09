@@ -63,6 +63,12 @@
     rgb(236 91 42 / 0.16),
     rgb(4 21 30 / 0) 70%
   );
+  /* Resplandor circular detrás de un ícono */
+  --resplandor-icono: radial-gradient(
+    circle,
+    rgb(236 91 42 / 0.45),
+    rgb(4 21 30 / 0) 70%
+  );
   /* Velo sobre fotos: oscuridad abajo para que el texto se lea */
   --velo-foto: linear-gradient(
     0deg,
@@ -195,7 +201,6 @@
   /* Radios */
   --radio-lg: 30px;
   --radio-xl: 40px;
-  --radio-2xl: 60px;
 
   /* Botones */
   --relleno-boton: 8px 32px;
@@ -216,5 +221,4 @@
    * adaptar al sistema oscuro. Se eliminan conforme se adapten.
    */
   --color-azul: var(--color-superficie);
-  --color-whatsapp: #34e603;
 }

@@ -118,14 +118,6 @@
   font-size: var(--texto-60);
 }
 
-/* Servicios: rejilla de 3 columnas iguales */
-
-.servicios :global(.kb-servicios-tarjetas) {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--espacio-2);
-}
-
 @media (max-width: 767px) {
   .hero :global(.kb-hero-contenido) {
     width: 100%;
@@ -141,13 +133,5 @@
 
   .marquesina :global(.kb-marquesina-item) {
     font-size: var(--texto-30);
-  }
-
-  .servicios :global(.kb-servicios-tarjetas) {
-    grid-template-columns: 1fr;
-  }
-
-  .servicios :global(.kb-servicio-icono) {
-    width: 80%;
   }
 }

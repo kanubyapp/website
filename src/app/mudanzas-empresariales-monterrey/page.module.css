@@ -201,15 +201,6 @@
   line-height: var(--interlineado-30);
 }
 
-.servicios :global(.kb-servicios-intro) {
-  width: 42%;
-}
-
-/* Otros Servicios: cuatro columnas */
-.servicios :global(.kb-servicios-tarjetas) {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
 /*
  * Preguntas frecuentes en el sistema oscuro: sobre el resplandor suave de la
  * sección, la caja de signos, el antetítulo naranja, el título en blanco y el
@@ -277,23 +268,6 @@
 
   .botonSimple {
     align-self: center;
-  }
-
-  .servicios :global(.kb-servicios-tarjetas) {
-    grid-template-columns: 1fr;
-  }
-
-  .servicios :global(.kb-servicio-icono) {
-    margin-bottom: 15px;
-  }
-
-  .servicios :global(.kb-servicio-tarjeta:nth-child(1) .kb-servicio-icono),
-  .servicios :global(.kb-servicio-tarjeta:nth-child(2) .kb-servicio-icono) {
-    width: 50%;
-  }
-
-  .servicios :global(.kb-servicio-tarjeta:nth-child(3) .kb-servicio-icono) {
-    width: 80%;
   }
 
   .faq {

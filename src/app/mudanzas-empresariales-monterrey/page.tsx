@@ -210,37 +210,6 @@ export default function MudanzasEmpresariales() {
               className={`kb-boton-principal ${styles.botonSimple}`}
             />
           }
-          sizesTarjeta="(max-width: 767px) 70vw, 13vw"
-          tarjetas={[
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-1-1.png",
-              alt: "Caja de mudanza con un escudo de protección",
-              titulo: "Planificación Detallada",
-              texto:
-                "Un experto visita tus instalaciones para entender tus necesidades, volumen y requisitos especiales. Creamos un plan logístico personalizado y un cronograma preciso.",
-            },
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-2-1.png",
-              alt: "Carrito de carga con cajas de mudanza",
-              titulo: "Empaque Profesional",
-              texto:
-                "Nuestro equipo especializado utiliza materiales de alta calidad para proteger mobiliario, equipos de cómputo, servidores y archivos. Nos encargamos del desmontaje si es necesario.",
-            },
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-3-1.png",
-              alt: "Camión de mudanza con una caja de carga",
-              titulo: "Transporte Seguro",
-              texto:
-                "Contamos con una flota de unidades modernas y equipadas para el traslado seguro de tu oficina. Tu carga está asegurada y monitoreada durante todo el trayecto.",
-            },
-            {
-              icono: "/images/mudanzas/mesa-de-trabajo-4.png",
-              alt: "Edificio de oficinas",
-              titulo: "Desempaque y Montaje",
-              texto:
-                "Al llegar, nuestro personal se encarga del desempaque y el montaje de mobiliario y equipos según tu layout, para que tu equipo pueda empezar a trabajar.",
-            },
-          ]}
         />
 
         <section className={`kb-resplandor-suave ${styles.faq}`}>

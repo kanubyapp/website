@@ -277,7 +277,7 @@ export default function Minibodegas() {
       </main>
 
       <SiteFooter />
-      <BotonFlotante className={`kb-vidrio ${styles.flotante}`} />
+      <BotonFlotante className="kb-vidrio kb-flotante" />
     </CotizacionProvider>
   );
 }

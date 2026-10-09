@@ -1,3 +1,17 @@
+import {
+  Armchair,
+  Buildings,
+  House,
+  Lightning,
+  MapTrifold,
+  Package,
+  Scissors,
+  Truck,
+  Warehouse,
+  Wine,
+} from "@phosphor-icons/react/dist/ssr";
+import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
+import { TONOS_SERVICIOS } from "@/lib/tonos-servicios";
 import Image from "next/image";
 
 /*
@@ -142,58 +156,73 @@ export function Marquesina({ items, className = "" }: { items: string[]; classNa
   );
 }
 
+/*
+ * Servicios de mudanzas: el título, la introducción y su botón, y una rejilla
+ * de 10 tarjetas compactas (5 columnas en escritorio, 3 en tablet, 2 en
+ * móvil). Los íconos son de Phosphor (licencia MIT), en su peso duotono.
+ * Cada cuadro lleva uno de tres tonos (naranja, azul o blanco) en el orden
+ * fijo de TONOS_SERVICIOS; el azul es vidrio. Las tarjetas no son enlaces.
+ */
+
+const SERVICIOS: { nombre: string; descripcion: string; Icono: PhosphorIcon }[] = [
+  { nombre: "Mudanza local", descripcion: "Casas y departamentos dentro de Monterrey.", Icono: House },
+  { nombre: "Mudanza a CDMX", descripcion: "De Monterrey a CDMX y de regreso.", Icono: MapTrifold },
+  {
+    nombre: "Mudanza empresarial",
+    descripcion: "Oficinas y negocios sin detener tu operación.",
+    Icono: Buildings,
+  },
+  { nombre: "Mudanza urgente", descripcion: "Cuando necesitas mudarte ya.", Icono: Lightning },
+  {
+    nombre: "Empaque y desempaque",
+    descripcion: "Empacamos todo y lo acomodamos al llegar.",
+    Icono: Package,
+  },
+  { nombre: "Objetos frágiles", descripcion: "Embalaje especial para lo delicado.", Icono: Wine },
+  { nombre: "Armado de muebles", descripcion: "Desarmamos y armamos tus muebles.", Icono: Armchair },
+  {
+    nombre: "Mudanza con minibodega",
+    descripcion: "Guardamos tus cosas mientras te instalas.",
+    Icono: Warehouse,
+  },
+  { nombre: "Material de empaque", descripcion: "Cajas, cinta y más con KanubyPack.", Icono: Scissors },
+  { nombre: "Fletes", descripcion: "Traslado de piezas grandes.", Icono: Truck },
+];
+
 export function ServiciosMudanzas({
   id,
   titulo,
   texto,
   boton,
-  tarjetas,
-  sizesTarjeta = "(max-width: 767px) 70vw, 17vw",
   className = "",
 }: {
   id?: string;
   titulo: string;
   texto: string;
   boton: React.ReactNode;
-  tarjetas: Tarjeta[];
-  sizesTarjeta?: string;
   className?: string;
 }) {
   return (
     <section id={id} className={`kb-servicios ${className}`}>
-      <div className="kb-servicios-cabecera">
-        <div className="kb-servicios-intro">
-          <h2 className="kb-servicios-titulo">{titulo}</h2>
-          <p className="kb-servicios-texto">{texto}</p>
-          {boton}
-        </div>
-        <div className="kb-servicios-imagen">
-          <Image
-            src="/images/ddddd.png"
-            alt="Camión de mudanzas naranja de Kanuby"
-            width={2048}
-            height={1365}
-            sizes="(max-width: 767px) 92vw, 35vw"
-          />
-        </div>
+      <div className="kb-servicios-intro">
+        <h2 className="kb-servicios-titulo">{titulo}</h2>
+        <p className="kb-servicios-texto">{texto}</p>
+        {boton}
       </div>
-      <div className="kb-servicios-tarjetas">
-        {tarjetas.map((tarjeta) => (
-          <div key={tarjeta.titulo} className="kb-tarjeta kb-servicio-tarjeta">
-            <figure className="kb-servicio-icono">
-              <Image
-                src={tarjeta.icono}
-                alt={tarjeta.alt}
-                width={1080}
-                height={1080}
-                sizes={sizesTarjeta}
-              />
-            </figure>
-            <h3 className="kb-servicio-titulo">{tarjeta.titulo}</h3>
-            <p className="kb-servicio-texto">{tarjeta.texto}</p>
-          </div>
+      <ul className="kb-servicios-rejilla">
+        {SERVICIOS.map(({ nombre, descripcion, Icono }, indice) => (
+          <li key={nombre} className="kb-tarjeta kb-servicio">
+            <span
+              className={`kb-servicio-icono${TONOS_SERVICIOS[indice] === "azul" ? " kb-vidrio" : ""}`}
+              data-tono={TONOS_SERVICIOS[indice]}
+            >
+              <Icono weight="duotone" aria-hidden="true" />
+            </span>
+            <h3 className="kb-servicio-nombre">{nombre}</h3>
+            <p className="kb-servicio-descripcion">{descripcion}</p>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

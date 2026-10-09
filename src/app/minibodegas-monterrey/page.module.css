@@ -828,41 +828,6 @@
   border: 0;
 }
 
-/* Botón flotante: círculo de vidrio con el ícono de WhatsApp en naranja */
-
-.flotante {
-  display: inline-flex;
-  position: fixed;
-  right: var(--espacio-3);
-  bottom: var(--espacio-3);
-  z-index: 100;
-  justify-content: center;
-  align-items: center;
-  width: 64px;
-  height: 64px;
-  padding: 0;
-  border-radius: var(--radio-pildora);
-  color: var(--color-naranja);
-  box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
-  cursor: pointer;
-  transition: border-color var(--transicion);
-}
-
-.flotante:hover {
-  border: var(--borde-acento);
-}
-
-.flotante:focus-visible {
-  outline: var(--anillo-foco);
-  outline-offset: var(--anillo-foco-separacion);
-}
-
-.flotante svg {
-  width: 30px;
-  height: 30px;
-  fill: currentColor;
-}
-
 /* Tablet */
 
 @media (max-width: 1024px) {
@@ -1068,12 +1033,5 @@
 
   .mapa {
     width: 100%;
-  }
-
-  .flotante {
-    right: var(--espacio-2);
-    bottom: var(--espacio-2);
-    width: 56px;
-    height: 56px;
   }
 }
