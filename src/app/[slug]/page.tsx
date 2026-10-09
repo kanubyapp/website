@@ -5,6 +5,7 @@ import { CierreBlog } from "@/components/blog/cierre-blog";
 import { ContenidoPost } from "@/components/blog/contenido-post";
 import { HeaderBlog } from "@/components/blog/header-blog";
 import { SiteFooter } from "@/components/site-footer";
+import { negocioDePost } from "@/lib/conversiones";
 import { categorias, posts } from "@/lib/posts";
 import { jsonLdBase, serializarJsonLd, SITIO } from "@/lib/schema";
 import styles from "./page.module.css";
@@ -59,6 +60,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PaginaPost({ params }: Props) {
   const post = buscar((await params).slug);
   if (!post) notFound();
+  const negocio = negocioDePost(post.categorias);
 
   const ruta = `/${post.slug}/`;
   const url = `${SITIO}${ruta}`;
@@ -110,7 +112,7 @@ export default async function PaginaPost({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
       />
-      <HeaderBlog />
+      <HeaderBlog negocio={negocio} />
       <main>
         <section className={styles.hero}>
           {post.imagen && (
@@ -134,7 +136,7 @@ export default async function PaginaPost({ params }: Props) {
           <div className={styles.lateral} />
         </div>
 
-        <CierreBlog />
+        <CierreBlog negocio={negocio} />
       </main>
       <SiteFooter />
     </>

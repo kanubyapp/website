@@ -71,6 +71,27 @@
     rgb(4 21 30 / 0.15)
   );
 
+  /*
+   * Cristal claro: el popup de cotización. Blanco casi opaco para que el
+   * contraste no dependa de lo que hay detrás; sin backdrop-filter cae a
+   * blanco sólido. Sobre él (WCAG AA, medido también sobre el cristal con el
+   * velo detrás):
+   *   - --color-texto-oscuro (azul noche) 13:1 y --color-texto-oscuro-secundario
+   *     5.3:1: cualquier texto.
+   *   - El naranja de marca 3:1: solo texto grande (el título) y gráficos.
+   *   - --color-naranja-oscuro 5:1: texto pequeño en naranja (errores).
+   *   - --borde-campo-claro 3.6:1: contorno de campos y tarjetas.
+   */
+  --cristal-fondo: rgb(255 255 255 / 0.94);
+  --cristal-fondo-solido: var(--color-blanco);
+  --color-texto-oscuro: #0f3446;
+  --color-texto-oscuro-secundario: #4b5f6b;
+  --color-naranja-oscuro: #b23f14;
+  --color-naranja-tenue: #fdeee8;
+  --borde-campo-claro: 1px solid #6b808c;
+  --borde-claro: 1px solid rgb(15 52 70 / 0.15);
+  --anillo-foco-claro: 2px solid var(--color-texto-oscuro);
+
   /* Velo de la página detrás de un modal */
   --velo-modal: rgb(4 21 30 / 0.75);
 

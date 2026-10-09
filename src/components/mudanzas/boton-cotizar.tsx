@@ -1,23 +1,27 @@
 "use client";
 
+import { EnlaceWhatsApp } from "@/components/enlace-whatsapp";
 import { IconoWhatsApp } from "@/components/iconos";
+import type { Negocio } from "@/lib/conversiones";
 import { useCotizacion } from "./cotizacion";
 
 /*
  * Botón con ícono de WhatsApp de las páginas de mudanzas (raven-button). Sin
  * href abre el popup de cotización; con href es un enlace normal. El subtexto
  * es la segunda línea de los botones de dos líneas ("Cotiza Ahora por" /
- * "Whatsapp"). Tamaños y colores de cada variante van en el módulo de la página.
+ * "Whatsapp"). Con href, el negocio es el del evento whatsapp_* del clic. Tamaños y colores de cada variante van en el módulo de la página.
  */
 export function BotonCotizar({
   texto,
   subtexto,
   href,
+  negocio = null,
   className = "",
 }: {
   texto: string;
   subtexto?: string;
   href?: string;
+  negocio?: Negocio | null;
   className?: string;
 }) {
   const { abrir } = useCotizacion();
@@ -33,14 +37,15 @@ export function BotonCotizar({
 
   if (href) {
     return (
-      <a
+      <EnlaceWhatsApp
         href={href}
+        negocio={negocio}
         target="_blank"
         rel="noopener noreferrer"
         className={`kb-boton-cotizar ${className}`}
       >
         {contenido}
-      </a>
+      </EnlaceWhatsApp>
     );
   }
 

@@ -203,6 +203,7 @@ export default function MudanzasEmpresariales() {
             <BotonCotizar
               texto="Cotiza Ahora"
               href="https://wa.me/528183363637"
+              negocio="mudanza"
               className={`kb-boton-principal ${styles.botonSimple}`}
             />
           }

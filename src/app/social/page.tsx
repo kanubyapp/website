@@ -8,6 +8,7 @@ import {
   IconoTiktok,
   IconoWhatsApp,
 } from "@/components/iconos";
+import { EnlaceWhatsApp } from "@/components/enlace-whatsapp";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { posts } from "@/lib/posts";
@@ -134,15 +135,28 @@ export default function Social() {
           <ul className={styles.redes}>
             {redes.map(({ href, etiqueta, Icono }) => (
               <li key={href}>
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={etiqueta}
-                  className={styles.red}
-                >
-                  <Icono />
-                </a>
+                {href.startsWith("https://wa.me/") ? (
+                  <EnlaceWhatsApp
+                    href={href}
+                    negocio="minibodega"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={etiqueta}
+                    className={styles.red}
+                  >
+                    <Icono />
+                  </EnlaceWhatsApp>
+                ) : (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={etiqueta}
+                    className={styles.red}
+                  >
+                    <Icono />
+                  </a>
+                )}
               </li>
             ))}
           </ul>

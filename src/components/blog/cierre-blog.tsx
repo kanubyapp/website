@@ -7,6 +7,8 @@ import {
   IconoTiktok,
   IconoWhatsApp,
 } from "@/components/iconos";
+import { EnlaceWhatsApp } from "@/components/enlace-whatsapp";
+import type { Negocio } from "@/lib/conversiones";
 import styles from "@/app/[slug]/page.module.css";
 
 /*
@@ -30,7 +32,8 @@ const redes = [
 
 const GL = "?_gl=1*1une87i*_gcl_au*MTUyNTMwOTQ1My4xNzQxNjE2MDYzLjE3MzA2Mzk3NjUuMTc0MTYyMTI0My4xNzQxNjIyOTAy";
 
-export function CierreBlog() {
+/* negocio: el del post según su categoría, para el evento del ícono de WhatsApp */
+export function CierreBlog({ negocio }: { negocio: Negocio | null }) {
   return (
     <>
       <section className={styles.cierre}>
@@ -52,9 +55,21 @@ export function CierreBlog() {
           <ul className={styles.cierreRedes}>
             {redes.map(({ href, etiqueta, Icono }) => (
               <li key={href}>
-                <a href={href} target="_blank" rel="noopener noreferrer" aria-label={etiqueta}>
-                  <Icono />
-                </a>
+                {href.startsWith("https://wa.me/") ? (
+                  <EnlaceWhatsApp
+                    href={href}
+                    negocio={negocio}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={etiqueta}
+                  >
+                    <Icono />
+                  </EnlaceWhatsApp>
+                ) : (
+                  <a href={href} target="_blank" rel="noopener noreferrer" aria-label={etiqueta}>
+                    <Icono />
+                  </a>
+                )}
               </li>
             ))}
           </ul>

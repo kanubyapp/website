@@ -50,6 +50,34 @@
     }
   }
 
+  /*
+   * Cristal claro: la variante blanca del vidrio, para el popup de
+   * cotización. Mismas reglas: sólido por defecto y desenfoque solo si el
+   * navegador lo soporta y no se pidió reducir transparencias.
+   */
+  .kb-cristal {
+    border: 1px solid var(--color-blanco);
+    background: var(--cristal-fondo-solido);
+    color: var(--color-texto-oscuro);
+  }
+
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    @media (prefers-reduced-transparency: no-preference) {
+      .kb-cristal {
+        background: var(--cristal-fondo);
+        -webkit-backdrop-filter: blur(var(--vidrio-desenfoque));
+        backdrop-filter: blur(var(--vidrio-desenfoque));
+      }
+
+      @media (max-width: 767px) {
+        .kb-cristal {
+          -webkit-backdrop-filter: blur(var(--vidrio-desenfoque-movil));
+          backdrop-filter: blur(var(--vidrio-desenfoque-movil));
+        }
+      }
+    }
+  }
+
   /* Botones del sistema oscuro */
   .kb-boton-principal,
   .kb-boton-secundario {
@@ -1099,9 +1127,10 @@
   }
 
   /*
-   * Popup de cotización: vidrio flotando sobre la página velada. Paso 1 con
-   * las opciones como tarjetas; paso 2 con nombre y teléfono. El <dialog> es
-   * un envoltorio transparente: el clic fuera de .kb-popup-caja lo cierra.
+   * Popup de cotización: cristal claro flotando sobre la página velada.
+   * Arriba, título y subtítulo; un separador; abajo, el paso activo (las
+   * opciones como tarjetas o nombre y teléfono). Todo centrado. El <dialog>
+   * es un envoltorio transparente: el clic fuera de .kb-popup-caja lo cierra.
    */
 
   .kb-popup {
@@ -1112,7 +1141,6 @@
     overflow: visible;
     border: 0;
     background: transparent;
-    color: var(--color-texto);
   }
 
   .kb-popup::backdrop {
@@ -1129,6 +1157,7 @@
     overflow-y: auto;
     border-radius: var(--radio-tarjeta);
     box-shadow: var(--sombra-elevada);
+    text-align: center;
   }
 
   .kb-popup-cerrar {
@@ -1141,10 +1170,10 @@
     width: var(--objetivo-tactil);
     height: var(--objetivo-tactil);
     padding: 0;
-    border: var(--borde-luz-fuerte);
+    border: var(--borde-campo-claro);
     border-radius: var(--radio-pildora);
     background: transparent;
-    color: var(--color-texto);
+    color: var(--color-texto-oscuro);
     font-size: var(--texto-20);
     line-height: 1;
     cursor: pointer;
@@ -1152,7 +1181,7 @@
   }
 
   .kb-popup-cerrar:hover {
-    background: var(--color-superficie-alta);
+    background: var(--color-naranja-tenue);
   }
 
   .kb-popup-cerrar svg {
@@ -1161,9 +1190,10 @@
     fill: currentColor;
   }
 
+  /* Libra la ✕ por los dos lados para que el título quede centrado */
   .kb-popup-titulo {
-    padding-inline-end: var(--espacio-6);
-    color: var(--color-texto);
+    padding-inline: var(--espacio-6);
+    color: var(--color-naranja);
     font-size: var(--texto-32);
     font-weight: var(--peso-semibold);
     line-height: var(--interlineado-encabezado);
@@ -1171,31 +1201,35 @@
   }
 
   .kb-popup-subtitulo {
-    color: var(--color-texto-secundario);
+    color: var(--color-texto-oscuro-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-16);
     line-height: var(--interlineado-parrafo);
   }
 
+  /* El separador entre la cabecera y el paso es el borde superior del paso */
   .kb-popup-paso {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--espacio-2);
-    margin-top: var(--espacio-3);
+    margin-top: var(--espacio-2);
+    padding-top: var(--espacio-3);
+    border-top: var(--borde-claro);
   }
 
   .kb-popup-encabezado {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     gap: var(--espacio-1);
   }
 
   .kb-popup-pregunta {
-    color: var(--color-texto);
+    color: var(--color-texto-oscuro);
     font-family: var(--fuente-texto);
     font-size: var(--texto-18);
+    font-weight: var(--peso-medium);
     line-height: var(--interlineado-encabezado);
   }
 
@@ -1206,10 +1240,10 @@
     gap: var(--espacio-1);
     min-height: var(--objetivo-tactil);
     padding: var(--relleno-pildora);
-    border: var(--borde-luz);
+    border: var(--borde-campo-claro);
     border-radius: var(--radio-pildora);
-    background: var(--color-superficie-baja);
-    color: var(--color-texto-secundario);
+    background: var(--color-blanco);
+    color: var(--color-texto-oscuro-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-14);
     font-weight: var(--peso-medium);
@@ -1219,8 +1253,8 @@
   }
 
   .kb-popup-volver:hover {
-    border: var(--borde-acento);
-    color: var(--color-texto);
+    border-color: var(--color-naranja);
+    color: var(--color-texto-oscuro);
   }
 
   /* Opciones del paso 1: todas en una fila; en móvil, apiladas */
@@ -1229,19 +1263,22 @@
     grid-auto-columns: minmax(0, 1fr);
     grid-auto-flow: column;
     gap: var(--espacio-1);
+    width: 100%;
   }
 
   .kb-popup-opcion {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: var(--espacio-1);
     width: 100%;
     height: 100%;
     padding: var(--espacio-3) var(--espacio-2);
-    border: var(--borde-luz-fuerte);
+    border: var(--borde-campo-claro);
     border-radius: var(--radio-tarjeta-movil);
-    background: var(--color-superficie-baja);
-    color: var(--color-texto);
+    background: var(--color-blanco);
+    color: var(--color-texto-oscuro);
     font-family: var(--fuente-titulos);
     font-size: var(--texto-16);
     font-weight: var(--peso-medium);
@@ -1249,25 +1286,34 @@
     text-align: center;
     transition:
       border-color var(--transicion),
-      background-color var(--transicion),
-      box-shadow var(--transicion);
+      background-color var(--transicion);
   }
 
   .kb-popup-opcion:hover,
   .kb-popup-opcion[aria-pressed="true"] {
-    border: var(--borde-acento);
-    background: var(--color-superficie-alta);
-    box-shadow: var(--sombra-resplandor);
+    border-color: var(--color-naranja);
+    background: var(--color-naranja-tenue);
+  }
+
+  .kb-popup-opcion-icono {
+    width: 28px;
+    height: 28px;
+    color: var(--color-naranja);
+  }
+
+  .kb-popup-paso .kb-campo {
+    width: 100%;
   }
 
   .kb-campo {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--espacio-1);
   }
 
   .kb-campo-etiqueta {
-    color: var(--color-texto-secundario);
+    color: var(--color-texto-oscuro-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-14);
     font-weight: var(--peso-medium);
@@ -1278,30 +1324,31 @@
     width: 100%;
     min-height: var(--objetivo-tactil);
     padding: var(--relleno-boton-sistema);
-    border: var(--borde-luz-fuerte);
+    border: var(--borde-campo-claro);
     border-radius: var(--radio-pildora);
-    background: var(--color-fondo);
-    color: var(--color-texto);
+    background: var(--color-blanco);
+    color: var(--color-texto-oscuro);
     font-family: var(--fuente-texto);
     font-size: var(--texto-16);
     line-height: var(--interlineado-titulo);
+    text-align: center;
     transition: border-color var(--transicion);
   }
 
   .kb-campo-texto::placeholder {
-    color: var(--color-texto-tenue);
+    color: var(--color-texto-oscuro-secundario);
   }
 
   .kb-campo-texto:focus {
-    border: var(--borde-acento);
-  }
-
-  .kb-campo-texto[aria-invalid="true"] {
     border-color: var(--color-naranja);
   }
 
+  .kb-campo-texto[aria-invalid="true"] {
+    border-color: var(--color-naranja-oscuro);
+  }
+
   .kb-campo-error {
-    color: var(--color-naranja-claro);
+    color: var(--color-naranja-oscuro);
     font-family: var(--fuente-texto);
     font-size: var(--texto-14);
   }
@@ -1309,8 +1356,9 @@
   .kb-popup-opcion:focus-visible,
   .kb-popup-volver:focus-visible,
   .kb-popup-cerrar:focus-visible,
-  .kb-campo-texto:focus-visible {
-    outline: var(--anillo-foco);
+  .kb-campo-texto:focus-visible,
+  .kb-popup-enviar:focus-visible {
+    outline: var(--anillo-foco-claro);
     outline-offset: var(--anillo-foco-separacion);
   }
 
@@ -1326,12 +1374,16 @@
     fill: currentColor;
   }
 
+  .kb-popup-logo {
+    width: 110px;
+    margin: var(--espacio-3) auto 0;
+  }
+
   .kb-popup-nota {
-    color: var(--color-texto-tenue);
+    color: var(--color-texto-oscuro-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-14);
     line-height: var(--interlineado-parrafo);
-    text-align: center;
   }
 
   /* Tablet */
@@ -1622,8 +1674,11 @@
       grid-auto-flow: row;
     }
 
+    /* Apiladas, cada opción en una línea: ícono y texto lado a lado */
     .kb-popup-opcion {
+      flex-direction: row;
       min-height: var(--objetivo-tactil);
+      padding: var(--espacio-2);
     }
   }
 }

@@ -1,24 +1,26 @@
 /*
- * Footer compartido en el sistema oscuro: superficie hundida con el
- * degradado de naranja a oscuridad entrando desde el borde superior.
+ * Footer compartido: una tarjeta oscura con el resplandor naranja suave desde
+ * abajo, como las tarjetas de las secciones adaptadas, separada de los bordes
+ * de la ventana con el margen lateral del sitio.
  */
 
 .footer {
-  border-top: var(--borde-luz);
-  background: var(--degradado-naranja-oscuridad), var(--color-superficie-baja);
+  padding: var(--espacio-4) var(--relleno-seccion) var(--espacio-2);
 }
 
-.principal,
-.creditos {
-  padding-inline: var(--relleno-seccion);
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-5);
+  padding: var(--espacio-6) var(--espacio-6) var(--espacio-3);
+  background: var(--resplandor-suave), var(--color-superficie);
 }
 
 .principal {
   display: grid;
-  grid-template-columns: 4fr 3fr 3fr;
+  grid-template-columns: 2fr 1fr;
   align-items: start;
   gap: var(--espacio-5);
-  padding-block: var(--espacio-seccion-movil);
 }
 
 .marca,
@@ -37,6 +39,7 @@
 }
 
 .texto {
+  max-width: var(--medida-texto);
   color: var(--color-texto-secundario);
   font-family: var(--fuente-texto);
   font-size: var(--texto-16);
@@ -47,9 +50,11 @@
 .menuTitulo {
   color: var(--color-texto);
   font-family: var(--fuente-titulos);
-  font-size: var(--texto-20);
+  font-size: var(--texto-14);
   font-weight: var(--peso-medium);
   line-height: var(--interlineado-titulo);
+  letter-spacing: var(--tracking-md);
+  text-transform: uppercase;
 }
 
 .menuLista {
@@ -58,18 +63,18 @@
   gap: var(--espacio-1);
 }
 
+/* Naranja claro al pasar: el de marca no cumple AA a este tamaño sobre la superficie */
 .menuEnlace {
   color: var(--color-texto-secundario);
   font-family: var(--fuente-texto);
   font-size: var(--texto-16);
-  font-weight: var(--peso-regular);
   line-height: var(--interlineado-parrafo);
   transition: color var(--transicion);
 }
 
 .menuEnlace:hover,
 .menuEnlace:focus-visible {
-  color: var(--color-naranja);
+  color: var(--color-naranja-claro);
 }
 
 .menuEnlace:focus-visible,
@@ -79,17 +84,21 @@
   outline-offset: var(--anillo-foco-separacion);
 }
 
-.imagen img {
-  width: 100%;
-}
-
+/* Franja de créditos dentro de la tarjeta, tras una línea fina */
 .creditos {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: var(--espacio-2);
-  padding-block: var(--espacio-3);
+  padding-top: var(--espacio-3);
   border-top: var(--borde-luz);
+}
+
+.copyright {
+  color: var(--color-texto-tenue);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-14);
+  line-height: var(--interlineado-base);
 }
 
 /* El webtag solo existe en negro: se pinta en blanco para el fondo oscuro. */
@@ -99,32 +108,20 @@
   opacity: 0.7;
 }
 
-.copyright {
-  color: var(--color-texto-tenue);
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-14);
-  font-weight: var(--peso-regular);
-  line-height: var(--interlineado-base);
-  text-align: end;
-}
-
-@media (max-width: 1024px) {
-  .principal {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .imagen {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: 60%;
-  }
-}
-
 @media (max-width: 767px) {
+  .footer {
+    padding-top: var(--espacio-3);
+  }
+
+  .tarjeta {
+    gap: var(--espacio-4);
+    padding: var(--espacio-4) var(--espacio-2) var(--espacio-2);
+    border-radius: var(--radio-tarjeta-movil);
+  }
+
   .principal {
     grid-template-columns: 1fr;
     gap: var(--espacio-4);
-    padding-block: var(--espacio-6);
     text-align: center;
   }
 
@@ -133,17 +130,12 @@
     align-items: center;
   }
 
-  .imagen {
-    width: 80%;
-  }
-
   .creditos {
     flex-direction: column;
-    justify-content: center;
+    text-align: center;
   }
 
   .copyright {
     font-size: var(--texto-12);
-    text-align: center;
   }
 }

@@ -1,0 +1,80 @@
+import type { CategoriaSlug } from "./posts.ts";
+
+/*
+ * Eventos de conversión para el dataLayer. El sitio solo los emite; GTM los
+ * conecta después con Google Ads y Meta. Cuatro eventos, uno por tipo de
+ * envío y negocio:
+ *   cotizacion_mudanza / cotizacion_minibodega: el popup pasó la validación
+ *     y va a redirigir a WhatsApp. Llevan la página y la opción del paso 1.
+ *   whatsapp_mudanza / whatsapp_minibodega: clic en un enlace que abre
+ *     WhatsApp directo, sin formulario. Llevan la página.
+ */
+
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[];
+  }
+}
+
+export type Negocio = "mudanza" | "minibodega";
+
+export type EventoConversion =
+  | { event: `cotizacion_${Negocio}`; pagina: string; opcion: string }
+  | { event: `whatsapp_${Negocio}`; pagina: string };
+
+export function eventoCotizacion(negocio: Negocio, pagina: string, opcion: string): EventoConversion {
+  return { event: `cotizacion_${negocio}`, pagina, opcion };
+}
+
+export function eventoWhatsApp(negocio: Negocio, pagina: string): EventoConversion {
+  return { event: `whatsapp_${negocio}`, pagina };
+}
+
+/**
+ * Negocio de un post según su categoría, solo para el evento (la categoría
+ * no cambia). Los posts sin categoría son de mudanza y el que tiene las dos
+ * (mudanzas-y-minibodegas-la-combinacion-perfecta…) es de minibodega.
+ */
+export function negocioDePost(categorias: readonly CategoriaSlug[]): Negocio {
+  if (categorias.includes("minibodegas")) return "minibodega";
+  return "mudanza";
+}
+
+/** Lo más que espera una redirección a que el evento salga. */
+export const LIMITE_ESPERA_MS = 500;
+
+/**
+ * Empuja el evento al dataLayer. Con alSalir (redirecciones en la misma
+ * pestaña), lo llama cuando GTM confirma que el evento salió (eventCallback)
+ * o al vencer el límite, lo que pase primero, y una sola vez: sin GTM
+ * cargado o si falla, el cliente nunca se queda esperando más del límite.
+ */
+export function registrarConversion(
+  evento: EventoConversion,
+  {
+    alSalir,
+    capa = (window.dataLayer ??= []),
+    limiteMs = LIMITE_ESPERA_MS,
+    programar = (funcion: () => void, ms: number) => setTimeout(funcion, ms),
+  }: {
+    alSalir?: () => void;
+    capa?: Record<string, unknown>[];
+    limiteMs?: number;
+    programar?: (funcion: () => void, ms: number) => unknown;
+  } = {},
+) {
+  if (!alSalir) {
+    capa.push({ ...evento });
+    return;
+  }
+
+  let salio = false;
+  const continuar = () => {
+    if (salio) return;
+    salio = true;
+    alSalir();
+  };
+
+  capa.push({ ...evento, eventCallback: continuar, eventTimeout: limiteMs });
+  programar(continuar, limiteMs);
+}

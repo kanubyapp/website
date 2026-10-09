@@ -1,16 +1,24 @@
 "use client";
 
+import Image from "next/image";
 import { createContext, useContext, useEffect, useId, useReducer, useRef, useState } from "react";
-import { IconoCerrar, IconoWhatsApp } from "@/components/iconos";
+import {
+  IconoBodegaChica,
+  IconoBodegaGrande,
+  IconoBodegaMediana,
+  IconoCasa,
+  IconoCerrar,
+  IconoDuda,
+  IconoEdificio,
+  IconoRuta,
+  IconoWhatsApp,
+} from "@/components/iconos";
+import { registrarConversion } from "@/lib/conversiones";
+import { envioCotizacion } from "@/lib/envio-cotizacion";
 import { FLUJO_INICIAL, flujoCotizacion } from "@/lib/flujo-cotizacion";
 import {
-  mensajeMinibodega,
-  mensajeMudanza,
   TAMANOS_MINIBODEGA,
   TIPOS_MUDANZA,
-  urlWhatsApp,
-  validarCotizacionMinibodega,
-  validarCotizacionMudanza,
   type Cotizacion,
   type ErroresCotizacion,
   type TamanoMinibodega,
@@ -20,30 +28,53 @@ import {
 /*
  * Popup de cotización con la estructura del modal de legacy: paso 1, el tipo
  * de mudanza o el tamaño de minibodega como tarjetas que avanzan al tocarlas;
- * paso 2, nombre y teléfono. Al enviar, valida y redirige a WhatsApp en la
- * misma pestaña. Cualquier botón de la página lo abre con
+ * paso 2, nombre y teléfono. Al enviar, valida; si pasa, registra el evento
+ * de conversión (cotizacion_mudanza o cotizacion_minibodega) y, cuando sale
+ * o vence el límite corto, redirige a WhatsApp en la misma pestaña. Cualquier botón de la página lo abre con
  * useCotizacion().abrir(). Se cierra con su botón, con Esc y con clic fuera;
  * mientras está abierto el foco queda dentro, el fondo no hace scroll
  * (interacciones.css) y al cerrar el foco vuelve a quien lo abrió.
  */
 
-const FORMULARIOS = {
+type Icono = (props: { className?: string }) => React.ReactNode;
+
+/* Ícono de cada opción del paso 1: los de mudanza son los del modal de legacy */
+const ICONOS_MUDANZA: Record<TipoMudanza, Icono> = {
+  "Mudanza local": IconoCasa,
+  "Mudanza de Monterrey a CDMX": IconoRuta,
+  "Mudanza empresarial": IconoEdificio,
+};
+
+const ICONOS_MINIBODEGA: Record<TamanoMinibodega, Icono> = {
+  "3.5 m²": IconoBodegaChica,
+  "7 m²": IconoBodegaMediana,
+  "14 m²": IconoBodegaGrande,
+  "No estoy seguro": IconoDuda,
+};
+
+const FORMULARIOS: Record<
+  "mudanza" | "minibodega",
+  {
+    titulo: string;
+    subtitulo: string;
+    pregunta: string;
+    opciones: readonly string[];
+    iconos?: Partial<Record<string, Icono>>;
+  }
+> = {
   mudanza: {
     titulo: "Cotiza ahora tu Mudanza con Kanuby",
     subtitulo: "Completa el formulario, te llevará a WhatsApp.",
     pregunta: "¿Qué tipo de mudanza estás buscando?",
-    opciones: TIPOS_MUDANZA as readonly string[],
-    validar: validarCotizacionMudanza,
-    mensaje: (datos: Cotizacion) => mensajeMudanza(datos.nombre, datos.tipo as TipoMudanza),
+    opciones: TIPOS_MUDANZA,
+    iconos: ICONOS_MUDANZA,
   },
   minibodega: {
     titulo: "Cotiza tu minibodega ahora",
     subtitulo: "Al completar el formulario te llevará a WhatsApp.",
     pregunta: "¿Cuánto Espacio Buscas?",
-    opciones: TAMANOS_MINIBODEGA as readonly string[],
-    validar: validarCotizacionMinibodega,
-    mensaje: (datos: Cotizacion) =>
-      mensajeMinibodega(datos.nombre, datos.tipo as TamanoMinibodega),
+    opciones: TAMANOS_MINIBODEGA,
+    iconos: ICONOS_MINIBODEGA,
   },
 };
 
@@ -74,6 +105,8 @@ export function CotizacionProvider({
   const entradaPaso = useRef<HTMLButtonElement & HTMLInputElement>(null);
   /* Quien abrió el popup, para devolverle el foco al cerrar. */
   const abridor = useRef<HTMLElement | null>(null);
+  /* Mientras espera a que salga el evento, otro envío no registra de nuevo. */
+  const enviando = useRef(false);
   const id = useId();
 
   const [abierto, setAbierto] = useState(false);
@@ -88,6 +121,7 @@ export function CotizacionProvider({
 
   function abrir() {
     abridor.current = document.activeElement as HTMLElement | null;
+    enviando.current = false;
     despachar({ tipo: "reiniciar" });
     setNombre("");
     setTelefono("");
@@ -124,21 +158,27 @@ export function CotizacionProvider({
 
   function enviar(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
+    if (enviando.current) return;
     const datos: Cotizacion = { nombre, telefono, tipo: flujo.tipo ?? "" };
-    const encontrados = formularioActual.validar(datos);
-    setErrores(encontrados);
+    const resultado = envioCotizacion(tipo, datos, window.location.pathname);
 
-    if (encontrados.tipo) {
-      despachar({ tipo: "volver" });
+    if (!resultado.valido) {
+      const encontrados = resultado.errores;
+      setErrores(encontrados);
+      if (encontrados.tipo) {
+        despachar({ tipo: "volver" });
+        return;
+      }
+      const primero = ordenCampos.find((campo) => encontrados[campo]);
+      if (primero) document.getElementById(`${id}-${primero}`)?.focus();
       return;
     }
-    const primero = ordenCampos.find((campo) => encontrados[campo]);
-    if (primero) {
-      document.getElementById(`${id}-${primero}`)?.focus();
-      return;
-    }
 
-    window.location.assign(urlWhatsApp(formularioActual.mensaje(datos)));
+    setErrores({});
+    enviando.current = true;
+    registrarConversion(resultado.evento, {
+      alSalir: () => window.location.assign(resultado.url),
+    });
   }
 
   function propsCampo(campo: (typeof ordenCampos)[number]) {
@@ -175,7 +215,7 @@ export function CotizacionProvider({
           if (evento.target === dialogo.current) cerrar();
         }}
       >
-        <div ref={caja} className="kb-vidrio kb-popup-caja">
+        <div ref={caja} className="kb-cristal kb-popup-caja">
           <button
             type="button"
             className="kb-popup-cerrar"
@@ -200,22 +240,26 @@ export function CotizacionProvider({
                 dispararían el avance sin querer.
               */}
               <ul className="kb-popup-opciones">
-                {formularioActual.opciones.map((opcion, indice) => (
-                  <li key={opcion}>
-                    <button
-                      ref={indice === 0 ? entradaPaso : undefined}
-                      type="button"
-                      className="kb-popup-opcion"
-                      aria-pressed={flujo.tipo === opcion}
-                      onClick={() => {
-                        setErrores({});
-                        despachar({ tipo: "elegir", valor: opcion });
-                      }}
-                    >
-                      {opcion}
-                    </button>
-                  </li>
-                ))}
+                {formularioActual.opciones.map((opcion, indice) => {
+                  const Icono = formularioActual.iconos?.[opcion];
+                  return (
+                    <li key={opcion}>
+                      <button
+                        ref={indice === 0 ? entradaPaso : undefined}
+                        type="button"
+                        className="kb-popup-opcion"
+                        aria-pressed={flujo.tipo === opcion}
+                        onClick={() => {
+                          setErrores({});
+                          despachar({ tipo: "elegir", valor: opcion });
+                        }}
+                      >
+                        {Icono && <Icono className="kb-popup-opcion-icono" />}
+                        {opcion}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ) : (
@@ -283,6 +327,16 @@ export function CotizacionProvider({
               </p>
             </form>
           )}
+
+          {/* Pie: el logo de Kanuby, sin enlace, en los dos pasos */}
+          <Image
+            src="/images/kanuby-orange.svg"
+            alt="Kanuby"
+            width={1593}
+            height={338}
+            sizes="110px"
+            className="kb-popup-logo"
+          />
         </div>
       </dialog>
     </CotizacionContexto.Provider>

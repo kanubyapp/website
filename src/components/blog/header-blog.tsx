@@ -3,8 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
+import { EnlaceWhatsApp } from "@/components/enlace-whatsapp";
 import { IconoChevronAbajo, IconoMenu, IconoWhatsApp } from "@/components/iconos";
 import { TelefonoHeader } from "@/components/telefono-header";
+import type { Negocio } from "@/lib/conversiones";
 import styles from "@/app/[slug]/page.module.css";
 
 /*
@@ -58,7 +60,8 @@ function Submenu({ texto, hijos }: (typeof menu)[number]) {
   );
 }
 
-export function HeaderBlog() {
+/* negocio: el del post según su categoría, para el evento de "Cotiza Aquí" */
+export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
   const [abierto, setAbierto] = useState(false);
   const botonAbrir = useRef<HTMLButtonElement>(null);
   const botonCerrar = useRef<HTMLButtonElement>(null);
@@ -149,10 +152,16 @@ export function HeaderBlog() {
         </ul>
       </nav>
 
-      <a href={COTIZA_AQUI} target="_blank" rel="noopener noreferrer" className={styles.headerBoton}>
+      <EnlaceWhatsApp
+        href={COTIZA_AQUI}
+        negocio={negocio}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.headerBoton}
+      >
         <IconoWhatsApp className={styles.headerBotonIcono} />
         Cotiza Aquí
-      </a>
+      </EnlaceWhatsApp>
     </header>
   );
 }

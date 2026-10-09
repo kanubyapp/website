@@ -1,4 +1,7 @@
-/* Íconos SVG del sitio publicado (Font Awesome y eicons de Elementor). */
+/*
+ * Íconos SVG del sitio publicado (Font Awesome y eicons de Elementor) y, al
+ * final, los de línea traídos del modal de legacy.
+ */
 
 type Props = { className?: string };
 
@@ -103,5 +106,105 @@ export function IconoTiktok({ className }: Props) {
     <svg className={className} viewBox="0 0 448 512" aria-hidden="true" focusable="false">
       <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z" />
     </svg>
+  );
+}
+
+/* Íconos de línea del modal de legacy (tipos de mudanza del popup). */
+
+function IconoLinea({ className, children }: Props & { children: React.ReactNode }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {children}
+    </svg>
+  );
+}
+
+export function IconoCasa({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <path d="M3 10.5 12 3l9 7.5" />
+      <path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5" />
+      <path d="M9.5 21v-6h5v6" />
+    </IconoLinea>
+  );
+}
+
+export function IconoRuta({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <circle cx="6" cy="5.5" r="2.5" />
+      <circle cx="18" cy="18.5" r="2.5" />
+      <path d="M6 8v3a4 4 0 0 0 4 4h4a4 4 0 0 1 4 4" />
+    </IconoLinea>
+  );
+}
+
+export function IconoEdificio({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16" />
+      <path d="M15 10h4a1 1 0 0 1 1 1v10" />
+      <path d="M2 21h20" />
+      <path d="M7.5 8h4M7.5 12h4M7.5 16h4" />
+    </IconoLinea>
+  );
+}
+
+/*
+ * Tamaños de minibodega (popup): el mismo contenedor con puerta enrollable,
+ * chico, mediano y grande, sobre la misma línea de piso para que la
+ * diferencia de tamaño se lea de un vistazo. Mismo estilo de línea.
+ */
+
+export function IconoBodegaChica({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <path d="M2 21h20" />
+      <path d="M8 21v-8h8v8" />
+      <path d="M10 21v-5h4v5" />
+      <path d="M10 18.5h4" />
+    </IconoLinea>
+  );
+}
+
+export function IconoBodegaMediana({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <path d="M2 21h20" />
+      <path d="M6 21V10h12v11" />
+      <path d="M8.5 21v-7.5h7V21" />
+      <path d="M8.5 16h7M8.5 18.5h7" />
+    </IconoLinea>
+  );
+}
+
+export function IconoBodegaGrande({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <path d="M2 21h20" />
+      <path d="M3 21V7h18v14" />
+      <path d="M6 21V10.5h12V21" />
+      <path d="M6 13h12M6 15.5h12M6 18h12" />
+    </IconoLinea>
+  );
+}
+
+export function IconoDuda({ className }: Props) {
+  return (
+    <IconoLinea className={className}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6" />
+      <path d="M12 17h.01" />
+    </IconoLinea>
   );
 }
