@@ -91,14 +91,14 @@ export function PorQueMudanzas({
         <p className="kb-porque-etiqueta">{etiqueta}</p>
         <div className="kb-porque-tarjetas">
           {tarjetas.map((tarjeta) => (
-            <div key={tarjeta.titulo} className="kb-porque-tarjeta">
+            <div key={tarjeta.titulo} className="kb-tarjeta kb-porque-tarjeta">
               <figure className="kb-porque-icono">
                 <Image
                   src={tarjeta.icono}
                   alt={tarjeta.alt}
                   width={1080}
                   height={1080}
-                  sizes="(max-width: 767px) 35vw, 19vw"
+                  sizes="(max-width: 767px) 40vw, 16vw"
                 />
               </figure>
               <h3 className="kb-porque-tarjeta-titulo">{tarjeta.titulo}</h3>

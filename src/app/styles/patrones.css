@@ -418,12 +418,11 @@
     width: 100%;
   }
 
-  /* Por qué */
+  /* Por qué: títulos centrados y tres tarjetas con ícono sobre resplandor */
 
   .kb-porque {
     display: flex;
-    padding: var(--relleno-seccion-md) var(--relleno-seccion-xl) var(--relleno-seccion-lg);
-    background: linear-gradient(180deg, var(--color-gris-claro) 0%, var(--color-blanco) 100%);
+    padding: var(--espacio-seccion) var(--relleno-seccion);
   }
 
   .kb-porque-contenido {
@@ -437,39 +436,59 @@
   .kb-porque-antetitulo {
     color: var(--color-naranja);
     font-size: var(--texto-44);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-display);
+    letter-spacing: var(--tracking-display);
     text-align: center;
   }
 
   .kb-porque-titulo {
-    color: var(--color-gris-medio);
+    color: var(--color-texto-secundario);
     font-size: var(--texto-32);
     font-weight: var(--peso-light);
+    line-height: var(--interlineado-encabezado);
     text-align: center;
   }
 
   .kb-porque-etiqueta {
     align-self: center;
     margin-bottom: var(--espacio-4);
-    padding: 15px 30px 0;
-    background: var(--color-azul);
-    color: var(--color-blanco);
+    padding: var(--relleno-boton-sistema);
+    border: var(--borde-acento);
+    border-radius: var(--radio-pildora);
+    background: var(--color-superficie-baja);
+    box-shadow: var(--sombra-resplandor);
+    color: var(--color-texto);
     font-family: var(--fuente-titulos);
-    font-size: var(--texto-22);
+    font-size: var(--texto-20);
     font-weight: var(--peso-regular);
-    line-height: var(--interlineado-30);
-    letter-spacing: var(--tracking-md);
-  }
-
-  /* Sin relleno propio en el publicado: lleva el de Elementor por defecto */
-  .kb-porque-tarjetas {
-    display: flex;
-    gap: var(--espacio-4);
-    padding: 10px;
-  }
-
-  .kb-porque-tarjeta {
-    width: 33%;
+    line-height: var(--interlineado-encabezado);
     text-align: center;
+  }
+
+  .kb-porque-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--espacio-3);
+  }
+
+  /* Se combina con .kb-tarjeta: el resplandor sale de arriba, tras el ícono */
+  .kb-porque-tarjeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-2);
+    padding: var(--espacio-4) var(--espacio-3);
+    background: var(--resplandor-acento), var(--color-superficie);
+    text-align: center;
+    transition:
+      border-color var(--transicion),
+      box-shadow var(--transicion);
+  }
+
+  .kb-porque-tarjeta:hover {
+    border: var(--borde-acento);
+    box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
   }
 
   .kb-porque-icono,
@@ -478,7 +497,7 @@
   }
 
   .kb-porque-icono {
-    width: 75%;
+    width: 60%;
   }
 
   .kb-porque-icono img,
@@ -493,28 +512,32 @@
   }
 
   .kb-porque-tarjeta-titulo {
-    margin-bottom: 22px;
-    color: var(--color-negro);
+    color: var(--color-texto);
     font-size: var(--texto-26);
+    font-weight: var(--peso-medium);
     line-height: var(--interlineado-encabezado);
-    letter-spacing: var(--tracking-sm);
   }
 
   .kb-porque-tarjeta-texto {
-    color: var(--color-gris-texto);
+    color: var(--color-texto-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-18);
     font-weight: var(--peso-light);
-    line-height: var(--interlineado-24);
+    line-height: var(--interlineado-parrafo);
   }
 
-  /* Marquesina */
+  /*
+   * Marquesina: franja de texto en movimiento sobre la foto con el velo del
+   * sistema, entre bordes finos luminosos. Sin animación con "reducir
+   * movimiento".
+   */
 
   .kb-marquesina {
     display: flex;
     position: relative;
     padding: var(--relleno-seccion) 0;
     overflow: hidden;
+    border-block: var(--borde-luz);
   }
 
   .kb-marquesina-fondo {
@@ -526,14 +549,13 @@
     object-position: center center;
   }
 
-  /* Capa naranja sobre la foto (overlay de Elementor) */
+  /* Velo de oscuridad y resplandor naranja desde abajo sobre la foto */
   .kb-marquesina::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: var(--color-naranja);
-    opacity: 0.56;
+    background: var(--resplandor-suave), var(--velo-foto);
   }
 
   .kb-marquesina-pista {
@@ -561,11 +583,12 @@
 
   .kb-marquesina-item {
     margin: 0 21px;
-    color: var(--color-blanco);
+    color: var(--color-texto);
     font-family: var(--fuente-titulos);
     font-size: var(--texto-70);
     font-weight: var(--peso-semibold);
     line-height: 1em;
+    letter-spacing: var(--tracking-display);
   }
 
   .kb-marquesina-degradado-izq,
@@ -580,12 +603,12 @@
 
   .kb-marquesina-degradado-izq {
     left: 0;
-    background: linear-gradient(to right, var(--color-naranja) 0%, transparent 100%);
+    background: linear-gradient(to right, var(--color-fondo), transparent);
   }
 
   .kb-marquesina-degradado-der {
     right: 0;
-    background: linear-gradient(to left, var(--color-blanco) 0%, transparent 100%);
+    background: linear-gradient(to left, var(--color-fondo), transparent);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1244,7 +1267,7 @@
     }
 
     .kb-porque {
-      padding: var(--relleno-seccion-xl) var(--relleno-seccion-md) var(--relleno-seccion-md);
+      padding: var(--espacio-seccion-movil) var(--relleno-seccion);
     }
 
     .kb-porque-contenido {
@@ -1260,27 +1283,22 @@
     }
 
     .kb-porque-etiqueta {
-      padding: 10px 0 5px;
-      font-size: var(--texto-18);
-      text-align: center;
+      margin-bottom: var(--espacio-2);
+      font-size: var(--texto-16);
     }
 
     .kb-porque-tarjetas {
-      flex-wrap: wrap;
+      grid-template-columns: 1fr;
       gap: var(--espacio-2);
-      padding: 0;
     }
 
     .kb-porque-tarjeta {
-      width: 100%;
+      padding: var(--espacio-3) var(--espacio-2);
+      border-radius: var(--radio-tarjeta-movil);
     }
 
     .kb-porque-icono {
       width: 40%;
-    }
-
-    .kb-porque-tarjeta-titulo {
-      margin-bottom: 18px;
     }
 
     .kb-marquesina {
