@@ -22,6 +22,8 @@
    */
   html {
     scroll-padding-top: calc(var(--alto-header, 0px) + var(--espacio-2));
+    /* Permite transicionar a fit-content (la píldora compacta del header) */
+    interpolate-size: allow-keywords;
   }
 
   /* Saltos a anclas de la misma página: suaves, salvo con "reducir movimiento" */

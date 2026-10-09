@@ -57,7 +57,7 @@ test("recorre las tres frases en orden y vuelve a la primera", () => {
   assert.deepEqual(completas, ["Cotiza ahora", "Respuesta rápida", "Whatsapp"]);
 });
 
-test("cada cambio de frase suma uno a cambios (el ícono alterna con su paridad)", () => {
+test("cada cambio de frase suma uno a cambios (el ícono gira en cada uno)", () => {
   let estado = escrituraInicial(frases);
   const vistos = [estado.cambios];
   for (let i = 0; i < 4; i++) {

@@ -3,7 +3,7 @@
  * del header de mudanzas: escribe una frase, la deja visible, la borra y
  * escribe la siguiente, en ciclo. Empieza con la primera frase completa (lo
  * que se ve sin animación). "cambios" cuenta cada cambio de frase: el botón lo
- * usa para girar y alternar el ícono.
+ * usa para girar el ícono.
  */
 
 export const FRASES_COTIZAR = ["Whatsapp", "Cotiza ahora", "Respuesta rápida"] as const;

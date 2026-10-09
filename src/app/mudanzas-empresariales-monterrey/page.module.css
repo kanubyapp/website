@@ -45,6 +45,11 @@
   transition: color var(--transicion);
 }
 
+/* Sobre el cristal blanco del header compacto, en azul noche */
+:global(:root[data-header-compacto]) .llamanos {
+  color: var(--color-texto-oscuro);
+}
+
 .llamanos:hover,
 .llamanos:focus-visible {
   color: var(--color-naranja);

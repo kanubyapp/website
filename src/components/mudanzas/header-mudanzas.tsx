@@ -55,6 +55,7 @@ export function HeaderMudanzas({
   return (
     <header ref={elementoHeader} className={`kb-header ${className}`}>
       <div ref={barra} className="kb-vidrio kb-header-barra">
+        {/* Sobre el cristal blanco del header compacto va el logo original */}
         <Link href="/" className="kb-header-logo">
           <Image
             src="/images/kanubymudanzas-blanco.svg"
@@ -63,6 +64,15 @@ export function HeaderMudanzas({
             height={100}
             sizes="250px"
             loading="eager"
+            className="kb-header-logo-normal"
+          />
+          <Image
+            src="/images/kanubymudanzas.svg"
+            alt="Kanuby Mudanzas, ir al inicio"
+            width={1024}
+            height={100}
+            sizes="200px"
+            className="kb-header-logo-compacto"
           />
         </Link>
 

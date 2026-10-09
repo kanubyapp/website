@@ -118,8 +118,6 @@
   --vidrio-desenfoque: 16px;
   --vidrio-desenfoque-movil: 10px;
   --vidrio-saturacion: 140%;
-  /* Header compacto al bajar: el vidrio más opaco, legible sobre cualquier contenido */
-  --vidrio-fondo-compacto: rgb(15 52 70 / 0.9);
 
   /* Fuentes: las variables --font-* las define next/font en el layout */
   --fuente-titulos: var(--font-outfit), sans-serif;

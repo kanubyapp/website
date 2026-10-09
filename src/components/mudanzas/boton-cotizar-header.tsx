@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { IconoFlecha, IconoWhatsApp } from "@/components/iconos";
+import { IconoWhatsApp } from "@/components/iconos";
 import {
   escrituraInicial,
   espera,
@@ -14,10 +14,9 @@ import { useCotizacion } from "./cotizacion";
 /*
  * "Cotiza Ahora / Whatsapp" del header de mudanzas. La línea grande se
  * escribe sola en ciclo (Whatsapp, Cotiza ahora, Respuesta rápida) y en cada
- * cambio el ícono gira y alterna entre WhatsApp y una flecha. Las frases se
- * apilan invisibles en la misma celda y reservan siempre el ancho de la más
- * larga, desde la primera carga y también sin animación, para que el botón
- * nunca cambie de ancho. Para lectores de pantalla siempre es "Cotiza ahora
+ * cambio el ícono de WhatsApp gira. Las frases se apilan invisibles en la
+ * misma celda y reservan siempre el ancho de la más larga, desde la primera
+ * carga y también sin animación, para que el botón nunca cambie de ancho. Para lectores de pantalla siempre es "Cotiza ahora
  * por WhatsApp". Con "reducir movimiento" (y antes de hidratar) muestra
  * "Whatsapp" fijo. Abre el popup de cotización.
  */
@@ -49,8 +48,6 @@ export function BotonCotizarHeader({ className = "" }: { className?: string }) {
     return () => window.clearTimeout(temporizador);
   }, [animar, estado]);
 
-  const flecha = animar && estado.cambios % 2 === 1;
-  const Icono = flecha ? IconoFlecha : IconoWhatsApp;
   const giro = animar && estado.cambios > 0 ? " kb-boton-giro" : "";
 
   return (
@@ -61,7 +58,8 @@ export function BotonCotizarHeader({ className = "" }: { className?: string }) {
       aria-label="Cotiza ahora por WhatsApp"
       onClick={abrir}
     >
-      <Icono key={estado.cambios} className={`kb-boton-cotizar-icono${giro}`} />
+      {/* key: al cambiar de frase el ícono se monta de nuevo y repite el giro */}
+      <IconoWhatsApp key={estado.cambios} className={`kb-boton-cotizar-icono${giro}`} />
       <span className="kb-boton-cotizar-textos" aria-hidden="true">
         <span className="kb-boton-cotizar-texto">Cotiza Ahora</span>
         <span className="kb-boton-cotizar-subtexto kb-escritura">

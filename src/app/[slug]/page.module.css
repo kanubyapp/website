@@ -32,11 +32,15 @@
   align-items: center;
   gap: var(--espacio-2) var(--espacio-4);
   padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-3);
+  width: 100%;
+  margin-inline: auto;
   border-radius: var(--radio-pildora);
   box-shadow: var(--sombra-elevada);
   transition:
+    width var(--transicion),
     padding var(--transicion),
-    background-color var(--transicion);
+    background-color var(--transicion),
+    border-color var(--transicion);
 }
 
 .headerLogo {
@@ -45,10 +49,50 @@
   transition: width var(--transicion);
 }
 
-/* Al bajar: menos alto, logo más chico y vidrio más opaco */
+/*
+ * Al bajar: píldora de cristal blanco (el del popup), del ancho de su
+ * contenido y centrada, menos alta y con el logo más chico. Sobre el
+ * cristal, enlaces en azul noche; el hover, en naranja oscuro (el de marca no
+ * cumple AA a este tamaño sobre blanco) con la línea naranja.
+ */
 :global(:root[data-header-compacto]) .headerBarra {
+  width: fit-content;
   padding-block: calc(var(--espacio-1) / 2);
-  background: var(--vidrio-fondo-compacto);
+  border-color: var(--color-blanco);
+  background: var(--cristal-fondo);
+}
+
+:global(:root[data-header-compacto]) .headerEnlace {
+  color: var(--color-texto-oscuro);
+}
+
+:global(:root[data-header-compacto]) .headerEnlace:hover,
+:global(:root[data-header-compacto]) .headerItem[data-abierto="true"] .headerEnlace {
+  background: transparent;
+  color: var(--color-naranja-oscuro);
+}
+
+/* Línea naranja del hover: solo en el header compacto */
+.headerEnlace {
+  position: relative;
+}
+
+.headerEnlace::after {
+  content: "";
+  position: absolute;
+  right: var(--espacio-2);
+  bottom: 2px;
+  left: var(--espacio-2);
+  height: 2px;
+  border-radius: var(--radio-pildora);
+  background: var(--color-naranja);
+  transform: scaleX(0);
+  transition: transform var(--transicion);
+}
+
+:global(:root[data-header-compacto]) .headerEnlace:hover::after,
+:global(:root[data-header-compacto]) .headerItem[data-abierto="true"] .headerEnlace::after {
+  transform: scaleX(1);
 }
 
 :global(:root[data-header-compacto]) .headerLogo {
@@ -57,7 +101,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .headerBarra,
-  .headerLogo {
+  .headerLogo,
+  .headerEnlace,
+  .headerEnlace::after {
     transition: none;
   }
 }
@@ -486,6 +532,11 @@
     border-radius: var(--radio-pildora);
     background: transparent;
     color: var(--color-texto);
+  }
+
+  :global(:root[data-header-compacto]) .headerAbrir {
+    border: var(--borde-campo-claro);
+    color: var(--color-texto-oscuro);
   }
 
   .headerAbrir svg {

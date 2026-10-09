@@ -15,11 +15,15 @@
   align-items: center;
   gap: var(--espacio-4);
   padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-3);
+  width: 100%;
+  margin-inline: auto;
   border-radius: var(--radio-pildora);
   box-shadow: var(--sombra-elevada);
   transition:
+    width var(--transicion),
     padding var(--transicion),
-    background-color var(--transicion);
+    background-color var(--transicion),
+    border-color var(--transicion);
 }
 
 .logo {
@@ -28,10 +32,15 @@
   transition: width var(--transicion);
 }
 
-/* Al bajar: menos alto, logo más chico y vidrio más opaco */
+/*
+ * Al bajar: píldora de cristal blanco (el del popup), del ancho de su
+ * contenido y centrada, menos alta y con el logo más chico.
+ */
 :global(:root[data-header-compacto]) .barra {
+  width: fit-content;
   padding-block: calc(var(--espacio-1) / 2);
-  background: var(--vidrio-fondo-compacto);
+  border-color: var(--color-blanco);
+  background: var(--cristal-fondo);
 }
 
 :global(:root[data-header-compacto]) .logo {
@@ -72,8 +81,24 @@
  * y debajo crece desde el centro una línea naranja con brillo. El naranja
  * claro es el que cumple AA a este tamaño sobre el vidrio del header.
  */
+/*
+ * Colores del menú en variables: sobre el cristal blanco del header compacto
+ * van en azul noche y el naranja oscuro (el de marca no cumple AA a este
+ * tamaño sobre blanco). Los usan el hover y el destello.
+ */
+.lista {
+  --enlace-color: var(--color-texto-secundario);
+  --enlace-activo: var(--color-naranja-claro);
+}
+
+:global(:root[data-header-compacto]) .lista {
+  --enlace-color: var(--color-texto-oscuro);
+  --enlace-activo: var(--color-naranja-oscuro);
+}
+
 .lista .enlace {
   position: relative;
+  color: var(--enlace-color);
   transition: color var(--transicion);
 }
 
@@ -93,7 +118,7 @@
 
 .lista .enlace:hover,
 .lista .enlace:focus-visible {
-  color: var(--color-naranja-claro);
+  color: var(--enlace-activo);
 }
 
 .lista .enlace:hover::after,
@@ -160,12 +185,12 @@
   0%,
   13%,
   100% {
-    color: var(--color-texto-secundario);
+    color: var(--enlace-color);
   }
 
   3%,
   9% {
-    color: var(--color-naranja-claro);
+    color: var(--enlace-activo);
   }
 }
 
@@ -236,6 +261,11 @@
     border-radius: var(--radio-pildora);
     background: transparent;
     color: var(--color-texto);
+  }
+
+  :global(:root[data-header-compacto]) .abrir {
+    border: var(--borde-campo-claro);
+    color: var(--color-texto-oscuro);
   }
 
   .abrir svg {
