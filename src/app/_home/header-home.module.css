@@ -9,6 +9,15 @@
   z-index: 100;
 }
 
+/*
+ * Con el header fijo, el salto a un ancla deja la sección debajo de la
+ * píldora: margen arriba del alto de la píldora (su relleno y el control más
+ * alto, de 44px) más su separación del borde y un respiro igual.
+ */
+:global(html):has(.header) {
+  scroll-padding-top: calc(var(--espacio-2) * 2 + var(--espacio-1) * 2 + var(--objetivo-tactil));
+}
+
 .barra {
   display: flex;
   justify-content: space-between;

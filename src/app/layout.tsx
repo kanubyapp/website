@@ -34,7 +34,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es-MX" className={`${outfit.variable} ${dmSans.variable}`}>
+    // data-scroll-behavior: Next quita el desplazamiento suave al cambiar de
+    // página; solo se anima el salto a anclas de la misma página (base.css).
+    <html
+      lang="es-MX"
+      className={`${outfit.variable} ${dmSans.variable}`}
+      data-scroll-behavior="smooth"
+    >
       <body>{children}</body>
     </html>
   );

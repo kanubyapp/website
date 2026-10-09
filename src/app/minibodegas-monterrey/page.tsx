@@ -176,6 +176,8 @@ export default function Minibodegas() {
           </div>
         </section>
 
+        <Banner />
+
         <section id="porque" className={styles.porque}>
           <div className={`kb-tarjeta ${styles.porqueTarjeta}`}>
             <div className={styles.porqueImagen}>
@@ -210,8 +212,6 @@ export default function Minibodegas() {
             </div>
           </div>
         </section>
-
-        <Banner />
 
         <section id="faqs" className={styles.faq}>
           <div className={styles.faqColumna}>

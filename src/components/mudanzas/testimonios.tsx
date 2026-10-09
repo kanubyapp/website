@@ -122,7 +122,7 @@ export function Testimonios({
             {copias.map(({ testimonio, copia }, posicion) => (
               <article
                 key={`${copia}-${testimonio.nombre}`}
-                className="kb-testimonio"
+                className="kb-tarjeta kb-testimonio"
                 aria-hidden={copia !== 1 || undefined}
                 inert={copia !== 1 || undefined}
                 aria-roledescription="diapositiva"

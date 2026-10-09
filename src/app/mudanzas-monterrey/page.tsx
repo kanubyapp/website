@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
+import { BotonCotizarHeader } from "@/components/mudanzas/boton-cotizar-header";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
@@ -46,11 +47,7 @@ export default function MudanzasMonterrey() {
           { href: "#testimonios", texto: "Testimonios" },
         ]}
         acciones={
-          <BotonCotizar
-            texto="Cotiza Ahora"
-            subtexto="Whatsapp"
-            className="kb-boton-principal kb-boton-dos-lineas kb-boton-header"
-          />
+          <BotonCotizarHeader className="kb-boton-principal kb-boton-dos-lineas kb-boton-header" />
         }
       />
 

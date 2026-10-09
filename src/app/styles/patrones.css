@@ -422,6 +422,46 @@
     font-size: var(--texto-22);
   }
 
+  /*
+   * Línea que se escribe sola (BotonCotizarHeader): las frases se apilan
+   * invisibles en la misma celda y reservan el ancho de la más larga; encima,
+   * el texto que se va escribiendo, alineado a la izquierda.
+   */
+  .kb-escritura {
+    display: grid;
+  }
+
+  .kb-escritura > * {
+    grid-area: 1 / 1;
+  }
+
+  .kb-escritura-reserva {
+    visibility: hidden;
+  }
+
+  .kb-escritura-texto {
+    justify-self: start;
+    white-space: pre;
+  }
+
+  /* El ícono gira al cambiar de frase */
+  .kb-boton-giro {
+    animation: kb-giro 0.5s ease-out;
+  }
+
+  @keyframes kb-giro {
+    from {
+      opacity: 0;
+      transform: rotate(-180deg) scale(0.6);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kb-boton-giro {
+      animation: none;
+    }
+  }
+
   .kb-boton-header:hover,
   .kb-boton-servicios:hover {
     background: var(--color-naranja);
@@ -898,54 +938,61 @@
     line-height: var(--interlineado-parrafo);
   }
 
-  /* Testimonios */
+  /*
+   * Testimonios (/mudanzas-monterrey/ y /mudanzas-monterrey-cdmx/): cabecera
+   * y carrusel de tarjetas del sistema que sangra hacia la derecha. El
+   * relleno de las tarjetas es fijo: un porcentaje se calcularía sobre el
+   * ancho de toda la pista, no de la tarjeta.
+   */
 
   .kb-testimonios {
     display: flex;
     flex-direction: column;
-    gap: var(--espacio-2);
-    padding: var(--relleno-seccion-sm) 0 var(--relleno-seccion-md) var(--relleno-seccion-lg);
-    border-radius: var(--radio-xl);
-    background: var(--color-gris-claro);
+    gap: var(--espacio-4);
+    padding: 0 0 var(--espacio-seccion) var(--relleno-seccion);
   }
 
   .kb-testimonios-cabecera {
     display: flex;
     flex-direction: column;
     gap: var(--espacio-2);
-    padding: var(--relleno-seccion-md) var(--relleno-seccion-md) 0 0;
+    padding-right: var(--relleno-seccion);
   }
 
   .kb-testimonios-titulo {
-    color: var(--color-negro);
-    font-size: var(--texto-50);
+    color: var(--color-texto);
+    font-size: var(--texto-44);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-display);
+    letter-spacing: var(--tracking-display);
   }
 
   .kb-testimonios-texto {
-    width: 50%;
-    color: var(--color-negro);
+    max-width: var(--medida-texto);
+    color: var(--color-texto-secundario);
     font-family: var(--fuente-texto);
-    font-size: var(--texto-20);
+    font-size: var(--texto-18);
     font-weight: var(--peso-light);
-    line-height: var(--interlineado-32);
+    line-height: var(--interlineado-parrafo);
   }
 
   .kb-testimonios-divisor {
     width: 100%;
-    margin: 0;
+    margin: var(--espacio-1) 0 0;
     border: 0;
-    border-top: 1px solid var(--color-blanco);
+    border-top: var(--borde-luz);
   }
 
   .kb-carrusel {
     --por-vista: 4;
-    --separacion: 30px;
+    --separacion: var(--espacio-2);
     --desfase: 80px;
 
     position: relative;
   }
 
   .kb-carrusel-ventana {
+    padding-block: var(--espacio-1);
     padding-right: var(--desfase);
     overflow: hidden;
   }
@@ -956,15 +1003,20 @@
     touch-action: pan-y;
   }
 
+  /* Se combina con .kb-tarjeta */
   .kb-testimonio {
     display: flex;
     flex: 0 0 calc((100% - (var(--por-vista) - 1) * var(--separacion)) / var(--por-vista));
     flex-direction: column;
     gap: var(--espacio-2);
-    padding: 12%;
-    border-radius: var(--radio-sm);
-    background: var(--color-blanco);
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+    min-width: 0;
+    padding: var(--espacio-3);
+    border-radius: var(--radio-tarjeta-movil);
+    transition: border-color var(--transicion);
+  }
+
+  .kb-testimonio:hover {
+    border: var(--borde-acento);
   }
 
   .kb-testimonio-autor {
@@ -975,72 +1027,95 @@
 
   .kb-testimonio-avatar {
     flex-shrink: 0;
-    width: 20%;
-    border-radius: var(--radio-2xl);
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radio-pildora);
+    object-fit: cover;
   }
 
   .kb-testimonio-datos {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 2px;
+    min-width: 0;
   }
 
   .kb-testimonio-nombre,
   .kb-testimonio-fecha,
   .kb-testimonio-texto {
-    color: var(--color-negro);
     font-family: var(--fuente-texto);
   }
 
   .kb-testimonio-nombre {
-    font-size: var(--texto-14);
+    color: var(--color-texto);
+    font-size: var(--texto-16);
     font-weight: var(--peso-semibold);
-    line-height: 15px;
+    line-height: var(--interlineado-encabezado);
   }
 
   .kb-testimonio-fecha {
-    font-size: var(--texto-12);
-    font-weight: var(--peso-light);
-    line-height: 15px;
+    color: var(--color-texto-tenue);
+    font-size: var(--texto-13);
+    line-height: var(--interlineado-encabezado);
   }
 
   .kb-estrellas {
     display: flex;
+    gap: 2px;
+    margin-top: 2px;
   }
 
   .kb-estrellas svg {
-    width: auto;
+    width: 16px;
     height: 16px;
-    fill: #ccd6df;
+    fill: var(--color-superficie-alta);
   }
 
   .kb-estrellas .kb-estrella-marcada {
-    fill: #f0ad4e;
+    fill: var(--color-naranja);
   }
 
   .kb-testimonio-texto {
-    font-size: var(--texto-14);
-    font-weight: var(--peso-regular);
-    line-height: 20px;
+    color: var(--color-texto-secundario);
+    font-size: var(--texto-16);
+    line-height: var(--interlineado-parrafo);
   }
 
-  /*
-   * Flechas: en el publicado son gris claro casi blanco sobre el fondo gris
-   * claro y no se ven. Van en azul para que sean legibles.
-   */
+  /* Flechas: círculos visibles sobre el fondo oscuro */
   .kb-carrusel-flecha {
     display: inline-flex;
     position: absolute;
-    top: calc(50% - 15px);
+    top: 50%;
     z-index: 2;
+    justify-content: center;
+    align-items: center;
+    width: var(--objetivo-tactil);
+    height: var(--objetivo-tactil);
     padding: 0;
-    border: 0;
-    background: none;
-    color: var(--color-azul);
-    font-size: 25px;
+    border: var(--borde-luz-fuerte);
+    border-radius: var(--radio-pildora);
+    background: var(--color-superficie-alta);
+    box-shadow: var(--sombra-elevada);
+    color: var(--color-texto);
+    font-size: var(--texto-16);
     transform: translateY(-50%);
     cursor: pointer;
-    transition-duration: 0.25s;
+    transition:
+      background-color var(--transicion),
+      border-color var(--transicion),
+      color var(--transicion);
+  }
+
+  .kb-carrusel-flecha:hover,
+  .kb-carrusel-flecha:focus-visible {
+    border: var(--borde-acento);
+    background: var(--color-naranja);
+    color: var(--color-texto-sobre-acento);
+  }
+
+  .kb-carrusel-flecha:focus-visible {
+    outline: var(--anillo-foco);
+    outline-offset: var(--anillo-foco-separacion);
   }
 
   .kb-carrusel-flecha svg {
@@ -1050,11 +1125,11 @@
   }
 
   .kb-carrusel-anterior {
-    left: 0;
+    left: calc(var(--objetivo-tactil) / -2);
   }
 
   .kb-carrusel-siguiente {
-    right: 0;
+    right: var(--espacio-2);
   }
 
   /*
@@ -1670,29 +1745,30 @@
     }
 
     .kb-testimonios {
-      padding: 0 0 var(--relleno-seccion-lg);
-      border-radius: var(--radio-md);
+      gap: var(--espacio-3);
+      padding-bottom: var(--espacio-seccion-movil);
     }
 
     .kb-testimonios-cabecera {
-      padding: 14% var(--relleno-seccion-xl) var(--relleno-seccion-md);
+      align-items: center;
+      text-align: center;
     }
 
     .kb-testimonios-titulo {
-      font-size: var(--texto-29);
-      text-align: center;
+      font-size: var(--texto-32);
     }
 
     .kb-testimonios-texto {
-      width: 100%;
       font-size: var(--texto-16);
-      line-height: var(--interlineado-23);
-      text-align: center;
     }
 
     .kb-carrusel {
       --por-vista: 1;
       --desfase: 70px;
+    }
+
+    .kb-carrusel-anterior {
+      left: 0;
     }
 
     .kb-popup-caja {

@@ -15,6 +15,13 @@
     text-size-adjust: 100%;
   }
 
+  /* Saltos a anclas de la misma página: suaves, salvo con "reducir movimiento" */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   body {
     margin: 0;
     background: var(--color-fondo);
