@@ -1,92 +1,80 @@
 /*
- * Archivos de categoría del blog: plantilla del tema JupiterX (Bootstrap) de
- * kanuby.com. Los valores sin token aparecen una sola vez en el publicado.
+ * Archivos de categoría del blog en el sistema oscuro: cada post con su
+ * título enlazado, su imagen destacada redondeada y su contenido completo con
+ * el patrón kb-prosa, separados por una línea fina.
  */
 
 .archivo {
-  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--espacio-6) var(--relleno-seccion) var(--espacio-seccion);
   overflow-wrap: break-word;
 }
 
 .post {
-  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+  width: 100%;
+  max-width: var(--ancho-contenido);
+  padding-bottom: var(--espacio-6);
+}
+
+.post + .post {
+  padding-top: var(--espacio-6);
+  border-top: var(--borde-luz);
 }
 
 .titulo {
-  margin-bottom: 0.5rem;
-  color: var(--color-negro);
-  font-family: var(--fuente-texto);
-  font-size: 2rem;
-  font-weight: var(--peso-medium);
-  line-height: var(--interlineado-encabezado);
+  color: var(--color-texto);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-40);
+  font-weight: var(--peso-semibold);
+  line-height: var(--interlineado-display);
+  letter-spacing: var(--tracking-display);
 }
 
-.titulo a:hover {
-  text-decoration: underline;
+.titulo a {
+  transition: color var(--transicion);
+}
+
+.titulo a:hover,
+.titulo a:focus-visible {
+  color: var(--color-naranja);
+}
+
+.titulo a:focus-visible {
+  outline: var(--anillo-foco);
+  outline-offset: var(--anillo-foco-separacion);
 }
 
 .imagen {
   display: block;
-  margin-bottom: 1rem;
+  overflow: hidden;
+  border: var(--borde-luz);
+  border-radius: var(--radio-tarjeta);
 }
 
 .imagen img {
   width: 100%;
   object-fit: cover;
-  border-radius: 0.25rem;
 }
 
-.contenido h3,
-.contenido h4,
-.contenido h5 {
-  margin-bottom: 0.5rem;
-  font-family: inherit;
-  font-weight: var(--peso-medium);
-  line-height: var(--interlineado-encabezado);
+.contenido {
+  width: 100%;
 }
 
-.contenido [data-estilo="2"] {
-  font-size: 2rem;
-}
+@media (max-width: 767px) {
+  .archivo {
+    padding: var(--espacio-4) var(--relleno-seccion) var(--espacio-seccion-movil);
+  }
 
-.contenido [data-estilo="3"] {
-  font-size: 1.75rem;
-}
+  .titulo {
+    font-size: var(--texto-30);
+  }
 
-.contenido [data-estilo="4"] {
-  font-size: 1.5rem;
-}
-
-.contenido p,
-.contenido ul,
-.contenido ol {
-  margin-bottom: 1rem;
-}
-
-.contenido ul,
-.contenido ol {
-  padding-left: 40px;
-}
-
-.contenido ul {
-  list-style: disc;
-}
-
-.contenido ol {
-  list-style: decimal;
-}
-
-.contenido a {
-  color: #007bff;
-}
-
-.contenido a:hover {
-  color: #0056b3;
-  text-decoration: underline;
-}
-
-.contenido hr {
-  margin: 1rem 0;
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  .imagen {
+    border-radius: var(--radio-tarjeta-movil);
+  }
 }

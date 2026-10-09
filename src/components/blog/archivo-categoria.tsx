@@ -7,10 +7,10 @@ import { categorias, postsDeCategoria, type CategoriaSlug } from "@/lib/posts";
 import styles from "./archivo-categoria.module.css";
 
 /*
- * Archivo de una categoría del blog con la plantilla del tema JupiterX de
- * kanuby.com: sin header visible, todos los posts de la categoría (sin
- * paginación) con su título, su imagen destacada y su contenido completo, y el
- * footer global. En el publicado son "noindex, follow".
+ * Archivo de una categoría del blog en el sistema oscuro: sin header visible,
+ * todos los posts de la categoría (sin paginación) con su título, su imagen
+ * destacada y su contenido completo, y el footer global. Son "noindex,
+ * follow", como en el publicado.
  */
 
 export function metadataCategoria(categoria: CategoriaSlug): Metadata {
@@ -44,14 +44,14 @@ export function ArchivoCategoria({ categoria }: { categoria: CategoriaSlug }) {
                   alt={post.imagen.alt}
                   width={post.imagen.width}
                   height={post.imagen.height}
-                  sizes="(max-width: 1180px) 100vw, 1100px"
+                  sizes="(max-width: 1180px) 92vw, 1140px"
                 />
               </Link>
             )}
             <ContenidoPost
               bloques={post.contenido}
               desplazamiento={1}
-              className={styles.contenido}
+              className={`kb-prosa ${styles.contenido}`}
             />
           </article>
         ))}

@@ -71,26 +71,26 @@ export default function Social() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
       />
-      <main className={styles.social}>
+      <main className={`kb-resplandor ${styles.social}`}>
         <div className={styles.contenido}>
           <div className={styles.cabecera}>
             {/* El publicado no tiene H1: el logo, que dice "Kanuby", hace de título. */}
             <h1 className={styles.logo}>
               <Image
-                src="/images/kanuby-blue.svg"
+                src="/images/kanuby-orange.svg"
                 alt="Kanuby"
                 width={1593}
                 height={338}
-                sizes="(max-width: 767px) 180px, 12vw"
+                sizes="(max-width: 767px) 140px, 160px"
                 preload
               />
             </h1>
-            <Link href="/" className={styles.botonSitio}>
+            <Link href="/" className="kb-boton-secundario">
               Sitio Web
             </Link>
           </div>
 
-          <section className={styles.tarjeta}>
+          <section className={`kb-tarjeta ${styles.tarjeta}`}>
             <div className={styles.fila}>
               <div className={styles.mudanzaImagen}>
                 <Image
@@ -98,7 +98,7 @@ export default function Social() {
                   alt="Camión de mudanzas naranja de Kanuby"
                   width={2048}
                   height={1365}
-                  sizes="(max-width: 767px) 28vw, 10vw"
+                  sizes="(max-width: 767px) 28vw, 180px"
                 />
               </div>
               <div className={styles.mudanzaTexto}>
@@ -106,12 +106,15 @@ export default function Social() {
                   Múdate <br />
                   con Kanuby
                 </h2>
-                <BotonCotizar texto="Cotizar Mudanza" className={styles.botonBloque} />
+                <BotonCotizar
+                  texto="Cotizar Mudanza"
+                  className={`kb-boton-principal ${styles.botonBloque}`}
+                />
               </div>
             </div>
           </section>
 
-          <section className={styles.tarjeta}>
+          <section className={`kb-tarjeta ${styles.tarjeta}`}>
             <div className={styles.fila}>
               <div className={styles.minibodegaTexto}>
                 <h2 className={styles.minibodegaTitulo}>
@@ -125,11 +128,11 @@ export default function Social() {
                   alt="Camioneta naranja de Kanuby con el lema Rápido, fácil y seguro"
                   width={1080}
                   height={800}
-                  sizes="(max-width: 767px) 23vw, 10vw"
+                  sizes="(max-width: 767px) 23vw, 180px"
                 />
               </div>
             </div>
-            <span className={styles.proximamente}>🔔 Próximamente Minibodegas</span>
+            <span className={`kb-pildora ${styles.proximamente}`}>🔔 Próximamente Minibodegas</span>
           </section>
 
           <ul className={styles.redes}>
@@ -164,7 +167,7 @@ export default function Social() {
           <h2 className={styles.noticiasTitulo}>⬇️ Últimas Noticias ⬇️</h2>
 
           <div className={styles.posts}>
-            <article className={styles.post}>
+            <article className={`kb-tarjeta ${styles.post}`}>
               {post.imagen && (
                 <Link href={`/${post.slug}/`} className={styles.postImagen} tabIndex={-1} aria-hidden="true">
                   <Image
@@ -172,7 +175,7 @@ export default function Social() {
                     alt={post.imagen.alt}
                     width={post.imagen.width}
                     height={post.imagen.height}
-                    sizes="(max-width: 767px) 22vw, 10vw"
+                    sizes="(max-width: 767px) 26vw, 160px"
                   />
                 </Link>
               )}

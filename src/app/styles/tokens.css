@@ -166,7 +166,6 @@
   --interlineado-parrafo: 1.6;
 
   /* Tracking */
-  --tracking-sm: 0.5px;
   --tracking-md: 1px;
   --tracking-display: -0.02em;
 
@@ -185,10 +184,7 @@
   --espacio-6: 60px;
 
   /* Relleno de secciones: Elementor lo expresa en % del ancho */
-  --relleno-seccion-sm: 2%;
   --relleno-seccion: 4%;
-  --relleno-seccion-md: 6%;
-  --relleno-seccion-lg: 8%;
   --relleno-seccion-xl: 10%;
 
   /* Radios generosos del sistema oscuro */
@@ -197,8 +193,6 @@
   --radio-pildora: 999px;
 
   /* Radios */
-  --radio-xs: 8px;
-  --radio-sm: 10px;
   --radio-lg: 30px;
   --radio-xl: 40px;
   --radio-2xl: 60px;
@@ -225,7 +219,4 @@
   --color-negro: #000000;
   --color-whatsapp: #34e603;
   --color-gris-claro: #e7ebed;
-
-  /* Sombras de la réplica */
-  --sombra-tarjeta: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }

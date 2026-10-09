@@ -121,7 +121,7 @@ export default async function PaginaPost({ params }: Props) {
               alt={post.imagen.alt}
               width={post.imagen.width}
               height={post.imagen.height}
-              sizes="100vw"
+              sizes="92vw"
               className={styles.heroImagen}
               preload
             />
@@ -132,8 +132,7 @@ export default async function PaginaPost({ params }: Props) {
         </section>
 
         <div className={styles.cuerpo}>
-          <ContenidoPost bloques={post.contenido} className={styles.contenido} />
-          <div className={styles.lateral} />
+          <ContenidoPost bloques={post.contenido} className={`kb-prosa ${styles.contenido}`} />
         </div>
 
         <CierreBlog negocio={negocio} />

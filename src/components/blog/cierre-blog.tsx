@@ -12,9 +12,9 @@ import type { Negocio } from "@/lib/conversiones";
 import styles from "@/app/[slug]/page.module.css";
 
 /*
- * Bloque de cierre de los posts (plantilla 4541): texto, redes, "Descubre
- * más", "Cobertura" (sus enlaces dan 404 en el publicado; en pendientes) y la
- * llamada "¿Necesitas ayuda?", más la franja de créditos. Va antes del footer
+ * Bloque de cierre de los posts, en una tarjeta del sistema: texto, redes,
+ * "Descubre más", "Cobertura" (sus enlaces dan 404 en el publicado; en
+ * pendientes) y la llamada "¿Necesitas ayuda?", más la franja de créditos. Va antes del footer
  * global, como en el publicado.
  */
 
@@ -36,7 +36,7 @@ const GL = "?_gl=1*1une87i*_gcl_au*MTUyNTMwOTQ1My4xNzQxNjE2MDYzLjE3MzA2Mzk3NjUuM
 export function CierreBlog({ negocio }: { negocio: Negocio | null }) {
   return (
     <>
-      <section className={styles.cierre}>
+      <section className={`kb-tarjeta ${styles.cierre}`}>
         <div className={styles.cierreMarca}>
           <Link href="/" className={styles.cierreLogo}>
             <Image
@@ -129,7 +129,7 @@ export function CierreBlog({ negocio }: { negocio: Negocio | null }) {
                 alt="Camioneta naranja de Kanuby con el lema Rápido, fácil y seguro"
                 width={1080}
                 height={800}
-                sizes="(max-width: 767px) 88vw, 21vw"
+                sizes="(max-width: 1024px) 88vw, 21vw"
               />
             </span>
           </a>

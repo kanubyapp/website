@@ -186,6 +186,108 @@
   }
 
   /*
+   * Prosa: el contenido de los posts sobre fondo oscuro (posts y páginas de
+   * categoría). Párrafos en gris claro (9:1), títulos y negritas en blanco,
+   * enlaces en naranja subrayados (5.4:1 sobre el fondo) y un ancho de
+   * lectura cómodo.
+   */
+  .kb-prosa {
+    max-width: var(--medida-texto);
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-18);
+    line-height: var(--interlineado-parrafo);
+    overflow-wrap: break-word;
+  }
+
+  .kb-prosa h2,
+  .kb-prosa h3,
+  .kb-prosa h4,
+  .kb-prosa h5 {
+    margin: var(--espacio-4) 0 var(--espacio-2);
+    color: var(--color-texto);
+    font-family: var(--fuente-titulos);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-encabezado);
+  }
+
+  .kb-prosa > :first-child {
+    margin-top: 0;
+  }
+
+  .kb-prosa [data-estilo="2"] {
+    font-size: var(--texto-32);
+  }
+
+  .kb-prosa [data-estilo="3"] {
+    font-size: var(--texto-26);
+  }
+
+  .kb-prosa [data-estilo="4"] {
+    font-size: var(--texto-22);
+  }
+
+  .kb-prosa p,
+  .kb-prosa ul,
+  .kb-prosa ol {
+    margin-bottom: var(--espacio-2);
+  }
+
+  .kb-prosa ul,
+  .kb-prosa ol {
+    padding-left: var(--espacio-3);
+  }
+
+  .kb-prosa ul {
+    list-style: disc;
+  }
+
+  .kb-prosa ol {
+    list-style: decimal;
+  }
+
+  .kb-prosa li {
+    margin-bottom: var(--espacio-1);
+  }
+
+  .kb-prosa li::marker {
+    color: var(--color-naranja);
+  }
+
+  .kb-prosa strong {
+    color: var(--color-texto);
+    font-weight: var(--peso-semibold);
+  }
+
+  .kb-prosa a {
+    color: var(--color-naranja);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--transicion);
+  }
+
+  .kb-prosa a:hover {
+    color: var(--color-naranja-claro);
+  }
+
+  .kb-prosa a:focus-visible {
+    outline: var(--anillo-foco);
+    outline-offset: var(--anillo-foco-separacion);
+  }
+
+  .kb-prosa hr {
+    margin: var(--espacio-4) 0;
+    border: 0;
+    border-top: var(--borde-luz);
+  }
+
+  @media (max-width: 767px) {
+    .kb-prosa {
+      font-size: var(--texto-16);
+    }
+  }
+
+  /*
    * Teléfono del header (todas las páginas): círculo naranja que timbra y el
    * número al lado, pegado al logo (empuja el resto del header a la derecha).
    * Repique del ícono y pulso de los aros comparten ciclo de 2 s para leerse

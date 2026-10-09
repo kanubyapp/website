@@ -10,10 +10,10 @@ import type { Negocio } from "@/lib/conversiones";
 import styles from "@/app/[slug]/page.module.css";
 
 /*
- * Header de los posts (plantilla single-post 4541 de kanuby.com): logo, menú
- * con dos submenús (Mudanzas y Minibodegas → Monterrey) y botón "Cotiza Aquí",
- * que en el publicado lleva a WhatsApp con el mensaje de minibodega (en
- * pendientes). Debajo de 768px el menú pasa a pantalla completa.
+ * Header de los posts: píldora de vidrio con el logo, el teléfono, el menú con
+ * dos submenús (Mudanzas y Minibodegas → Monterrey) y el botón "Cotiza Aquí",
+ * que lleva a WhatsApp con el mensaje de minibodega (en pendientes). Debajo
+ * de 768px el menú pasa a pantalla completa, fuera de la barra de vidrio.
  */
 
 const menu = [
@@ -87,39 +87,56 @@ export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
 
   return (
     <header className={styles.header}>
-      <Link href="/" className={styles.headerLogo}>
-        <Image
-          src="/images/kanuby-orange.svg"
-          alt="Kanuby, ir al inicio"
-          width={1593}
-          height={338}
-          sizes="(max-width: 767px) 220px, 150px"
-          loading="eager"
-        />
-      </Link>
+      <div className={`kb-vidrio ${styles.headerBarra}`}>
+        <Link href="/" className={styles.headerLogo}>
+          <Image
+            src="/images/kanuby-orange.svg"
+            alt="Kanuby, ir al inicio"
+            width={1593}
+            height={338}
+            sizes="(max-width: 767px) 120px, 140px"
+            loading="eager"
+          />
+        </Link>
 
-      <TelefonoHeader />
+        <TelefonoHeader />
 
-      <nav className={styles.headerMenu} aria-label="Principal">
-        <ul className={styles.headerLista}>
-          {menu.map((item) => (
-            <Submenu key={item.texto} {...item} />
-          ))}
-        </ul>
-      </nav>
+        <nav className={styles.headerMenu} aria-label="Principal">
+          <ul className={styles.headerLista}>
+            {menu.map((item) => (
+              <Submenu key={item.texto} {...item} />
+            ))}
+          </ul>
+        </nav>
 
-      <button
-        ref={botonAbrir}
-        type="button"
-        className={styles.headerAbrir}
-        aria-expanded={abierto}
-        aria-controls={idMenu}
-        aria-label="Abrir menú"
-        onClick={() => setAbierto(true)}
-      >
-        <IconoMenu />
-      </button>
+        <button
+          ref={botonAbrir}
+          type="button"
+          className={styles.headerAbrir}
+          aria-expanded={abierto}
+          aria-controls={idMenu}
+          aria-label="Abrir menú"
+          onClick={() => setAbierto(true)}
+        >
+          <IconoMenu />
+        </button>
 
+        <EnlaceWhatsApp
+          href={COTIZA_AQUI}
+          negocio={negocio}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`kb-boton-principal ${styles.headerBoton}`}
+        >
+          <IconoWhatsApp className={styles.headerBotonIcono} />
+          Cotiza Aquí
+        </EnlaceWhatsApp>
+      </div>
+
+      {/*
+        El menú móvil va fuera de la barra: el backdrop-filter del vidrio
+        convertiría la barra en el contenedor de su position: fixed.
+      */}
       <nav id={idMenu} className={styles.headerMovil} data-abierto={abierto} aria-label="Principal">
         <button
           ref={botonCerrar}
@@ -151,17 +168,6 @@ export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
           ))}
         </ul>
       </nav>
-
-      <EnlaceWhatsApp
-        href={COTIZA_AQUI}
-        negocio={negocio}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.headerBoton}
-      >
-        <IconoWhatsApp className={styles.headerBotonIcono} />
-        Cotiza Aquí
-      </EnlaceWhatsApp>
     </header>
   );
 }
