@@ -89,7 +89,6 @@ export function SiteFooter() {
         </div>
 
         <div className={styles.creditos}>
-          <p className={styles.copyright}>© {año} Kanuby. Todos los derechos reservados.</p>
           <a
             href="https://scndal.com"
             target="_blank"
@@ -101,9 +100,10 @@ export function SiteFooter() {
               alt="Created by SCNDAL"
               width={1813}
               height={221}
-              sizes="150px"
+              sizes="(max-width: 767px) 160px, 190px"
             />
           </a>
+          <p className={styles.copyright}>© {año} Kanuby. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

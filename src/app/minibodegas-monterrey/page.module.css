@@ -79,20 +79,29 @@
 }
 
 /*
- * Hero: la imagen sin fondo va a todo lo ancho, con el contenedor a la
- * derecha, y el texto a la izquierda. El resplandor sube por detrás del
- * header hasta el borde de la página: sin z-index propio en el hero, el
- * ::before y la imagen con z-index -1 se pintan debajo de todo el contenido.
+ * Hero: dos columnas dentro del margen del sitio, el texto a la izquierda y
+ * la imagen sin fondo completa a la derecha, centradas entre sí; en móvil, la
+ * imagen va debajo del texto. El resplandor sube por detrás del header hasta
+ * el borde de la página: sin z-index propio en el hero, su ::before con
+ * z-index -1 se pinta debajo de todo el contenido.
  */
 
 .hero {
-  display: flex;
+  display: grid;
   position: relative;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--espacio-3);
+  grid-template-columns: minmax(0, 45%) minmax(0, 1fr);
+  align-content: center;
+  align-items: center;
+  gap: var(--espacio-3) var(--espacio-5);
   min-height: 90vh;
   padding: var(--espacio-6) var(--relleno-seccion) var(--espacio-seccion);
+}
+
+/* El texto en la columna izquierda */
+.heroTitulo,
+.heroTexto,
+.heroBotones {
+  grid-column: 1;
 }
 
 .hero::before {
@@ -104,18 +113,15 @@
   pointer-events: none;
 }
 
+/* La imagen, completa en la columna derecha y centrada con el bloque de texto */
 .heroFondo {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
+  grid-row: 1 / span 3;
+  grid-column: 2;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: right center;
+  height: auto;
 }
 
 .heroTitulo {
-  max-width: 45%;
   color: var(--color-texto);
   font-size: var(--texto-60);
   font-weight: var(--peso-semibold);
@@ -124,7 +130,7 @@
 }
 
 .heroTexto {
-  max-width: 40%;
+  max-width: 90%;
   color: var(--color-texto-secundario);
   font-family: var(--fuente-texto);
   font-size: var(--texto-20);
@@ -835,13 +841,12 @@
 /* Tablet */
 
 @media (max-width: 1024px) {
-  .heroTitulo {
-    max-width: 55%;
-    font-size: var(--texto-48);
+  .hero {
+    grid-template-columns: minmax(0, 55%) minmax(0, 1fr);
   }
 
-  .heroTexto {
-    max-width: 50%;
+  .heroTitulo {
+    font-size: var(--texto-48);
   }
 
   .tamanosRejilla {
@@ -873,18 +878,18 @@
 
   /* En móvil la imagen va debajo del texto, entera */
   .hero {
+    grid-template-columns: minmax(0, 1fr);
     min-height: 0;
     padding: var(--espacio-4) var(--relleno-seccion) var(--espacio-seccion-movil);
     text-align: center;
   }
 
   .heroFondo {
-    position: static;
+    grid-row: auto;
+    grid-column: 1;
     order: 1;
-    height: auto;
   }
 
-  .heroTitulo,
   .heroTexto {
     max-width: none;
   }

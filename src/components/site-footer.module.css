@@ -86,13 +86,22 @@
   outline-offset: var(--anillo-foco-separacion);
 }
 
-/* Franja de créditos dentro de la tarjeta, tras una línea fina */
+/*
+ * Franja de créditos dentro de la tarjeta, tras una línea fina: el webtag a la
+ * izquierda y el copyright a la derecha. A la derecha deja libre lo que ocupa
+ * el botón flotante (tamaño + margen desde el borde de la pantalla), descontando
+ * el margen del footer y el relleno de la tarjeta, más un respiro.
+ */
 .creditos {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: var(--espacio-2);
   padding-top: var(--espacio-3);
+  padding-right: calc(
+    var(--flotante-tamano) + var(--flotante-margen) + var(--espacio-1) - var(--espacio-2) -
+      var(--espacio-6)
+  );
   border-top: var(--borde-luz);
 }
 
@@ -105,7 +114,7 @@
 
 /* Variante en blanco del webtag */
 .webtag img {
-  width: 150px;
+  width: 190px;
   opacity: 0.7;
 }
 
@@ -137,9 +146,18 @@
     align-items: center;
   }
 
+  /* En móvil la tarjeta tiene menos relleno y el botón es más chico */
   .creditos {
     flex-direction: column;
+    padding-right: calc(
+      var(--flotante-tamano-movil) + var(--flotante-margen-movil) + var(--espacio-1) -
+        var(--espacio-2) - var(--espacio-2)
+    );
     text-align: center;
+  }
+
+  .webtag img {
+    width: 160px;
   }
 
   .copyright {

@@ -247,6 +247,16 @@
   --relleno-boton-sistema: 14px 28px;
   --relleno-pildora: 8px 16px;
 
+  /*
+   * Botón flotante de WhatsApp: tamaño y distancia a la esquina inferior
+   * derecha. Lo que ocupa desde el borde (tamaño + margen) lo reservan los
+   * elementos que podría tapar, como la franja de créditos del footer.
+   */
+  --flotante-tamano: 64px;
+  --flotante-margen: var(--espacio-3);
+  --flotante-tamano-movil: 56px;
+  --flotante-margen-movil: var(--espacio-2);
+
   /* Foco y movimiento */
   --anillo-foco: 2px solid var(--color-naranja-claro);
   --anillo-foco-separacion: 3px;

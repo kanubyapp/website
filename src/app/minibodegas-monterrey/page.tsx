@@ -105,9 +105,9 @@ export default function Minibodegas() {
           <Image
             src="/images/minibodegas/hero-minibodegas.webp"
             alt="Persona metiendo un sillón en un contenedor naranja de Kanuby"
-            width={1920}
-            height={1080}
-            sizes="100vw"
+            width={1188}
+            height={910}
+            sizes="(max-width: 767px) 92vw, (max-width: 1024px) 40vw, 50vw"
             className={styles.heroFondo}
             preload
           />

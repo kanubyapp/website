@@ -199,13 +199,13 @@
   .kb-flotante {
     display: inline-flex;
     position: fixed;
-    right: var(--espacio-3);
-    bottom: var(--espacio-3);
+    right: var(--flotante-margen);
+    bottom: var(--flotante-margen);
     z-index: 100;
     justify-content: center;
     align-items: center;
-    width: 64px;
-    height: 64px;
+    width: var(--flotante-tamano);
+    height: var(--flotante-tamano);
     padding: 0;
     border: 1px solid var(--color-naranja-claro);
     border-radius: var(--radio-pildora);
@@ -233,10 +233,10 @@
 
   @media (max-width: 767px) {
     .kb-flotante {
-      right: var(--espacio-2);
-      bottom: var(--espacio-2);
-      width: 56px;
-      height: 56px;
+      right: var(--flotante-margen-movil);
+      bottom: var(--flotante-margen-movil);
+      width: var(--flotante-tamano-movil);
+      height: var(--flotante-tamano-movil);
     }
   }
 
