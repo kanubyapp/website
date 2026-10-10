@@ -131,9 +131,9 @@ Puede haber más 301 configuradas en WordPress, en el módulo de redirecciones d
 | `/wp-sitemap.xml` | Tiene equivalente | `/sitemap.xml` | Hoy redirige a /sitemap_index.xml. |
 | `/sitemap.xml` | Existe igual | — | |
 | `/robots.txt` | Existe igual | — | |
-| `/wp-content/uploads/2024/07/kanubymudanzas.svg` | Tiene equivalente | `/mudanzas-monterrey/` | Ver "Hallazgos": un post del sitio nuevo enlaza a este archivo. |
-| `/wp-content/uploads/2024/07/kanubyminibodegas.svg` | Tiene equivalente | `/minibodegas-monterrey/` | Ver "Hallazgos": dos posts del sitio nuevo enlazan a este archivo. |
-| `/wp-content/uploads/2024/12/kanuby-web.png` | Tiene equivalente | `/` | Ver "Hallazgos": dos posts del sitio nuevo enlazan a este archivo. |
+| `/wp-content/uploads/2024/07/kanubymudanzas.svg` | Tiene equivalente | `/mudanzas-monterrey/` | Logotipo "Kanuby Mudanzas". Ningún post del sitio nuevo enlaza ya a él; la 301 solo cubre enlaces externos. |
+| `/wp-content/uploads/2024/07/kanubyminibodegas.svg` | Tiene equivalente | `/minibodegas-monterrey/` | Logotipo "Kanuby Minibodegas". Ningún post del sitio nuevo enlaza ya a él; la 301 solo cubre enlaces externos. |
+| `/wp-content/uploads/2024/12/kanuby-web.png` | Tiene equivalente | `/` | Ilustración del camión de Kanuby. Ningún post del sitio nuevo enlaza ya a ella; la 301 solo cubre enlaces externos. |
 | `/wp-content/uploads/...` (el resto de archivos) | No tiene equivalente | 410 | Las imágenes del sitio nuevo se sirven desde /images/ con otros nombres; no hay correspondencia uno a uno. |
 | `/wp-content/...`, `/wp-includes/...` | No tiene equivalente | 410 | Archivos internos de WordPress. |
 | `/wp-admin/...`, `/wp-login.php`, `/xmlrpc.php` | No tiene equivalente | 410 | Administración de WordPress. |
@@ -328,6 +328,10 @@ En la tabla: 43 van a su padre, 101 a 410 y 13 son URLs con `?attachment_id=` qu
 Hay que resolverlos antes de publicar. No se corrigió nada.
 
 1. **/gracias/ no existe en el sitio nuevo**, aunque docs/replica-decisiones.md la incluye con noindex entre lo que se corrige al replicar. Hay que decidir si se replica o se redirige, y revisar si alguna conversión de Google Ads o GTM depende de ella.
-2. **Cinco enlaces de posts apuntan a archivos de WordPress** (`https://kanuby.com/wp-content/uploads/...`), los que lista docs/replica-decisiones.md. En cuanto el dominio cambie darán 404, salvo que se implementen las tres redirecciones de archivo propuestas arriba o se cambie el enlace en el contenido.
+2. **Resuelto: cinco enlaces de posts apuntaban a archivos de WordPress** (`https://kanuby.com/wp-content/uploads/...`). Los tres archivos son imágenes (dos logotipos y la ilustración del camión), no descargas para el lector, así que no se trajeron al proyecto. El 9 de octubre de 2026 los enlaces se cambiaron en src/lib/posts.ts:
+   - /mudanzas-premium-san-pedro/, "Te puede interesar: kanubymudanzas" (kanubymudanzas.svg): ahora enlaza a /mudanzas-monterrey/.
+   - /mudanzas-oficina-monterrey-cambio-sin-interrumpir/ y /mudanzas-residenciales-en-monterrey/, "Te puede interesar: kanubyminibodegas" (kanubyminibodegas.svg): ahora enlazan a /minibodegas-monterrey/.
+   - /mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable/, el título "¿Por qué elegir a Kanuby?" (kanuby-web.png): se quitó el enlace y queda el texto.
+   - /tarifas-mudanzas-monterrey/, "Solicita tu cotización con Kanuby" (kanuby-web.png): ahora enlaza a /mudanzas-monterrey/.
 3. **Las redirecciones configuradas en WordPress no se pueden inventariar desde fuera.** Hay que exportarlas desde wp-admin: Yoast Premium, Redirection o los `_wp_old_slug` de la base de datos.
 4. **18 de los 175 adjuntos no son públicos en la API** y no aparecen en la tabla.

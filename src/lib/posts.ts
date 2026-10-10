@@ -352,7 +352,7 @@ const publicados: PostPublicado[] = [
         "texto": [
           "Te puede interesar: ",
           {
-            "enlace": "https://kanuby.com/wp-content/uploads/2024/07/kanubymudanzas.svg",
+            "enlace": "/mudanzas-monterrey/",
             "texto": [
               "kanubymudanzas"
             ]
@@ -489,7 +489,7 @@ const publicados: PostPublicado[] = [
           },
           "Te puede interesar: ",
           {
-            "enlace": "https://kanuby.com/wp-content/uploads/2024/07/kanubyminibodegas.svg",
+            "enlace": "/minibodegas-monterrey/",
             "texto": [
               "kanubyminibodegas"
             ]
@@ -1064,7 +1064,7 @@ const publicados: PostPublicado[] = [
           },
           "Te puede interesar: ",
           {
-            "enlace": "https://kanuby.com/wp-content/uploads/2024/07/kanubyminibodegas.svg",
+            "enlace": "/minibodegas-monterrey/",
             "texto": [
               "kanubyminibodegas"
             ]
@@ -1404,14 +1404,7 @@ const publicados: PostPublicado[] = [
         "nivel": 2,
         "estilo": 3,
         "texto": [
-          "¿Por qué elegir a ",
-          {
-            "enlace": "https://kanuby.com/wp-content/uploads/2024/12/kanuby-web.png",
-            "texto": [
-              "Kanuby"
-            ]
-          },
-          "?"
+          "¿Por qué elegir a Kanuby?"
         ]
       },
       {
@@ -1596,7 +1589,7 @@ const publicados: PostPublicado[] = [
         "texto": [
           "Solicita tu cotización con ",
           {
-            "enlace": "https://kanuby.com/wp-content/uploads/2024/12/kanuby-web.png",
+            "enlace": "/mudanzas-monterrey/",
             "texto": [
               "Kanuby"
             ]
