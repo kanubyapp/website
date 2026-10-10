@@ -46,6 +46,7 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
   - Validar la tabla de volúmenes de los objetos y el margen de acomodo de 30% (src/lib/catalogo-calculadora.ts), hoy estimaciones de referencia.
   - Si el texto de la tarjeta Mediana ("los muebles de una recámara pequeña") sigue cuadrando con la calculadora: con la tabla actual, una recámara típica cabe en la Chica.
   - Que el aviso de privacidad mencione que la calculadora guarda nombre, teléfono e inventario en el navegador.
+  - Cuando no cabe en una Grande, la calculadora recomienda una combinación de hasta 4 minibodegas. Confirmar si un cliente puede rentar varias, si pueden ser contiguas y si hay disponibilidad suficiente de cada tamaño.
 - [ ] Posts que enlazan a una imagen en lugar de a una página (se copian tal cual, apuntando al archivo en kanuby.com/wp-content):
   - /mudanzas-premium-san-pedro/: "kanubymudanzas" → kanubymudanzas.svg
   - /mudanzas-oficina-monterrey-cambio-sin-interrumpir/: "kanubyminibodegas" → kanubyminibodegas.svg

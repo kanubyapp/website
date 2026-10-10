@@ -1,8 +1,10 @@
 /*
  * Calculadora de espacio: el modal del popup de cotización (patrones
  * kb-popup y kb-campo) más ancho, para la minibodega en isométrico junto al
- * catálogo. En móvil ocupa toda la pantalla, con la vista arriba y el botón
- * de cierre fijo abajo.
+ * catálogo. En el inventario la caja toma todo el alto disponible y no hace
+ * scroll: la vista, el resultado y el botón quedan fijos y solo se desplaza
+ * la lista de objetos. En móvil ocupa toda la pantalla, con la vista compacta
+ * arriba, la lista en medio y el botón fijo abajo.
  */
 
 .dialogo {
@@ -25,26 +27,46 @@
   outline-offset: var(--anillo-foco-separacion);
 }
 
-/* Paso 2: la vista a la izquierda, el catálogo a la derecha y el cierre abajo */
-.inventario {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: start;
-  gap: var(--espacio-3);
+/* Paso 2: la caja a todo el alto del modal, sin scroll propio */
+.cajaInventario {
+  height: calc(100vh - 2 * var(--espacio-2));
+  overflow: hidden;
 }
 
+/* Vista y cierre a la izquierda, el catálogo a la derecha a todo el alto */
+.inventario {
+  display: grid;
+  flex: 1;
+  grid-template-areas:
+    "vista catalogo"
+    "cierre catalogo";
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  /* kb-popup-paso centra sus hijos: aquí cada columna llena su celda */
+  align-items: stretch;
+  gap: var(--espacio-2) var(--espacio-3);
+  min-height: 0;
+}
+
+/*
+ * El dibujo toma solo el alto que le deja el resultado y el SVG escala para
+ * caber en él (viewBox): nunca sale de su columna. Centrada en su celda
+ * (lo que hereda de kb-popup-paso), la columna tomaba el alto natural del
+ * SVG y desbordaba hacia arriba, sobre el título, y hacia abajo, bajo el botón.
+ */
 .vista {
-  display: flex;
-  position: sticky;
-  top: 0;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-area: vista;
+  grid-template-rows: minmax(0, 1fr) auto;
+  justify-items: center;
   gap: var(--espacio-1);
+  min-height: 0;
 }
 
 .isometrico {
   width: 100%;
-  height: auto;
+  height: 100%;
+  min-height: 0;
 }
 
 .ocupacion {
@@ -63,13 +85,22 @@
 }
 
 .resultado {
-  color: var(--color-texto-oscuro);
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-16);
-  line-height: var(--interlineado-parrafo);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-1);
+  text-align: center;
 }
 
-/* Isométrico: paredes claras y bloques naranjas, una cara por tono */
+.tamano {
+  color: var(--color-texto-oscuro);
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-18);
+  font-weight: var(--peso-medium);
+  line-height: var(--interlineado-encabezado);
+}
+
+/* Isométrico: paredes claras y bloques en tres tonos, una cara por matiz */
 
 .piso,
 .pared {
@@ -80,7 +111,8 @@
   vector-effect: non-scaling-stroke;
 }
 
-.arista {
+.arista,
+.aristaVidrio {
   fill: none;
   stroke: var(--color-texto-oscuro-secundario);
   stroke-width: 1px;
@@ -97,16 +129,48 @@
   vector-effect: non-scaling-stroke;
 }
 
+/* Tamaño y ocupación de cada bodega de una combinación; se escala al dibujo */
+.etiquetaBodega {
+  fill: var(--color-texto-oscuro);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-20);
+  font-weight: var(--peso-medium);
+  text-anchor: middle;
+}
+
+/* Por delante de los bloques, la arista es un canto de vidrio */
+.aristaVidrio {
+  stroke: var(--cristal-liquido-borde);
+}
+
+.tonoNaranja {
+  --cara-arriba: var(--color-naranja-claro);
+  --cara-ancho: var(--color-naranja);
+  --cara-largo: var(--color-naranja-oscuro);
+}
+
+.tonoAzul {
+  --cara-arriba: var(--color-superficie-alta);
+  --cara-ancho: var(--color-superficie);
+  --cara-largo: var(--color-superficie-baja);
+}
+
+.tonoGris {
+  --cara-arriba: var(--color-texto-secundario);
+  --cara-ancho: var(--color-texto-tenue);
+  --cara-largo: var(--color-texto-oscuro-secundario);
+}
+
 .caraArriba {
-  fill: var(--color-naranja-claro);
+  fill: var(--cara-arriba);
 }
 
 .caraAncho {
-  fill: var(--color-naranja);
+  fill: var(--cara-ancho);
 }
 
 .caraLargo {
-  fill: var(--color-naranja-oscuro);
+  fill: var(--cara-largo);
 }
 
 /* Movimiento: solo sin "reducir movimiento". Las unidades son metros del dibujo. */
@@ -141,10 +205,13 @@
 
 /* Catálogo */
 
+/* Pregunta y pestañas fijas; solo la lista hace scroll */
 .catalogo {
   display: flex;
+  grid-area: catalogo;
   flex-direction: column;
   gap: var(--espacio-2);
+  min-height: 0;
   text-align: left;
 }
 
@@ -184,7 +251,13 @@
 
 .objetos {
   display: flex;
+  flex: 1;
   flex-direction: column;
+  min-height: 0;
+  /* Respiro para que el anillo de foco de los botones no quede recortado */
+  padding-inline: var(--espacio-1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .objeto {
@@ -253,7 +326,7 @@
 
 .cierre {
   display: flex;
-  grid-column: 1 / -1;
+  grid-area: cierre;
   flex-direction: column;
   align-items: center;
   gap: var(--espacio-1);
@@ -272,7 +345,7 @@
   cursor: not-allowed;
 }
 
-/* Móvil: pantalla completa, una columna y el cierre fijo abajo */
+/* Móvil: pantalla completa; vista compacta arriba, lista en medio, botón abajo */
 
 @media (max-width: 767px) {
   .dialogo {
@@ -289,21 +362,40 @@
     border-radius: 0;
   }
 
-  .inventario {
-    grid-template-columns: minmax(0, 1fr);
+  .cajaInventario {
+    height: 100%;
   }
 
+  .inventario {
+    grid-template-areas:
+      "vista"
+      "catalogo"
+      "cierre";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: var(--espacio-1);
+  }
+
+  /* Compacta: el dibujo a una cuarta parte del alto de la pantalla */
   .vista {
-    position: static;
+    grid-template-rows: auto auto;
+  }
+
+  .isometrico {
+    height: 25dvh;
+  }
+
+  .porcentaje {
+    font-size: var(--texto-26);
+  }
+
+  .tamano {
+    font-size: var(--texto-16);
   }
 
   .cierre {
-    position: sticky;
-    bottom: 0;
-    margin-inline: calc(var(--espacio-2) * -1);
-    padding: var(--espacio-2);
+    padding-top: var(--espacio-1);
     border-top: var(--borde-claro);
-    background: var(--cristal-fondo-solido);
   }
 
   .cierre :global(.kb-popup-enviar) {

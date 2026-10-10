@@ -8,12 +8,14 @@ import { CATEGORIAS } from "@/lib/catalogo-calculadora";
 import {
   CANTIDAD_MAXIMA,
   cambiarCantidad,
+  enLista,
   lineasInventario,
   objetosPorId,
   recomendar,
   tamanoSolicitado,
   urlCalculadora,
-  volumenInventario,
+  textoCombinacion,
+  TOPE_BODEGAS,
 } from "@/lib/calculadora";
 import {
   eventoCalculadoraRegistro,
@@ -36,9 +38,10 @@ import styles from "./calculadora.module.css";
  * precios. Dos pasos:
  *   1. Registro: nombre y teléfono. Al completarlo emite calculadora_registro.
  *   2. Inventario: el catálogo por categorías con cantidades, la minibodega
- *      en isométrico llenándose y la recomendación con su ocupación. "Quiero
- *      esta minibodega" (o "Escríbenos por WhatsApp" si no cabe) emite
- *      calculadora_solicitud y redirige a WhatsApp con la lista.
+ *      (o la combinación de minibodegas) en isométrico llenándose y la
+ *      recomendación con su ocupación. "Quiero esta minibodega" ("estas
+ *      minibodegas" si son varias, "Escríbenos por WhatsApp" si no cabe ni en
+ *      el tope) emite calculadora_solicitud y redirige a WhatsApp con la lista.
  * Lo que lleva se guarda conforme avanza (lib/guardado-calculadora.ts): si
  * cierra o regresa después, lo encuentra igual, y con el registro hecho abre
  * directo en el inventario. Foco, cierre y trampa de Tab son los del popup
@@ -92,10 +95,10 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
   }, [abierto, estado.registrado]);
 
   const lineas = useMemo(() => lineasInventario(estado.inventario), [estado.inventario]);
-  const recomendacion = recomendar(volumenInventario(lineas));
-  const porcentaje = Math.round(recomendacion.ocupacion * 100);
+  const recomendacion = useMemo(() => recomendar(lineas), [lineas]);
+  const porcentajes = recomendacion.bodegas.map(({ ocupacion }) => `${Math.round(ocupacion * 100)}%`);
+  const una = recomendacion.cabe && recomendacion.bodegas.length === 1;
   const vacio = lineas.length === 0;
-  const { bodega } = recomendacion;
   const categoriaActual = CATEGORIAS.find((opcion) => opcion.id === categoria) ?? CATEGORIAS[0];
 
   function abrir() {
@@ -184,7 +187,10 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
         data-lenis-prevent
         aria-labelledby={`${id}-titulo`}
       >
-        <div ref={caja} className={`kb-cristal kb-popup-caja ${styles.caja}`}>
+        <div
+          ref={caja}
+          className={`kb-cristal kb-popup-caja ${styles.caja} ${estado.registrado ? styles.cajaInventario : ""}`}
+        >
           <button type="button" className="kb-popup-cerrar" aria-label="Cerrar" onClick={cerrar}>
             <IconoCerrar />
           </button>
@@ -250,20 +256,30 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
             <div className={`kb-popup-paso ${styles.inventario}`}>
               <div className={styles.vista}>
                 <Isometrico
-                  bodega={bodega}
+                  bodegas={recomendacion.bodegas}
                   lineas={lineas}
-                  etiqueta={`Minibodega ${bodega.nombre} de ${bodega.tamano}, ocupada al ${porcentaje}%`}
+                  etiqueta={recomendacion.bodegas
+                    .map(
+                      ({ bodega }, indice) =>
+                        `Minibodega ${bodega.nombre} de ${bodega.tamano}, ocupada al ${porcentajes[indice]}`,
+                    )
+                    .join("; ")}
                 />
-                <p className={styles.ocupacion}>
-                  <span className={styles.porcentaje}>{porcentaje}%</span> de ocupación
-                </p>
-                <p className={styles.resultado} aria-live="polite">
-                  {vacio
-                    ? "Agrega lo que quieres guardar para ver qué minibodega te conviene."
-                    : recomendacion.cabe
-                      ? `Te recomendamos la minibodega ${bodega.nombre} de ${bodega.tamano}, ocupada al ${porcentaje}%.`
-                      : `Lo que agregaste no cabe en nuestra minibodega más grande, de ${bodega.tamano}: ocuparía el ${porcentaje}%. Escríbenos por WhatsApp y te ayudamos a encontrar una opción.`}
-                </p>
+                {/* La ocupación y la combinación se anuncian juntas */}
+                <div className={styles.resultado} aria-live="polite" aria-atomic="true">
+                  {una ? (
+                    <p className={styles.ocupacion}>
+                      <span className={styles.porcentaje}>{porcentajes[0]}</span> de ocupación
+                    </p>
+                  ) : (
+                    <p className={styles.ocupacion}>Ocupación: {enLista(porcentajes)}</p>
+                  )}
+                  <p className={styles.tamano}>
+                    {recomendacion.cabe
+                      ? textoCombinacion(recomendacion)
+                      : `No cabe ni en ${TOPE_BODEGAS} minibodegas Grandes. Escríbenos por WhatsApp y armamos un plan a tu medida.`}
+                  </p>
+                </div>
               </div>
 
               <div className={styles.catalogo}>
@@ -344,7 +360,11 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
                   onClick={solicitar}
                 >
                   <IconoWhatsApp className="kb-popup-enviar-icono" />
-                  {recomendacion.cabe ? "Quiero esta minibodega" : "Escríbenos por WhatsApp"}
+                  {!recomendacion.cabe
+                    ? "Escríbenos por WhatsApp"
+                    : recomendacion.bodegas.length === 1
+                      ? "Quiero esta minibodega"
+                      : "Quiero estas minibodegas"}
                 </button>
                 <p className="kb-popup-nota">
                   Se abre WhatsApp con tu lista ya escrita. Solo tienes que enviar el mensaje.

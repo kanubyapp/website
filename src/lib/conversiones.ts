@@ -1,5 +1,4 @@
 import type { CategoriaSlug } from "./posts.ts";
-import type { TamanoMinibodega } from "./whatsapp.ts";
 
 /*
  * Eventos de conversión para el dataLayer. El sitio solo los emite; GTM los
@@ -13,8 +12,8 @@ import type { TamanoMinibodega } from "./whatsapp.ts";
  *   calculadora_registro: la persona completó nombre y teléfono. Lleva la
  *     página; los datos personales no van al dataLayer.
  *   calculadora_solicitud: pidió su minibodega y va a redirigir a WhatsApp.
- *     Lleva la página y el tamaño recomendado, o "excede" si no cabe ni en
- *     la más grande.
+ *     Lleva la página y en tamano la combinación recomendada ("14 m²",
+ *     "14 m² + 7 m²"), o "excede" si no cabe ni en el tope de bodegas.
  */
 
 declare global {
@@ -29,7 +28,7 @@ export type EventoConversion =
   | { event: `cotizacion_${Negocio}`; pagina: string; opcion: string }
   | { event: `whatsapp_${Negocio}`; pagina: string }
   | { event: "calculadora_registro"; pagina: string }
-  | { event: "calculadora_solicitud"; pagina: string; tamano: TamanoMinibodega | "excede" };
+  | { event: "calculadora_solicitud"; pagina: string; tamano: string };
 
 export function eventoCotizacion(negocio: Negocio, pagina: string, opcion: string): EventoConversion {
   return { event: `cotizacion_${negocio}`, pagina, opcion };
@@ -43,10 +42,7 @@ export function eventoCalculadoraRegistro(pagina: string): EventoConversion {
   return { event: "calculadora_registro", pagina };
 }
 
-export function eventoCalculadoraSolicitud(
-  pagina: string,
-  tamano: TamanoMinibodega | "excede",
-): EventoConversion {
+export function eventoCalculadoraSolicitud(pagina: string, tamano: string): EventoConversion {
   return { event: "calculadora_solicitud", pagina, tamano };
 }
 

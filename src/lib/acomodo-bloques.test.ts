@@ -74,6 +74,19 @@ test("todo queda dentro de la bodega, aun con más de lo que cabe", () => {
   }
 });
 
+test("todas las unidades de un objeto llevan su posición entre los objetos distintos", () => {
+  const resultado = piezas({ "sofa-3": 1, silla: 2, "caja-mediana": 70 });
+  assert.deepEqual(
+    resultado.map(({ objetoId, indiceObjeto }) => [objetoId, indiceObjeto]),
+    [
+      ["sofa-3", 0],
+      ["silla", 1],
+      ["silla", 1],
+      ["caja-mediana", 2],
+    ],
+  );
+});
+
 test("al cambiar de bodega se conservan las claves: los bloques se reacomodan", () => {
   const lista = piezas({ silla: 2, "sofa-3": 1 });
   const enChica = acomodar(lista, chica).map((bloque) => bloque.clave).sort();
@@ -84,6 +97,7 @@ test("al cambiar de bodega se conservan las claves: los bloques se reacomodan", 
 const bloque = (clave: string, x: number, y: number, z: number): Bloque => ({
   clave,
   objetoId: clave,
+  indiceObjeto: 0,
   cantidad: 1,
   volumen: 1,
   x,

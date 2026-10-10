@@ -32,6 +32,8 @@ export type Pieza = {
   /** Estable entre renders: la vista anima por ella */
   clave: string;
   objetoId: string;
+  /** Posición del objeto entre los distintos del inventario: la vista alterna tonos por ella */
+  indiceObjeto: number;
   /** Unidades que representa: más de 1 cuando se agruparon */
   cantidad: number;
   /** m³ sin margen */
@@ -47,7 +49,16 @@ export type Bloque = Pieza & {
   alto: number;
 };
 
-export function piezasDeLineas(lineas: readonly Linea[], limite = LIMITE_BLOQUES): Pieza[] {
+/**
+ * indiceDe da la posición del objeto entre todos los del inventario (con
+ * varias bodegas, cada una recibe solo sus líneas y el tono debe ser el
+ * mismo en todas); sin él, la posición en estas líneas.
+ */
+export function piezasDeLineas(
+  lineas: readonly Linea[],
+  limite = LIMITE_BLOQUES,
+  indiceDe?: (objetoId: string) => number,
+): Pieza[] {
   let total = lineas.reduce((suma, { cantidad }) => suma + cantidad, 0);
   const agrupados = new Set<string>();
   for (const { objeto, cantidad } of [...lineas].sort((a, b) => b.cantidad - a.cantidad)) {
@@ -57,16 +68,26 @@ export function piezasDeLineas(lineas: readonly Linea[], limite = LIMITE_BLOQUES
     total -= cantidad - 1;
   }
 
-  return lineas.flatMap(({ objeto, cantidad }) =>
-    agrupados.has(objeto.id)
-      ? [{ clave: `${objeto.id}-grupo`, objetoId: objeto.id, cantidad, volumen: objeto.volumen * cantidad }]
+  return lineas.flatMap(({ objeto, cantidad }, indice) => {
+    const indiceObjeto = indiceDe ? indiceDe(objeto.id) : indice;
+    return agrupados.has(objeto.id)
+      ? [
+          {
+            clave: `${objeto.id}-grupo`,
+            objetoId: objeto.id,
+            indiceObjeto,
+            cantidad,
+            volumen: objeto.volumen * cantidad,
+          },
+        ]
       : Array.from({ length: cantidad }, (_, numero) => ({
           clave: `${objeto.id}-${numero + 1}`,
           objetoId: objeto.id,
+          indiceObjeto,
           cantidad: 1,
           volumen: objeto.volumen,
-        })),
-  );
+        }));
+  });
 }
 
 const limitar = (valor: number, minimo: number, maximo: number) =>
