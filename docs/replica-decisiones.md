@@ -47,12 +47,7 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
   - Si el texto de la tarjeta Mediana ("los muebles de una recámara pequeña") sigue cuadrando con la calculadora: con la tabla actual, una recámara típica cabe en la Chica.
   - Que el aviso de privacidad mencione que la calculadora guarda nombre, teléfono e inventario en el navegador.
   - Cuando no cabe en una Grande, la calculadora recomienda una combinación de hasta 4 minibodegas. Confirmar si un cliente puede rentar varias, si pueden ser contiguas y si hay disponibilidad suficiente de cada tamaño.
-- [ ] Posts que enlazan a una imagen en lugar de a una página (se copian tal cual, apuntando al archivo en kanuby.com/wp-content):
-  - /mudanzas-premium-san-pedro/: "kanubymudanzas" → kanubymudanzas.svg
-  - /mudanzas-oficina-monterrey-cambio-sin-interrumpir/: "kanubyminibodegas" → kanubyminibodegas.svg
-  - /mudanzas-residenciales-en-monterrey/: "kanubyminibodegas" → kanubyminibodegas.svg
-  - /mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable/: "Kanuby" → kanuby-web.png
-  - /tarifas-mudanzas-monterrey/: "Kanuby" → kanuby-web.png
+- [x] Posts que enlazaban a imágenes de kanuby.com/wp-content: resuelto. Los "Te puede interesar" ahora enlazan a /mudanzas-monterrey/ y /minibodegas-monterrey/ con texto legible, "Solicita tu cotización con Kanuby" enlaza a /mudanzas-monterrey/ y el título "¿Por qué elegir a Kanuby?" quedó sin enlace (detalle en docs/redirecciones-301.md).
 - [ ] Decisiones editoriales en el contenido de los posts (se copian tal cual):
   - /como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza/: repite la idea "mantener el orden a largo plazo" en dos frases seguidas.
   - /servicio-de-mudanza-profesional-en-monterrey/: dos títulos-pregunta seguidos que dicen lo mismo ("¿Qué servicios están incluidos en una mudanza?" y "¿Qué incluye un servicio de mudanza profesional en Monterrey?").

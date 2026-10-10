@@ -76,7 +76,7 @@ export function CierreBlog({ negocio }: { negocio: Negocio | null }) {
         <p className={styles.cierreTitulo}>Descubre más</p>
         <ul className={styles.cierreLista}>
           <li>
-            <Link href="/terminos-y-condiciones/">Términos y Condiciones</Link>
+            <Link href="/terminos-y-condiciones/">Términos y condiciones</Link>
           </li>
           <li>
             <Link href="/aviso-de-privacidad/">Aviso de privacidad</Link>

@@ -354,7 +354,7 @@ const publicados: PostPublicado[] = [
           {
             "enlace": "/mudanzas-monterrey/",
             "texto": [
-              "kanubymudanzas"
+              "mudanzas en Monterrey"
             ]
           }
         ]
@@ -491,7 +491,7 @@ const publicados: PostPublicado[] = [
           {
             "enlace": "/minibodegas-monterrey/",
             "texto": [
-              "kanubyminibodegas"
+              "minibodegas en Monterrey"
             ]
           }
         ]
@@ -1066,7 +1066,7 @@ const publicados: PostPublicado[] = [
           {
             "enlace": "/minibodegas-monterrey/",
             "texto": [
-              "kanubyminibodegas"
+              "minibodegas en Monterrey"
             ]
           }
         ]
