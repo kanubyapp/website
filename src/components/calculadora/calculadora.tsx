@@ -170,11 +170,17 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
     elegirCategoria(CATEGORIAS[destino].id);
   }
 
-  /* Elegir una categoría deja la búsqueda y lleva el foco a su pestaña */
+  /*
+   * Elegir una categoría deja la búsqueda y lleva el foco a su pestaña. En
+   * móvil las pestañas van en una fila con desplazamiento horizontal: la
+   * elegida se trae a la vista (Safari no enfoca los botones al tocarlos).
+   */
   function elegirCategoria(categoriaId: string) {
     setBusqueda("");
     setCategoria(categoriaId);
-    document.getElementById(`${id}-pestana-${categoriaId}`)?.focus();
+    const pestana = document.getElementById(`${id}-pestana-${categoriaId}`);
+    pestana?.focus();
+    pestana?.scrollIntoView({ block: "nearest", inline: "nearest" });
   }
 
   /* Esc con texto limpia la búsqueda en lugar de cerrar el modal */

@@ -491,4 +491,35 @@
   .cierre :global(.kb-popup-enviar) {
     width: 100%;
   }
+
+  /* En el inventario, sin subtítulo ni nota bajo el botón: el alto es para el catálogo */
+  .cajaInventario :global(.kb-popup-subtitulo),
+  .cierre :global(.kb-popup-nota) {
+    display: none;
+  }
+
+  /*
+   * Pestañas en una sola fila que se desplaza de lado, sin barra visible. El
+   * relleno deja sitio al anillo de foco, que el desplazamiento recortaría.
+   * Con desplazamiento propio la fila pierde su alto mínimo: sin
+   * flex-shrink: 0, el catálogo la encogía hasta recortar las pestañas.
+   */
+  .pestanas {
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding: calc(var(--espacio-1) / 2);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .pestanas::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pestana {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
 }
