@@ -16,6 +16,7 @@ import {
   volumenInventario,
 } from "./calculadora.ts";
 import { eventoCalculadoraRegistro, eventoCalculadoraSolicitud } from "./conversiones.ts";
+import { leerEstado } from "./guardado-calculadora.ts";
 import type { Minibodega } from "./minibodegas.ts";
 
 const lineas = (inventario: Record<string, number>) => lineasInventario(inventario);
@@ -42,8 +43,22 @@ test("los ids del catálogo no se repiten", () => {
 test("el catálogo tiene las categorías pedidas, en orden", () => {
   assert.deepEqual(
     CATEGORIAS.map((categoria) => categoria.nombre),
-    ["Sala", "Recámara", "Comedor", "Cocina", "Oficina", "Cajas", "Otros"],
+    ["Sala", "Recámara", "Comedor", "Cocina y lavado", "Oficina", "Exterior y otros", "Cajas"],
   );
+});
+
+test("cada objeto tiene nombre y un volumen positivo", () => {
+  for (const objeto of objetosPorId().values()) {
+    assert.ok(objeto.nombre.trim().length > 0, objeto.id);
+    assert.ok(objeto.volumen > 0, objeto.id);
+  }
+});
+
+test("lo guardado con objetos que ya no existen se descarta", () => {
+  const ids = new Set(objetosPorId().keys());
+  // caja-herramientas salió del catálogo; ahora es una sugerencia de cajas
+  const texto = JSON.stringify({ version: 1, nombre: "", telefono: "", registrado: true, inventario: { "caja-herramientas": 2, silla: 1 } });
+  assert.deepEqual(leerEstado(texto, ids, CANTIDAD_MAXIMA)?.inventario, { silla: 1 });
 });
 
 /* Inventario */
@@ -226,25 +241,25 @@ test("mensaje con el nombre, el tamaño recomendado y la lista con cantidades", 
 test("mensaje con varias bodegas del mismo tamaño", () => {
   assert.equal(
     mensajeCalculadora("Ana", prueba(5.6), lineas({ "cama-king": 2 })),
-    "Hola Kanuby, soy Ana. Usé la calculadora de espacio y me recomendó 2 minibodegas Grandes de 14 m². Esto es lo que quiero guardar:\n- Cama king con base: 2",
+    "Hola Kanuby, soy Ana. Usé la calculadora de espacio y me recomendó 2 minibodegas Grandes de 14 m². Esto es lo que quiero guardar:\n- Cama king: 2",
   );
 });
 
 test("mensaje con bodegas de tamaños distintos", () => {
   assert.equal(
     mensajeCalculadora("Ana", prueba(10.4), lineas({ silla: 4 })),
-    "Hola Kanuby, soy Ana. Usé la calculadora de espacio y me recomendó 3 minibodegas Grandes de 14 m² y 1 Chica de 3.5 m². Esto es lo que quiero guardar:\n- Silla: 4",
+    "Hola Kanuby, soy Ana. Usé la calculadora de espacio y me recomendó 3 minibodegas Grandes de 14 m² y 1 Chica de 3.5 m². Esto es lo que quiero guardar:\n- Silla de comedor: 4",
   );
   assert.equal(
     mensajeCalculadora("Ana", prueba(3.21), lineas({ silla: 4 })),
-    "Hola Kanuby, soy Ana. Usé la calculadora de espacio y me recomendó 1 minibodega Grande de 14 m² y 1 Chica de 3.5 m². Esto es lo que quiero guardar:\n- Silla: 4",
+    "Hola Kanuby, soy Ana. Usé la calculadora de espacio y me recomendó 1 minibodega Grande de 14 m² y 1 Chica de 3.5 m². Esto es lo que quiero guardar:\n- Silla de comedor: 4",
   );
 });
 
 test("mensaje cuando no cabe ni en el tope", () => {
   assert.equal(
     mensajeCalculadora("Ana", prueba(13), lineas({ "cama-king": 2 })),
-    "Hola Kanuby, soy Ana. Usé la calculadora de espacio y lo que quiero guardar no cabe ni en 4 minibodegas Grandes de 14 m², ¿me ayudan a armar un plan a mi medida? Esto es lo que quiero guardar:\n- Cama king con base: 2",
+    "Hola Kanuby, soy Ana. Usé la calculadora de espacio y lo que quiero guardar no cabe ni en 4 minibodegas Grandes de 14 m², ¿me ayudan a armar un plan a mi medida? Esto es lo que quiero guardar:\n- Cama king: 2",
   );
 });
 

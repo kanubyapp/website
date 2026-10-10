@@ -4,7 +4,8 @@ import Link from "next/link";
 import { createContext, useContext, useEffect, useId, useMemo, useRef, useState } from "react";
 import { IconoCerrar, IconoWhatsApp } from "@/components/iconos";
 import { useDialogoModal } from "@/components/use-dialogo-modal";
-import { CATEGORIAS } from "@/lib/catalogo-calculadora";
+import { buscar, normalizar } from "@/lib/busqueda-calculadora";
+import { CATEGORIAS, type ObjetoCatalogo } from "@/lib/catalogo-calculadora";
 import {
   CANTIDAD_MAXIMA,
   cambiarCantidad,
@@ -42,6 +43,11 @@ import styles from "./calculadora.module.css";
  *      recomendación con su ocupación. "Quiero esta minibodega" ("estas
  *      minibodegas" si son varias, "Escríbenos por WhatsApp" si no cabe ni en
  *      el tope) emite calculadora_solicitud y redirige a WhatsApp con la lista.
+ * Arriba del catálogo, un buscador en todo el catálogo (lib/busqueda-
+ * calculadora.ts): mientras tiene texto, la lista muestra los resultados y
+ * las sugerencias de cajas en lugar de la categoría; al borrarlo (o con Esc)
+ * regresa a la categoría donde estaba. Si no encuentra nada, ofrece
+ * calcularlo en cajas. Cuántos resultados hay se anuncia (aria-live).
  * Lo que lleva se guarda conforme avanza (lib/guardado-calculadora.ts): si
  * cierra o regresa después, lo encuentra igual, y con el registro hecho abre
  * directo en el inventario. Foco, cierre y trampa de Tab son los del popup
@@ -56,7 +62,15 @@ export function useCalculadora() {
   return contexto;
 }
 
-const IDS_CATALOGO = new Set(objetosPorId().keys());
+const OBJETOS = objetosPorId();
+const IDS_CATALOGO = new Set(OBJETOS.keys());
+
+function anuncioBusqueda(objetos: number, sugerencias: number): string {
+  const cajas = sugerencias > 0 ? "te sugerimos cajas" : "";
+  if (objetos === 0) return cajas ? `Sin objetos con ese nombre: ${cajas}.` : "Sin resultados.";
+  const conteo = objetos === 1 ? "1 resultado" : `${objetos} resultados`;
+  return cajas ? `${conteo}; también ${cajas}.` : `${conteo}.`;
+}
 
 const ordenCampos = ["nombre", "telefono"] as const;
 
@@ -72,6 +86,7 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
   const [cargado, setCargado] = useState(false);
   const [errores, setErrores] = useState<ErroresCotizacion>({});
   const [categoria, setCategoria] = useState(CATEGORIAS[0].id);
+  const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {
     let vigente = true;
@@ -100,6 +115,9 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
   const una = recomendacion.cabe && recomendacion.bodegas.length === 1;
   const vacio = lineas.length === 0;
   const categoriaActual = CATEGORIAS.find((opcion) => opcion.id === categoria) ?? CATEGORIAS[0];
+  const buscando = normalizar(busqueda) !== "";
+  const resultado = useMemo(() => buscar(busqueda), [busqueda]);
+  const sinResultados = resultado.objetos.length === 0 && resultado.sugerencias.length === 0;
 
   function abrir() {
     enviando.current = false;
@@ -149,8 +167,63 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
     const destino = destinos[evento.key];
     if (destino === undefined) return;
     evento.preventDefault();
-    setCategoria(CATEGORIAS[destino].id);
-    document.getElementById(`${id}-pestana-${CATEGORIAS[destino].id}`)?.focus();
+    elegirCategoria(CATEGORIAS[destino].id);
+  }
+
+  /* Elegir una categoría deja la búsqueda y lleva el foco a su pestaña */
+  function elegirCategoria(categoriaId: string) {
+    setBusqueda("");
+    setCategoria(categoriaId);
+    document.getElementById(`${id}-pestana-${categoriaId}`)?.focus();
+  }
+
+  /* Esc con texto limpia la búsqueda en lugar de cerrar el modal */
+  function alTeclearBusqueda(evento: React.KeyboardEvent<HTMLInputElement>) {
+    if (evento.key !== "Escape" || !busqueda) return;
+    evento.preventDefault();
+    evento.stopPropagation();
+    setBusqueda("");
+  }
+
+  /*
+   * Fila de un objeto con su contador. ambito distingue los ids cuando el
+   * mismo objeto sale dos veces (en los resultados y en una sugerencia).
+   * En el límite, aria-disabled y no disabled: el botón conserva el foco;
+   * cambiarCantidad ya no pasa de 0 ni del máximo.
+   */
+  function fila(objeto: ObjetoCatalogo, ambito: string) {
+    const cantidad = estado.inventario[objeto.id] ?? 0;
+    const idCantidad = `${id}-${ambito}-cantidad-${objeto.id}`;
+    return (
+      <li key={objeto.id} className={styles.objeto}>
+        <span className={styles.objetoNombre}>{objeto.nombre}</span>
+        <span className={styles.contador}>
+          <button
+            type="button"
+            className={styles.contadorBoton}
+            aria-label={`Quitar: ${objeto.nombre}`}
+            aria-describedby={idCantidad}
+            aria-disabled={cantidad === 0}
+            onClick={() => cambiar(objeto.id, -1)}
+          >
+            <span aria-hidden="true">−</span>
+          </button>
+          <span id={idCantidad} className={styles.cantidad}>
+            {cantidad}
+          </span>
+          <button
+            type="button"
+            className={styles.contadorBoton}
+            aria-label={`Agregar: ${objeto.nombre}`}
+            aria-describedby={idCantidad}
+            aria-disabled={cantidad === CANTIDAD_MAXIMA}
+            onClick={() => cambiar(objeto.id, 1)}
+          >
+            <span aria-hidden="true">+</span>
+          </button>
+        </span>
+      </li>
+    );
   }
 
   function propsCampo(campo: (typeof ordenCampos)[number]) {
@@ -284,21 +357,42 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
 
               <div className={styles.catalogo}>
                 <p className="kb-popup-pregunta">¿Qué quieres guardar?</p>
+                <div role="search" className={styles.buscador}>
+                  <input
+                    ref={entradaPaso}
+                    type="search"
+                    className={`kb-campo-texto ${styles.busqueda}`}
+                    aria-label="Buscar en el catálogo"
+                    aria-controls={`${id}-resultados`}
+                    placeholder="Busca: refri, librero, cajas…"
+                    autoComplete="off"
+                    enterKeyHint="search"
+                    value={busqueda}
+                    onChange={(evento) => setBusqueda(evento.target.value)}
+                    onKeyDown={alTeclearBusqueda}
+                  />
+                  <p className={styles.conteo} aria-live="polite">
+                    {buscando
+                      ? anuncioBusqueda(resultado.objetos.length, resultado.sugerencias.length)
+                      : ""}
+                  </p>
+                </div>
+
                 <div role="tablist" aria-label="Categorías" className={styles.pestanas}>
                   {CATEGORIAS.map((opcion, indice) => {
-                    const activa = opcion.id === categoriaActual.id;
+                    const activa = !buscando && opcion.id === categoriaActual.id;
+                    const enfocable = opcion.id === categoriaActual.id;
                     return (
                       <button
                         key={opcion.id}
-                        ref={activa ? entradaPaso : undefined}
                         id={`${id}-pestana-${opcion.id}`}
                         type="button"
                         role="tab"
                         aria-selected={activa}
                         aria-controls={`${id}-panel`}
-                        tabIndex={activa ? 0 : -1}
+                        tabIndex={enfocable ? 0 : -1}
                         className={styles.pestana}
-                        onClick={() => setCategoria(opcion.id)}
+                        onClick={() => elegirCategoria(opcion.id)}
                         onKeyDown={(evento) => alTeclearPestana(evento, indice)}
                       >
                         {opcion.nombre}
@@ -307,49 +401,40 @@ export function CalculadoraProvider({ children }: { children: React.ReactNode })
                   })}
                 </div>
 
-                <ul
-                  id={`${id}-panel`}
-                  role="tabpanel"
-                  aria-labelledby={`${id}-pestana-${categoriaActual.id}`}
-                  className={styles.objetos}
-                >
-                  {categoriaActual.objetos.map((objeto) => {
-                    const cantidad = estado.inventario[objeto.id] ?? 0;
-                    const idCantidad = `${id}-cantidad-${objeto.id}`;
-                    // En el límite, aria-disabled y no disabled: el botón conserva el foco.
-                    // cambiarCantidad ya no pasa de 0 ni del máximo.
-                    return (
-                      <li key={objeto.id} className={styles.objeto}>
-                        <span className={styles.objetoNombre}>{objeto.nombre}</span>
-                        <span className={styles.contador}>
-                          <button
-                            type="button"
-                            className={styles.contadorBoton}
-                            aria-label={`Quitar: ${objeto.nombre}`}
-                            aria-describedby={idCantidad}
-                            aria-disabled={cantidad === 0}
-                            onClick={() => cambiar(objeto.id, -1)}
-                          >
-                            <span aria-hidden="true">−</span>
-                          </button>
-                          <span id={idCantidad} className={styles.cantidad}>
-                            {cantidad}
-                          </span>
-                          <button
-                            type="button"
-                            className={styles.contadorBoton}
-                            aria-label={`Agregar: ${objeto.nombre}`}
-                            aria-describedby={idCantidad}
-                            aria-disabled={cantidad === CANTIDAD_MAXIMA}
-                            onClick={() => cambiar(objeto.id, 1)}
-                          >
-                            <span aria-hidden="true">+</span>
-                          </button>
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
+                {buscando ? (
+                  <div id={`${id}-resultados`} className={styles.lista}>
+                    {resultado.sugerencias.map((sugerencia) => (
+                      <div key={sugerencia.id} className={styles.sugerencia}>
+                        <p className={styles.sugerenciaTexto}>{sugerencia.texto}</p>
+                        <ul className={styles.objetos}>
+                          {sugerencia.cajas.flatMap((caja) => {
+                            const objeto = OBJETOS.get(caja);
+                            return objeto ? [fila(objeto, `sugerencia-${sugerencia.id}`)] : [];
+                          })}
+                        </ul>
+                      </div>
+                    ))}
+                    {resultado.objetos.length > 0 && (
+                      <ul className={styles.objetos}>
+                        {resultado.objetos.map((objeto) => fila(objeto, "resultado"))}
+                      </ul>
+                    )}
+                    {sinResultados && (
+                      <button type="button" className={styles.chip} onClick={() => elegirCategoria("cajas")}>
+                        ¿No encuentras lo que buscas? Calcúlalo en cajas
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <ul
+                    id={`${id}-panel`}
+                    role="tabpanel"
+                    aria-labelledby={`${id}-pestana-${categoriaActual.id}`}
+                    className={`${styles.lista} ${styles.objetos}`}
+                  >
+                    {categoriaActual.objetos.map((objeto) => fila(objeto, "categoria"))}
+                  </ul>
+                )}
               </div>
 
               <div className={styles.cierre}>

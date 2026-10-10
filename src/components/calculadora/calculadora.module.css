@@ -205,7 +205,7 @@
 
 /* Catálogo */
 
-/* Pregunta y pestañas fijas; solo la lista hace scroll */
+/* Pregunta, buscador y pestañas fijos; solo la lista hace scroll */
 .catalogo {
   display: flex;
   grid-area: catalogo;
@@ -249,15 +249,87 @@
   color: var(--color-texto-oscuro);
 }
 
-.objetos {
+.buscador {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+}
+
+.busqueda {
+  text-align: left;
+}
+
+/* El aviso de cuántos resultados hay; vacío sin búsqueda, sin ocupar alto */
+.conteo {
+  color: var(--color-texto-oscuro-secundario);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-14);
+}
+
+.conteo:empty {
+  display: none;
+}
+
+/* La lista de la categoría o los resultados de la búsqueda: lo único que hace scroll */
+.lista {
   display: flex;
   flex: 1;
   flex-direction: column;
+  gap: var(--espacio-2);
   min-height: 0;
   /* Respiro para que el anillo de foco de los botones no quede recortado */
   padding-inline: var(--espacio-1);
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+.objetos {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Lista de categoría: las filas van juntas, sin el espacio entre bloques */
+.lista.objetos {
+  gap: 0;
+}
+
+/* Sugerencia de cajas: el texto y las cajas con su contador */
+.sugerencia {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: var(--espacio-1);
+  padding: var(--espacio-2);
+  border: var(--borde-campo-claro);
+  border-color: var(--color-naranja);
+  border-radius: var(--radio-tarjeta-movil);
+  background: var(--color-naranja-tenue);
+}
+
+.sugerenciaTexto {
+  color: var(--color-texto-oscuro);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-16);
+  line-height: var(--interlineado-parrafo);
+}
+
+.chip {
+  align-self: center;
+  min-height: var(--objetivo-tactil);
+  padding: var(--relleno-pildora);
+  border: var(--borde-campo-claro);
+  border-color: var(--color-naranja);
+  border-radius: var(--radio-pildora);
+  background: var(--color-naranja-tenue);
+  color: var(--color-texto-oscuro);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-14);
+  font-weight: var(--peso-medium);
+  transition: background-color var(--transicion);
+}
+
+.chip:hover {
+  background: var(--color-blanco);
 }
 
 .objeto {
@@ -310,7 +382,8 @@
 }
 
 .pestana:focus-visible,
-.contadorBoton:focus-visible {
+.contadorBoton:focus-visible,
+.chip:focus-visible {
   outline: var(--anillo-foco-claro);
   outline-offset: var(--anillo-foco-separacion);
 }
@@ -391,6 +464,23 @@
 
   .tamano {
     font-size: var(--texto-16);
+  }
+
+  /*
+   * En pantallas bajas el buscador y las pestañas no dejan alto a la lista:
+   * en móvil se desplaza toda la zona del catálogo, entre el dibujo y el
+   * botón, y la lista ya no tiene scroll propio.
+   */
+  .catalogo {
+    padding-inline: var(--espacio-1);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .lista {
+    flex: none;
+    padding-inline: 0;
+    overflow: visible;
   }
 
   .cierre {
