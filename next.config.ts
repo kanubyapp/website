@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
     // hero de /mudanzas-monterrey/), donde la compresión no se nota.
     qualities: [75, 40],
   },
+  async redirects() {
+    return [
+      // /gracias/ de WordPress no existe aquí: el formulario lleva a WhatsApp.
+      { source: "/gracias/", destination: "/", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;
