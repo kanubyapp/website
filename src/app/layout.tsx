@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { GoogleTagManager } from "@next/third-parties/google";
 import { DM_Sans, Outfit } from "next/font/google";
 import { ScrollSuave } from "@/components/scroll-suave";
 import { contenedorGtm } from "@/lib/gtm";
@@ -34,8 +33,10 @@ export const metadata: Metadata = {
 
 /*
  * GTM solo si existe NEXT_PUBLIC_GTM_ID (se da de alta en Vercel al publicar).
- * GoogleTagManager (@next/third-parties) carga gtm.js después de hidratar,
- * sin bloquear la carga; el <noscript> es el respaldo sin JavaScript.
+ * Instalación estándar: el snippet en el <head>, lo antes posible (gtm.js se
+ * pide asíncrono y no bloquea), y el <noscript> justo al abrir el <body>.
+ * Va como <script> en el HTML y no con next/script: beforeInteractive deja el
+ * código en línea a cargo del runtime de Next, que corre más tarde.
  */
 const gtm = contenedorGtm(process.env.NEXT_PUBLIC_GTM_ID);
 
@@ -52,7 +53,9 @@ export default function RootLayout({
       className={`${outfit.variable} ${dmSans.variable}`}
       data-scroll-behavior="smooth"
     >
-      {gtm && <GoogleTagManager gtmId={gtm.id} />}
+      <head>
+        {gtm && <script dangerouslySetInnerHTML={{ __html: gtm.script }} />}
+      </head>
       <body>
         {gtm && (
           <noscript>
