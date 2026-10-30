@@ -16,8 +16,8 @@ import type { Testimonio } from "@/lib/testimonios";
  * al salir de ella, se salta sin animación a la posición equivalente.
  *
  * Las fechas reales (publicada) se muestran relativas desde hoy, solo en el
- * navegador: en el servidor quedan vacías. id es el ancla de la sección y pie
- * va debajo del carrusel.
+ * navegador: en el servidor quedan vacías. id es el ancla de la sección, pie
+ * va debajo del carrusel y className deja a cada página ajustar la sección.
  */
 
 const AUTOPLAY_MS = 5000;
@@ -32,12 +32,14 @@ export function Testimonios({
   texto,
   testimonios,
   pie,
+  className = "",
 }: {
   id?: string;
   titulo: React.ReactNode;
   texto: string;
   testimonios: Testimonio[];
   pie?: React.ReactNode;
+  className?: string;
 }) {
   const hoy = useSyncExternalStore(
     sinSuscripcion,
@@ -100,7 +102,7 @@ export function Testimonios({
   );
 
   return (
-    <section id={id} className="kb-testimonios">
+    <section id={id} className={`kb-testimonios ${className}`}>
       <div className="kb-testimonios-cabecera">
         {titulo}
         <p className="kb-testimonios-texto">{texto}</p>

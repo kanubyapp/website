@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { SeccionPreguntas } from "@/components/seccion-preguntas";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
@@ -13,8 +14,10 @@ import {
   ServiciosMudanzas,
 } from "@/components/mudanzas/secciones";
 import { Testimonios } from "@/components/mudanzas/testimonios";
+import { jsonLdPreguntas } from "@/lib/preguntas";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import { testimonios } from "@/lib/testimonios";
+import { preguntas } from "./preguntas";
 import styles from "./page.module.css";
 
 const titulo = "Mudanzas en Monterrey";
@@ -37,6 +40,7 @@ export const metadata: Metadata = {
 };
 
 const jsonLd = jsonLdBase({ ruta: "/mudanzas-monterrey/", nombre: `${titulo} - Kanuby` });
+const jsonLdFaq = jsonLdPreguntas(preguntas);
 
 export default function MudanzasMonterrey() {
   return (
@@ -45,11 +49,16 @@ export default function MudanzasMonterrey() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLdFaq) }}
+      />
       <HeaderMudanzas
         enlaces={[
           { href: "#porque", texto: "¿Por qué Kanuby?" },
           { href: "#servicios", texto: "Servicios" },
           { href: "#testimonios", texto: "Testimonios" },
+          { href: "#faqs", texto: "Preguntas" },
         ]}
         acciones={
           <BotonCotizar
@@ -152,6 +161,12 @@ export default function MudanzasMonterrey() {
           }
           texto="No solo trasladamos objetos, cuidamos el patrimonio de nuestros clientes. Descubre por qué cientos de familias y empresas en Monterrey confían en Kanuby para sus mudanzas y almacenamiento."
           testimonios={testimonios}
+        />
+
+        <SeccionPreguntas
+          descripcion="Resolvemos aquí las dudas que más nos llegan sobre contratar una mudanza. Si la tuya no aparece, escríbenos y te respondemos."
+          textoBoton="Cotizar Mudanza"
+          preguntas={preguntas}
         />
       </main>
 

@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Faq } from "@/components/faq";
-import { IconoDuda } from "@/components/iconos";
+import { SeccionPreguntas } from "@/components/seccion-preguntas";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
 import { Testimonios } from "@/components/mudanzas/testimonios";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { formatoMedida, MINIBODEGAS, type Minibodega } from "@/lib/minibodegas";
+import { jsonLdPreguntas } from "@/lib/preguntas";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import { tamanoDeSuperficie } from "@/lib/whatsapp";
 import { Banner } from "./banner";
-import { preguntas, resenas, textoPlano, type Bloque } from "./datos";
+import { preguntas, resenas } from "./datos";
 import { HeaderMinibodegas } from "./header-minibodegas";
 import styles from "./page.module.css";
 
@@ -37,36 +37,7 @@ export const metadata: Metadata = {
 
 const jsonLd = jsonLdBase({ ruta, nombre: `${titulo} - Kanuby` });
 
-const jsonLdFaq = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: preguntas.map(({ pregunta, respuesta }) => ({
-    "@type": "Question",
-    name: pregunta,
-    acceptedAnswer: { "@type": "Answer", text: textoPlano(respuesta) },
-  })),
-};
-
-function Respuesta({ bloques }: { bloques: Bloque[] }) {
-  return bloques.map((bloque, indice) =>
-    Array.isArray(bloque) ? (
-      <ul key={indice}>
-        {bloque.map((elemento) => (
-          <li key={elemento}>{elemento}</li>
-        ))}
-      </ul>
-    ) : (
-      <p key={indice}>
-        {bloque.split("\n").map((linea, numero) => (
-          <span key={numero}>
-            {numero > 0 && <br />}
-            {linea}
-          </span>
-        ))}
-      </p>
-    ),
-  );
-}
+const jsonLdFaq = jsonLdPreguntas(preguntas);
 
 /* Las medidas vienen de src/lib/minibodegas.ts, compartidas con la calculadora */
 const usos: Record<Minibodega["nombre"], string> = {
@@ -212,42 +183,15 @@ export default function Minibodegas() {
           </div>
         </section>
 
-        <section id="faqs" className={styles.faq}>
-          <div className={styles.faqColumna}>
-            <div className={styles.faqFijo}>
-              <h2 className={styles.faqTitulo}>Preguntas Frecuentes</h2>
-              <p className={styles.faqAntetitulo}>¿Alguna duda?</p>
-              <p className={styles.faqDescripcion}>
-                Resolvemos aquí las dudas que más nos llegan sobre rentar una mini bodega. Si la
-                tuya no aparece, escríbenos y te respondemos.
-              </p>
-              {/* Cierre de la columna: la frase y el botón en una tarjeta clara */}
-              <div className={`kb-tarjeta kb-cristal ${styles.faqTarjeta}`}>
-                <div className={styles.faqApoyo}>
-                  <IconoDuda className={styles.faqIcono} />
-                  <p className={styles.faqTexto}>Lo tenemos cubierto…</p>
-                </div>
-                <BotonCotizar
-                  texto="Cotizar Espacio"
-                  className={`kb-boton-principal ${styles.botonPrincipal}`}
-                />
-              </div>
-            </div>
-          </div>
-          <div className={styles.faqPreguntas}>
-            {/* Una sola abierta a la vez: abrir una cierra la anterior */}
-            <Faq
-              className={styles.acordeones}
-              preguntas={preguntas.map(({ pregunta, respuesta }) => ({
-                pregunta,
-                respuesta: <Respuesta bloques={respuesta} />,
-              }))}
-            />
-          </div>
-        </section>
+        <SeccionPreguntas
+          descripcion="Resolvemos aquí las dudas que más nos llegan sobre rentar una mini bodega. Si la tuya no aparece, escríbenos y te respondemos."
+          textoBoton="Cotizar Espacio"
+          preguntas={preguntas}
+        />
 
         <Testimonios
           id="clientes"
+          className={styles.testimonios}
           titulo={<h2 className="kb-testimonios-titulo">Nuestros Clientes...</h2>}
           texto="Familias y empresas de Monterrey guardan con Kanuby lo que más les importa. Esto es lo que dicen de nuestras minibodegas."
           testimonios={resenas}

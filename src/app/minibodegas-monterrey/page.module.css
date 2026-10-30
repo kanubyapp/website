@@ -479,153 +479,18 @@
 }
 
 /*
- * Preguntas frecuentes: columna fija a la izquierda (etiqueta, título y una
- * tarjeta clara con la frase, el ícono y el botón) y, a la derecha, el
- * acordeón compartido con cada pregunta en su propia tarjeta. El triple del
- * margen lateral del sitio, para que no quede pegada a las orillas.
+ * Testimonios: cada reseña muestra cinco líneas como máximo y los puntos
+ * suspensivos indican que sigue; el corte cae entre palabras. Así una reseña
+ * larga no estira todas las tarjetas del carrusel. Solo es presentación: el
+ * texto completo sigue en el HTML (lo leen los lectores de pantalla) y en
+ * Google, enlazado debajo del carrusel.
  */
-
-.faq {
-  display: flex;
-  gap: var(--espacio-5);
-  padding: 0 calc(var(--relleno-seccion) * 3) var(--espacio-seccion);
-}
-
-.faqColumna {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-}
-
-.faqFijo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espacio-2);
-}
-
-.faqTitulo {
-  color: var(--color-texto-secundario);
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-14);
-  font-weight: var(--peso-medium);
-  letter-spacing: var(--tracking-md);
-  text-transform: uppercase;
-}
-
-.faqAntetitulo {
-  color: var(--color-naranja);
-  font-family: var(--fuente-titulos);
-  font-size: var(--texto-44);
-  font-weight: var(--peso-semibold);
-  line-height: var(--interlineado-display);
-  letter-spacing: var(--tracking-display);
-}
-
-/* Debajo del título, en el texto secundario del sistema (como el de tamaños) */
-.faqDescripcion {
-  color: var(--color-texto-secundario);
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-18);
-  font-weight: var(--peso-light);
-  line-height: var(--interlineado-parrafo);
-}
-
-/*
- * Tarjeta clara (kb-cristal: blanco con texto azul noche) separada del
- * título por un bloque. El botón naranja cumple contra el blanco (3.4:1 para
- * un control); su anillo de foco, el oscuro, porque el naranja claro no se
- * vería sobre blanco.
- */
-.faqTarjeta {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espacio-3);
-  margin-top: var(--espacio-2);
-  padding: var(--espacio-4);
-  border-radius: var(--radio-tarjeta-movil);
-}
-
-.faqTarjeta .botonPrincipal:focus-visible {
-  outline: var(--anillo-foco-claro);
-}
-
-/* El ícono acompaña a la frase: círculo naranja tenue con el trazo oscuro */
-.faqApoyo {
-  display: flex;
-  align-items: center;
-  gap: var(--espacio-2);
-}
-
-.faqIcono {
-  flex-shrink: 0;
-  width: var(--objetivo-tactil);
-  height: var(--objetivo-tactil);
-  padding: var(--espacio-1);
-  border-radius: var(--radio-pildora);
-  background: var(--color-naranja-tenue);
-  color: var(--color-naranja-oscuro);
-}
-
-.faqTexto {
-  color: var(--color-texto-oscuro);
-  font-family: var(--fuente-titulos);
-  font-size: var(--texto-20);
-  line-height: var(--interlineado-encabezado);
-}
-
-.faqPreguntas {
-  width: 70%;
-}
-
-/*
- * El acordeón compartido en modo grupo (una abierta a la vez), sin su caja
- * única: cada pregunta en su propia tarjeta, separadas por un espacio. La
- * abierta, con el borde naranja.
- */
-.acordeones {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espacio-2);
-  overflow: visible;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-}
-
-.acordeones :global(.kb-acordeon-item) {
+.testimonios :global(.kb-testimonio-texto) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
   overflow: hidden;
-  border: var(--borde-luz);
-  border-radius: var(--radio-tarjeta-movil);
-  background: var(--color-superficie);
-  transition: border-color var(--transicion);
-}
-
-.acordeones :global(.kb-acordeon-item[data-activa="true"]) {
-  border: var(--borde-acento);
-}
-
-.acordeones :global(.kb-acordeon-cuerpo > *) {
-  animation: aparecer 0.8s;
-}
-
-@keyframes aparecer {
-  from {
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .acordeones :global(.kb-acordeon-cuerpo > *) {
-    animation: none;
-  }
-}
-
-/* Contenedor fijo al hacer scroll, solo en escritorio */
-@media (min-width: 1025px) {
-  .faqFijo {
-    position: sticky;
-    top: var(--espacio-seccion);
-  }
 }
 
 /* Ubícanos: dirección, "Cómo Llegar" y el mapa en una tarjeta */
@@ -718,23 +583,6 @@
 
   .tamano {
     padding: var(--espacio-3) var(--espacio-2);
-  }
-
-  /*
-   * Preguntas: con el triple de margen, la columna izquierda al 30% no da
-   * para la tarjeta con su botón. En tablet, 40/60 y la tarjeta con menos
-   * relleno.
-   */
-  .faqColumna {
-    width: 40%;
-  }
-
-  .faqPreguntas {
-    width: 60%;
-  }
-
-  .faqTarjeta {
-    padding: var(--espacio-2);
   }
 }
 
@@ -861,36 +709,6 @@
 
   .bannerIlustracion {
     width: 70%;
-  }
-
-  .faq {
-    flex-direction: column;
-    gap: var(--espacio-4);
-    padding-bottom: var(--espacio-seccion-movil);
-  }
-
-  .faqColumna,
-  .faqPreguntas {
-    width: 100%;
-  }
-
-  .faqFijo {
-    align-items: center;
-    text-align: center;
-  }
-
-  .faqAntetitulo {
-    font-size: var(--texto-36);
-  }
-
-  .faqFijo .botonPrincipal {
-    align-self: center;
-  }
-
-  /* El ícono y la frase, juntos al centro de la tarjeta */
-  .faqApoyo {
-    justify-content: center;
-    text-align: left;
   }
 
   .ubicacion {

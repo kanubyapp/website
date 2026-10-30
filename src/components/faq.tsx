@@ -2,15 +2,17 @@
 
 import { useId, useState } from "react";
 import { IconoChevronAbajo, IconoChevronDerecha } from "@/components/iconos";
+import { alPulsar, type ModoAcordeon } from "@/lib/acordeon";
 
 /*
  * Acordeón de preguntas frecuentes (raven-advanced-accordion de kanuby.com).
- * Como en el publicado, una pregunta abierta no se cierra al pulsarla.
+ * Pulsar una pregunta abierta la cierra (lib/acordeon.ts).
  *
  * - "grupo": un solo acordeón; abrir una pregunta cierra la anterior
- *   (/mudanzas-empresariales-monterrey/, abre con la segunda).
- * - "independiente": cada pregunta es su propio acordeón y se queda abierta
- *   (/minibodegas-monterrey/, todas cerradas al cargar).
+ *   (/mudanzas-empresariales-monterrey/, abre con la segunda, y
+ *   /minibodegas-monterrey/, todas cerradas al cargar).
+ * - "independiente": cada pregunta es su propio acordeón y se abre y cierra
+ *   por su cuenta (hoy ninguna página lo usa).
  */
 
 export type Pregunta = { pregunta: string; respuesta: React.ReactNode };
@@ -65,7 +67,7 @@ export function Faq({
   className = "",
 }: {
   preguntas: Pregunta[];
-  modo?: "grupo" | "independiente";
+  modo?: ModoAcordeon;
   /** Índice abierto al cargar, en modo grupo */
   inicial?: number;
   className?: string;
@@ -74,13 +76,7 @@ export function Faq({
   const [abiertas, setAbiertas] = useState<number[]>(inicial >= 0 ? [inicial] : []);
 
   function abrir(indice: number) {
-    setAbiertas((actuales) =>
-      modo === "grupo"
-        ? [indice]
-        : actuales.includes(indice)
-          ? actuales
-          : [...actuales, indice],
-    );
+    setAbiertas((actuales) => alPulsar(actuales, indice, modo));
   }
 
   const items = preguntas.map((item, indice) => (

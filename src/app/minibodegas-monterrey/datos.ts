@@ -1,3 +1,4 @@
+import type { PreguntaFrecuente } from "@/lib/preguntas";
 import type { Testimonio } from "@/lib/testimonios";
 
 /*
@@ -7,14 +8,11 @@ import type { Testimonio } from "@/lib/testimonios";
  * va tal cual.
  */
 
-/** Un párrafo (con "\n" para el salto de línea del original) o una lista. */
-export type Bloque = string | string[];
-
 /*
  * Preguntas frecuentes de la página (y de su JSON-LD de FAQPage): las que
  * resuelven una duda que frena la decisión de rentar.
  */
-export const preguntas: { pregunta: string; respuesta: Bloque[] }[] = [
+export const preguntas: PreguntaFrecuente[] = [
   {
     pregunta: "¿Cuál es el horario para acceder a mi mini bodega?",
     respuesta: [
@@ -87,7 +85,7 @@ export const preguntas: { pregunta: string; respuesta: Bloque[] }[] = [
  * Preguntas del publicado que se quitaron de la página para no alargar la
  * sección: no se usan. Para reponer una, se mueve a la lista de arriba.
  */
-export const preguntasApartadas: { pregunta: string; respuesta: Bloque[] }[] = [
+export const preguntasApartadas: PreguntaFrecuente[] = [
   // Fuera: repite la sección de tamaños, que ya muestra las medidas completas
   {
     pregunta: "¿Qué medidas de mini bodegas manejan?",
@@ -127,13 +125,6 @@ export const preguntasApartadas: { pregunta: string; respuesta: Bloque[] }[] = [
     ],
   },
 ];
-
-/** Texto plano de una respuesta, para el JSON-LD de FAQPage. */
-export function textoPlano(bloques: Bloque[]): string {
-  return bloques
-    .map((bloque) => (Array.isArray(bloque) ? bloque.join(". ") : bloque.replace("\n", " ")))
-    .join(" ");
-}
 
 /* Reseñas de Google del widget publicado; publicada sale de su data-time */
 export const resenas: Testimonio[] = [

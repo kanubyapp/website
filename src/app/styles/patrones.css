@@ -1729,6 +1729,223 @@
   }
 
   /*
+   * Sección de preguntas frecuentes de las páginas de servicio
+   * (components/seccion-preguntas.tsx, en minibodegas y mudanzas Monterrey):
+   * columna fija a la izquierda (etiqueta, título, texto descriptivo y una
+   * tarjeta clara con la frase, el ícono y el botón) y, a la derecha, el
+   * acordeón con cada pregunta en su propia tarjeta. El triple del margen
+   * lateral del sitio, para que no quede pegada a las orillas (en celular, el
+   * normal). Va después del acordeón porque ajusta sus reglas.
+   */
+  .kb-faq {
+    display: flex;
+    gap: var(--espacio-5);
+    padding: 0 calc(var(--relleno-seccion) * 3) var(--espacio-seccion);
+  }
+
+  .kb-faq-columna {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+  }
+
+  .kb-faq-fijo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-2);
+  }
+
+  .kb-faq-etiqueta {
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-14);
+    font-weight: var(--peso-medium);
+    letter-spacing: var(--tracking-md);
+    text-transform: uppercase;
+  }
+
+  .kb-faq-titulo {
+    color: var(--color-naranja);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-44);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-display);
+    letter-spacing: var(--tracking-display);
+  }
+
+  /* Debajo del título, en el texto secundario del sistema */
+  .kb-faq-descripcion {
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-18);
+    font-weight: var(--peso-light);
+    line-height: var(--interlineado-parrafo);
+  }
+
+  /*
+   * Tarjeta clara (kb-cristal: blanco con texto azul noche) separada del
+   * texto por un bloque. El botón naranja, sin el ícono de WhatsApp, cumple
+   * contra el blanco (3.4:1 para un control); su anillo de foco, el oscuro,
+   * porque el naranja claro no se vería sobre blanco.
+   */
+  .kb-faq-tarjeta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-3);
+    margin-top: var(--espacio-2);
+    padding: var(--espacio-4);
+    border-radius: var(--radio-tarjeta-movil);
+  }
+
+  .kb-faq-tarjeta .kb-boton-cotizar {
+    align-self: flex-start;
+  }
+
+  .kb-faq-tarjeta .kb-boton-cotizar-icono {
+    display: none;
+  }
+
+  .kb-faq-tarjeta .kb-boton-cotizar-texto {
+    font-size: var(--texto-16);
+    font-weight: var(--peso-medium);
+  }
+
+  .kb-faq-tarjeta .kb-boton-principal:focus-visible {
+    outline: var(--anillo-foco-claro);
+  }
+
+  /* El ícono acompaña a la frase: círculo naranja tenue con el trazo oscuro */
+  .kb-faq-apoyo {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-2);
+  }
+
+  .kb-faq-icono {
+    flex-shrink: 0;
+    width: var(--objetivo-tactil);
+    height: var(--objetivo-tactil);
+    padding: var(--espacio-1);
+    border-radius: var(--radio-pildora);
+    background: var(--color-naranja-tenue);
+    color: var(--color-naranja-oscuro);
+  }
+
+  .kb-faq-frase {
+    color: var(--color-texto-oscuro);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-20);
+    line-height: var(--interlineado-encabezado);
+  }
+
+  .kb-faq-preguntas {
+    width: 70%;
+  }
+
+  /*
+   * El acordeón en modo grupo (una abierta a la vez), sin su caja única:
+   * cada pregunta en su propia tarjeta, separadas por un espacio. La abierta,
+   * con el borde naranja.
+   */
+  .kb-acordeon.kb-faq-acordeon {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-2);
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .kb-faq-acordeon .kb-acordeon-item {
+    overflow: hidden;
+    border: var(--borde-luz);
+    border-radius: var(--radio-tarjeta-movil);
+    background: var(--color-superficie);
+    transition: border-color var(--transicion);
+  }
+
+  .kb-faq-acordeon .kb-acordeon-item[data-activa="true"] {
+    border: var(--borde-acento);
+  }
+
+  .kb-faq-acordeon .kb-acordeon-cuerpo > * {
+    animation: kb-faq-aparecer 0.8s;
+  }
+
+  @keyframes kb-faq-aparecer {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kb-faq-acordeon .kb-acordeon-cuerpo > * {
+      animation: none;
+    }
+  }
+
+  /* Contenedor fijo al hacer scroll, solo en escritorio */
+  @media (min-width: 1025px) {
+    .kb-faq-fijo {
+      position: sticky;
+      top: var(--espacio-seccion);
+    }
+  }
+
+  /*
+   * Tablet: con el triple de margen, la columna izquierda al 30% no da para
+   * la tarjeta con su botón. 40/60 y la tarjeta con menos relleno.
+   */
+  @media (max-width: 1024px) {
+    .kb-faq-columna {
+      width: 40%;
+    }
+
+    .kb-faq-preguntas {
+      width: 60%;
+    }
+
+    .kb-faq-tarjeta {
+      padding: var(--espacio-2);
+    }
+  }
+
+  /* Celular: una columna, centrada, con el margen normal del sitio */
+  @media (max-width: 767px) {
+    .kb-faq {
+      flex-direction: column;
+      gap: var(--espacio-4);
+      padding-inline: var(--relleno-seccion);
+      padding-bottom: var(--espacio-seccion-movil);
+    }
+
+    .kb-faq-columna,
+    .kb-faq-preguntas {
+      width: 100%;
+    }
+
+    .kb-faq-fijo {
+      align-items: center;
+      text-align: center;
+    }
+
+    .kb-faq-titulo {
+      font-size: var(--texto-36);
+    }
+
+    .kb-faq-tarjeta .kb-boton-cotizar {
+      align-self: center;
+    }
+
+    /* El ícono y la frase, juntos al centro de la tarjeta */
+    .kb-faq-apoyo {
+      justify-content: center;
+      text-align: left;
+    }
+  }
+
+  /*
    * Popup de cotización: cristal claro flotando sobre la página velada.
    * Arriba, título y subtítulo; un separador; abajo, el paso activo (las
    * opciones como tarjetas o nombre y teléfono). Todo centrado. El <dialog>
@@ -2014,12 +2231,12 @@
   }
 
   /*
-   * Menú a pantalla completa y aspecto de su botón, desde 1109px: en celular
+   * Menú a pantalla completa y aspecto de su botón, desde 1209px: en celular
    * los usan todos los headers kb-header; en tablet, solo los que llevan
    * kb-header-menu-tablet (los de mudanzas), donde los enlaces y el botón de
    * cotizar ya no caben en una fila. El panel queda oculto hasta abrirlo.
    */
-  @media (max-width: 1109px) {
+  @media (max-width: 1209px) {
     .kb-header-abrir {
       flex-shrink: 0;
       justify-content: center;
@@ -2109,17 +2326,18 @@
   }
 
   /*
-   * Header de mudanzas (kb-header-menu-tablet) en tablet: con menos
-   * separación caben los enlaces y "Cotiza Ahora" hasta 1094px; por debajo
-   * de 1110px los enlaces pasan al menú a pantalla completa y en la barra
-   * quedan logo, teléfono, "Cotiza Ahora" y el botón del menú, al final. El
-   * botón de cotizar nunca se aplasta.
+   * Header de mudanzas (kb-header-menu-tablet) en tablet. Cortes medidos con
+   * el de más enlaces (Monterrey, cuatro): con la separación normal caben
+   * los enlaces y "Cotiza Ahora" desde 1302px y con la reducida desde
+   * 1204px; por debajo de 1210px los enlaces pasan al menú a pantalla
+   * completa y en la barra quedan logo, teléfono, "Cotiza Ahora" y el botón
+   * del menú, al final. El botón de cotizar nunca se aplasta.
    */
   .kb-header-menu-tablet .kb-boton-header-corto {
     flex-shrink: 0;
   }
 
-  @media (min-width: 768px) and (max-width: 1199px) {
+  @media (min-width: 768px) and (max-width: 1309px) {
     .kb-header-menu-tablet .kb-header-barra {
       column-gap: var(--espacio-2);
     }
@@ -2129,7 +2347,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1109px) {
+  @media (min-width: 768px) and (max-width: 1209px) {
     .kb-header-menu-tablet .kb-header-menu {
       display: none;
     }
