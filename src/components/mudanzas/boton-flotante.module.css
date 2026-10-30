@@ -69,6 +69,19 @@
     visibility var(--transicion);
 }
 
+/*
+ * Fuera de lo alto de la página el globito se sigue viendo pero no bloquea:
+ * los clics y toques pasan a lo que tenga debajo (enlaces, botones). Su ✕
+ * sigue recibiéndolos para poder cerrarlo.
+ */
+.globitoAtravesable {
+  pointer-events: none;
+}
+
+.globitoAtravesable .globitoCerrar {
+  pointer-events: auto;
+}
+
 .globitoVisible {
   visibility: visible;
   opacity: 1;
@@ -162,9 +175,8 @@
  * del título y la ✕ empieza un poco antes, a la altura de la ✕.
  *
  * La ✕ del patrón, más chica, para dejarle al título el ancho que necesita.
- * A la derecha, a la misma distancia que arriba en escritorio; en móvil,
- * pegada a la orilla, porque ahí el ancho no alcanza. Arriba, a la altura
- * del título.
+ * En escritorio, a la misma distancia de arriba y de la derecha, a la altura
+ * del título; en móvil, en la esquina por encima del título (ver abajo).
  */
 .popup {
   --popup-relleno: var(--espacio-3);
@@ -184,8 +196,8 @@
  * Centrado, en una sola línea y libre de la ✕ por los dos lados, en una fila
  * del alto de la ✕. Lo que la ✕ entra en el contenido (su separación de la
  * orilla y su tamaño, menos el relleno del popup) más un espacio de aire es
- * el margen de cada lado. El título mide 244px; le quedan 268px en
- * escritorio y 248px en un celular de 360px.
+ * el margen de cada lado. El título mide 244px y le quedan 268px en
+ * escritorio; en móvil la ✕ va encima y el título usa todo el ancho.
  */
 .titulo {
   display: flex;
@@ -379,8 +391,14 @@
  * llegue a 330px y el título quepa.
  */
 @media (max-width: 767px) {
+  /*
+   * En celular la ✕ no cabe en la fila del título con el mismo aire a la
+   * derecha que arriba (haría falta un popup de 356px): sube a la esquina,
+   * por encima del título y a un espacio de las dos orillas. El título baja
+   * lo que mide la ✕ más ese espacio y usa todo el ancho.
+   */
   .popup {
-    --cerrar-separacion: calc(var(--espacio-1) / 2);
+    --popup-relleno-arriba: calc(2 * var(--espacio-1) + var(--flotante-cerrar-tamano));
     inset: auto var(--flotante-margen-movil)
       calc(var(--flotante-margen-movil) + var(--flotante-tamano-movil) + var(--espacio-1)) auto;
     width: min(
@@ -391,6 +409,15 @@
       100dvh - var(--flotante-tamano-movil) - 2 * var(--flotante-margen-movil) - var(--espacio-1)
     );
     border-radius: var(--radio-tarjeta-movil);
+  }
+
+  .cerrar {
+    top: var(--espacio-1);
+    right: var(--espacio-1);
+  }
+
+  .titulo {
+    padding-inline: 0;
   }
 
   .globito {

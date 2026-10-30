@@ -79,6 +79,20 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
     return detenerGlobito;
   }, []);
 
+  /*
+   * Ya visible, se queda aunque la persona baje; fuera de lo alto de la
+   * página deja pasar los clics a lo que tenga debajo (salvo su ✕). Sale
+   * siempre estando arriba, así que empieza en true.
+   */
+  const [globitoArriba, setGlobitoArriba] = useState(true);
+
+  useEffect(() => {
+    if (fase !== "visible") return;
+    const alDesplazar = () => setGlobitoArriba(estaArriba(window.scrollY));
+    window.addEventListener("scroll", alDesplazar, { passive: true });
+    return () => window.removeEventListener("scroll", alDesplazar);
+  }, [fase]);
+
   /* Cerrado con su ✕: el foco, que se queda sin lugar, pasa al botón */
   function cerrarGlobito() {
     detenerGlobito();
@@ -172,7 +186,15 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
         Globito: siempre en el HTML, oculto (sin foco ni lector de pantalla)
         salvo en su fase visible, para que entre y salga con transición.
       */}
-      <div className={`${styles.globito} ${fase === "visible" ? styles.globitoVisible : ""}`}>
+      <div
+        className={[
+          styles.globito,
+          fase === "visible" && styles.globitoVisible,
+          fase === "visible" && !globitoArriba && styles.globitoAtravesable,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
         <button type="button" className={styles.globitoMensaje} popoverTarget={idPopup}>
           Contáctanos
         </button>
