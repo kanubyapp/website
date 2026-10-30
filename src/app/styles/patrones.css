@@ -738,9 +738,10 @@
       box-shadow var(--transicion);
   }
 
+  /* El logo naranja de Kanuby, como en la home */
   .kb-header-logo {
     flex-shrink: 0;
-    width: 250px;
+    width: 140px;
     transition: width var(--transicion);
   }
 
@@ -758,7 +759,7 @@
   }
 
   :root[data-header-compacto] .kb-header-logo {
-    width: 200px;
+    width: 116px;
   }
 
   /*
@@ -791,16 +792,6 @@
         }
       }
     }
-  }
-
-  /* Logo de mudanzas: la versión con "Mudanzas" en azul para el cristal */
-  .kb-header-logo-compacto,
-  :root[data-header-compacto] .kb-header-logo-normal {
-    display: none;
-  }
-
-  :root[data-header-compacto] .kb-header-logo-compacto {
-    display: block;
   }
 
   :root[data-header-compacto] .kb-header-enlace {
@@ -2231,13 +2222,13 @@
   }
 
   /*
-   * Menú a pantalla completa y aspecto de su botón, desde 1209px (el corte
+   * Menú a pantalla completa y aspecto de su botón, desde 1199px (el corte
    * más ancho de los headers con menú en tablet): en celular los usan todos
    * los headers kb-header; en tablet, los que llevan kb-header-menu-tablet
    * (mudanzas y minibodegas), donde los enlaces y el botón de cotizar ya no
    * caben en una fila. El panel queda oculto hasta abrirlo.
    */
-  @media (max-width: 1209px) {
+  @media (max-width: 1199px) {
     .kb-header-abrir {
       flex-shrink: 0;
       justify-content: center;
@@ -2339,12 +2330,12 @@
 
   /*
    * Cortes del header de mudanzas según cuántos enlaces lleva
-   * (kb-header-enlaces-N, de header-mudanzas.tsx), medidos desde dónde caben
-   * con la separación normal y con la reducida: cuatro (Monterrey), desde
-   * 1302px y 1204px; tres (CDMX), desde 1182px y 1094px; dos (empresariales),
-   * desde 1048px y 972px.
+   * (kb-header-enlaces-N, de header-mudanzas.tsx), medidos con el logo
+   * naranja desde dónde caben con la separación normal y con la reducida:
+   * cuatro (Monterrey), desde 1182px y 1084px; tres (CDMX), desde 1062px y
+   * 974px; dos (empresariales), desde 928px y 852px.
    */
-  @media (min-width: 768px) and (max-width: 1309px) {
+  @media (min-width: 768px) and (max-width: 1199px) {
     .kb-header-enlaces-4 .kb-header-barra {
       column-gap: var(--espacio-2);
     }
@@ -2354,7 +2345,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1209px) {
+  @media (min-width: 768px) and (max-width: 1099px) {
     .kb-header-enlaces-4 .kb-header-menu {
       display: none;
     }
@@ -2365,7 +2356,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1199px) {
+  @media (min-width: 768px) and (max-width: 1079px) {
     .kb-header-enlaces-3 .kb-header-barra {
       column-gap: var(--espacio-2);
     }
@@ -2375,7 +2366,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1109px) {
+  @media (min-width: 768px) and (max-width: 989px) {
     .kb-header-enlaces-3 .kb-header-menu {
       display: none;
     }
@@ -2386,7 +2377,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1059px) {
+  @media (min-width: 768px) and (max-width: 939px) {
     .kb-header-enlaces-2 .kb-header-barra {
       column-gap: var(--espacio-2);
     }
@@ -2396,7 +2387,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 979px) {
+  @media (min-width: 768px) and (max-width: 869px) {
     .kb-header-enlaces-2 .kb-header-menu {
       display: none;
     }
@@ -2435,9 +2426,15 @@
       border-radius: var(--radio-tarjeta-movil);
     }
 
+    /* Logo más chico en móvil, como el de la home y el blog */
     .kb-header-logo {
       flex-shrink: 1;
+      width: 120px;
       min-width: 0;
+    }
+
+    :root[data-header-compacto] .kb-header-logo {
+      width: 100px;
     }
 
     .kb-header-menu {

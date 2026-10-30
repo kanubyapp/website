@@ -79,16 +79,6 @@
   letter-spacing: var(--tracking-display);
 }
 
-/* Header: logo naranja más chico que el de mudanzas */
-
-.header :global(.kb-header-logo) {
-  width: 140px;
-}
-
-:global(:root[data-header-compacto]) .header :global(.kb-header-logo) {
-  width: 116px;
-}
-
 /*
  * Hero: dos columnas, el texto a la izquierda y la imagen sin fondo completa
  * a la derecha, centradas entre sí; en móvil, la
@@ -623,15 +613,6 @@
   .tamanosTitulo,
   .porqueTitulo {
     font-size: var(--texto-32);
-  }
-
-  /* Logo más chico en móvil, como el de la home y el blog */
-  .header :global(.kb-header-logo) {
-    width: 120px;
-  }
-
-  :global(:root[data-header-compacto]) .header :global(.kb-header-logo) {
-    width: 100px;
   }
 
   /* En móvil la imagen va debajo del texto, entera */
