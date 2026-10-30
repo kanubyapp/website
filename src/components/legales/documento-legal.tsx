@@ -1,7 +1,5 @@
 import { HeaderBlog } from "@/components/blog/header-blog";
 import { SiteFooter } from "@/components/site-footer";
-import { negocioDePagina } from "@/lib/conversiones";
-import { RUTAS_LEGALES } from "@/lib/legales";
 import styles from "./documento-legal.module.css";
 
 /*
@@ -10,13 +8,11 @@ import styles from "./documento-legal.module.css";
  * documento en una columna de lectura con el patrón kb-prosa.
  */
 export function DocumentoLegal({
-  ruta,
   antetitulo,
   titulo,
   actualizacion,
   children,
 }: {
-  ruta: (typeof RUTAS_LEGALES)[number];
   antetitulo: string;
   titulo: string;
   actualizacion: React.ReactNode;
@@ -24,7 +20,7 @@ export function DocumentoLegal({
 }) {
   return (
     <>
-      <HeaderBlog negocio={negocioDePagina[ruta]} />
+      <HeaderBlog servicio={null} />
       <main>
         <header className={`kb-resplandor ${styles.cabecera}`}>
           <p className={styles.antetitulo}>{antetitulo}</p>

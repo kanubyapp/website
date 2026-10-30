@@ -4,6 +4,7 @@ import {
   eventoWhatsApp,
   LIMITE_ESPERA_MS,
   negocioDePost,
+  servicioDePost,
   negocioDePagina,
   registrarConversion,
 } from "./conversiones.ts";
@@ -150,4 +151,17 @@ test("páginas sin negocio propio: /social/, /blog/ y las legales emiten whatsap
     event: "whatsapp_minibodega",
     pagina: "/blog/",
   });
+});
+
+test("servicio de un post: solo con una de las dos categorías está claro", () => {
+  assert.equal(servicioDePost(["mudanzas"]), "mudanza");
+  assert.equal(servicioDePost(["minibodegas"]), "minibodega");
+  assert.equal(servicioDePost(["sin-categoria"]), null);
+  assert.equal(servicioDePost(["mudanzas", "minibodegas"]), null);
+  assert.equal(servicioDePost([]), null);
+});
+
+test("servicio y evento son independientes: el sin categoría sigue contando como mudanza", () => {
+  assert.equal(servicioDePost(["sin-categoria"]), null);
+  assert.equal(negocioDePost(["sin-categoria"]), "mudanza");
 });

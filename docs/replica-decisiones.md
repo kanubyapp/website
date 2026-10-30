@@ -34,7 +34,7 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
 ### b) Se copian tal cual: pendientes de confirmar con Kanuby
 
 - [x] 10 contra 20 años de experiencia: resuelto, son más de 20. La home ya dice "más de 20 años".
-- [ ] Los teléfonos 81 8336 3637 y 81 1500 6365 y sus formatos.
+- [ ] El teléfono 81 8336 3637 y su formato. El número de WhatsApp y de llamada del sitio es uno solo, 81 1028 7087, escrito únicamente en src/lib/contacto.ts; el otro que usaban el blog y /social/ estaba equivocado y se quitó.
 - [ ] "Monterrey" contra Santiago en minibodegas.
 - [ ] "Ver Tamaños y Precios".
 - [ ] "Próximamente Minibodegas".
@@ -70,7 +70,7 @@ Cada uno aparece como marcador <Pendiente> en /aviso-de-privacidad/ o /terminos-
 2. RFC y domicilio fiscal.
 3. Domicilio del responsable para el aviso de privacidad.
 4. Correo para privacidad y solicitudes ARCO (¿info@kanuby.com?), con su procedimiento y plazo de respuesta.
-5. Teléfono de los legales: 81 1028 7087, 81 1500 6365 u 81 8336 3637.
+5. Teléfono de los legales: 81 1028 7087 u 81 8336 3637.
 6. Datos que se recaban además de nombre, teléfono y servicio (facturación, fotos o inventario) y si hay datos sensibles.
 7. Finalidades secundarias (promociones, encuestas) y cómo negarse a ellas.
 8. Proveedores que reciben datos y si hay transferencias a terceros, como aseguradoras.

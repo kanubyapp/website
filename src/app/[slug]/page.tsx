@@ -5,7 +5,7 @@ import { CierreBlog } from "@/components/blog/cierre-blog";
 import { ContenidoPost } from "@/components/blog/contenido-post";
 import { HeaderBlog } from "@/components/blog/header-blog";
 import { SiteFooter } from "@/components/site-footer";
-import { negocioDePost } from "@/lib/conversiones";
+import { negocioDePost, servicioDePost } from "@/lib/conversiones";
 import { categorias, posts } from "@/lib/posts";
 import { jsonLdBase, serializarJsonLd, SITIO } from "@/lib/schema";
 import styles from "./page.module.css";
@@ -61,6 +61,7 @@ export default async function PaginaPost({ params }: Props) {
   const post = buscar((await params).slug);
   if (!post) notFound();
   const negocio = negocioDePost(post.categorias);
+  const servicio = servicioDePost(post.categorias);
 
   const ruta = `/${post.slug}/`;
   const url = `${SITIO}${ruta}`;
@@ -112,7 +113,7 @@ export default async function PaginaPost({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
       />
-      <HeaderBlog negocio={negocio} />
+      <HeaderBlog servicio={servicio} />
       <main>
         <section className={styles.hero}>
           {post.imagen && (
@@ -135,7 +136,7 @@ export default async function PaginaPost({ params }: Props) {
           <ContenidoPost bloques={post.contenido} className={`kb-prosa ${styles.contenido}`} />
         </div>
 
-        <CierreBlog negocio={negocio} />
+        <CierreBlog negocio={negocio} servicio={servicio} />
       </main>
       <SiteFooter />
     </>

@@ -14,6 +14,7 @@ import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { negocioDePagina } from "@/lib/conversiones";
 import { posts } from "@/lib/posts";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
+import { urlWhatsAppDirecto } from "@/lib/whatsapp";
 import styles from "./page.module.css";
 
 const titulo = "Social";
@@ -56,7 +57,8 @@ const redes = [
     Icono: IconoLinkedin,
   },
   {
-    href: "https://wa.me/528115006365?text=Hola%20Kanuby!%20Estoy%20buscando%20una%20minibodega!%20",
+    // Sin servicio claro: el mensaje general
+    href: urlWhatsAppDirecto(null),
     etiqueta: "Escribir a Kanuby por WhatsApp",
     Icono: IconoWhatsApp,
   },

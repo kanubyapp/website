@@ -1,11 +1,14 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  mensajeDirecto,
   mensajeMinibodega,
   mensajeMudanza,
+  NUMERO_WHATSAPP,
   TAMANOS_MINIBODEGA,
   TIPOS_MUDANZA,
   urlWhatsApp,
+  urlWhatsAppDirecto,
   validarCotizacionMinibodega,
   validarCotizacionMudanza,
 } from "./whatsapp.ts";
@@ -149,4 +152,19 @@ test("validación de minibodega: acepta los 4 tamaños y rechaza otros", () => {
 test("validación de minibodega: nombre y teléfono obligatorios", () => {
   const errores = validarCotizacionMinibodega({ nombre: "", telefono: "  ", tipo: "7 m²" });
   assert.deepEqual(Object.keys(errores).sort(), ["nombre", "telefono"]);
+});
+
+test("WhatsApp directo: el mensaje del servicio si está claro, uno general si no", () => {
+  assert.equal(mensajeDirecto("mudanza"), "Hola Kanuby, me interesa cotizar una mudanza.");
+  assert.equal(mensajeDirecto("minibodega"), "Hola Kanuby, me interesa rentar una minibodega.");
+  assert.equal(mensajeDirecto(null), "Hola Kanuby, me gustaría recibir información.");
+  assert.doesNotMatch(mensajeDirecto(null), /mudanza|minibodega/i);
+});
+
+test("WhatsApp directo: al número del sitio, con el mensaje codificado", () => {
+  assert.equal(NUMERO_WHATSAPP, "5218110287087");
+  assert.equal(
+    urlWhatsAppDirecto("mudanza"),
+    "https://wa.me/5218110287087?text=Hola%20Kanuby%2C%20me%20interesa%20cotizar%20una%20mudanza.",
+  );
 });

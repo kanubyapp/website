@@ -4,9 +4,10 @@
  * (correo.ts).
  */
 
+import { NUMERO_WHATSAPP } from "./contacto.ts";
 import type { Negocio } from "./conversiones.ts";
 
-export const NUMERO_WHATSAPP = "5218110287087";
+export { NUMERO_WHATSAPP };
 
 /* Opciones del paso 1 del popup, en el orden en que se muestran */
 
@@ -91,6 +92,21 @@ export function mensajeMinibodega(nombre: string, tamano: TamanoMinibodega): str
 export function mensajeServicio(negocio: Negocio, nombre: string): string {
   const interes = negocio === "mudanza" ? "cotizar una mudanza" : "rentar una minibodega";
   return `Hola Kanuby, soy ${nombre.trim()}. Me interesa ${interes}.`;
+}
+
+/*
+ * Mensaje de los enlaces directos a WhatsApp (sin formulario: cierre de los
+ * posts, /social/). Con el servicio claro, el de ese servicio; sin él, uno
+ * general que no compromete ninguno de los dos.
+ */
+export function mensajeDirecto(servicio: Negocio | null): string {
+  if (servicio === "mudanza") return "Hola Kanuby, me interesa cotizar una mudanza.";
+  if (servicio === "minibodega") return "Hola Kanuby, me interesa rentar una minibodega.";
+  return "Hola Kanuby, me gustaría recibir información.";
+}
+
+export function urlWhatsAppDirecto(servicio: Negocio | null): string {
+  return urlWhatsApp(mensajeDirecto(servicio));
 }
 
 export function urlWhatsApp(mensaje: string): string {

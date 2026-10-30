@@ -49,7 +49,9 @@ export function eventoCalculadoraSolicitud(pagina: string, tamano: string): Even
 /**
  * Negocio de un post según su categoría, solo para el evento (la categoría
  * no cambia). Los posts sin categoría son de mudanza y el que tiene las dos
- * (mudanzas-y-minibodegas-la-combinacion-perfecta…) es de minibodega.
+ * (mudanzas-y-minibodegas-la-combinacion-perfecta…) es de minibodega. Para
+ * lo que ve la persona (el popup y el mensaje de WhatsApp) se usa
+ * servicioDePost, que no adivina.
  */
 export function negocioDePost(categorias: readonly CategoriaSlug[]): Negocio {
   if (categorias.includes("minibodegas")) return "minibodega";
@@ -57,8 +59,22 @@ export function negocioDePost(categorias: readonly CategoriaSlug[]): Negocio {
 }
 
 /**
- * Negocio de las páginas que no son de un servicio. Su WhatsApp directo lleva
- * el mensaje prellenado de minibodega, así que cuentan como minibodega.
+ * Servicio de un post (o de una página de categoría) cuando su categoría lo
+ * deja claro: solo mudanzas o solo minibodegas. Sin categoría o con las dos
+ * no se sabe (null): el popup pregunta y el WhatsApp directo lleva un mensaje
+ * general. Sale de las mismas categorías que negocioDePost.
+ */
+export function servicioDePost(categorias: readonly CategoriaSlug[]): Negocio | null {
+  const mudanzas = categorias.includes("mudanzas");
+  const minibodegas = categorias.includes("minibodegas");
+  if (mudanzas === minibodegas) return null;
+  return mudanzas ? "mudanza" : "minibodega";
+}
+
+/**
+ * Negocio de las páginas que no son de un servicio, para el evento de su
+ * WhatsApp directo: cuentan como minibodega, como siempre. Su servicio no se
+ * sabe: el mensaje es el general.
  */
 export const negocioDePagina: Record<
   "/social/" | "/blog/" | "/aviso-de-privacidad/" | "/terminos-y-condiciones/",

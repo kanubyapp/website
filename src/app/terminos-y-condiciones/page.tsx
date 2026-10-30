@@ -40,7 +40,6 @@ export default function TerminosYCondiciones() {
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
       />
       <DocumentoLegal
-        ruta={ruta}
         antetitulo="Términos y condiciones"
         titulo="Términos y condiciones del servicio"
         actualizacion={<Pendiente>fecha de publicación</Pendiente>}
@@ -69,7 +68,7 @@ export default function TerminosYCondiciones() {
             Domicilio fiscal: <Pendiente>domicilio fiscal</Pendiente>
           </li>
           <li>
-            Teléfono: <Pendiente>cuál de 81 1028 7087, 81 1500 6365 u 81 8336 3637</Pendiente>
+            Teléfono: <Pendiente>cuál de 81 1028 7087 u 81 8336 3637</Pendiente>
           </li>
           <li>
             Correo: <Pendiente>confirmar si es info@kanuby.com u otro</Pendiente>

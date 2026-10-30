@@ -41,7 +41,6 @@ export default function AvisoDePrivacidad() {
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
       />
       <DocumentoLegal
-        ruta={ruta}
         antetitulo="Aviso de privacidad"
         titulo="Aviso de privacidad"
         actualizacion={<Pendiente>fecha de publicación</Pendiente>}
@@ -70,7 +69,7 @@ export default function AvisoDePrivacidad() {
             Correo para asuntos de privacidad: <Pendiente>confirmar si es info@kanuby.com u otro</Pendiente>
           </li>
           <li>
-            Teléfono: <Pendiente>cuál de 81 1028 7087, 81 1500 6365 u 81 8336 3637</Pendiente>
+            Teléfono: <Pendiente>cuál de 81 1028 7087 u 81 8336 3637</Pendiente>
           </li>
         </ul>
 

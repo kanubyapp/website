@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { HeaderBlog } from "@/components/blog/header-blog";
 import { SiteFooter } from "@/components/site-footer";
-import { negocioDePagina } from "@/lib/conversiones";
 import { fechaLarga } from "@/lib/fechas";
 import { categorias, posts, postsRecientes, type CategoriaSlug } from "@/lib/posts";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
@@ -44,7 +43,7 @@ export default function Blog() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializarJsonLd(jsonLd) }}
       />
-      <HeaderBlog negocio={negocioDePagina["/blog/"]} />
+      <HeaderBlog servicio={null} />
 
       <main>
         <section className={`kb-resplandor ${styles.cabecera}`}>

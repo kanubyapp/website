@@ -8,7 +8,9 @@ import {
   IconoWhatsApp,
 } from "@/components/iconos";
 import { EnlaceWhatsApp } from "@/components/enlace-whatsapp";
+import { TELEFONO_ENLACE, TELEFONO_VISIBLE } from "@/lib/contacto";
 import type { Negocio } from "@/lib/conversiones";
+import { urlWhatsAppDirecto } from "@/lib/whatsapp";
 import styles from "@/app/[slug]/page.module.css";
 
 /*
@@ -18,20 +20,23 @@ import styles from "@/app/[slug]/page.module.css";
  * que lleva los créditos.
  */
 
-const redes = [
-  { href: "https://www.facebook.com/KanubyBodegas/", etiqueta: "Facebook de Kanuby", Icono: IconoFacebook },
-  { href: "https://www.instagram.com/kanuby.mx/", etiqueta: "Instagram de Kanuby", Icono: IconoInstagram },
-  { href: "https://mx.linkedin.com/company/kanuby", etiqueta: "LinkedIn de Kanuby", Icono: IconoLinkedin },
-  {
-    href: "https://wa.me/528115006365?text=Hola%20Kanuby!%20Estoy%20buscando%20una%20minibodega!%20",
-    etiqueta: "Escribir a Kanuby por WhatsApp",
-    Icono: IconoWhatsApp,
-  },
-  { href: "https://www.tiktok.com/@kanuby.mx", etiqueta: "TikTok de Kanuby", Icono: IconoTiktok },
-];
+/* El WhatsApp lleva el mensaje del servicio del post (o el general) */
+function redes(servicio: Negocio | null) {
+  return [
+    { href: "https://www.facebook.com/KanubyBodegas/", etiqueta: "Facebook de Kanuby", Icono: IconoFacebook },
+    { href: "https://www.instagram.com/kanuby.mx/", etiqueta: "Instagram de Kanuby", Icono: IconoInstagram },
+    { href: "https://mx.linkedin.com/company/kanuby", etiqueta: "LinkedIn de Kanuby", Icono: IconoLinkedin },
+    { href: urlWhatsAppDirecto(servicio), etiqueta: "Escribir a Kanuby por WhatsApp", Icono: IconoWhatsApp },
+    { href: "https://www.tiktok.com/@kanuby.mx", etiqueta: "TikTok de Kanuby", Icono: IconoTiktok },
+  ];
+}
 
-/* negocio: el del post según su categoría, para el evento del ícono de WhatsApp */
-export function CierreBlog({ negocio }: { negocio: Negocio | null }) {
+/*
+ * negocio: el del post según su categoría, para el evento del ícono de
+ * WhatsApp (negocioDePost); servicio: el que su categoría deja claro, para el
+ * mensaje (servicioDePost, null si no se sabe).
+ */
+export function CierreBlog({ negocio, servicio }: { negocio: Negocio | null; servicio: Negocio | null }) {
   return (
     <section className={`kb-tarjeta ${styles.cierre}`}>
       <div className={styles.cierreMarca}>
@@ -50,7 +55,7 @@ export function CierreBlog({ negocio }: { negocio: Negocio | null }) {
           organización, almacenamiento y hasta entrega a domicilio.
         </p>
         <ul className={styles.cierreRedes}>
-          {redes.map(({ href, etiqueta, Icono }) => (
+          {redes(servicio).map(({ href, etiqueta, Icono }) => (
             <li key={href}>
               {href.startsWith("https://wa.me/") ? (
                 <EnlaceWhatsApp
@@ -112,11 +117,11 @@ export function CierreBlog({ negocio }: { negocio: Negocio | null }) {
       </div>
 
       <div className={styles.cierreAyuda}>
-        <a href="tel:+5218115006365" className={styles.cta}>
+        <a href={TELEFONO_ENLACE} className={styles.cta}>
           <span className={styles.ctaContenido}>
             <span className={styles.ctaTitulo}>¿Necesitas ayuda?</span>
             <span className={styles.ctaDescripcion}>Llámanos</span>
-            <span className={styles.ctaNumero}>81 1500 6365</span>
+            <span className={styles.ctaNumero}>{TELEFONO_VISIBLE}</span>
           </span>
           <span className={styles.ctaImagen}>
             <Image
