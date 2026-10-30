@@ -1,16 +1,16 @@
 /*
- * Pulso del botón: un segundo resplandor, el mismo del botón, que crece y se
- * desvanece. Tres pulsos al inicio de cada ciclo (4.5 s de 24 s) y el resto
- * quieto, para no volverse ruido. La sombra exterior se pinta fuera del
- * botón: no tapa el ícono. Con el popup abierto y con "reducir movimiento",
- * no pulsa.
+ * Pulso del botón: un resplandor naranja intenso alrededor del botón que
+ * crece y se desvanece. Tres pulsos al inicio de cada ciclo (4.5 s de 10 s) y
+ * el resto quieto, para no volverse ruido. La sombra exterior se pinta fuera
+ * del botón: no tapa el ícono ni cambia su color o tamaño. Con el popup
+ * abierto no pulsa; con "reducir movimiento" el resplandor queda fijo.
  */
 .boton::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: var(--sombra-resplandor);
+  box-shadow: var(--flotante-resplandor);
   opacity: 0;
   pointer-events: none;
   animation: pulso var(--flotante-pulso-ciclo) ease-out var(--flotante-pulso-retraso) infinite;
@@ -20,21 +20,22 @@
   animation: none;
 }
 
+/* Cada pulso dura 1.5 s (15% del ciclo): sube rápido y se apaga despacio */
 @keyframes pulso {
   0%,
-  6.25%,
-  12.5%,
-  18.75%,
+  15%,
+  30%,
+  45%,
   100% {
     opacity: 0;
     transform: scale(1);
   }
 
-  2.5%,
-  8.75%,
-  15% {
+  5%,
+  20%,
+  35% {
     opacity: 1;
-    transform: scale(1.15);
+    transform: scale(1.1);
   }
 }
 
@@ -130,7 +131,7 @@
   /* Del borde de arriba (un margen) a donde empieza: lo que queda de pantalla */
   max-height: calc(100dvh - var(--flotante-tamano) - 2 * var(--flotante-margen) - var(--espacio-1));
   margin: 0;
-  padding: var(--espacio-1) var(--espacio-2) var(--espacio-2);
+  padding: var(--popup-relleno-arriba) var(--popup-relleno) var(--popup-relleno);
   overflow-y: auto;
   border-radius: var(--radio-tarjeta);
   /* La misma sombra del botón flotante: lo despega de la página oscura */
@@ -157,17 +158,22 @@
 }
 
 /*
- * La ✕ del patrón, más chica y pegada a la esquina, para dejarle al título el
- * ancho que necesita. A la derecha, lo más cerca que permite la curva de la
- * esquina (en móvil la curva es más cerrada y se pega más); arriba, a la
- * altura del título.
+ * Relleno holgado: un bloque completo a los lados y abajo. Arriba, la fila
+ * del título y la ✕ empieza un poco antes, a la altura de la ✕.
+ *
+ * La ✕ del patrón, más chica, para dejarle al título el ancho que necesita.
+ * A la derecha, a la misma distancia que arriba en escritorio; en móvil,
+ * pegada a la orilla, porque ahí el ancho no alcanza. Arriba, a la altura
+ * del título.
  */
 .popup {
-  --cerrar-separacion: var(--espacio-1);
+  --popup-relleno: var(--espacio-3);
+  --popup-relleno-arriba: var(--espacio-2);
+  --cerrar-separacion: var(--espacio-2);
 }
 
 .cerrar {
-  top: var(--espacio-1);
+  top: var(--popup-relleno-arriba);
   right: var(--cerrar-separacion);
   width: var(--flotante-cerrar-tamano);
   height: var(--flotante-cerrar-tamano);
@@ -178,27 +184,33 @@
  * Centrado, en una sola línea y libre de la ✕ por los dos lados, en una fila
  * del alto de la ✕. Lo que la ✕ entra en el contenido (su separación de la
  * orilla y su tamaño, menos el relleno del popup) más un espacio de aire es
- * el margen de cada lado. Con el ancho del popup, al título le quedan 248px
- * y mide 244px.
+ * el margen de cada lado. El título mide 244px; le quedan 268px en
+ * escritorio y 248px en un celular de 360px.
  */
 .titulo {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: var(--flotante-cerrar-tamano);
-  margin-bottom: var(--espacio-2);
+  margin-bottom: var(--espacio-3);
   padding-inline: calc(
-    var(--cerrar-separacion) + var(--flotante-cerrar-tamano) + var(--espacio-1) - var(--espacio-2)
+    var(--cerrar-separacion) + var(--flotante-cerrar-tamano) + var(--espacio-1) -
+      var(--popup-relleno)
   );
   font-size: var(--texto-20);
   text-align: center;
   white-space: nowrap;
 }
 
+/*
+ * Un bloque completo de separación entre campos, selector, botón y leyenda:
+ * deja aire de sobra para la etiqueta que sube al borde del campo y separa
+ * cada error del campo que sigue.
+ */
 .formulario {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-2);
+  gap: var(--espacio-3);
 }
 
 /*
@@ -353,9 +365,9 @@
   background: var(--color-naranja-oscuro);
 }
 
-/* La nota va con el botón: medio bloque de distancia, no uno completo */
+/* La nota va con el botón: más cerca que los demás bloques */
 .nota {
-  margin-top: calc(var(--espacio-1) - var(--espacio-2));
+  margin-top: calc(var(--espacio-2) - var(--espacio-3));
   font-size: var(--texto-12);
   line-height: var(--interlineado-encabezado);
   text-align: center;
@@ -394,16 +406,33 @@
 
 /*
  * Pantallas de menos de 360px (ya casi no hay): el título no cabe a 20px ni
- * con el popup a todo lo ancho, y antes de partirse se achica.
+ * con el popup a todo lo ancho, y antes de partirse se achica. El relleno de
+ * los lados baja un paso para que las dos opciones de servicio quepan, y la
+ * separación entre bloques también, para que con errores quepa a lo alto.
  */
 @media (max-width: 359px) {
+  .popup {
+    --popup-relleno: var(--espacio-2);
+  }
+
+  .formulario {
+    gap: var(--espacio-2);
+  }
+
   .titulo {
+    margin-bottom: var(--espacio-2);
     font-size: var(--texto-16);
+  }
+
+  .nota {
+    margin-top: calc(var(--espacio-1) - var(--espacio-2));
   }
 }
 
+/* Sin movimiento: el mismo resplandor, fijo, para que el botón resalte igual */
 @media (prefers-reduced-motion: reduce) {
   .boton::after {
+    opacity: 1;
     animation: none;
   }
 

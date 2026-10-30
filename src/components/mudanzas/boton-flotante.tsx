@@ -11,11 +11,8 @@ import {
 } from "@/lib/contacto-flotante";
 import { registrarConversion, type Negocio } from "@/lib/conversiones";
 import {
-  anotarGlobito,
   estaArriba,
   GLOBITO_APARECE_MS,
-  GLOBITO_VISIBLE_MS,
-  globitoYaSalio,
   siguienteFase,
   type FaseGlobito,
 } from "@/lib/globito-flotante";
@@ -66,33 +63,19 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
   const [errores, setErrores] = useState<ErroresFlotante>({});
   const preguntaServicio = SERVICIO_FLOTANTE[pagina] === null;
 
-  /* Globito: sus temporizadores, para cortarlos si se abre el popup o se cierra */
+  /* Globito: su temporizador, para cortarlo si se abre el popup antes de que salga */
   const [fase, setFase] = useState<FaseGlobito>("esperando");
-  const temporizadores = useRef<number[]>([]);
+  const aparicion = useRef<number | undefined>(undefined);
 
   function detenerGlobito() {
-    temporizadores.current.forEach((temporizador) => window.clearTimeout(temporizador));
-    temporizadores.current = [];
+    window.clearTimeout(aparicion.current);
   }
 
   useEffect(() => {
-    temporizadores.current.push(
-      window.setTimeout(() => {
-        const yaSalio = globitoYaSalio();
-        const arriba = estaArriba(window.scrollY);
-        setFase((actual) => siguienteFase(actual, "aparece", yaSalio, arriba));
-        if (yaSalio) return;
-        // Salga o se pierda porque la persona ya bajó, cuenta para la visita
-        anotarGlobito();
-        if (!arriba) return;
-        temporizadores.current.push(
-          window.setTimeout(
-            () => setFase((actual) => siguienteFase(actual, "se-retira")),
-            GLOBITO_VISIBLE_MS,
-          ),
-        );
-      }, GLOBITO_APARECE_MS),
-    );
+    aparicion.current = window.setTimeout(() => {
+      const arriba = estaArriba(window.scrollY);
+      setFase((actual) => siguienteFase(actual, "aparece", arriba));
+    }, GLOBITO_APARECE_MS);
     return detenerGlobito;
   }, []);
 
@@ -106,7 +89,7 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
   /* Cada apertura empieza vacía; al cerrar, el foco vuelve al botón si estaba dentro o se perdió */
   function alAlternar(evento: React.ToggleEvent<HTMLDivElement>) {
     if (evento.newState === "open") {
-      // Con el popup abierto el globito sobra, y ya no vuelve
+      // Con el popup abierto el globito sobra, y ya no vuelve en esta carga
       detenerGlobito();
       setFase((actual) => siguienteFase(actual, "popup"));
       abiertoEn.current = Date.now();

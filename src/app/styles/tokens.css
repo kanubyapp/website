@@ -269,7 +269,7 @@
   --flotante-tamano-movil: 56px;
   --flotante-margen-movil: var(--espacio-2);
   /* Ancho del popup chico que abre el botón; en móvil ocupa de margen a margen */
-  --flotante-popup-ancho: 340px;
+  --flotante-popup-ancho: 380px;
   /* Su botón de cerrar: más chico que el objetivo táctil, sin bajar de 24px */
   --flotante-cerrar-tamano: 26px;
   /* Capa del botón y su globito: sobre el contenido y el header */
@@ -279,8 +279,16 @@
    * resto descansa. Arranca con el globito (GLOBITO_APARECE_MS en
    * lib/globito-flotante.ts).
    */
-  --flotante-pulso-ciclo: 24s;
-  --flotante-pulso-retraso: 4s;
+  --flotante-pulso-ciclo: 10s;
+  --flotante-pulso-retraso: 2s;
+  /*
+   * Su resplandor: el naranja del acento, mucho más intenso y amplio que
+   * --sombra-resplandor, para que el botón resalte sobre el fondo oscuro.
+   * Un halo cerrado y fuerte pegado al botón y otro abierto y suave.
+   */
+  --flotante-resplandor:
+    0 0 16px 6px rgb(236 91 42 / 0.8),
+    0 0 44px 16px rgb(236 91 42 / 0.45);
   /* Tamaño de la etiqueta flotante de sus campos cuando sube al borde */
   --etiqueta-flotante-escala: 0.85;
 
