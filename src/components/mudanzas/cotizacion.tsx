@@ -39,8 +39,8 @@ import {
  * conversión (cotizacion_mudanza o cotizacion_minibodega) y el popup pasa a
  * la confirmación, con el enlace al mismo WhatsApp por si la pestaña no se
  * abrió (lib/abrir-whatsapp.ts). El sitio se queda donde estaba.
- * Con tipo="eleccion" (header de la home) hay un paso previo, "¿Qué
- * necesitas?", con Mudanza y Minibodega; desde el paso 1 se regresa a él.
+ * Con tipo="eleccion" (header de la home) hay un paso previo, "¿Qué servicio
+ * estás buscando?", con Mudanza y Minibodega; desde el paso 1 se regresa a él.
  * Cualquier botón de la página lo abre con useCotizacion().abrir(). Se cierra con su botón, con Esc y con clic fuera;
  * mientras está abierto el foco queda dentro, el fondo no hace scroll
  * (interacciones.css) y al cerrar el foco vuelve a quien lo abrió
@@ -63,31 +63,79 @@ const ICONOS_MINIBODEGA: Record<TamanoMinibodega, Icono> = {
   "No estoy seguro": IconoDuda,
 };
 
+/*
+ * Cabecera de cada pantalla: el título, que termina con el logo de Kanuby en
+ * lugar de la palabra (su texto alternativo es "Kanuby"), y debajo la misma
+ * línea de apoyo en todas, escrita una sola vez.
+ */
+type Cabecera = { titulo: string };
+
+const LINEA_DE_APOYO = "Completa el formulario, te llevará a WhatsApp.";
+
 const FORMULARIOS: Record<
   "mudanza" | "minibodega",
-  {
-    titulo: string;
-    subtitulo: string;
+  Cabecera & {
     pregunta: string;
     opciones: readonly string[];
     iconos?: Partial<Record<string, Icono>>;
   }
 > = {
   mudanza: {
-    titulo: "Cotiza ahora tu Mudanza con Kanuby",
-    subtitulo: "Completa el formulario, te llevará a WhatsApp.",
+    titulo: "Cotiza ahora tu Mudanza con",
     pregunta: "¿Qué tipo de mudanza estás buscando?",
     opciones: TIPOS_MUDANZA,
     iconos: ICONOS_MUDANZA,
   },
   minibodega: {
-    titulo: "Cotiza tu minibodega ahora",
-    subtitulo: "Al completar el formulario te llevará a WhatsApp.",
+    titulo: "Cotiza ahora tu Minibodega con",
     pregunta: "¿Cuánto Espacio Buscas?",
     opciones: TAMANOS_MINIBODEGA,
     iconos: ICONOS_MINIBODEGA,
   },
 };
+
+/* Pantalla del paso previo (sin servicio todavía) */
+const ELECCION: Cabecera & { pregunta: string; ayuda: string } = {
+  titulo: "Cotiza ahora con",
+  pregunta: "¿Qué servicio estás buscando?",
+  ayuda: "Elige el servicio que necesitas y en dos pasos te llevamos a WhatsApp.",
+};
+
+/* La última palabra del título va junto al logo, sin partirse de él */
+function Titulo({ cabecera, id }: { cabecera: Cabecera; id: string }) {
+  const corte = cabecera.titulo.lastIndexOf(" ");
+  return (
+    <h2 id={id} className="kb-popup-titulo">
+      {cabecera.titulo.slice(0, corte + 1)}
+      <span className="kb-popup-titulo-marca">
+        {cabecera.titulo.slice(corte + 1)}{" "}
+        <Image
+          src="/images/kanuby-orange.svg"
+          alt="Kanuby"
+          width={1593}
+          height={338}
+          sizes="150px"
+          className="kb-popup-titulo-logo"
+        />
+      </span>
+    </h2>
+  );
+}
+
+/*
+ * Regresar al paso anterior: botón a todo el ancho, con la forma del de ir a
+ * WhatsApp, que dice qué hace y muestra lo ya elegido.
+ */
+function Volver({ eleccion, alVolver }: { eleccion: string; alVolver: () => void }) {
+  return (
+    <button type="button" className="kb-popup-volver" onClick={alVolver}>
+      <span className="kb-popup-volver-texto">
+        <span aria-hidden="true">←</span> Regresar al paso anterior
+      </span>
+      <span className="kb-popup-volver-eleccion">Elegiste: {eleccion}</span>
+    </button>
+  );
+}
 
 /* Paso previo del popup general */
 const NEGOCIOS: { valor: Negocio; nombre: string; Icono: Icono }[] = [
@@ -137,6 +185,8 @@ export function CotizacionProvider({
   const formularioActual =
     flujo.paso !== "negocio" && flujo.negocio ? FORMULARIOS[flujo.negocio] : null;
   const nombreNegocio = NEGOCIOS.find((negocio) => negocio.valor === flujo.negocio)?.nombre;
+  /* Antes de elegir servicio, la cabecera de la pantalla de elección */
+  const cabecera: Cabecera = formularioActual ?? ELECCION;
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
   const [errores, setErrores] = useState<ErroresCotizacion>({});
@@ -238,15 +288,15 @@ export function CotizacionProvider({
             <IconoCerrar />
           </button>
 
-          <h2 id={`${id}-titulo`} className="kb-popup-titulo">
-            {formularioActual ? formularioActual.titulo : "¿Qué necesitas?"}
-          </h2>
-          {formularioActual && (
-            <p className="kb-popup-subtitulo">{formularioActual.subtitulo}</p>
-          )}
+          <Titulo cabecera={cabecera} id={`${id}-titulo`} />
+          <p className="kb-popup-subtitulo">{LINEA_DE_APOYO}</p>
 
           {!formularioActual ? (
             <div className="kb-popup-paso">
+              <div className="kb-popup-encabezado">
+                <p className="kb-popup-pregunta">{ELECCION.pregunta}</p>
+                <p className="kb-popup-ayuda">{ELECCION.ayuda}</p>
+              </div>
               <ul className="kb-popup-opciones">
                 {NEGOCIOS.map(({ valor, nombre: texto, Icono }, indice) => (
                   <li key={valor}>
@@ -271,16 +321,6 @@ export function CotizacionProvider({
             <div className="kb-popup-paso">
               <div className="kb-popup-encabezado">
                 <p className="kb-popup-pregunta">{formularioActual.pregunta}</p>
-                {flujo.conPrevio && (
-                  <button
-                    type="button"
-                    className="kb-popup-volver"
-                    aria-label={`Volver al paso anterior: ${nombreNegocio}`}
-                    onClick={() => despachar({ tipo: "volver" })}
-                  >
-                    <span aria-hidden="true">←</span> {nombreNegocio}
-                  </button>
-                )}
               </div>
               {mensajeError("tipo")}
               {/*
@@ -310,6 +350,9 @@ export function CotizacionProvider({
                   );
                 })}
               </ul>
+              {flujo.conPrevio && nombreNegocio && (
+                <Volver eleccion={nombreNegocio} alVolver={() => despachar({ tipo: "volver" })} />
+              )}
             </div>
           ) : whatsapp ? (
             <div className="kb-popup-paso">
@@ -319,14 +362,6 @@ export function CotizacionProvider({
             <form className="kb-popup-paso" noValidate onSubmit={enviar}>
               <div className="kb-popup-encabezado">
                 <p className="kb-popup-pregunta">Ingresa tus datos</p>
-                <button
-                  type="button"
-                  className="kb-popup-volver"
-                  aria-label={`Volver al paso anterior: ${flujo.tipo}`}
-                  onClick={() => despachar({ tipo: "volver" })}
-                >
-                  <span aria-hidden="true">←</span> {flujo.tipo}
-                </button>
               </div>
 
               <div className="kb-campo">
@@ -389,21 +424,14 @@ export function CotizacionProvider({
                 <IconoWhatsApp className="kb-popup-enviar-icono" />
                 Ir a WhatsApp
               </button>
+              {flujo.tipo && (
+                <Volver eleccion={flujo.tipo} alVolver={() => despachar({ tipo: "volver" })} />
+              )}
               <p className="kb-popup-nota">
                 Se abre WhatsApp con tus datos ya escritos. Solo tienes que enviar el mensaje.
               </p>
             </form>
           )}
-
-          {/* Pie: el logo de Kanuby, sin enlace, en los dos pasos */}
-          <Image
-            src="/images/kanuby-orange.svg"
-            alt="Kanuby"
-            width={1593}
-            height={338}
-            sizes="110px"
-            className="kb-popup-logo"
-          />
         </div>
       </dialog>
     </CotizacionContexto.Provider>

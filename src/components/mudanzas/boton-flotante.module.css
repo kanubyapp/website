@@ -283,20 +283,7 @@
   }
 }
 
-/*
- * Foco: solo cambia el borde, a naranja y al doble de grueso (la sombra
- * interior), sin anillo por fuera, que cruzaría la etiqueta. El naranja da
- * 3.4:1 sobre el blanco, suficiente para un indicador. Con error, también.
- */
-.campoTexto:focus,
-.campoTexto:focus[aria-invalid="true"] {
-  border-color: var(--color-naranja);
-  box-shadow: inset 0 0 0 1px var(--color-naranja);
-}
-
-.campoTexto:focus-visible {
-  outline: none;
-}
+/* El foco de los campos (solo el borde, sin anillo) viene del patrón kb-campo-texto */
 
 /* Servicio (solo en la home): dos opciones lado a lado */
 .servicio {

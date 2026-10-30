@@ -2020,6 +2020,22 @@
     letter-spacing: var(--tracking-display);
   }
 
+  /*
+   * El logo en lugar de la palabra Kanuby, del alto de las mayúsculas del
+   * título y sobre su línea base; va pegado a la palabra anterior para no
+   * quedar solo en un renglón.
+   */
+  .kb-popup-titulo-marca {
+    white-space: nowrap;
+  }
+
+  .kb-popup-titulo-logo {
+    display: inline-block;
+    width: auto;
+    height: 0.82em;
+    vertical-align: -0.1em;
+  }
+
   .kb-popup-subtitulo {
     color: var(--color-texto-oscuro-secundario);
     font-family: var(--fuente-texto);
@@ -2053,28 +2069,53 @@
     line-height: var(--interlineado-encabezado);
   }
 
-  /* Volver al paso 1: píldora con la opción elegida */
-  .kb-popup-volver {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--espacio-1);
-    min-height: var(--objetivo-tactil);
-    padding: var(--relleno-pildora);
-    border: var(--borde-campo-claro);
-    border-radius: var(--radio-pildora);
-    background: var(--color-blanco);
+  /* Debajo de la pregunta de la pantalla de elección */
+  .kb-popup-ayuda {
     color: var(--color-texto-oscuro-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-14);
+    line-height: var(--interlineado-parrafo);
+  }
+
+  /*
+   * Regresar al paso anterior: a todo el ancho, con la forma, el alto y la
+   * letra del botón de ir a WhatsApp, pero en contorno (blanco con borde azul
+   * noche) para que la acción principal siga siendo WhatsApp. Dice qué hace
+   * y, debajo, lo que ya se eligió.
+   */
+  .kb-popup-volver {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    width: 100%;
+    min-height: var(--objetivo-tactil);
+    padding: var(--relleno-boton-sistema);
+    border: 1px solid var(--color-texto-oscuro);
+    border-radius: var(--radio-pildora);
+    background: var(--color-blanco);
+    color: var(--color-texto-oscuro);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-16);
     font-weight: var(--peso-medium);
+    line-height: var(--interlineado-encabezado);
+    cursor: pointer;
     transition:
       border-color var(--transicion),
-      color var(--transicion);
+      background-color var(--transicion);
   }
 
   .kb-popup-volver:hover {
     border-color: var(--color-naranja);
-    color: var(--color-texto-oscuro);
+    background: var(--color-naranja-tenue);
+  }
+
+  .kb-popup-volver-eleccion {
+    color: var(--color-texto-oscuro-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-13);
+    font-weight: var(--peso-regular);
   }
 
   /* Opciones del paso 1: todas en una fila; en móvil, apiladas */
@@ -2152,19 +2193,30 @@
     font-size: var(--texto-16);
     line-height: var(--interlineado-titulo);
     text-align: center;
-    transition: border-color var(--transicion);
+    transition:
+      border-color var(--transicion),
+      box-shadow var(--transicion);
   }
 
   .kb-campo-texto::placeholder {
     color: var(--color-texto-oscuro-secundario);
   }
 
-  .kb-campo-texto:focus {
-    border-color: var(--color-naranja);
-  }
-
   .kb-campo-texto[aria-invalid="true"] {
     border-color: var(--color-naranja-oscuro);
+  }
+
+  /*
+   * Foco: solo cambia el borde, a naranja y al doble de grueso (la sombra
+   * interior), sin anillo por fuera: los dos juntos se leen como un borde
+   * doble. El naranja da 3.4:1 sobre el blanco, suficiente para un
+   * indicador. Con error, también.
+   */
+  .kb-campo-texto:focus,
+  .kb-campo-texto:focus[aria-invalid="true"] {
+    border-color: var(--color-naranja);
+    box-shadow: inset 0 0 0 1px var(--color-naranja);
+    outline: none;
   }
 
   .kb-campo-error {
@@ -2176,7 +2228,6 @@
   .kb-popup-opcion:focus-visible,
   .kb-popup-volver:focus-visible,
   .kb-popup-cerrar:focus-visible,
-  .kb-campo-texto:focus-visible,
   .kb-popup-enviar:focus-visible {
     outline: var(--anillo-foco-claro);
     outline-offset: var(--anillo-foco-separacion);
@@ -2192,11 +2243,6 @@
     width: 20px;
     height: 20px;
     fill: currentColor;
-  }
-
-  .kb-popup-logo {
-    width: 110px;
-    margin: var(--espacio-3) auto 0;
   }
 
   .kb-popup-nota {
