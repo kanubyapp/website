@@ -1,4 +1,122 @@
 /*
+ * Pulso del botón: un segundo resplandor, el mismo del botón, que crece y se
+ * desvanece. Tres pulsos al inicio de cada ciclo (4.5 s de 24 s) y el resto
+ * quieto, para no volverse ruido. La sombra exterior se pinta fuera del
+ * botón: no tapa el ícono. Con el popup abierto y con "reducir movimiento",
+ * no pulsa.
+ */
+.boton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--sombra-resplandor);
+  opacity: 0;
+  pointer-events: none;
+  animation: pulso var(--flotante-pulso-ciclo) ease-out var(--flotante-pulso-retraso) infinite;
+}
+
+.boton:has(~ .popup:popover-open)::after {
+  animation: none;
+}
+
+@keyframes pulso {
+  0%,
+  6.25%,
+  12.5%,
+  18.75%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  2.5%,
+  8.75%,
+  15% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/*
+ * Globito "Contáctanos": mensaje entrante de chat, blanco con texto oscuro,
+ * encima del botón y alineado a su derecha, con la punta hacia el centro del
+ * botón. Fijo: no empuja nada. Entra desde el botón (transform-origin) y,
+ * fuera de su fase visible, queda oculto (visibility): sin foco ni clics.
+ */
+.globito {
+  --punta: var(--espacio-1);
+  display: flex;
+  position: fixed;
+  right: var(--flotante-margen);
+  bottom: calc(var(--flotante-margen) + var(--flotante-tamano) + var(--espacio-1));
+  z-index: var(--flotante-capa);
+  align-items: center;
+  max-width: calc(100vw - 2 * var(--flotante-margen));
+  padding-inline-end: var(--espacio-1);
+  border-radius: var(--radio-tarjeta-movil);
+  background: var(--color-blanco);
+  color: var(--color-texto-oscuro);
+  box-shadow: var(--sombra-elevada);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(var(--espacio-1)) scale(0.9);
+  transform-origin: bottom right;
+  transition:
+    opacity var(--transicion),
+    transform var(--transicion),
+    visibility var(--transicion);
+}
+
+.globitoVisible {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+/* La punta: un cuadrado girado a medias bajo el borde, al centro del botón */
+.globito::after {
+  content: "";
+  position: absolute;
+  right: calc(var(--flotante-tamano) / 2 - var(--punta) / 2);
+  bottom: calc(var(--punta) / -2);
+  width: var(--punta);
+  height: var(--punta);
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+/* Todo el mensaje es el botón que abre el popup, salvo la ✕ */
+.globitoMensaje {
+  min-height: var(--objetivo-tactil);
+  padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-2);
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  font-family: var(--fuente-titulos);
+  font-size: var(--texto-16);
+  font-weight: var(--peso-medium);
+  line-height: var(--interlineado-titulo);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.globitoMensaje:focus-visible {
+  outline: var(--anillo-foco-claro);
+  outline-offset: calc(-1 * var(--anillo-foco-separacion));
+}
+
+/* La ✕ del popup, del mismo tamaño, en la fila del mensaje */
+.globitoCerrar {
+  position: static;
+  flex-shrink: 0;
+  width: var(--flotante-cerrar-tamano);
+  height: var(--flotante-cerrar-tamano);
+  font-size: var(--texto-14);
+}
+
+/*
  * Popup chico del botón flotante: cristal claro (kb-cristal) pegado a la
  * esquina del botón, justo encima de él, sin velo y sin bloquear la página.
  * Es un popover: el navegador lo pone en la capa superior y lo cierra con Esc
@@ -262,6 +380,16 @@
     );
     border-radius: var(--radio-tarjeta-movil);
   }
+
+  .globito {
+    right: var(--flotante-margen-movil);
+    bottom: calc(var(--flotante-margen-movil) + var(--flotante-tamano-movil) + var(--espacio-1));
+    max-width: calc(100vw - 2 * var(--flotante-margen-movil));
+  }
+
+  .globito::after {
+    right: calc(var(--flotante-tamano-movil) / 2 - var(--punta) / 2);
+  }
 }
 
 /*
@@ -275,8 +403,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .boton::after {
+    animation: none;
+  }
+
   .popup,
-  .etiqueta {
+  .etiqueta,
+  .globito {
     transition: none;
   }
 }

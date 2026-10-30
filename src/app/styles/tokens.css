@@ -272,6 +272,15 @@
   --flotante-popup-ancho: 340px;
   /* Su botón de cerrar: más chico que el objetivo táctil, sin bajar de 24px */
   --flotante-cerrar-tamano: 26px;
+  /* Capa del botón y su globito: sobre el contenido y el header */
+  --flotante-capa: 100;
+  /*
+   * Pulso de resplandor del botón: unos pulsos al inicio de cada ciclo y el
+   * resto descansa. Arranca con el globito (GLOBITO_APARECE_MS en
+   * lib/globito-flotante.ts).
+   */
+  --flotante-pulso-ciclo: 24s;
+  --flotante-pulso-retraso: 4s;
   /* Tamaño de la etiqueta flotante de sus campos cuando sube al borde */
   --etiqueta-flotante-escala: 0.85;
 

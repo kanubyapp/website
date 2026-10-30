@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { IconoBodegaMediana, IconoCamion, IconoCerrar, IconoWhatsApp } from "@/components/iconos";
 import { avisarCotizacion } from "@/lib/aviso-cotizacion";
 import {
@@ -10,6 +10,15 @@ import {
   type PaginaFlotante,
 } from "@/lib/contacto-flotante";
 import { registrarConversion, type Negocio } from "@/lib/conversiones";
+import {
+  anotarGlobito,
+  estaArriba,
+  GLOBITO_APARECE_MS,
+  GLOBITO_VISIBLE_MS,
+  globitoYaSalio,
+  siguienteFase,
+  type FaseGlobito,
+} from "@/lib/globito-flotante";
 import styles from "./boton-flotante.module.css";
 
 /*
@@ -20,6 +29,11 @@ import styles from "./boton-flotante.module.css";
  * con clic fuera; al cerrarse, el foco vuelve al botón. Al enviar hace lo
  * mismo que el popup de cotización: aviso por correo sin esperar, evento
  * cotizacion_* y WhatsApp en la misma pestaña al confirmar GTM o al límite.
+ *
+ * Para que se note: el botón pulsa de vez en cuando (solo CSS) y, unos
+ * segundos después de llegar, sale un globito "Contáctanos" que abre el
+ * mismo popup si la persona sigue arriba de la página
+ * (lib/globito-flotante.ts). Ninguno de los dos toma el foco.
  */
 
 /* Los íconos son los del paso "¿Qué necesitas?" del popup de cotización */
@@ -52,9 +66,49 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
   const [errores, setErrores] = useState<ErroresFlotante>({});
   const preguntaServicio = SERVICIO_FLOTANTE[pagina] === null;
 
+  /* Globito: sus temporizadores, para cortarlos si se abre el popup o se cierra */
+  const [fase, setFase] = useState<FaseGlobito>("esperando");
+  const temporizadores = useRef<number[]>([]);
+
+  function detenerGlobito() {
+    temporizadores.current.forEach((temporizador) => window.clearTimeout(temporizador));
+    temporizadores.current = [];
+  }
+
+  useEffect(() => {
+    temporizadores.current.push(
+      window.setTimeout(() => {
+        const yaSalio = globitoYaSalio();
+        const arriba = estaArriba(window.scrollY);
+        setFase((actual) => siguienteFase(actual, "aparece", yaSalio, arriba));
+        if (yaSalio) return;
+        // Salga o se pierda porque la persona ya bajó, cuenta para la visita
+        anotarGlobito();
+        if (!arriba) return;
+        temporizadores.current.push(
+          window.setTimeout(
+            () => setFase((actual) => siguienteFase(actual, "se-retira")),
+            GLOBITO_VISIBLE_MS,
+          ),
+        );
+      }, GLOBITO_APARECE_MS),
+    );
+    return detenerGlobito;
+  }, []);
+
+  /* Cerrado con su ✕: el foco, que se queda sin lugar, pasa al botón */
+  function cerrarGlobito() {
+    detenerGlobito();
+    setFase((actual) => siguienteFase(actual, "cerrar"));
+    boton.current?.focus();
+  }
+
   /* Cada apertura empieza vacía; al cerrar, el foco vuelve al botón si estaba dentro o se perdió */
   function alAlternar(evento: React.ToggleEvent<HTMLDivElement>) {
     if (evento.newState === "open") {
+      // Con el popup abierto el globito sobra, y ya no vuelve
+      detenerGlobito();
+      setFase((actual) => siguienteFase(actual, "popup"));
       abiertoEn.current = Date.now();
       enviando.current = false;
       setNombre("");
@@ -124,12 +178,30 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
       <button
         ref={boton}
         type="button"
-        className={className}
+        className={`${className} ${styles.boton}`}
         aria-label="Cotizar por WhatsApp"
         popoverTarget={idPopup}
       >
         <IconoWhatsApp />
       </button>
+
+      {/*
+        Globito: siempre en el HTML, oculto (sin foco ni lector de pantalla)
+        salvo en su fase visible, para que entre y salga con transición.
+      */}
+      <div className={`${styles.globito} ${fase === "visible" ? styles.globitoVisible : ""}`}>
+        <button type="button" className={styles.globitoMensaje} popoverTarget={idPopup}>
+          Contáctanos
+        </button>
+        <button
+          type="button"
+          className={`kb-popup-cerrar ${styles.globitoCerrar}`}
+          aria-label="Cerrar mensaje"
+          onClick={cerrarGlobito}
+        >
+          <IconoCerrar />
+        </button>
+      </div>
 
       <div
         ref={popup}
