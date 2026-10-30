@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
-import { BotonCotizarHeader } from "@/components/mudanzas/boton-cotizar-header";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { FranjaConfianza } from "@/components/mudanzas/franja-confianza";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
@@ -58,7 +57,10 @@ export default function MudanzasMonterreyCdmx() {
           { href: "#testimonios", texto: "Testimonios" },
         ]}
         acciones={
-          <BotonCotizarHeader className="kb-boton-principal kb-boton-dos-lineas kb-boton-header" />
+          <BotonCotizar
+            texto="Cotiza Ahora"
+            className="kb-boton-principal kb-boton-header-corto kb-boton-naranja-oscuro"
+          />
         }
       />
 

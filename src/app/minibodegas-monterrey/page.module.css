@@ -73,11 +73,11 @@
 /*
  * El texto, a dos márgenes del sitio del borde izquierdo, en una columna de
  * ancho de lectura (37vw menos la separación: el que tenía junto a una
- * imagen de 55vw). La imagen ocupa el 70% del ancho del hero (el hero
+ * imagen de 55vw). La imagen ocupa el 50% del ancho del hero (el hero
  * ocupa toda la ventana, así que en vw) hasta el borde derecho de la
  * pantalla, para que el corte recto de su contenedor quede fuera de la
- * vista. Como no caben lado a lado, la imagen pasa por detrás del borde
- * derecho del bloque de texto: el texto va encima. Con barra de
+ * vista. A ese tamaño cabe junto al texto sin pasar por detrás de él y el
+ * texto pesa más que la foto. Con barra de
  * desplazamiento clásica, los vw rebasan por el ancho de la barra:
  * overflow-x: clip lo recorta sin scroll horizontal (y deja subir el
  * resplandor). Las filas de arriba y de abajo absorben la altura sobrante de
@@ -85,7 +85,7 @@
  * centrado con la imagen.
  */
 .hero {
-  --hero-imagen: 70vw;
+  --hero-imagen: 50vw;
 
   display: grid;
   position: relative;
@@ -165,7 +165,9 @@
 /*
  * Arriba, con el relleno inferior del hero, la separación entre secciones de
  * la home. Sin relleno abajo: el banner se monta sobre el borde inferior de
- * la tarjeta.
+ * la tarjeta. La tarjeta crece por abajo la mitad del alto del banner
+ * (--banner-alto, de banner.tsx): así el banner queda debajo de las tarjetas
+ * de tamaños, a la misma distancia que el relleno de arriba.
  */
 .tamanos {
   display: flex;
@@ -193,7 +195,8 @@
   justify-content: center;
   width: 100%;
   min-height: 60vh;
-  padding: var(--espacio-6) var(--espacio-4);
+  padding: var(--espacio-6) var(--espacio-4)
+    calc(var(--espacio-6) + var(--banner-alto, 0px) / 2);
   overflow: hidden;
   border: var(--borde-luz);
   border-radius: var(--radio-tarjeta);
@@ -369,10 +372,10 @@
 }
 
 /*
- * Banner flotante: cristal claro del popup (kb-cristal, con su borde y la
- * sombra de la tarjeta), al 70% del ancho de la sección de tamaños y
- * centrado. Sube la mitad de su alto (medido en banner.tsx) para quedar
- * montado sobre el borde inferior de la tarjeta de tamaños, por encima de ella.
+ * Banner flotante: naranja de marca (con el borde y la sombra de la
+ * tarjeta), al 70% del ancho de la sección de tamaños y centrado. Sube la
+ * mitad de su alto (medido en banner.tsx) para quedar montado sobre el borde
+ * inferior de la tarjeta de tamaños, debajo de sus tarjetas.
  */
 
 .banner {
@@ -391,8 +394,9 @@
   align-self: center;
   gap: var(--espacio-4);
   width: 70%;
-  padding: var(--espacio-3) var(--espacio-5);
+  padding: var(--espacio-2) var(--espacio-5);
   overflow: visible;
+  background: var(--color-naranja);
 }
 
 .bannerCamion {
@@ -444,8 +448,27 @@
   width: 100%;
 }
 
+/*
+ * Sobre el naranja, el botón va en --color-fondo, el color que el sistema
+ * pide sobre naranja (5.4:1 contra él), con el texto en blanco (18.6:1). Al
+ * pasar el cursor, la superficie baja (4.7:1 contra el naranja); el anillo
+ * de foco, el oscuro, porque el naranja claro no se vería.
+ */
 .bannerBoton {
   align-self: center;
+  border-color: var(--color-fondo);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+.bannerBoton:hover,
+.bannerBoton:focus-visible {
+  background: var(--color-superficie-baja);
+  box-shadow: none;
+}
+
+.bannerBoton:focus-visible {
+  outline: var(--anillo-foco-claro);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -455,12 +478,17 @@
   }
 }
 
-/* Preguntas frecuentes: columna fija a la izquierda y el acordeón compartido */
+/*
+ * Preguntas frecuentes: columna fija a la izquierda (etiqueta, título y una
+ * tarjeta clara con la frase, el ícono y el botón) y, a la derecha, el
+ * acordeón compartido con cada pregunta en su propia tarjeta. El triple del
+ * margen lateral del sitio, para que no quede pegada a las orillas.
+ */
 
 .faq {
   display: flex;
   gap: var(--espacio-5);
-  padding: 0 var(--relleno-seccion) var(--espacio-seccion);
+  padding: 0 calc(var(--relleno-seccion) * 3) var(--espacio-seccion);
 }
 
 .faqColumna {
@@ -493,9 +521,53 @@
   letter-spacing: var(--tracking-display);
 }
 
+/* Debajo del título, en el texto secundario del sistema (como el de tamaños) */
+.faqDescripcion {
+  color: var(--color-texto-secundario);
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-18);
+  font-weight: var(--peso-light);
+  line-height: var(--interlineado-parrafo);
+}
+
+/*
+ * Tarjeta clara (kb-cristal: blanco con texto azul noche) separada del
+ * título por un bloque. El botón naranja cumple contra el blanco (3.4:1 para
+ * un control); su anillo de foco, el oscuro, porque el naranja claro no se
+ * vería sobre blanco.
+ */
+.faqTarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+  margin-top: var(--espacio-2);
+  padding: var(--espacio-4);
+  border-radius: var(--radio-tarjeta-movil);
+}
+
+.faqTarjeta .botonPrincipal:focus-visible {
+  outline: var(--anillo-foco-claro);
+}
+
+/* El ícono acompaña a la frase: círculo naranja tenue con el trazo oscuro */
+.faqApoyo {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+}
+
+.faqIcono {
+  flex-shrink: 0;
+  width: var(--objetivo-tactil);
+  height: var(--objetivo-tactil);
+  padding: var(--espacio-1);
+  border-radius: var(--radio-pildora);
+  background: var(--color-naranja-tenue);
+  color: var(--color-naranja-oscuro);
+}
+
 .faqTexto {
-  margin-bottom: var(--espacio-1);
-  color: var(--color-texto);
+  color: var(--color-texto-oscuro);
   font-family: var(--fuente-titulos);
   font-size: var(--texto-20);
   line-height: var(--interlineado-encabezado);
@@ -503,6 +575,33 @@
 
 .faqPreguntas {
   width: 70%;
+}
+
+/*
+ * El acordeón compartido en modo grupo (una abierta a la vez), sin su caja
+ * única: cada pregunta en su propia tarjeta, separadas por un espacio. La
+ * abierta, con el borde naranja.
+ */
+.acordeones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.acordeones :global(.kb-acordeon-item) {
+  overflow: hidden;
+  border: var(--borde-luz);
+  border-radius: var(--radio-tarjeta-movil);
+  background: var(--color-superficie);
+  transition: border-color var(--transicion);
+}
+
+.acordeones :global(.kb-acordeon-item[data-activa="true"]) {
+  border: var(--borde-acento);
 }
 
 .acordeones :global(.kb-acordeon-cuerpo > *) {
@@ -585,8 +684,8 @@
 @media (max-width: 1280px) {
   .bannerTarjeta {
     flex-direction: column;
-    gap: var(--espacio-3);
-    padding: var(--espacio-4) var(--espacio-3);
+    gap: var(--espacio-2);
+    padding: var(--espacio-3);
   }
 
   /* Sin el desplazamiento con el scroll: en columna se saldría de la tarjeta */
@@ -604,7 +703,7 @@
 @media (max-width: 1024px) {
   /* Tablet: en la misma proporción que antes respecto al escritorio (45/55) */
   .hero {
-    --hero-imagen: calc(70vw * 45 / 55);
+    --hero-imagen: calc(50vw * 45 / 55);
 
     grid-template-columns: calc(47vw - var(--espacio-5)) minmax(0, 1fr);
   }
@@ -619,6 +718,23 @@
 
   .tamano {
     padding: var(--espacio-3) var(--espacio-2);
+  }
+
+  /*
+   * Preguntas: con el triple de margen, la columna izquierda al 30% no da
+   * para la tarjeta con su botón. En tablet, 40/60 y la tarjeta con menos
+   * relleno.
+   */
+  .faqColumna {
+    width: 40%;
+  }
+
+  .faqPreguntas {
+    width: 60%;
+  }
+
+  .faqTarjeta {
+    padding: var(--espacio-2);
   }
 }
 
@@ -690,7 +806,8 @@
   }
 
   .tamanosCaja {
-    padding: var(--espacio-3) var(--espacio-2);
+    padding: var(--espacio-3) var(--espacio-2)
+      calc(var(--espacio-3) + var(--banner-alto, 0px) / 2);
     border-radius: var(--radio-tarjeta-movil);
   }
 
@@ -768,6 +885,12 @@
 
   .faqFijo .botonPrincipal {
     align-self: center;
+  }
+
+  /* El ícono y la frase, juntos al centro de la tarjeta */
+  .faqApoyo {
+    justify-content: center;
+    text-align: left;
   }
 
   .ubicacion {

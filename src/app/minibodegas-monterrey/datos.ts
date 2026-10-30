@@ -10,6 +10,10 @@ import type { Testimonio } from "@/lib/testimonios";
 /** Un párrafo (con "\n" para el salto de línea del original) o una lista. */
 export type Bloque = string | string[];
 
+/*
+ * Preguntas frecuentes de la página (y de su JSON-LD de FAQPage): las que
+ * resuelven una duda que frena la decisión de rentar.
+ */
 export const preguntas: { pregunta: string; respuesta: Bloque[] }[] = [
   {
     pregunta: "¿Cuál es el horario para acceder a mi mini bodega?",
@@ -35,32 +39,6 @@ export const preguntas: { pregunta: string; respuesta: Bloque[] }[] = [
         "Instalaciones cerradas y monitoreadas",
       ],
       "Nuestro objetivo es brindarte seguridad y tranquilidad para tus pertenencias.",
-    ],
-  },
-  {
-    pregunta: "¿Qué medidas de mini bodegas manejan?",
-    respuesta: [
-      "Contamos con 3 tamaños de Mini-Bodega:",
-      [
-        "3.5 m² – Ideal para cajas, artículos personales o inventario pequeño.",
-        "7 m² – Perfecta para muebles de un departamento o inventario comercial.",
-        "14 m² – Ideal para mudanzas completas, mobiliario o mercancía voluminosa.",
-      ],
-      "Si necesitas más espacio, puedes rentar varias bodegas según tus necesidades.",
-    ],
-  },
-  {
-    pregunta: "¿Cómo recibo mi mini bodega al momento de rentarla?",
-    respuesta: [
-      "Tu mini bodega se entrega:",
-      ["Limpia", "Fumigada", "En óptimas condiciones"],
-      "Lista para utilizarse de inmediato.",
-    ],
-  },
-  {
-    pregunta: "¿Cuentan con control de plagas?",
-    respuesta: [
-      "Sí. Realizamos fumigación profesional mensual con empresa especializada para mantener las instalaciones en condiciones adecuadas.",
     ],
   },
   {
@@ -103,6 +81,43 @@ export const preguntas: { pregunta: string; respuesta: Bloque[] }[] = [
       "Si transcurre un día después de tu fecha de pago sin haberse realizado el mismo, ya corresponde el pago completo del siguiente mes de almacenamiento conforme a tu contrato.",
     ],
   },
+];
+
+/*
+ * Preguntas del publicado que se quitaron de la página para no alargar la
+ * sección: no se usan. Para reponer una, se mueve a la lista de arriba.
+ */
+export const preguntasApartadas: { pregunta: string; respuesta: Bloque[] }[] = [
+  // Fuera: repite la sección de tamaños, que ya muestra las medidas completas
+  {
+    pregunta: "¿Qué medidas de mini bodegas manejan?",
+    respuesta: [
+      "Contamos con 3 tamaños de Mini-Bodega:",
+      [
+        "3.5 m² – Ideal para cajas, artículos personales o inventario pequeño.",
+        "7 m² – Perfecta para muebles de un departamento o inventario comercial.",
+        "14 m² – Ideal para mudanzas completas, mobiliario o mercancía voluminosa.",
+      ],
+      "Si necesitas más espacio, puedes rentar varias bodegas según tus necesidades.",
+    ],
+  },
+  // Fuera: detalle operativo de después de contratar
+  {
+    pregunta: "¿Cómo recibo mi mini bodega al momento de rentarla?",
+    respuesta: [
+      "Tu mini bodega se entrega:",
+      ["Limpia", "Fumigada", "En óptimas condiciones"],
+      "Lista para utilizarse de inmediato.",
+    ],
+  },
+  // Fuera: repite "¿Por qué con Kanuby?" (bodegas libres de plagas)
+  {
+    pregunta: "¿Cuentan con control de plagas?",
+    respuesta: [
+      "Sí. Realizamos fumigación profesional mensual con empresa especializada para mantener las instalaciones en condiciones adecuadas.",
+    ],
+  },
+  // Fuera: trámite de la contratación, no frena la decisión
   {
     pregunta: "¿Cómo se formaliza la contratación?",
     respuesta: [

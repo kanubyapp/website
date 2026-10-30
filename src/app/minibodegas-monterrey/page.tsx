@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Faq } from "@/components/faq";
+import { IconoDuda } from "@/components/iconos";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
@@ -103,7 +104,7 @@ export default function Minibodegas() {
             alt="Persona metiendo un sillón en un contenedor naranja de Kanuby"
             width={1188}
             height={910}
-            sizes="(max-width: 767px) 92vw, (max-width: 1024px) 58vw, 70vw"
+            sizes="(max-width: 767px) 92vw, (max-width: 1024px) 41vw, 50vw"
             className={styles.heroFondo}
             preload
           />
@@ -216,16 +217,26 @@ export default function Minibodegas() {
             <div className={styles.faqFijo}>
               <h2 className={styles.faqTitulo}>Preguntas Frecuentes</h2>
               <p className={styles.faqAntetitulo}>¿Alguna duda?</p>
-              <p className={styles.faqTexto}>Lo tenemos cubierto…</p>
-              <BotonCotizar
-                texto="Cotizar Espacio"
-                className={`kb-boton-principal ${styles.botonPrincipal}`}
-              />
+              <p className={styles.faqDescripcion}>
+                Resolvemos aquí las dudas que más nos llegan sobre rentar una mini bodega. Si la
+                tuya no aparece, escríbenos y te respondemos.
+              </p>
+              {/* Cierre de la columna: la frase y el botón en una tarjeta clara */}
+              <div className={`kb-tarjeta kb-cristal ${styles.faqTarjeta}`}>
+                <div className={styles.faqApoyo}>
+                  <IconoDuda className={styles.faqIcono} />
+                  <p className={styles.faqTexto}>Lo tenemos cubierto…</p>
+                </div>
+                <BotonCotizar
+                  texto="Cotizar Espacio"
+                  className={`kb-boton-principal ${styles.botonPrincipal}`}
+                />
+              </div>
             </div>
           </div>
           <div className={styles.faqPreguntas}>
+            {/* Una sola abierta a la vez: abrir una cierra la anterior */}
             <Faq
-              modo="independiente"
               className={styles.acordeones}
               preguntas={preguntas.map(({ pregunta, respuesta }) => ({
                 pregunta,

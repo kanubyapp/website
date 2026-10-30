@@ -7,9 +7,11 @@ import styles from "./page.module.css";
 
 /*
  * Banner con el camión, la ilustración "¿No sabes cómo elegir?" y el botón
- * "Contáctanos", en cristal claro, montado sobre el borde inferior de la
- * tarjeta de tamaños: mitad sobre ella y mitad fuera. Para eso sube la mitad
- * de su alto, que se mide aquí (--banner-alto). Como en el publicado, el camión entra desde la izquierda
+ * "Contáctanos", en naranja de marca, montado sobre el borde inferior de la
+ * tarjeta de tamaños: mitad sobre ella y mitad fuera, por debajo de las
+ * tarjetas. Su alto se mide aquí (--banner-alto) y se publica en el
+ * contenedor común: el banner sube la mitad y la tarjeta de tamaños crece
+ * esa mitad por abajo. Como en el publicado, el camión entra desde la izquierda
  * (fadeInLeft) al aparecer en pantalla y se desplaza en horizontal al hacer
  * scroll (motion effects de Elementor, solo escritorio y tablet). Con
  * "reducir movimiento" no hay ninguna de las dos animaciones.
@@ -24,13 +26,14 @@ export function Banner() {
   const banner = useRef<HTMLElement>(null);
   const tarjeta = useRef<HTMLDivElement>(null);
 
-  // Alto de la tarjeta, para subirla la mitad sobre la de tamaños.
+  // Alto de la tarjeta, en el contenedor común con la sección de tamaños:
+  // el banner sube la mitad y la tarjeta de tamaños le hace ese lugar abajo.
   useEffect(() => {
-    const seccion = banner.current;
+    const comun = banner.current?.parentElement;
     const elemento = tarjeta.current;
-    if (!seccion || !elemento) return;
+    if (!comun || !elemento) return;
     const observador = new ResizeObserver(() => {
-      seccion.style.setProperty("--banner-alto", `${elemento.offsetHeight}px`);
+      comun.style.setProperty("--banner-alto", `${elemento.offsetHeight}px`);
     });
     observador.observe(elemento);
     return () => observador.disconnect();
@@ -79,7 +82,7 @@ export function Banner() {
 
   return (
     <section ref={banner} className={styles.banner}>
-      <div ref={tarjeta} className={`kb-tarjeta kb-cristal ${styles.bannerTarjeta}`}>
+      <div ref={tarjeta} className={`kb-tarjeta ${styles.bannerTarjeta}`}>
         <div ref={camion} className={styles.bannerCamion}>
           <Image
             src="/images/minibodegas/camionvolador.png"

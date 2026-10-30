@@ -11,8 +11,10 @@ import { TelefonoHeader } from "@/components/telefono-header";
  * Header de las páginas de mudanzas: píldora de vidrio sticky con el logo
  * kanubymudanzas, anclas a las secciones de la propia página y, a la derecha,
  * las acciones de cada página. Al bajar se compacta (useHeaderCompacto).
- * Debajo de 768px la barra queda en una sola fila (logo, teléfono y menú) y
- * el menú pasa a pantalla completa con las acciones.
+ * Debajo de 1110px los enlaces pasan al menú a pantalla completa
+ * (kb-header-menu-tablet) y la acción queda en la barra; debajo de 768px la
+ * barra queda en una sola fila (logo, teléfono y menú) y la acción pasa al
+ * menú.
  */
 
 type Enlace = { href: string; texto: string };
@@ -53,7 +55,10 @@ export function HeaderMudanzas({
   }
 
   return (
-    <header ref={elementoHeader} className={`kb-header kb-header-una-fila ${className}`}>
+    <header
+      ref={elementoHeader}
+      className={`kb-header kb-header-una-fila kb-header-menu-tablet ${className}`}
+    >
       <div ref={barra} className="kb-vidrio kb-cristal-liquido kb-header-barra">
         {/* Sobre el cristal blanco del header compacto va el logo original */}
         <Link href="/" className="kb-header-logo">

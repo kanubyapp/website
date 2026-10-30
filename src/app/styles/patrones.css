@@ -683,6 +683,20 @@
   }
 
   /*
+   * Variante en naranja oscuro con texto e ícono blancos (header de las
+   * páginas de mudanzas): el blanco da 5.8:1 sobre el naranja oscuro; sobre
+   * el de marca, 3.4:1, que no cumple. Al pasar el cursor no se aclara, que
+   * bajaría el contraste: solo se enciende el resplandor.
+   */
+  .kb-boton-cotizar.kb-boton-naranja-oscuro,
+  .kb-boton-cotizar.kb-boton-naranja-oscuro:hover,
+  .kb-boton-cotizar.kb-boton-naranja-oscuro:focus-visible {
+    border-color: var(--color-naranja-oscuro);
+    background: var(--color-naranja-oscuro);
+    color: var(--color-blanco);
+  }
+
+  /*
    * Header de mudanzas: píldora de vidrio a ancho completo, con el margen
    * lateral del sitio. Va en el flujo y flota sobre el resplandor del hero.
    */
@@ -1999,45 +2013,14 @@
     }
   }
 
-  /* Móvil */
-
-  @media (max-width: 767px) {
-    .kb-boton-hero {
-      align-self: center;
-    }
-
-    .kb-boton-header {
-      align-self: center;
-      width: 100%;
-    }
-
-    .kb-boton-header-corto {
-      justify-content: center;
-      width: 100%;
-    }
-
-    .kb-header {
-      padding: var(--espacio-1) var(--relleno-seccion) 0;
-    }
-
-    .kb-header-barra {
-      flex-wrap: wrap;
-      gap: var(--espacio-1);
-      padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-2);
-      border-radius: var(--radio-tarjeta-movil);
-    }
-
-    .kb-header-logo {
-      flex-shrink: 1;
-      min-width: 0;
-    }
-
-    .kb-header-menu {
-      display: none;
-    }
-
+  /*
+   * Menú a pantalla completa y aspecto de su botón, desde 1109px: en celular
+   * los usan todos los headers kb-header; en tablet, solo los que llevan
+   * kb-header-menu-tablet (los de mudanzas), donde los enlaces y el botón de
+   * cotizar ya no caben en una fila. El panel queda oculto hasta abrirlo.
+   */
+  @media (max-width: 1109px) {
     .kb-header-abrir {
-      display: inline-flex;
       flex-shrink: 0;
       justify-content: center;
       align-items: center;
@@ -2122,6 +2105,80 @@
     .kb-header-enlace-movil:hover,
     .kb-header-enlace-movil:focus-visible {
       color: var(--color-naranja);
+    }
+  }
+
+  /*
+   * Header de mudanzas (kb-header-menu-tablet) en tablet: con menos
+   * separación caben los enlaces y "Cotiza Ahora" hasta 1094px; por debajo
+   * de 1110px los enlaces pasan al menú a pantalla completa y en la barra
+   * quedan logo, teléfono, "Cotiza Ahora" y el botón del menú, al final. El
+   * botón de cotizar nunca se aplasta.
+   */
+  .kb-header-menu-tablet .kb-boton-header-corto {
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .kb-header-menu-tablet .kb-header-barra {
+      column-gap: var(--espacio-2);
+    }
+
+    .kb-header-menu-tablet .kb-header-lista {
+      gap: 0;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1109px) {
+    .kb-header-menu-tablet .kb-header-menu {
+      display: none;
+    }
+
+    .kb-header-menu-tablet .kb-header-abrir {
+      display: inline-flex;
+      order: 1;
+    }
+  }
+
+  /* Móvil */
+
+  @media (max-width: 767px) {
+    .kb-boton-hero {
+      align-self: center;
+    }
+
+    .kb-boton-header {
+      align-self: center;
+      width: 100%;
+    }
+
+    .kb-boton-header-corto {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .kb-header {
+      padding: var(--espacio-1) var(--relleno-seccion) 0;
+    }
+
+    .kb-header-barra {
+      flex-wrap: wrap;
+      gap: var(--espacio-1);
+      padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-2);
+      border-radius: var(--radio-tarjeta-movil);
+    }
+
+    .kb-header-logo {
+      flex-shrink: 1;
+      min-width: 0;
+    }
+
+    .kb-header-menu {
+      display: none;
+    }
+
+    .kb-header-abrir {
+      display: inline-flex;
     }
 
     .kb-header-acciones-movil {
