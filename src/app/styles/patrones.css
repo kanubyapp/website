@@ -2206,6 +2206,74 @@
     line-height: var(--interlineado-parrafo);
   }
 
+  /*
+   * Confirmación de los popups de cotización (components/mudanzas/
+   * whatsapp-enviado.tsx), sobre el cristal claro: el ícono en el círculo
+   * naranja tenue, el aviso en azul noche y el enlace de respaldo en naranja
+   * oscuro subrayado (5.8:1 sobre blanco), con área táctil completa.
+   */
+  .kb-whatsapp-enviado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-1);
+    text-align: center;
+  }
+
+  .kb-whatsapp-enviado:focus {
+    outline: none;
+  }
+
+  .kb-whatsapp-enviado-icono {
+    width: var(--objetivo-tactil);
+    height: var(--objetivo-tactil);
+    margin-bottom: var(--espacio-1);
+    padding: var(--espacio-1);
+    border-radius: var(--radio-pildora);
+    background: var(--color-naranja-tenue);
+    color: var(--color-naranja-oscuro);
+    fill: currentColor;
+  }
+
+  .kb-whatsapp-enviado-titulo {
+    color: var(--color-texto-oscuro);
+    font-family: var(--fuente-titulos);
+    font-size: var(--texto-20);
+    font-weight: var(--peso-semibold);
+    line-height: var(--interlineado-encabezado);
+  }
+
+  .kb-whatsapp-enviado-texto {
+    max-width: var(--medida-texto);
+    color: var(--color-texto-oscuro-secundario);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-16);
+    line-height: var(--interlineado-parrafo);
+  }
+
+  .kb-whatsapp-enviado-enlace {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--objetivo-tactil);
+    margin-top: var(--espacio-1);
+    color: var(--color-naranja-oscuro);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-16);
+    font-weight: var(--peso-medium);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color var(--transicion);
+  }
+
+  .kb-whatsapp-enviado-enlace:hover {
+    color: var(--color-texto-oscuro);
+  }
+
+  .kb-whatsapp-enviado-enlace:focus-visible {
+    outline: var(--anillo-foco-claro);
+    outline-offset: var(--anillo-foco-separacion);
+  }
+
   /* Tablet */
 
   @media (min-width: 768px) and (max-width: 1024px) {

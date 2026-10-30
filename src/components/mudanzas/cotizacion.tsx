@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { createContext, useContext, useEffect, useId, useReducer, useRef, useState } from "react";
 import { useDialogoModal } from "@/components/use-dialogo-modal";
+import { WhatsAppEnviado } from "./whatsapp-enviado";
 import {
   IconoBodegaChica,
   IconoBodegaGrande,
@@ -15,7 +16,8 @@ import {
   IconoRuta,
   IconoWhatsApp,
 } from "@/components/iconos";
-import { registrarConversion, type Negocio } from "@/lib/conversiones";
+import type { Negocio } from "@/lib/conversiones";
+import { abrirWhatsApp } from "@/lib/abrir-whatsapp";
 import { avisarCotizacion } from "@/lib/aviso-cotizacion";
 import { envioCotizacion } from "@/lib/envio-cotizacion";
 import { flujoCotizacion, flujoInicial } from "@/lib/flujo-cotizacion";
@@ -31,9 +33,11 @@ import {
 /*
  * Popup de cotización con la estructura del modal de legacy: paso 1, el tipo
  * de mudanza o el tamaño de minibodega como tarjetas que avanzan al tocarlas;
- * paso 2, nombre y teléfono. Al enviar, valida; si pasa, registra el evento
- * de conversión (cotizacion_mudanza o cotizacion_minibodega) y, cuando sale
- * o vence el límite corto, redirige a WhatsApp en la misma pestaña.
+ * paso 2, nombre y teléfono. Al enviar, valida; si pasa, abre WhatsApp en
+ * una pestaña nueva en el mismo momento del clic, registra el evento de
+ * conversión (cotizacion_mudanza o cotizacion_minibodega) y el popup pasa a
+ * la confirmación, con el enlace al mismo WhatsApp por si la pestaña no se
+ * abrió (lib/abrir-whatsapp.ts). El sitio se queda donde estaba.
  * Con tipo="eleccion" (header de la home) hay un paso previo, "¿Qué
  * necesitas?", con Mudanza y Minibodega; desde el paso 1 se regresa a él.
  * Cualquier botón de la página lo abre con useCotizacion().abrir(). Se cierra con su botón, con Esc y con clic fuera;
@@ -135,10 +139,18 @@ export function CotizacionProvider({
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
   const [errores, setErrores] = useState<ErroresCotizacion>({});
+  /* Enviado: la URL de WhatsApp de la confirmación (null: el formulario) */
+  const [whatsapp, setWhatsapp] = useState<string | null>(null);
+  const confirmacion = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (abierto) entradaPaso.current?.focus();
   }, [abierto, flujo.paso]);
+
+  // Al enviar, el foco pasa a la confirmación (el formulario desaparece)
+  useEffect(() => {
+    if (whatsapp) confirmacion.current?.focus();
+  }, [whatsapp]);
 
   function abrir(opcion?: string) {
     abiertoEn.current = Date.now();
@@ -148,6 +160,7 @@ export function CotizacionProvider({
     setNombre("");
     setTelefono("");
     setErrores({});
+    setWhatsapp(null);
     abrirDialogo();
   }
 
@@ -171,7 +184,7 @@ export function CotizacionProvider({
 
     setErrores({});
     enviando.current = true;
-    // Aviso por correo al equipo: sale sin esperar y no frena la redirección.
+    // Aviso por correo al equipo: sale sin esperar y no frena WhatsApp.
     avisarCotizacion({
       ...datos,
       negocio: flujo.negocio,
@@ -179,9 +192,8 @@ export function CotizacionProvider({
       sitio: trampa.current?.value ?? "",
       ms: Date.now() - abiertoEn.current,
     });
-    registrarConversion(resultado.evento, {
-      alSalir: () => window.location.assign(resultado.url),
-    });
+    abrirWhatsApp(resultado.url, resultado.evento);
+    setWhatsapp(resultado.url);
   }
 
   function propsCampo(campo: (typeof ordenCampos)[number]) {
@@ -295,6 +307,10 @@ export function CotizacionProvider({
                   );
                 })}
               </ul>
+            </div>
+          ) : whatsapp ? (
+            <div className="kb-popup-paso">
+              <WhatsAppEnviado ref={confirmacion} url={whatsapp} />
             </div>
           ) : (
             <form className="kb-popup-paso" noValidate onSubmit={enviar}>

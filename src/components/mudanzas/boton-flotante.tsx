@@ -9,13 +9,15 @@ import {
   type ErroresFlotante,
   type PaginaFlotante,
 } from "@/lib/contacto-flotante";
-import { registrarConversion, type Negocio } from "@/lib/conversiones";
+import { abrirWhatsApp } from "@/lib/abrir-whatsapp";
+import type { Negocio } from "@/lib/conversiones";
 import {
   estaArriba,
   GLOBITO_APARECE_MS,
   siguienteFase,
   type FaseGlobito,
 } from "@/lib/globito-flotante";
+import { WhatsAppEnviado } from "./whatsapp-enviado";
 import styles from "./boton-flotante.module.css";
 
 /*
@@ -24,8 +26,9 @@ import styles from "./boton-flotante.module.css";
  * cotización: sin velo, sin pasos y sin bloquear la página. Es un popover
  * nativo: el botón lo abre y lo cierra, y el navegador lo cierra con Esc o
  * con clic fuera; al cerrarse, el foco vuelve al botón. Al enviar hace lo
- * mismo que el popup de cotización: aviso por correo sin esperar, evento
- * cotizacion_* y WhatsApp en la misma pestaña al confirmar GTM o al límite.
+ * mismo que el popup de cotización: aviso por correo sin esperar, WhatsApp
+ * en una pestaña nueva en el mismo momento del clic, evento cotizacion_* y la
+ * confirmación con el enlace al mismo WhatsApp (lib/abrir-whatsapp.ts).
  *
  * Para que se note: el botón pulsa de vez en cuando (solo CSS) y, unos
  * segundos después de llegar, sale un globito "Contáctanos" que abre el
@@ -61,6 +64,18 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
   const [telefono, setTelefono] = useState("");
   const [servicio, setServicio] = useState<Negocio | null>(null);
   const [errores, setErrores] = useState<ErroresFlotante>({});
+  /* Enviado: la URL de WhatsApp de la confirmación (null: el formulario) */
+  const [whatsapp, setWhatsapp] = useState<string | null>(null);
+  const confirmacion = useRef<HTMLDivElement>(null);
+
+  /*
+   * Al enviar, el foco pasa a la confirmación; al volver al formulario (otra
+   * apertura), al primer campo, que hasta entonces no estaba en la página.
+   */
+  useEffect(() => {
+    if (whatsapp) confirmacion.current?.focus();
+    else if (popup.current?.matches(":popover-open")) primerCampo.current?.focus();
+  }, [whatsapp]);
   const preguntaServicio = SERVICIO_FLOTANTE[pagina] === null;
 
   /* Globito: su temporizador, para cortarlo si se abre el popup antes de que salga */
@@ -112,6 +127,7 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
       setTelefono("");
       setServicio(null);
       setErrores({});
+      setWhatsapp(null);
       primerCampo.current?.focus();
       return;
     }
@@ -135,7 +151,7 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
 
     setErrores({});
     enviando.current = true;
-    // Aviso por correo al equipo: sale sin esperar y no frena la redirección.
+    // Aviso por correo al equipo: sale sin esperar y no frena WhatsApp.
     avisarCotizacion({
       nombre,
       telefono,
@@ -146,9 +162,8 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
       sitio: trampa.current?.value ?? "",
       ms: Date.now() - abiertoEn.current,
     });
-    registrarConversion(resultado.evento, {
-      alSalir: () => window.location.assign(resultado.url),
-    });
+    abrirWhatsApp(resultado.url, resultado.evento);
+    setWhatsapp(resultado.url);
   }
 
   function propsCampo(campo: "nombre" | "telefono") {
@@ -232,108 +247,112 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
           Contáctanos por WhatsApp
         </h2>
 
-        <form className={styles.formulario} noValidate onSubmit={enviar}>
-          {/*
+        {whatsapp ? (
+          <WhatsAppEnviado ref={confirmacion} url={whatsapp} />
+        ) : (
+          <form className={styles.formulario} noValidate onSubmit={enviar}>
+            {/*
             Etiquetas flotantes: el marcador de posición es un espacio para
             que el CSS sepa con :placeholder-shown si el campo está vacío.
           */}
-          <div className={`kb-campo ${styles.campo}`}>
-            <label htmlFor={`${id}-nombre`} className={`kb-campo-etiqueta ${styles.etiqueta}`}>
-              Nombre
-            </label>
-            <input
-              {...propsCampo("nombre")}
-              ref={primerCampo}
-              type="text"
-              autoComplete="name"
-              placeholder=" "
-              required
-              className={`kb-campo-texto ${styles.campoTexto}`}
-              value={nombre}
-              onChange={(evento) => {
-                setNombre(evento.target.value);
-                if (errores.nombre) setErrores((previos) => ({ ...previos, nombre: undefined }));
-              }}
-            />
-            {mensajeError("nombre")}
-          </div>
+            <div className={`kb-campo ${styles.campo}`}>
+              <label htmlFor={`${id}-nombre`} className={`kb-campo-etiqueta ${styles.etiqueta}`}>
+                Nombre
+              </label>
+              <input
+                {...propsCampo("nombre")}
+                ref={primerCampo}
+                type="text"
+                autoComplete="name"
+                placeholder=" "
+                required
+                className={`kb-campo-texto ${styles.campoTexto}`}
+                value={nombre}
+                onChange={(evento) => {
+                  setNombre(evento.target.value);
+                  if (errores.nombre) setErrores((previos) => ({ ...previos, nombre: undefined }));
+                }}
+              />
+              {mensajeError("nombre")}
+            </div>
 
-          <div className={`kb-campo ${styles.campo}`}>
-            <label htmlFor={`${id}-telefono`} className={`kb-campo-etiqueta ${styles.etiqueta}`}>
-              Teléfono
-            </label>
-            <input
-              {...propsCampo("telefono")}
-              type="tel"
-              autoComplete="tel"
-              placeholder=" "
-              required
-              className={`kb-campo-texto ${styles.campoTexto}`}
-              value={telefono}
-              onChange={(evento) => {
-                setTelefono(evento.target.value);
-                if (errores.telefono)
-                  setErrores((previos) => ({ ...previos, telefono: undefined }));
-              }}
-            />
-            {mensajeError("telefono")}
-          </div>
+            <div className={`kb-campo ${styles.campo}`}>
+              <label htmlFor={`${id}-telefono`} className={`kb-campo-etiqueta ${styles.etiqueta}`}>
+                Teléfono
+              </label>
+              <input
+                {...propsCampo("telefono")}
+                type="tel"
+                autoComplete="tel"
+                placeholder=" "
+                required
+                className={`kb-campo-texto ${styles.campoTexto}`}
+                value={telefono}
+                onChange={(evento) => {
+                  setTelefono(evento.target.value);
+                  if (errores.telefono)
+                    setErrores((previos) => ({ ...previos, telefono: undefined }));
+                }}
+              />
+              {mensajeError("telefono")}
+            </div>
 
-          {preguntaServicio && (
-            // Sin etiqueta visible: Mudanzas y Minibodegas se explican solas
-            <fieldset
-              className={styles.servicio}
-              aria-label="Servicio"
-              aria-describedby={errores.servicio ? `${id}-servicio-error` : undefined}
-            >
-              <div className={styles.opciones}>
-                {SERVICIOS.map(({ valor, nombre: texto, Icono }, indice) => (
-                  <label key={valor} className={`kb-popup-opcion ${styles.opcion}`}>
-                    <input
-                      id={indice === 0 ? `${id}-servicio` : undefined}
-                      type="radio"
-                      name="servicio"
-                      value={valor}
-                      required
-                      className={styles.radio}
-                      checked={servicio === valor}
-                      onChange={() => {
-                        setServicio(valor);
-                        if (errores.servicio)
-                          setErrores((previos) => ({ ...previos, servicio: undefined }));
-                      }}
-                    />
-                    <Icono className={styles.opcionIcono} />
-                    {texto}
-                  </label>
-                ))}
-              </div>
-              {mensajeError("servicio", styles.error)}
-            </fieldset>
-          )}
+            {preguntaServicio && (
+              // Sin etiqueta visible: Mudanzas y Minibodegas se explican solas
+              <fieldset
+                className={styles.servicio}
+                aria-label="Servicio"
+                aria-describedby={errores.servicio ? `${id}-servicio-error` : undefined}
+              >
+                <div className={styles.opciones}>
+                  {SERVICIOS.map(({ valor, nombre: texto, Icono }, indice) => (
+                    <label key={valor} className={`kb-popup-opcion ${styles.opcion}`}>
+                      <input
+                        id={indice === 0 ? `${id}-servicio` : undefined}
+                        type="radio"
+                        name="servicio"
+                        value={valor}
+                        required
+                        className={styles.radio}
+                        checked={servicio === valor}
+                        onChange={() => {
+                          setServicio(valor);
+                          if (errores.servicio)
+                            setErrores((previos) => ({ ...previos, servicio: undefined }));
+                        }}
+                      />
+                      <Icono className={styles.opcionIcono} />
+                      {texto}
+                    </label>
+                  ))}
+                </div>
+                {mensajeError("servicio", styles.error)}
+              </fieldset>
+            )}
 
-          {/*
+            {/*
             Campo trampa contra bots: oculto para las personas y fuera del
             orden de tabulación. Si llega lleno, no sale el correo de aviso.
           */}
-          <input
-            ref={trampa}
-            type="text"
-            name="sitio"
-            className="kb-popup-trampa"
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-          />
+            <input
+              ref={trampa}
+              type="text"
+              name="sitio"
+              className="kb-popup-trampa"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
 
-          <button type="submit" className={`kb-boton-principal kb-popup-enviar ${styles.enviar}`}>
-            <IconoWhatsApp className="kb-popup-enviar-icono" />
-            Ir a WhatsApp
-          </button>
-          <p className={`kb-popup-nota ${styles.nota}`}>
-            Al dar clic aceptas recibir comunicaciones de Kanuby.
-          </p>
-        </form>
+            <button type="submit" className={`kb-boton-principal kb-popup-enviar ${styles.enviar}`}>
+              <IconoWhatsApp className="kb-popup-enviar-icono" />
+              Ir a WhatsApp
+            </button>
+            <p className={`kb-popup-nota ${styles.nota}`}>
+              Al dar clic aceptas recibir comunicaciones de Kanuby.
+            </p>
+          </form>
+        )}
       </div>
     </>
   );
