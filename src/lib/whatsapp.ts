@@ -4,6 +4,8 @@
  * (correo.ts).
  */
 
+import type { Negocio } from "./conversiones.ts";
+
 export const NUMERO_WHATSAPP = "5218110287087";
 
 /* Opciones del paso 1 del popup, en el orden en que se muestran */
@@ -82,6 +84,12 @@ export function mensajeMinibodega(nombre: string, tamano: TamanoMinibodega): str
     tamano === "No estoy seguro"
       ? "rentar una minibodega, aún no sé qué tamaño necesito"
       : `rentar una minibodega de ${tamano}`;
+  return `Hola Kanuby, soy ${nombre.trim()}. Me interesa ${interes}.`;
+}
+
+/** Sin tipo ni tamaño: el popup del botón flotante solo sabe el servicio */
+export function mensajeServicio(negocio: Negocio, nombre: string): string {
+  const interes = negocio === "mudanza" ? "cotizar una mudanza" : "rentar una minibodega";
   return `Hola Kanuby, soy ${nombre.trim()}. Me interesa ${interes}.`;
 }
 

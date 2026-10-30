@@ -283,7 +283,7 @@ export default function Minibodegas() {
         </main>
 
         <SiteFooter />
-        <BotonFlotante className="kb-flotante" />
+        <BotonFlotante pagina="/minibodegas-monterrey/" className="kb-flotante" />
       </CalculadoraProvider>
     </CotizacionProvider>
   );

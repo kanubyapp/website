@@ -1,5 +1,6 @@
 import type { Negocio } from "./conversiones.ts";
 import {
+  validarContacto,
   validarCotizacionMinibodega,
   validarCotizacionMudanza,
   type Cotizacion,
@@ -64,8 +65,16 @@ export function configCorreo(
 
 export type AvisoCotizacion = Cotizacion & { negocio: Negocio; pagina: string };
 
-/** Lo que manda el navegador: el aviso más la trampa y el tiempo para bots. */
-export type CuerpoAviso = AvisoCotizacion & { sitio: string; ms: number };
+/**
+ * Lo que manda el navegador: el aviso más la trampa y el tiempo para bots.
+ * formulario "flotante": el popup chico del botón flotante, que no pide tipo
+ * de mudanza ni tamaño (tipo vacío). Sin él, es el popup de cotización.
+ */
+export type CuerpoAviso = AvisoCotizacion & {
+  sitio: string;
+  ms: number;
+  formulario?: "flotante";
+};
 
 /*
  * Contra bots, sin pasos extra: el campo trampa "sitio" va oculto en el
@@ -100,10 +109,16 @@ export function validarAviso(cuerpo: unknown): ResultadoAviso {
     telefono: texto("telefono").trim(),
     tipo: texto("tipo"),
   };
+  // El del botón flotante no lleva tipo; el del popup de cotización, sí.
   const errores =
-    negocio === "mudanza"
-      ? validarCotizacionMudanza(cotizacion)
-      : validarCotizacionMinibodega(cotizacion);
+    datos.formulario === "flotante"
+      ? {
+          ...validarContacto(cotizacion),
+          ...(cotizacion.tipo !== "" && { tipo: "sin tipo en el botón flotante" }),
+        }
+      : negocio === "mudanza"
+        ? validarCotizacionMudanza(cotizacion)
+        : validarCotizacionMinibodega(cotizacion);
   const primero = Object.keys(errores)[0];
   if (primero) return { tipo: "invalido", motivo: primero };
 
@@ -143,7 +158,8 @@ export function correoCotizacion(aviso: AvisoCotizacion, fecha: Date): Correo {
     ["Nombre", aviso.nombre],
     ["Teléfono", aviso.telefono],
     ["Servicio", servicio],
-    [OPCION[aviso.negocio], aviso.tipo],
+    // El aviso del botón flotante no trae tipo: sin esa fila
+    ...(aviso.tipo ? [[OPCION[aviso.negocio], aviso.tipo] as [string, string]] : []),
     ["Página", aviso.pagina],
     ["Fecha", `${FECHA_MONTERREY.format(fecha)} (hora de Monterrey)`],
   ];

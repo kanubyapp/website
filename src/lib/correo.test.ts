@@ -111,6 +111,51 @@ test("la validación del servidor aplica las reglas del popup", () => {
   assert.deepEqual(validarAviso("texto"), { tipo: "invalido", motivo: "sin datos" });
 });
 
+/* Aviso del popup del botón flotante: sin sub-tipo */
+
+const cuerpoFlotante = {
+  negocio: "mudanza",
+  nombre: "Ana",
+  telefono: "81 1234 5678",
+  tipo: "",
+  pagina: "/",
+  formulario: "flotante",
+  sitio: "",
+  ms: 4000,
+};
+
+test("el aviso del botón flotante es válido sin sub-tipo", () => {
+  assert.deepEqual(validarAviso(cuerpoFlotante), {
+    tipo: "valido",
+    aviso: { negocio: "mudanza", nombre: "Ana", telefono: "81 1234 5678", tipo: "", pagina: "/" },
+  });
+});
+
+test("el aviso del botón flotante conserva las demás reglas y no acepta sub-tipo", () => {
+  assert.deepEqual(validarAviso({ ...cuerpoFlotante, nombre: "" }), { tipo: "invalido", motivo: "nombre" });
+  assert.deepEqual(validarAviso({ ...cuerpoFlotante, telefono: " " }), { tipo: "invalido", motivo: "telefono" });
+  assert.deepEqual(validarAviso({ ...cuerpoFlotante, negocio: "" }), { tipo: "invalido", motivo: "negocio" });
+  assert.deepEqual(validarAviso({ ...cuerpoFlotante, tipo: "Mudanza local" }), { tipo: "invalido", motivo: "tipo" });
+  assert.deepEqual(validarAviso({ ...cuerpoFlotante, sitio: "x" }), { tipo: "bot" });
+  assert.deepEqual(validarAviso({ ...cuerpoFlotante, ms: MINIMO_MS - 1 }), { tipo: "bot" });
+});
+
+test("el popup de cotización sigue exigiendo el sub-tipo", () => {
+  assert.deepEqual(validarAviso({ ...cuerpo, tipo: "" }), { tipo: "invalido", motivo: "tipo" });
+  assert.deepEqual(validarAviso({ ...cuerpo, tipo: "", formulario: "otro" }), { tipo: "invalido", motivo: "tipo" });
+});
+
+test("el correo sin sub-tipo no lleva esa fila", () => {
+  const correo = correoCotizacion(
+    { negocio: "minibodega", nombre: "Ana", telefono: "81 1234 5678", tipo: "", pagina: "/" },
+    new Date("2026-10-09T18:30:00Z"),
+  );
+  assert.equal(correo.asunto, "Cotización de minibodega: Ana");
+  assert.ok(!correo.texto.includes("Tamaño"));
+  assert.ok(!correo.html.includes("Tamaño"));
+  assert.ok(correo.texto.includes("Servicio: Minibodega"));
+});
+
 test("bots: el campo trampa lleno o un envío demasiado rápido no mandan correo", () => {
   assert.deepEqual(validarAviso({ ...cuerpo, sitio: "https://spam.com" }), { tipo: "bot" });
   assert.deepEqual(validarAviso({ ...cuerpo, ms: MINIMO_MS - 1 }), { tipo: "bot" });

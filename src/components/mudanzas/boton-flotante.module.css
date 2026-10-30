@@ -1,0 +1,282 @@
+/*
+ * Popup chico del botón flotante: cristal claro (kb-cristal) pegado a la
+ * esquina del botón, justo encima de él, sin velo y sin bloquear la página.
+ * Es un popover: el navegador lo pone en la capa superior y lo cierra con Esc
+ * o con clic fuera. Sale desde la esquina del botón (transform-origin); en
+ * pantallas angostas no pasa de los márgenes.
+ */
+.popup {
+  inset: auto var(--flotante-margen)
+    calc(var(--flotante-margen) + var(--flotante-tamano) + var(--espacio-1)) auto;
+  width: min(var(--flotante-popup-ancho), calc(100vw - 2 * var(--flotante-margen)));
+  /* Del borde de arriba (un margen) a donde empieza: lo que queda de pantalla */
+  max-height: calc(100dvh - var(--flotante-tamano) - 2 * var(--flotante-margen) - var(--espacio-1));
+  margin: 0;
+  padding: var(--espacio-1) var(--espacio-2) var(--espacio-2);
+  overflow-y: auto;
+  border-radius: var(--radio-tarjeta);
+  /* La misma sombra del botón flotante: lo despega de la página oscura */
+  box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
+  transform-origin: bottom right;
+  transition:
+    opacity var(--transicion),
+    transform var(--transicion),
+    overlay var(--transicion) allow-discrete,
+    display var(--transicion) allow-discrete;
+}
+
+/* Cerrado y al entrar: pequeño y transparente, desde la esquina del botón */
+.popup:not(:popover-open) {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+@starting-style {
+  .popup:popover-open {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/*
+ * La ✕ del patrón, más chica y pegada a la esquina, para dejarle al título el
+ * ancho que necesita. A la derecha, lo más cerca que permite la curva de la
+ * esquina (en móvil la curva es más cerrada y se pega más); arriba, a la
+ * altura del título.
+ */
+.popup {
+  --cerrar-separacion: var(--espacio-1);
+}
+
+.cerrar {
+  top: var(--espacio-1);
+  right: var(--cerrar-separacion);
+  width: var(--flotante-cerrar-tamano);
+  height: var(--flotante-cerrar-tamano);
+  font-size: var(--texto-14);
+}
+
+/*
+ * Centrado, en una sola línea y libre de la ✕ por los dos lados, en una fila
+ * del alto de la ✕. Lo que la ✕ entra en el contenido (su separación de la
+ * orilla y su tamaño, menos el relleno del popup) más un espacio de aire es
+ * el margen de cada lado. Con el ancho del popup, al título le quedan 248px
+ * y mide 244px.
+ */
+.titulo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: var(--flotante-cerrar-tamano);
+  margin-bottom: var(--espacio-2);
+  padding-inline: calc(
+    var(--cerrar-separacion) + var(--flotante-cerrar-tamano) + var(--espacio-1) - var(--espacio-2)
+  );
+  font-size: var(--texto-20);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+/*
+ * Etiqueta flotante. Vacío y sin foco: dentro del campo, centrada y del
+ * tamaño del texto, donde iría el marcador de posición. Con foco o con
+ * contenido: sube al borde de arriba y se achica, con fondo blanco para
+ * cortar el borde. Va fuera del flujo: no empuja nada. Solo se mueve con
+ * transform, que se anima suave.
+ */
+.campo {
+  position: relative;
+}
+
+.etiqueta {
+  position: absolute;
+  top: calc(var(--objetivo-tactil) / 2);
+  left: 50%;
+  padding-inline: calc(var(--espacio-1) / 2);
+  font-size: var(--texto-14);
+  line-height: var(--interlineado-encabezado);
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  transition:
+    transform var(--transicion),
+    color var(--transicion);
+}
+
+/*
+ * Arriba la etiqueta queda centrada en el borde: solo su mitad de abajo, la
+ * que tapa el borde y cae sobre el campo, lleva el blanco del campo. La de
+ * arriba deja ver el cristal del popup, que no es blanco puro.
+ */
+.campo:has(.campoTexto:focus, .campoTexto:not(:placeholder-shown)) .etiqueta {
+  background: linear-gradient(transparent 50%, var(--color-blanco) 50%);
+  transform: translate(-50%, calc(-50% - var(--objetivo-tactil) / 2))
+    scale(var(--etiqueta-flotante-escala));
+}
+
+.campo:has(.campoTexto:focus) .etiqueta {
+  color: var(--color-texto-oscuro);
+}
+
+/*
+ * Campos más bajos y con letra más chica que los del popup de cotización,
+ * sin bajar del objetivo táctil (min-height del patrón). En pantallas
+ * táctiles la letra se queda en 16px: con menos, Safari de iPhone hace zoom
+ * al enfocar el campo. La etiqueta en reposo sigue al texto.
+ */
+.campoTexto {
+  padding: var(--espacio-1) var(--espacio-2);
+  font-size: var(--texto-14);
+}
+
+@media (pointer: coarse) {
+  .campoTexto,
+  .etiqueta {
+    font-size: var(--texto-16);
+  }
+}
+
+/*
+ * Foco: solo cambia el borde, a naranja y al doble de grueso (la sombra
+ * interior), sin anillo por fuera, que cruzaría la etiqueta. El naranja da
+ * 3.4:1 sobre el blanco, suficiente para un indicador. Con error, también.
+ */
+.campoTexto:focus,
+.campoTexto:focus[aria-invalid="true"] {
+  border-color: var(--color-naranja);
+  box-shadow: inset 0 0 0 1px var(--color-naranja);
+}
+
+.campoTexto:focus-visible {
+  outline: none;
+}
+
+/* Servicio (solo en la home): dos opciones lado a lado */
+.servicio {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: center;
+}
+
+.opciones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espacio-1);
+}
+
+/*
+ * Tarjetas como las del popup de cotización: el radio no se ve (la opción
+ * elegida se marca con borde y fondo naranja), así el texto cabe completo.
+ */
+.opcion {
+  position: relative;
+  flex-direction: row;
+  min-height: var(--objetivo-tactil);
+  padding: var(--espacio-1) 0;
+  font-size: var(--texto-14);
+  cursor: pointer;
+}
+
+/* Ícono chico y en gris: acompaña al texto sin competir con él */
+.opcionIcono {
+  flex-shrink: 0;
+  width: var(--texto-16);
+  height: var(--texto-16);
+  color: var(--color-texto-oscuro-secundario);
+}
+
+.opcion:has(:checked) {
+  border-color: var(--color-naranja);
+  background: var(--color-naranja-tenue);
+}
+
+.opcion:has(:focus-visible) {
+  outline: var(--anillo-foco-claro);
+  outline-offset: var(--anillo-foco-separacion);
+}
+
+/* Oculto a la vista pero enfocable y con flechas, como cualquier radio */
+.radio {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.error {
+  margin-top: var(--espacio-1);
+}
+
+/*
+ * Texto blanco sobre el naranja oscuro del sistema: 5.8:1 (sobre el naranja
+ * de marca daría 3.4:1 y no cumple). Al pasar el cursor no se aclara, que
+ * bajaría el contraste: solo se enciende el resplandor del patrón.
+ */
+.enviar {
+  min-height: var(--objetivo-tactil);
+  margin-top: 0;
+  padding: var(--espacio-1) var(--espacio-2);
+  border-color: var(--color-naranja-oscuro);
+  background: var(--color-naranja-oscuro);
+  color: var(--color-blanco);
+  font-size: var(--texto-16);
+}
+
+.enviar:hover,
+.enviar:focus-visible {
+  background: var(--color-naranja-oscuro);
+}
+
+/* La nota va con el botón: medio bloque de distancia, no uno completo */
+.nota {
+  margin-top: calc(var(--espacio-1) - var(--espacio-2));
+  font-size: var(--texto-12);
+  line-height: var(--interlineado-encabezado);
+  text-align: center;
+}
+
+/*
+ * Móvil: a la derecha, alineado con el botón; a la izquierda se acerca a la
+ * orilla (un espacio, no un margen) para que en pantallas de 360px el popup
+ * llegue a 330px y el título quepa.
+ */
+@media (max-width: 767px) {
+  .popup {
+    --cerrar-separacion: calc(var(--espacio-1) / 2);
+    inset: auto var(--flotante-margen-movil)
+      calc(var(--flotante-margen-movil) + var(--flotante-tamano-movil) + var(--espacio-1)) auto;
+    width: min(
+      var(--flotante-popup-ancho),
+      calc(100vw - var(--flotante-margen-movil) - var(--espacio-1))
+    );
+    max-height: calc(
+      100dvh - var(--flotante-tamano-movil) - 2 * var(--flotante-margen-movil) - var(--espacio-1)
+    );
+    border-radius: var(--radio-tarjeta-movil);
+  }
+}
+
+/*
+ * Pantallas de menos de 360px (ya casi no hay): el título no cabe a 20px ni
+ * con el popup a todo lo ancho, y antes de partirse se achica.
+ */
+@media (max-width: 359px) {
+  .titulo {
+    font-size: var(--texto-16);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup,
+  .etiqueta {
+    transition: none;
+  }
+}

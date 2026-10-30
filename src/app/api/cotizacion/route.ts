@@ -2,7 +2,8 @@ import { after } from "next/server";
 import { correoCotizacion, enviarCorreo, validarAviso } from "@/lib/correo";
 
 /*
- * Aviso por correo de una cotización del popup. El navegador lo manda con
+ * Aviso por correo de una cotización del popup (o del popup chico del botón
+ * flotante, sin tipo de mudanza ni tamaño). El navegador lo manda con
  * keepalive al enviar el formulario, sin esperar la respuesta, así que nunca
  * frena la redirección a WhatsApp y sobrevive a que la página se vaya. Aquí
  * se valida y se responde de inmediato; el correo sale después (after). Los

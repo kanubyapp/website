@@ -154,7 +154,7 @@ export default function MudanzasMonterrey() {
       </main>
 
       <SiteFooter />
-      <BotonFlotante className="kb-flotante" />
+      <BotonFlotante pagina="/mudanzas-monterrey/" className="kb-flotante" />
     </CotizacionProvider>
   );
 }

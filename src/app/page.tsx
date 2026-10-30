@@ -215,10 +215,8 @@ export default function Home() {
       </main>
       <SiteFooter />
 
-      {/* Botón flotante: el popup empieza en "¿Qué necesitas?" (Mudanza o Minibodega) */}
-      <CotizacionProvider tipo="eleccion">
-        <BotonFlotante className="kb-flotante" />
-      </CotizacionProvider>
+      {/* Botón flotante: su popup chico pregunta el servicio, que la home no da */}
+      <BotonFlotante pagina="/" className="kb-flotante" />
     </>
   );
 }
