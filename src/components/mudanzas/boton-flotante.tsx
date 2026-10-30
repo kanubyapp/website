@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { IconoBodegaMediana, IconoCamion, IconoCerrar, IconoWhatsApp } from "@/components/iconos";
 import { avisarCotizacion } from "@/lib/aviso-cotizacion";
+import { campanaGuardada } from "@/lib/campana";
 import {
   envioFlotante,
   SERVICIO_FLOTANTE,
@@ -161,6 +162,8 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
       formulario: "flotante",
       sitio: trampa.current?.value ?? "",
       ms: Date.now() - abiertoEn.current,
+      // Con qué campaña llegó la persona (guardado al entrar al sitio)
+      campana: campanaGuardada() ?? undefined,
     });
     abrirWhatsApp(resultado.url, resultado.evento);
     setWhatsapp(resultado.url);

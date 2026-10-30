@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Outfit } from "next/font/google";
+import { CapturaCampana } from "@/components/captura-campana";
 import { ScrollSuave } from "@/components/scroll-suave";
 import { contenedorGtm } from "@/lib/gtm";
 import "lenis/dist/lenis.css";
@@ -63,6 +64,7 @@ export default function RootLayout({
           </noscript>
         )}
         <ScrollSuave />
+        <CapturaCampana />
         {children}
       </body>
     </html>

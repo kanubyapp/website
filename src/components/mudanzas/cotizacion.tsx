@@ -19,6 +19,7 @@ import {
 import type { Negocio } from "@/lib/conversiones";
 import { abrirWhatsApp } from "@/lib/abrir-whatsapp";
 import { avisarCotizacion } from "@/lib/aviso-cotizacion";
+import { campanaGuardada } from "@/lib/campana";
 import { envioCotizacion } from "@/lib/envio-cotizacion";
 import { flujoCotizacion, flujoInicial } from "@/lib/flujo-cotizacion";
 import {
@@ -191,6 +192,8 @@ export function CotizacionProvider({
       pagina: window.location.pathname,
       sitio: trampa.current?.value ?? "",
       ms: Date.now() - abiertoEn.current,
+      // Con qué campaña llegó la persona (guardado al entrar al sitio)
+      campana: campanaGuardada() ?? undefined,
     });
     abrirWhatsApp(resultado.url, resultado.evento);
     setWhatsapp(resultado.url);

@@ -54,9 +54,9 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
 - [x] Posts publicados sin contenido: resuelto. Los 14 posts vacíos ya tienen contenido (docs/posts-tanda-1.md, -2.md y -3.md).
 - [ ] Antes de publicar: crear en Vercel las variables del correo de aviso de los formularios (Resend). Sin ellas el sitio funciona igual, pero no sale ningún correo y el servidor registra el error:
   - RESEND_API_KEY: la llave de Resend (solo servidor, nunca con prefijo NEXT_PUBLIC_).
-  - EMAIL_FROM: el remitente, una dirección del dominio verificado notifications.scndal.com.
   - EMAIL_TO: los destinatarios principales, separados por comas (cotizaciones, proveedores y contacto general).
   - EMAIL_CC: los destinatarios en copia, separados por comas (solo cotizaciones).
+  - El remitente no es variable: es Kanuby <notificaciones@kanuby.com>, fijo en src/lib/contacto.ts (kanuby.com está verificado en Resend). Si un envío falla, queda en los registros de Vercel como "[correo] No se envió el aviso…", con la respuesta de Resend, los destinatarios y la página del lead.
 - [ ] Antes de publicar: que www.kanuby.com redirija a kanuby.com en Vercel. Si sirviera el sitio directo, sus páginas responderían con noindex (solo kanuby.com se indexa).
 - [ ] Antes de publicar: crear la variable NEXT_PUBLIC_GTM_ID en Vercel con el ID del contenedor de GTM (GTM-XXXXXXX) el día en que kanuby.com apunte al sitio nuevo. Sin ella el sitio no carga GTM y los eventos de conversión no llegan a ningún contenedor.
 - [ ] Antes de publicar: inventariar las redirecciones 301 que tenga configuradas WordPress (por ejemplo /checklist-para-mudarte-en-monterrey-sin-complicaciones/ → /checklist-mudanza-monterrey/) para replicarlas en el sitio nuevo.

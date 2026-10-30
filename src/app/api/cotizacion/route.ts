@@ -1,14 +1,15 @@
 import { after } from "next/server";
-import { correoCotizacion, enviarCorreo, validarAviso } from "@/lib/correo";
+import { correoCotizacion, enviarCorreo, origenDelAviso, validarAviso } from "@/lib/correo";
 
 /*
  * Aviso por correo de una cotización del popup (o del popup chico del botón
  * flotante, sin tipo de mudanza ni tamaño). El navegador lo manda con
  * keepalive al enviar el formulario, sin esperar la respuesta, así que nunca
  * frena la redirección a WhatsApp y sobrevive a que la página se vaya. Aquí
- * se valida y se responde de inmediato; el correo sale después (after). Los
- * fallos (Resend, variables que faltan) solo quedan registrados en el
- * servidor.
+ * se valida y se responde de inmediato; el correo sale después (after), con
+ * el formulario y los datos de campaña del lead. Los fallos (Resend,
+ * variables que faltan) quedan en los registros de Vercel con su detalle
+ * ("[correo] No se envió…"), sin afectar a quien llenó el formulario.
  */
 export async function POST(peticion: Request) {
   let cuerpo: unknown;
@@ -26,7 +27,7 @@ export async function POST(peticion: Request) {
     return new Response(null, { status: 400 });
   }
 
-  const correo = correoCotizacion(resultado.aviso, new Date());
-  after(() => enviarCorreo("cotizacion", correo));
+  const correo = correoCotizacion(resultado.aviso, new Date(), origenDelAviso(cuerpo));
+  after(() => enviarCorreo("cotizacion", correo, { pagina: resultado.aviso.pagina }));
   return new Response(null, { status: 202 });
 }
