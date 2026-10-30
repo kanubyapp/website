@@ -1,6 +1,7 @@
 /*
  * Header de la home: píldora de vidrio fija sobre el resplandor del hero, con
- * menú móvil a pantalla completa por debajo de 768px.
+ * "Cotiza Ahora" a la derecha y menú móvil a pantalla completa por debajo de
+ * 768px, donde "Cotiza Ahora" pasa al menú (kb-header-acciones-movil).
  */
 
 .header {
@@ -219,7 +220,16 @@
   display: none;
 }
 
-@media (max-width: 1024px) {
+/* El botón de cotizar nunca se aplasta: si no cabe, cede el menú */
+.barra :global(.kb-boton-header-corto) {
+  flex-shrink: 0;
+}
+
+/*
+ * Menos de 1300px: menos separación para que los enlaces y el botón quepan
+ * (con la normal caben desde 1286px).
+ */
+@media (max-width: 1299px) {
   .barra {
     gap: var(--espacio-2);
   }
@@ -229,29 +239,20 @@
   }
 }
 
-@media (max-width: 767px) {
-  .header {
-    top: var(--espacio-1);
-  }
-
-  .barra {
-    padding-left: var(--espacio-2);
-  }
-
-  .logo {
-    width: 120px;
-  }
-
-  :global(:root[data-header-compacto]) .logo {
-    width: 100px;
-  }
-
+/*
+ * Menos de 1200px: los cuatro enlaces y "Cotiza Ahora" ya no caben en la
+ * fila (con la separación reducida caben desde 1188px). Los enlaces pasan al
+ * menú a pantalla completa, como en celular; en la barra quedan logo,
+ * teléfono, "Cotiza Ahora" y el botón del menú, al final.
+ */
+@media (max-width: 1199px) {
   .menu {
     display: none;
   }
 
   .abrir {
     display: inline-flex;
+    order: 1;
     justify-content: center;
     align-items: center;
     width: var(--objetivo-tactil);
@@ -280,6 +281,7 @@
     position: fixed;
     inset: 0;
     z-index: 1000;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow-y: auto;
@@ -338,5 +340,28 @@
   .listaMovil .enlace:hover,
   .listaMovil .enlace:focus-visible {
     color: var(--color-naranja);
+  }
+}
+
+@media (max-width: 767px) {
+  .header {
+    top: var(--espacio-1);
+  }
+
+  .barra {
+    padding-left: var(--espacio-2);
+  }
+
+  .logo {
+    width: 120px;
+  }
+
+  :global(:root[data-header-compacto]) .logo {
+    width: 100px;
+  }
+
+  /* En celular "Cotiza Ahora" no va en la barra: está en el menú */
+  .acciones {
+    display: none;
   }
 }

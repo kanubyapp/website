@@ -95,7 +95,7 @@ export function HeaderMinibodegas() {
         <div className="kb-header-acciones">
           <BotonCotizar
             texto="Cotiza Ahora"
-            className={`kb-boton-principal ${styles.headerBoton}`}
+            className="kb-boton-principal kb-boton-header-corto"
           />
         </div>
       </div>
@@ -136,7 +136,7 @@ export function HeaderMinibodegas() {
         <div className="kb-header-acciones-movil">
           <BotonCotizar
             texto="Cotiza Ahora"
-            className={`kb-boton-principal ${styles.headerBoton}`}
+            className="kb-boton-principal kb-boton-header-corto"
           />
         </div>
       </nav>

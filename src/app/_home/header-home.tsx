@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { TelefonoHeader } from "@/components/telefono-header";
 import { useHeaderCompacto } from "@/components/use-header-compacto";
 import styles from "./header-home.module.css";
@@ -13,6 +14,16 @@ const enlaces = [
   { href: "/mudanzas-empresariales-monterrey/", texto: "Mudanza Empresarial" },
   { href: "https://kanubypack.com", texto: "Empaque y Embalaje" },
 ];
+
+/*
+ * "Cotiza Ahora" de una línea, el mismo botón del header de minibodegas: el
+ * corto, para que los cuatro enlaces quepan a su lado. La home no sabe qué
+ * servicio se busca: abre el popup de cotización en su paso de elegir entre
+ * mudanza y minibodega (CotizacionProvider tipo="eleccion", en la página).
+ */
+function Cotizar() {
+  return <BotonCotizar texto="Cotiza Ahora" className="kb-boton-principal kb-boton-header-corto" />;
+}
 
 function Enlaces({ alElegir }: { alElegir?: () => void }) {
   return enlaces.map((enlace) => (
@@ -92,6 +103,11 @@ export function HeaderHome() {
             <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
           </svg>
         </button>
+
+        {/* En móvil la acción no va en la barra: pasa al menú */}
+        <div className={`kb-header-acciones ${styles.acciones}`}>
+          <Cotizar />
+        </div>
       </div>
 
       {/*
@@ -117,6 +133,9 @@ export function HeaderHome() {
         <ul className={styles.listaMovil}>
           <Enlaces alElegir={() => setAbierto(false)} />
         </ul>
+        <div className="kb-header-acciones-movil">
+          <Cotizar />
+        </div>
       </nav>
     </header>
   );

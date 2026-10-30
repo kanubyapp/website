@@ -62,23 +62,6 @@
   width: 116px;
 }
 
-/* Mismo alto que los botones de acción de los demás headers */
-.headerBoton {
-  min-height: var(--objetivo-tactil);
-  padding: var(--relleno-pildora);
-}
-
-.headerBoton :global(.kb-boton-cotizar-icono) {
-  width: 20px;
-  height: 20px;
-}
-
-.headerBoton :global(.kb-boton-cotizar-texto) {
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-14);
-  font-weight: var(--peso-medium);
-}
-
 /*
  * Hero: dos columnas, el texto a la izquierda y la imagen sin fondo completa
  * a la derecha, centradas entre sí; en móvil, la
@@ -649,11 +632,6 @@
   .tamanosTitulo,
   .porqueTitulo {
     font-size: var(--texto-32);
-  }
-
-  .headerBoton {
-    justify-content: center;
-    width: 100%;
   }
 
   /* Logo más chico en móvil, como el de la home y el blog */

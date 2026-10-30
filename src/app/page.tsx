@@ -99,7 +99,10 @@ export default function Home() {
           __html: serializarJsonLd(jsonLd),
         }}
       />
-      <HeaderHome />
+      {/* El header de la home cotiza sin servicio: el popup lo pregunta primero */}
+      <CotizacionProvider tipo="eleccion">
+        <HeaderHome />
+      </CotizacionProvider>
       <main>
         <section className={`kb-resplandor ${styles.hero}`}>
           {/* Datos de confianza. Lista abierta: aquí entrará la calificación de Google. */}

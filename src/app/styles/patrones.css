@@ -630,6 +630,27 @@
     background: var(--color-naranja);
   }
 
+  /*
+   * "Cotiza Ahora" de una sola línea (headers de la home y de minibodegas):
+   * más corto que el de dos líneas de mudanzas, con el mismo alto que los
+   * botones de acción de los demás headers.
+   */
+  .kb-boton-header-corto {
+    min-height: var(--objetivo-tactil);
+    padding: var(--relleno-pildora);
+  }
+
+  .kb-boton-header-corto .kb-boton-cotizar-icono {
+    width: 20px;
+    height: 20px;
+  }
+
+  .kb-boton-header-corto .kb-boton-cotizar-texto {
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-14);
+    font-weight: var(--peso-medium);
+  }
+
   .kb-boton-hero {
     align-self: flex-start;
   }
@@ -1987,6 +2008,11 @@
 
     .kb-boton-header {
       align-self: center;
+      width: 100%;
+    }
+
+    .kb-boton-header-corto {
+      justify-content: center;
       width: 100%;
     }
 

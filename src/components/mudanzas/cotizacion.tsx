@@ -34,7 +34,7 @@ import {
  * paso 2, nombre y teléfono. Al enviar, valida; si pasa, registra el evento
  * de conversión (cotizacion_mudanza o cotizacion_minibodega) y, cuando sale
  * o vence el límite corto, redirige a WhatsApp en la misma pestaña.
- * Con tipo="eleccion" (botón flotante de la home) hay un paso previo, "¿Qué
+ * Con tipo="eleccion" (header de la home) hay un paso previo, "¿Qué
  * necesitas?", con Mudanza y Minibodega; desde el paso 1 se regresa a él.
  * Cualquier botón de la página lo abre con useCotizacion().abrir(). Se cierra con su botón, con Esc y con clic fuera;
  * mientras está abierto el foco queda dentro, el fondo no hace scroll
