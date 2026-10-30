@@ -2231,10 +2231,11 @@
   }
 
   /*
-   * Menú a pantalla completa y aspecto de su botón, desde 1209px: en celular
-   * los usan todos los headers kb-header; en tablet, solo los que llevan
-   * kb-header-menu-tablet (los de mudanzas), donde los enlaces y el botón de
-   * cotizar ya no caben en una fila. El panel queda oculto hasta abrirlo.
+   * Menú a pantalla completa y aspecto de su botón, desde 1209px (el corte
+   * más ancho de los headers con menú en tablet): en celular los usan todos
+   * los headers kb-header; en tablet, los que llevan kb-header-menu-tablet
+   * (mudanzas y minibodegas), donde los enlaces y el botón de cotizar ya no
+   * caben en una fila. El panel queda oculto hasta abrirlo.
    */
   @media (max-width: 1209px) {
     .kb-header-abrir {
@@ -2326,33 +2327,81 @@
   }
 
   /*
-   * Header de mudanzas (kb-header-menu-tablet) en tablet. Cortes medidos con
-   * el de más enlaces (Monterrey, cuatro): con la separación normal caben
-   * los enlaces y "Cotiza Ahora" desde 1302px y con la reducida desde
-   * 1204px; por debajo de 1210px los enlaces pasan al menú a pantalla
-   * completa y en la barra quedan logo, teléfono, "Cotiza Ahora" y el botón
-   * del menú, al final. El botón de cotizar nunca se aplasta.
+   * Headers con menú en tablet (kb-header-menu-tablet): el botón de cotizar
+   * nunca se aplasta; cuando los enlaces y "Cotiza Ahora" ya no caben en la
+   * fila, primero baja la separación y después los enlaces pasan al menú a
+   * pantalla completa (en la barra quedan logo, teléfono, "Cotiza Ahora" y
+   * el botón del menú, al final). Cada header pone sus cortes.
    */
   .kb-header-menu-tablet .kb-boton-header-corto {
     flex-shrink: 0;
   }
 
+  /*
+   * Cortes del header de mudanzas según cuántos enlaces lleva
+   * (kb-header-enlaces-N, de header-mudanzas.tsx), medidos desde dónde caben
+   * con la separación normal y con la reducida: cuatro (Monterrey), desde
+   * 1302px y 1204px; tres (CDMX), desde 1182px y 1094px; dos (empresariales),
+   * desde 1048px y 972px.
+   */
   @media (min-width: 768px) and (max-width: 1309px) {
-    .kb-header-menu-tablet .kb-header-barra {
+    .kb-header-enlaces-4 .kb-header-barra {
       column-gap: var(--espacio-2);
     }
 
-    .kb-header-menu-tablet .kb-header-lista {
+    .kb-header-enlaces-4 .kb-header-lista {
       gap: 0;
     }
   }
 
   @media (min-width: 768px) and (max-width: 1209px) {
-    .kb-header-menu-tablet .kb-header-menu {
+    .kb-header-enlaces-4 .kb-header-menu {
       display: none;
     }
 
-    .kb-header-menu-tablet .kb-header-abrir {
+    .kb-header-enlaces-4 .kb-header-abrir {
+      display: inline-flex;
+      order: 1;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .kb-header-enlaces-3 .kb-header-barra {
+      column-gap: var(--espacio-2);
+    }
+
+    .kb-header-enlaces-3 .kb-header-lista {
+      gap: 0;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1109px) {
+    .kb-header-enlaces-3 .kb-header-menu {
+      display: none;
+    }
+
+    .kb-header-enlaces-3 .kb-header-abrir {
+      display: inline-flex;
+      order: 1;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1059px) {
+    .kb-header-enlaces-2 .kb-header-barra {
+      column-gap: var(--espacio-2);
+    }
+
+    .kb-header-enlaces-2 .kb-header-lista {
+      gap: 0;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 979px) {
+    .kb-header-enlaces-2 .kb-header-menu {
+      display: none;
+    }
+
+    .kb-header-enlaces-2 .kb-header-abrir {
       display: inline-flex;
       order: 1;
     }

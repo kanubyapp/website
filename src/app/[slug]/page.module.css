@@ -110,13 +110,18 @@
   }
 }
 
-/* "Cotiza Aquí" en la barra; en el menú móvil va repetido */
+/* "Cotiza Ahora" en la barra; en el menú móvil va repetido */
 .headerAcciones {
   display: contents;
 }
 
 .headerAccionesMovil {
   display: none;
+}
+
+/* El botón de cotizar nunca se aplasta: si no cabe, ceden los submenús */
+.headerAcciones :global(.kb-boton-header-corto) {
+  flex-shrink: 0;
 }
 
 .headerLogo img {
@@ -220,20 +225,6 @@
 .headerAbrir,
 .headerMovil {
   display: none;
-}
-
-/* Mismo alto que los botones de acción de los demás headers */
-.headerBoton {
-  min-height: var(--objetivo-tactil);
-  padding: var(--relleno-pildora);
-  font-family: var(--fuente-texto);
-  font-size: var(--texto-14);
-}
-
-.headerBotonIcono {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
 }
 
 /*
@@ -500,31 +491,14 @@
   }
 }
 
-/* Móvil */
-
-@media (max-width: 767px) {
-  .header {
-    padding: var(--espacio-1) var(--relleno-seccion) 0;
-  }
-
-  /* Una sola fila, como la home: logo, teléfono y menú */
-  .headerBarra {
-    gap: var(--espacio-1);
-    padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-2);
-  }
-
-  .headerLogo {
-    flex-shrink: 1;
-    width: 120px;
-    min-width: 0;
-  }
-
-  .headerMenu {
-    display: none;
-  }
-
+/*
+ * Menú a pantalla completa y aspecto de su botón desde 869px: con "Cotiza
+ * Ahora" completo, los dos submenús caben en la fila desde 862px; por debajo
+ * pasan al menú (en tablet la acción se queda en la barra, en celular pasa
+ * al menú). El panel queda oculto hasta abrirlo.
+ */
+@media (max-width: 869px) {
   .headerAbrir {
-    display: inline-flex;
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
@@ -620,10 +594,44 @@
   .headerSubenlaceMovil:focus-visible {
     color: var(--color-naranja);
   }
+}
 
-  .headerBoton {
-    justify-content: center;
-    width: 100%;
+@media (min-width: 768px) and (max-width: 869px) {
+  .headerMenu {
+    display: none;
+  }
+
+  .headerAbrir {
+    display: inline-flex;
+    order: 1;
+  }
+}
+
+/* Móvil */
+
+@media (max-width: 767px) {
+  .header {
+    padding: var(--espacio-1) var(--relleno-seccion) 0;
+  }
+
+  /* Una sola fila, como la home: logo, teléfono y menú */
+  .headerBarra {
+    gap: var(--espacio-1);
+    padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-2);
+  }
+
+  .headerLogo {
+    flex-shrink: 1;
+    width: 120px;
+    min-width: 0;
+  }
+
+  .headerMenu {
+    display: none;
+  }
+
+  .headerAbrir {
+    display: inline-flex;
   }
 
   .headerAccionesMovil {
@@ -634,7 +642,7 @@
     padding-inline: var(--relleno-seccion);
   }
 
-  /* "Cotiza Aquí" va en el menú a pantalla completa */
+  /* "Cotiza Ahora" va en el menú a pantalla completa */
   .headerAcciones {
     display: none;
   }

@@ -5,6 +5,33 @@
  * y el acordeón compartido (patrón kb-acordeon).
  */
 
+/*
+ * Header en tablet (kb-header-menu-tablet): con "Cotiza Ahora" completo, los
+ * cuatro enlaces caben en la fila desde 1292px con la separación normal y
+ * desde 1194px con la reducida; por debajo de 1200px pasan al menú a
+ * pantalla completa.
+ */
+@media (min-width: 768px) and (max-width: 1299px) {
+  .header :global(.kb-header-barra) {
+    column-gap: var(--espacio-2);
+  }
+
+  .header :global(.kb-header-lista) {
+    gap: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .header :global(.kb-header-menu) {
+    display: none;
+  }
+
+  .header :global(.kb-header-abrir) {
+    display: inline-flex;
+    order: 1;
+  }
+}
+
 /* Botones: el icono de WhatsApp no va en los de esta página */
 
 .botonPrincipal {

@@ -16,13 +16,18 @@ const enlaces = [
 ];
 
 /*
- * "Cotiza Ahora" de una línea, el mismo botón del header de minibodegas: el
- * corto, para que los cuatro enlaces quepan a su lado. La home no sabe qué
+ * "Cotiza Ahora" de una línea en naranja oscuro, el mismo botón de los demás
+ * headers: el corto, para que los cuatro enlaces quepan a su lado. La home no sabe qué
  * servicio se busca: abre el popup de cotización en su paso de elegir entre
  * mudanza y minibodega (CotizacionProvider tipo="eleccion", en la página).
  */
 function Cotizar() {
-  return <BotonCotizar texto="Cotiza Ahora" className="kb-boton-principal kb-boton-header-corto" />;
+  return (
+    <BotonCotizar
+      texto="Cotiza Ahora"
+      className="kb-boton-principal kb-boton-header-corto kb-boton-naranja-oscuro"
+    />
+  );
 }
 
 function Enlaces({ alElegir }: { alElegir?: () => void }) {

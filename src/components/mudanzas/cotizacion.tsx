@@ -94,9 +94,14 @@ const NEGOCIOS: { valor: Negocio; nombre: string; Icono: Icono }[] = [
 const CotizacionContexto = createContext<{ abrir: (opcion?: string) => void } | null>(null);
 
 export function useCotizacion() {
-  const contexto = useContext(CotizacionContexto);
+  const contexto = useCotizacionOpcional();
   if (!contexto) throw new Error("useCotizacion necesita CotizacionProvider");
   return contexto;
+}
+
+/** El popup de la página, si la página tiene uno (null si no) */
+export function useCotizacionOpcional() {
+  return useContext(CotizacionContexto);
 }
 
 const ordenCampos = ["nombre", "telefono"] as const;

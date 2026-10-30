@@ -13,9 +13,11 @@ import styles from "./page.module.css";
  * Header de minibodegas: la píldora de vidrio de las páginas de mudanzas
  * (patrón kb-header) con el logo naranja, el teléfono, las anclas a las
  * secciones de la página y "Cotiza Ahora", que abre el formulario de
- * minibodega. Es sticky y se compacta al bajar (useHeaderCompacto). Debajo de
- * 768px la barra queda en una sola fila (logo, teléfono y menú) y el menú
- * pasa a pantalla completa con "Cotiza Ahora".
+ * minibodega. Es sticky y se compacta al bajar (useHeaderCompacto). En
+ * tablet, cuando ya no caben, los enlaces pasan al menú a pantalla completa
+ * (cortes en page.module.css). Debajo de 768px la barra queda en una sola
+ * fila (logo, teléfono y menú) y el menú pasa a pantalla completa con
+ * "Cotiza Ahora".
  */
 
 const enlaces = [
@@ -52,7 +54,10 @@ export function HeaderMinibodegas() {
   }
 
   return (
-    <header ref={elementoHeader} className={`kb-header kb-header-una-fila ${styles.header}`}>
+    <header
+      ref={elementoHeader}
+      className={`kb-header kb-header-una-fila kb-header-menu-tablet ${styles.header}`}
+    >
       <div ref={barra} className="kb-vidrio kb-cristal-liquido kb-header-barra">
         <Link href="/" className="kb-header-logo">
           <Image
@@ -95,7 +100,7 @@ export function HeaderMinibodegas() {
         <div className="kb-header-acciones">
           <BotonCotizar
             texto="Cotiza Ahora"
-            className="kb-boton-principal kb-boton-header-corto"
+            className="kb-boton-principal kb-boton-header-corto kb-boton-naranja-oscuro"
           />
         </div>
       </div>
@@ -136,7 +141,7 @@ export function HeaderMinibodegas() {
         <div className="kb-header-acciones-movil">
           <BotonCotizar
             texto="Cotiza Ahora"
-            className="kb-boton-principal kb-boton-header-corto"
+            className="kb-boton-principal kb-boton-header-corto kb-boton-naranja-oscuro"
           />
         </div>
       </nav>

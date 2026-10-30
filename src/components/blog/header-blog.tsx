@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
-import { EnlaceWhatsApp } from "@/components/enlace-whatsapp";
-import { IconoChevronAbajo, IconoMenu, IconoWhatsApp } from "@/components/iconos";
+import { IconoChevronAbajo, IconoMenu } from "@/components/iconos";
+import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { TelefonoHeader } from "@/components/telefono-header";
 import { useHeaderCompacto } from "@/components/use-header-compacto";
 import type { Negocio } from "@/lib/conversiones";
@@ -12,10 +12,11 @@ import styles from "@/app/[slug]/page.module.css";
 
 /*
  * Header de los posts: píldora de vidrio con el logo, el teléfono, el menú con
- * dos submenús (Mudanzas y Minibodegas → Monterrey) y el botón "Cotiza Aquí",
- * que lleva a WhatsApp con el mensaje de minibodega (en pendientes). Debajo
- * de 768px la barra queda en una sola fila (logo, teléfono y menú) y el menú
- * pasa a pantalla completa, fuera de la barra de vidrio, con "Cotiza Aquí" al
+ * dos submenús (Mudanzas y Minibodegas → Monterrey) y "Cotiza Ahora", con el
+ * aspecto del de los demás headers, que lleva directo a WhatsApp (otro
+ * número, con el mensaje de minibodega: en pendientes). Debajo de 768px la
+ * barra queda en una sola fila (logo, teléfono y menú) y el menú pasa a
+ * pantalla completa, fuera de la barra de vidrio, con "Cotiza Ahora" al
  * final. Es sticky y se compacta al bajar.
  */
 
@@ -129,16 +130,12 @@ export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
 
         {/* En móvil la acción pasa al menú */}
         <div className={styles.headerAcciones}>
-          <EnlaceWhatsApp
+          <BotonCotizar
+            texto="Cotiza Ahora"
             href={COTIZA_AQUI}
             negocio={negocio}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`kb-boton-principal ${styles.headerBoton}`}
-          >
-            <IconoWhatsApp className={styles.headerBotonIcono} />
-            Cotiza Aquí
-          </EnlaceWhatsApp>
+            className="kb-boton-principal kb-boton-header-corto kb-boton-naranja-oscuro"
+          />
         </div>
       </div>
 
@@ -183,16 +180,12 @@ export function HeaderBlog({ negocio }: { negocio: Negocio | null }) {
           ))}
         </ul>
         <div className={styles.headerAccionesMovil}>
-          <EnlaceWhatsApp
+          <BotonCotizar
+            texto="Cotiza Ahora"
             href={COTIZA_AQUI}
             negocio={negocio}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`kb-boton-principal ${styles.headerBoton}`}
-          >
-            <IconoWhatsApp className={styles.headerBotonIcono} />
-            Cotiza Aquí
-          </EnlaceWhatsApp>
+            className="kb-boton-principal kb-boton-header-corto kb-boton-naranja-oscuro"
+          />
         </div>
       </nav>
     </header>

@@ -3,13 +3,15 @@
 import { EnlaceWhatsApp } from "@/components/enlace-whatsapp";
 import { IconoWhatsApp } from "@/components/iconos";
 import type { Negocio } from "@/lib/conversiones";
-import { useCotizacion } from "./cotizacion";
+import { useCotizacionOpcional } from "./cotizacion";
 
 /*
  * Botón con ícono de WhatsApp de las páginas de mudanzas (raven-button). Sin
  * href abre el popup de cotización; con href es un enlace normal. El subtexto
  * es la segunda línea de los botones de dos líneas ("Cotiza Ahora por" /
- * "Whatsapp"). Con href, el negocio es el del evento whatsapp_* del clic. Tamaños y colores de cada variante van en el módulo de la página.
+ * "Whatsapp"). Con href, el negocio es el del evento whatsapp_* del clic, y
+ * no hace falta que la página tenga popup (el blog no lo tiene). Tamaños y
+ * colores de cada variante van en el módulo de la página o en patrones.
  */
 export function BotonCotizar({
   texto,
@@ -27,7 +29,8 @@ export function BotonCotizar({
   opcion?: string;
   className?: string;
 }) {
-  const { abrir } = useCotizacion();
+  const cotizacion = useCotizacionOpcional();
+  if (!href && !cotizacion) throw new Error("BotonCotizar sin href necesita CotizacionProvider");
   const contenido = (
     <>
       <IconoWhatsApp className="kb-boton-cotizar-icono" />
@@ -57,7 +60,7 @@ export function BotonCotizar({
       type="button"
       className={`kb-boton-cotizar ${className}`}
       aria-haspopup="dialog"
-      onClick={() => abrir(opcion)}
+      onClick={() => cotizacion?.abrir(opcion)}
     >
       {contenido}
     </button>
