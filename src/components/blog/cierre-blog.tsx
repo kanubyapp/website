@@ -15,9 +15,9 @@ import styles from "@/app/[slug]/page.module.css";
 
 /*
  * Bloque de cierre de los posts, en una tarjeta del sistema: texto, redes,
- * "Descubre más", "Cobertura" (sus enlaces dan 404 en el publicado; en
- * pendientes) y la llamada "¿Necesitas ayuda?". Va antes del footer global,
- * que lleva los créditos.
+ * "Descubre más", "Cobertura" (las páginas de cada servicio en Monterrey) y
+ * la llamada "¿Necesitas ayuda?". Va antes del footer global, que lleva los
+ * créditos.
  */
 
 /* El WhatsApp lleva el mensaje del servicio del post (o el general) */
@@ -99,19 +99,13 @@ export function CierreBlog({ negocio, servicio }: { negocio: Negocio | null; ser
         <p className={styles.cierreSubtitulo}>Minibodegas</p>
         <ul className={styles.cierreLista}>
           <li>
-            <Link href="/minibodegas/monterrey/" target="_blank" rel="noopener noreferrer">Monterrey</Link>
-          </li>
-          <li>
-            <Link href="/minibodegas/puebla/" target="_blank" rel="noopener noreferrer">Puebla</Link>
+            <Link href="/minibodegas-monterrey/">Monterrey</Link>
           </li>
         </ul>
         <p className={styles.cierreSubtitulo}>Mudanzas</p>
         <ul className={styles.cierreLista}>
           <li>
-            <Link href="/mudanzas/monterrey/">Monterrey</Link>
-          </li>
-          <li>
-            <Link href="/mudanzas/puebla/" target="_blank" rel="noopener noreferrer">Puebla</Link>
+            <Link href="/mudanzas-monterrey/">Monterrey</Link>
           </li>
         </ul>
       </div>

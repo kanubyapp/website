@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { REDIRECCIONES } from "./src/lib/redirecciones.ts";
 
 const nextConfig: NextConfig = {
   // kanuby.com publica todas sus URLs con barra final; se conservan igual.
@@ -8,11 +9,9 @@ const nextConfig: NextConfig = {
     // hero de /mudanzas-monterrey/), donde la compresión no se nota.
     qualities: [75, 40],
   },
+  // URLs del WordPress anterior, todas 301 (src/lib/redirecciones.ts).
   async redirects() {
-    return [
-      // /gracias/ de WordPress no existe aquí: el formulario lleva a WhatsApp.
-      { source: "/gracias/", destination: "/", permanent: true },
-    ];
+    return REDIRECCIONES;
   },
 };
 

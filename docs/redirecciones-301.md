@@ -1,337 +1,286 @@
-# Inventario de redirecciones 301
+# Redirecciones 301
 
-Inventario de las URLs que hoy existen en el WordPress de kanuby.com, para el día en que el dominio apunte al sitio nuevo en Vercel. Todavía no se implementa ninguna redirección.
+Referencia de las redirecciones que están implementadas en el sitio para las URLs de los sitios anteriores de kanuby.com: el WordPress y, antes de él, un sitio en otro stack. Las reglas viven en `src/lib/redirecciones.ts` (las carga `next.config.ts`) y la de mayúsculas en `src/proxy.ts`. `src/lib/redirecciones.test.ts` comprueba lo que este documento promete. Si se cambia una regla, se cambia aquí también.
+
+Actualizado el 30 de octubre de 2026.
+
+## Cómo funcionan
+
+- **Todas son 301.** Cada regla lleva `statusCode: 301` explícito, porque `permanent: true` de Next da 308. `/gracias/` también se pasó de 308 a 301.
+- **Un solo salto.** Cada destino es una ruta viva que responde 200, y ninguna regla captura un destino de otra.
+- **Ninguna captura una ruta viva.** Ni la home, ni los 4 servicios, ni `/blog/`, ni las categorías, `/social/`, las legales o los 24 posts.
+- **Ningún enlace interno depende de una redirección.** Los `href` de los componentes y los `"enlace"` de los posts apuntan siempre a la ruta viva. La prueba falla si alguien enlaza una ruta vieja.
+- **Mayúsculas.** Next compara los orígenes sin distinguir mayúsculas: `/HOME/` va directo a `/`. Cualquier otra ruta con mayúsculas la manda `src/proxy.ts` con 301 a su versión en minúsculas. Compara la ruta decodificada (`%C3%91` es la Ñ) y conserva la query. No toca `/_next/` (archivos de compilación), `/api/` (el formulario) ni `/images/`, que tiene archivos con mayúsculas como `Black-webtag.png`.
+- **Barra final.** Con `trailingSlash: true`, Next pone su propia redirección de barra final (308) antes que cualquier regla, con prioridad (`node_modules/next/dist/lib/load-custom-routes.js`). Una URL vieja pedida sin barra hace dos saltos: `/about` → 308 `/about/` → 301 `/`. Esto afecta sobre todo al sitio anterior a WordPress, cuyas URLs no llevaban barra. Se decidió dejarlo así: no se tocan la regla de barra final ni la configuración de Vercel. El destino final es correcto.
+- **Firewall de Vercel.** Todo lo que empieza con `/wp-` (`/wp-content/`, `/wp-admin/`, `/wp-json/`, `/wp-login.php`, `/wp-includes/`) y `/xmlrpc.php` responde 403 (`x-vercel-mitigated: deny`) antes de llegar a Next. Ahí no hay reglas, porque nunca se ejecutarían. El bloqueo se mantiene.
+- **Orden.** Primero la barra final de Next, luego las reglas en el orden de `REDIRECCIONES` (los feeds de cada post van antes del comodín de feeds) y al final la regla de minúsculas en el proxy.
 
 ## Fuentes
 
-Revisado el 9 de octubre de 2026.
+- **WordPress, revisado el 9 de octubre de 2026:** el sitemap de Yoast (`/sitemap_index.xml`, con `post-sitemap.xml` de 24 posts y `page-sitemap.xml` de 7 páginas), la API REST pública (`/wp-json/wp/v2/`: 3 categorías, 0 etiquetas, 2 autores y 157 de 175 adjuntos), pruebas con curl de feeds, paginación, fechas, búsqueda y de las redirecciones que WordPress ya hacía, y las rutas de `legacy/`.
+- **Internet Archive, octubre de 2026:** 18 URLs que no salían en esas fuentes, de WordPress y del sitio anterior. Todas daban 404 en kanuby.com.
 
-- **Sitemap publicado:** https://kanuby.com/sitemap_index.xml, generado por Yoast SEO. /wp-sitemap.xml y /sitemap.xml redirigen a él. Tiene dos sub-sitemaps: post-sitemap.xml (24 posts) y page-sitemap.xml (7 páginas). Yoast no publica sub-sitemaps de categorías, etiquetas, autores ni adjuntos.
-- **API REST pública de WordPress** (`/wp-json/wp/v2/`), para lo que no está en el sitemap: 3 categorías, 0 etiquetas, 2 autores y 175 adjuntos. La API solo muestra 157 adjuntos; los otros 18 no son públicos.
-- **Pruebas directas con curl** sobre kanuby.com para comprobar feeds, paginación, archivos por fecha, búsqueda y redirecciones que WordPress ya hace.
-- **legacy/:** sus rutas propias (/cotizar-mudanza/, /mini-bodegas/, /mudanzas/empresariales/, /mudanzas/monterrey-cdmx/, /privacidad/, /terminos/).
-- **docs/replica-decisiones.md.**
-- **Rutas del sitio nuevo:** src/app y los 24 slugs de src/lib/posts.ts, que coinciden exactos con el post-sitemap.
+## Rutas que existen igual
 
-Todas las URLs del sitio nuevo llevan barra final (`trailingSlash: true`), igual que WordPress.
+No llevan regla: responden igual en el sitio nuevo.
 
-## Clasificaciones
+- **Páginas:** `/`, `/social/`, `/mudanzas-monterrey/`, `/mudanzas-monterrey-cdmx/`, `/mudanzas-empresariales-monterrey/`, `/minibodegas-monterrey/`.
+- **Categorías:** `/mudanzas/`, `/minibodegas/`, `/sin-categoria/` (cada una con una sola página).
+- **Los 24 posts**, con los mismos slugs de `src/lib/posts.ts`.
+- **`/sitemap.xml`** y **`/robots.txt`.**
 
-- **Existe igual:** la misma ruta responde en el sitio nuevo. No necesita redirección.
-- **Tiene equivalente:** el contenido existe con otra ruta. 301 al destino propuesto.
-- **No tiene equivalente:** sin contenido equivalente. 301 al destino más cercano o 410.
+## Sitemaps
 
-## Páginas (page-sitemap.xml)
+Search Console puede tener dados de alta los de WordPress.
 
-| URL vieja | Clasificación | Destino propuesto | Motivo |
-|---|---|---|---|
-| `/` | Existe igual | — | |
-| `/social/` | Existe igual | — | |
-| `/mudanzas-monterrey/` | Existe igual | — | |
-| `/mudanzas-monterrey-cdmx/` | Existe igual | — | |
-| `/mudanzas-empresariales-monterrey/` | Existe igual | — | |
-| `/minibodegas-monterrey/` | Existe igual | — | |
-| `/gracias/` | No tiene equivalente | `/` (provisional) | El sitio nuevo no tiene /gracias/: el formulario redirige a WhatsApp. docs/replica-decisiones.md lista "/gracias/ con noindex" entre lo que se corrige al replicar, así que se esperaba la página. Si se replica, pasa a "existe igual". Si Google Ads o GTM cuentan conversiones con la visita a /gracias/, esa medición deja de funcionar. Hoy WordPress la publica con `index, nofollow` y en el sitemap. |
+| Origen | Destino |
+|---|---|
+| `/sitemap_index.xml` | `/sitemap.xml` |
+| `/post-sitemap.xml` | `/sitemap.xml` |
+| `/page-sitemap.xml` | `/sitemap.xml` |
+| `/wp-sitemap.xml` | `/sitemap.xml` |
 
-## Posts (post-sitemap.xml)
+`/wp-sitemap.xml` no la bloquea el firewall: solo bloquea `/wp-` seguido de una carpeta o de los archivos PHP listados arriba.
 
-Los 24 existen igual en el sitio nuevo, con el mismo slug en la raíz.
+## Páginas y servicios anteriores
 
-| URL vieja | Clasificación | Destino propuesto |
+| Origen | Destino | Nota |
 |---|---|---|
-| `/cuanto-cuesta-una-mudanza-en-monterrey-en-2025/` | Existe igual | — |
-| `/las-mejores-zonas-para-mudarte-en-monterrey-si-buscas-seguridad-y-conectividad/` | Existe igual | — |
-| `/como-elegir-una-empresa-de-mudanzas-confiable-en-monterrey/` | Existe igual | — |
-| `/errores-comunes-al-mudarse-en-monterrey-y-como-evitarlos/` | Existe igual | — |
-| `/los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey/` | Existe igual | — |
-| `/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/` | Existe igual | — |
-| `/guia-para-mudarte-a-monterrey-desde-otra-ciudad/` | Existe igual | — |
-| `/mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte/` | Existe igual | — |
-| `/cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025/` | Existe igual | — |
-| `/asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/` | Existe igual | — |
-| `/guia-para-elegir-el-tamano-ideal-de-tu-minibodega/` | Existe igual | — |
-| `/como-organizar-tu-minibodega-facilmente/` | Existe igual | — |
-| `/consejos-para-guardar-archivo-muerto-en-minibodega/` | Existe igual | — |
-| `/tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/` | Existe igual | — |
-| `/como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza/` | Existe igual | — |
-| `/mudanzas-premium-san-pedro/` | Existe igual | — |
-| `/mudanzas-oficina-monterrey-cambio-sin-interrumpir/` | Existe igual | — |
-| `/como-evitar-errores-comunes-al-mudarte-en-monterrey/` | Existe igual | — |
-| `/mudanza-urgente-en-monterrey/` | Existe igual | — |
-| `/servicio-de-mudanza-profesional-en-monterrey/` | Existe igual | — |
-| `/mudanzas-residenciales-en-monterrey/` | Existe igual | — |
-| `/checklist-mudanza-monterrey/` | Existe igual | — |
-| `/mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable/` | Existe igual | — |
-| `/tarifas-mudanzas-monterrey/` | Existe igual | — |
+| `/gracias/` | `/` | El formulario lleva a WhatsApp; no hay página de gracias. Si Google Ads o GTM contaban conversiones con la visita a /gracias/, esa medición ya no ocurre. |
+| `/home/` | `/` | Slug de la portada en WordPress. |
+| `/nosotros/` | `/` | Internet Archive. |
+| `/cotizar-mudanza/` | `/mudanzas-monterrey/` | legacy/ |
+| `/mini-bodegas/` | `/minibodegas-monterrey/` | legacy/ |
+| `/mudanzas/empresariales/` | `/mudanzas-empresariales-monterrey/` | legacy/ |
+| `/mudanzas/monterrey-cdmx/` | `/mudanzas-monterrey-cdmx/` | legacy/ |
+| `/privacidad/` | `/aviso-de-privacidad/` | legacy/ |
+| `/terminos/` | `/terminos-y-condiciones/` | legacy/ |
+| `/mudanzas/monterrey/` | `/mudanzas-monterrey/` | Internet Archive. |
+| `/minibodegas/monterrey/` | `/minibodegas-monterrey/` | Internet Archive. |
+| `/mudanzas/puebla/` | `/mudanzas-monterrey/` | Internet Archive. Kanuby ya no opera en Puebla y no hay página de Puebla. |
+| `/mudanzas-puebla/` | `/mudanzas-monterrey/` | Igual que la anterior. |
+| `/minibodegas/puebla/` | `/minibodegas-monterrey/` | Igual que la anterior. |
+| `/checklist-para-mudarte-en-monterrey-sin-complicaciones/` | `/checklist-mudanza-monterrey/` | Slug anterior del post; WordPress ya lo redirigía. |
 
-## Categorías, etiquetas y autores
+## Sitio anterior a WordPress
 
-WordPress publica las categorías sin el prefijo /category/.
+Del Internet Archive. Sus URLs no llevaban barra final, así que pedidas tal cual hacen dos saltos (ver "Barra final").
 
-| URL vieja | Clasificación | Destino propuesto | Motivo |
-|---|---|---|---|
-| `/mudanzas/` | Existe igual | — | Una sola página: `/mudanzas/page/2/` da 404 en WordPress. |
-| `/minibodegas/` | Existe igual | — | Una sola página. |
-| `/sin-categoria/` | Existe igual | — | Una sola página. |
-| Etiquetas | — | — | WordPress no tiene ninguna. |
-| `/author/scndal/` | No tiene equivalente | `/` | WordPress ya la redirige con 301 a /. Se conserva igual. |
-| `/author/softwarekanuby/` | No tiene equivalente | `/` | Igual que la anterior. |
-| `/author/{autor}/page/{n}/` y `/author/{autor}/feed/` | No tiene equivalente | `/` | WordPress ya las redirige con 301 a /. |
-
-## Archivos por fecha y paginación
-
-Los 24 posts son de mayo de 2025.
-
-| URL vieja | Clasificación | Destino propuesto | Motivo |
-|---|---|---|---|
-| `/2025/`, `/2025/05/` y `/2025/05/{día}/` | No tiene equivalente | `/` | WordPress (Yoast) ya los redirige con 301 a /. Se conserva igual. |
-| `/page/{n}/` | No tiene equivalente | `/` | En WordPress responde 200 con la home y un canonical a /, con cualquier número (hasta /page/99/). El sitio nuevo no tiene paginación en la raíz. |
-| `/mudanzas/page/1/` (y en las otras categorías) | Tiene equivalente | `/mudanzas/` (su categoría) | WordPress ya la redirige con 301 a la categoría. |
+| Origen | Destino | Nota |
+|---|---|---|
+| `/about/` | `/` | |
+| `/join/` | `/` | |
+| `/login/` | `/` | |
+| `/calculator/` | `/minibodegas-monterrey/` | |
+| `/privacy/` | `/aviso-de-privacidad/` | |
+| `/terms/` | `/terminos-y-condiciones/` | |
+| `/blog/6-tips-para-mantener-tu-cuarto-habitaci-n-organizado/` | `/blog/` | |
+| `/quoter/:id/spaces/` | `/minibodegas-monterrey/` | Comodín para las nueve URLs del cotizador. Captura solo `/quoter/{un segmento}/spaces/`; `/quoter/`, `/quoter/{id}/` y rutas más largas siguen en 404. |
 
 ## Feeds
 
-El sitio nuevo no publica RSS.
+Van primero las 24 reglas de los posts y después el comodín.
 
-| URL vieja | Clasificación | Destino propuesto | Motivo |
-|---|---|---|---|
-| `/feed/` | No tiene equivalente | `/blog/` | Feed general de posts; /blog/ es el listado equivalente. |
-| `/feed/atom/` y `/feed/rdf/` | No tiene equivalente | `/blog/` | Variantes del feed general. |
-| `/feed/rss2/` | No tiene equivalente | `/blog/` | WordPress ya la redirige a /feed/. |
-| `/comments/feed/` | No tiene equivalente | 410 | El sitio nuevo no tiene comentarios. |
-| `/mudanzas/feed/` | No tiene equivalente | `/mudanzas/` | Feed de la categoría. |
-| `/minibodegas/feed/` | No tiene equivalente | `/minibodegas/` | Feed de la categoría. |
-| `/sin-categoria/feed/` | No tiene equivalente | `/sin-categoria/` | Feed de la categoría. |
-| `/{slug}/feed/` de los 24 posts y las 7 páginas | No tiene equivalente | `/{slug}/` | Feed de comentarios de cada post o página. Responde 200 en todos los probados. Una sola regla por patrón: /gracias/feed/ sigue el destino que se decida para /gracias/. |
-
-## Búsqueda
-
-| URL vieja | Clasificación | Destino propuesto | Motivo |
-|---|---|---|---|
-| `/search/{término}/` | No tiene equivalente | 410 | El sitio nuevo no tiene buscador. Son resultados internos, no contenido. |
-| `/?s={término}` | No tiene equivalente | Sin regla | Next ignora el parámetro y sirve la home (200). |
-
-## Redirecciones que WordPress ya hace
-
-| URL vieja | Clasificación | Destino propuesto | Motivo |
-|---|---|---|---|
-| `/checklist-para-mudarte-en-monterrey-sin-complicaciones/` | Tiene equivalente | `/checklist-mudanza-monterrey/` | Hoy hace 301 a ese destino. Es la que cita docs/replica-decisiones.md. |
-| `/home/` | Tiene equivalente | `/` | Hoy hace 301 a /. "home" es el slug de la portada. |
-| `/{ruta}` sin barra final | Existe igual | — | Next la agrega por `trailingSlash: true`, como hoy hace WordPress. |
-| `http://kanuby.com/...` | Existe igual | — | Vercel fuerza HTTPS. |
-| `https://www.kanuby.com/...` | Tiene equivalente | `https://kanuby.com/...` | Hoy hace 301. Se configura en el dominio de Vercel; está como pendiente en docs/replica-decisiones.md. |
-
-Puede haber más 301 configuradas en WordPress, en el módulo de redirecciones de Yoast Premium, en el plugin Redirection o como slugs antiguos de posts (`_wp_old_slug`). No se pueden listar desde fuera: hay que exportarlas desde wp-admin.
-
-## Sitemaps, robots y archivos de WordPress
-
-| URL vieja | Clasificación | Destino propuesto | Motivo |
-|---|---|---|---|
-| `/sitemap_index.xml` | Tiene equivalente | `/sitemap.xml` | Sitemap de Yoast; el sitio nuevo lo sirve en /sitemap.xml. |
-| `/post-sitemap.xml` y `/page-sitemap.xml` | Tiene equivalente | `/sitemap.xml` | Sub-sitemaps de Yoast. |
-| `/wp-sitemap.xml` | Tiene equivalente | `/sitemap.xml` | Hoy redirige a /sitemap_index.xml. |
-| `/sitemap.xml` | Existe igual | — | |
-| `/robots.txt` | Existe igual | — | |
-| `/wp-content/uploads/2024/07/kanubymudanzas.svg` | Tiene equivalente | `/mudanzas-monterrey/` | Logotipo "Kanuby Mudanzas". Ningún post del sitio nuevo enlaza ya a él; la 301 solo cubre enlaces externos. |
-| `/wp-content/uploads/2024/07/kanubyminibodegas.svg` | Tiene equivalente | `/minibodegas-monterrey/` | Logotipo "Kanuby Minibodegas". Ningún post del sitio nuevo enlaza ya a él; la 301 solo cubre enlaces externos. |
-| `/wp-content/uploads/2024/12/kanuby-web.png` | Tiene equivalente | `/` | Ilustración del camión de Kanuby. Ningún post del sitio nuevo enlaza ya a ella; la 301 solo cubre enlaces externos. |
-| `/wp-content/uploads/...` (el resto de archivos) | No tiene equivalente | 410 | Las imágenes del sitio nuevo se sirven desde /images/ con otros nombres; no hay correspondencia uno a uno. |
-| `/wp-content/...`, `/wp-includes/...` | No tiene equivalente | 410 | Archivos internos de WordPress. |
-| `/wp-admin/...`, `/wp-login.php`, `/xmlrpc.php` | No tiene equivalente | 410 | Administración de WordPress. |
-| `/wp-json/...` | No tiene equivalente | 410 | API de WordPress. |
-
-## Rutas de legacy/
-
-Ninguna existe hoy en kanuby.com: todas responden 404. No necesitan redirección, salvo que esa versión se haya publicado alguna vez en el dominio. Por si acaso, los destinos más cercanos:
-
-| URL vieja | Clasificación | Destino propuesto |
+| Origen | Destino | Captura |
 |---|---|---|
-| `/cotizar-mudanza/` | No tiene equivalente | `/mudanzas-monterrey/` |
-| `/mini-bodegas/` | Tiene equivalente | `/minibodegas-monterrey/` |
-| `/mudanzas/empresariales/` | Tiene equivalente | `/mudanzas-empresariales-monterrey/` |
-| `/mudanzas/monterrey-cdmx/` | Tiene equivalente | `/mudanzas-monterrey-cdmx/` |
-| `/privacidad/` | Tiene equivalente | `/aviso-de-privacidad/` |
-| `/terminos/` | Tiene equivalente | `/terminos-y-condiciones/` |
+| `/feed/` | `/blog/` | Feed general. |
+| `/feed/:tipo(atom\|rdf\|rss2)/` | `/blog/` | Sus tres variantes. |
+| `/{slug}/feed/` (24 reglas, una por post) | `/{slug}/` | El feed de comentarios de cada post va a su post. Se generan desde `src/lib/posts.ts`: un post nuevo trae su regla. |
+| `/:padre/feed/` | `/blog/` | Cualquier otro `/{algo}/feed/`: las categorías, `/comments/feed/`, `/gracias/feed/` y los de las páginas. Ninguna ruta viva termina en `/feed/`. |
 
-`/mudanzas/` de legacy coincide con la categoría actual, que existe igual.
+## Paginación, autores, fechas y búsqueda
+
+Todas van a `/blog/`.
+
+| Origen | Captura |
+|---|---|
+| `/page/:n(\d+)/` | `/page/1/`, `/page/2/`, … solo con número. |
+| `/:categoria(mudanzas\|minibodegas\|sin-categoria)/page/:n(\d+)/` | La paginación de las tres categorías. |
+| `/author/:autor/:resto*` | `/author/scndal/`, `/author/softwarekanuby/` y lo que cuelgue de ellas (feed, páginas). |
+| `/:anio(20\d{2})/` | Archivos por año, como `/2025/`. Ningún slug vivo es un año. |
+| `/:anio(20\d{2})/:mes(\d{2})/` | Por mes, como `/2025/05/`. |
+| `/:anio(20\d{2})/:mes(\d{2})/:dia(\d{2})/` | Por día, como `/2025/05/14/`. |
+| `/search/:termino*` | `/search/` y `/search/{término}/`. El sitio no tiene buscador. |
 
 ## Adjuntos
 
-WordPress crea una URL por cada imagen subida: `/{padre}/{adjunto}/` si se subió desde una página o post, `/{adjunto}/` si no. Hoy Yoast redirige todas con 301 al archivo en /wp-content/uploads/. Como esos archivos desaparecen, la propuesta es:
+WordPress creaba una URL por cada imagen subida: `/{padre}/{adjunto}/` si se subió desde una página o post, `/{adjunto}/` si no. Están escritos uno por uno, sin comodín: un patrón de un segmento capturaría páginas vivas y uno de dos segmentos, los feeds.
 
-- **Adjunto con padre:** 301 a la página o post padre.
-- **Adjunto sin padre:** 410.
+- **Con padre (45):** van a su página o post padre. Las excepciones son los de `/home/` (la portada) y los dos de `/favicon/` y `/favicon-3/`, que no son páginas: esos van a `/`.
+- **Sin padre (99):** van a `/`.
 
-En la tabla: 43 van a su padre, 101 a 410 y 13 son URLs con `?attachment_id=` que no necesitan regla. Ninguna choca con una ruta del sitio nuevo. Faltan los 18 adjuntos que la API no hace públicos.
+| Origen | Destino |
+|---|---|
+| `/10251-1/` | `/` |
+| `/10251-2/` | `/` |
+| `/10251/` | `/` |
+| `/3-10m-2/` | `/` |
+| `/3-15m-2/` | `/` |
+| `/3-20m-2/` | `/` |
+| `/3-30m-2/` | `/` |
+| `/3-3m-2/` | `/` |
+| `/3-6m-2/` | `/` |
+| `/about-bg/` | `/` |
+| `/asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/moving-tips_-9-tricks-to-know-before-you-pack-_-quicken-loans/` | `/asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/` |
+| `/bg4-free-img/` | `/` |
+| `/cactus1-free-img/` | `/` |
+| `/cactus2-free-img/` | `/` |
+| `/cactus4-free-img/` | `/` |
+| `/cactus5-free-img/` | `/` |
+| `/cactus6-free-img/` | `/` |
+| `/camion-celular-2/` | `/` |
+| `/camionvolador-2/` | `/` |
+| `/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/red-checklist-stock-photo_-image-of-isolated-list-closeup-10974106/` | `/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/` |
+| `/checklist-mudanza-monterrey/saiba-como-fazer-uma-mudanca-sem-transtorno/` | `/checklist-mudanza-monterrey/` |
+| `/como-evitar-errores-comunes-al-mudarte-en-monterrey/is-it-worth-moving-your-homes-generator-when-you-change-homes_/` | `/como-evitar-errores-comunes-al-mudarte-en-monterrey/` |
+| `/como-organizar-tu-minibodega-facilmente/26-secrets-personal-organizers-would-never-tell-you-for-free/` | `/como-organizar-tu-minibodega-facilmente/` |
+| `/como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza/free-photo-_-carefree-family-having-fun-while-moving-into-new-home/` | `/como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza/` |
+| `/consejos-para-guardar-archivo-muerto-en-minibodega/warehouse-worker-writing-on-clipboard-with-checklist-details-shi/` | `/consejos-para-guardar-archivo-muerto-en-minibodega/` |
+| `/contact-bg/` | `/` |
+| `/contactanos-2/` | `/` |
+| `/cta-bg/` | `/` |
+| `/cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025/free-photo-_-black-man-moving-furniture/` | `/cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025/` |
+| `/ddddd-2/` | `/` |
+| `/ddddd/` | `/` |
+| `/default-png/` | `/` |
+| `/demo-screenshot/` | `/` |
+| `/favicon-2/` | `/` |
+| `/favicon-3/` | `/` |
+| `/favicon-3/cropped-favicon-png-2/` | `/` |
+| `/favicon/` | `/` |
+| `/favicon/cropped-favicon-png/` | `/` |
+| `/final-kanuby-minibodegas/` | `/` |
+| `/free-shipping/` | `/` |
+| `/guardamos-2/` | `/` |
+| `/guia-para-elegir-el-tamano-ideal-de-tu-minibodega/moving-abroad/` | `/guia-para-elegir-el-tamano-ideal-de-tu-minibodega/` |
+| `/guia-para-mudarte-a-monterrey-desde-otra-ciudad/red-checklist-stock-photo_-image-of-isolated-list-closeup-10974106-2/` | `/guia-para-mudarte-a-monterrey-desde-otra-ciudad/` |
+| `/guia-para-mudarte-a-monterrey-desde-otra-ciudad/the-ikea-storage-you-need-to-make-your-move-easier/` | `/guia-para-mudarte-a-monterrey-desde-otra-ciudad/` |
+| `/hero-bg/` | `/` |
+| `/home/sin-titulo-2/` | `/` |
+| `/home/sin-titulo-3/` | `/` |
+| `/kanuby-blue-2/` | `/` |
+| `/kanuby-blue-4/` | `/` |
+| `/kanuby-blue-5/` | `/` |
+| `/kanuby-blue/` | `/` |
+| `/kanuby-orange-2/` | `/` |
+| `/kanuby-orange-4/` | `/` |
+| `/kanuby-orange-5/` | `/` |
+| `/kanuby-orange/` | `/` |
+| `/kanuby-web/` | `/` |
+| `/kanuby-white-2/` | `/` |
+| `/kanuby-white-4/` | `/` |
+| `/kanuby-white-5/` | `/` |
+| `/kanuby-white/` | `/` |
+| `/kanubyminibodegas/` | `/` |
+| `/kanubymudanzas/` | `/` |
+| `/knauby-camion/` | `/` |
+| `/llevamos-2/` | `/` |
+| `/logo/` | `/` |
+| `/los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey/5-consejos-para-realizar-una-mudanza-con-exito/` | `/los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey/` |
+| `/mesa-de-trabajo-1-2/` | `/` |
+| `/mesa-de-trabajo-1-3/` | `/` |
+| `/mesa-de-trabajo-1-4/` | `/` |
+| `/mesa-de-trabajo-1/` | `/` |
+| `/mesa-de-trabajo-2-2/` | `/` |
+| `/mesa-de-trabajo-2-3/` | `/` |
+| `/mesa-de-trabajo-2-4/` | `/` |
+| `/mesa-de-trabajo-2/` | `/` |
+| `/mesa-de-trabajo-3-2/` | `/` |
+| `/mesa-de-trabajo-3-3/` | `/` |
+| `/mesa-de-trabajo-3-4/` | `/` |
+| `/mesa-de-trabajo-3/` | `/` |
+| `/mesa-de-trabajo-4-2/` | `/` |
+| `/mesa-de-trabajo-4/` | `/` |
+| `/minibodegas-monterrey/container/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/gemini_generated_image_h2iunrh2iunrh2iu/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/guardamos-kanuby/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/man-looking-intently-at-work-tablet-in-garage/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/mesa-de-trabajo-1-6/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/mesa-de-trabajo-2-6/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/mesa-de-trabajo-3-6/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/mesa-de-trabajo-4-3/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/mesa-de-trabajo-5/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/minibodegas-monterrey-2/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/nano_banana_pro_agrega_el_logo_a_los_tres_contenedores__que_se_vea_unificado_como_si_estuviese_pinta_1/` | `/minibodegas-monterrey/` |
+| `/minibodegas-monterrey/three-sleek-black-shipping-containers-stand-front-gray-industrial-building-showcasing-modern-storage-solutions-geometric-symmetry/` | `/minibodegas-monterrey/` |
+| `/money-back/` | `/` |
+| `/mudanza-urgente-en-monterrey/gumtape/` | `/mudanza-urgente-en-monterrey/` |
+| `/mudanzas-empresariales-monterrey/black-webtag-2/` | `/mudanzas-empresariales-monterrey/` |
+| `/mudanzas-empresariales-monterrey/black-webtag/` | `/mudanzas-empresariales-monterrey/` |
+| `/mudanzas-empresariales-monterrey/sin-titulo-4/` | `/mudanzas-empresariales-monterrey/` |
+| `/mudanzas-empresariales-monterrey/white-webtag-2/` | `/mudanzas-empresariales-monterrey/` |
+| `/mudanzas-empresariales-monterrey/white-webtag/` | `/mudanzas-empresariales-monterrey/` |
+| `/mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable/happy-tenant-moving-home-resting-breathing-fresh-air/` | `/mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable/` |
+| `/mudanzas-monterrey-cdmx/magnific__un-mapa-de-la-repblica-mexicana-en-un-gris-tenue-c__68702/` | `/mudanzas-monterrey-cdmx/` |
+| `/mudanzas-oficina-monterrey-cambio-sin-interrumpir/why-we-need-to-hire-commercial-removing-companies-in-london/` | `/mudanzas-oficina-monterrey-cambio-sin-interrumpir/` |
+| `/mudanzas-premium-san-pedro/trucos-para-hacer-una-mudanza-nacional-barata-sin-morir-en-el-intento/` | `/mudanzas-premium-san-pedro/` |
+| `/mudanzas-residenciales-en-monterrey/pareja-mirando-dentro-de-la-caja-_-foto-gratis/` | `/mudanzas-residenciales-en-monterrey/` |
+| `/mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte/home-2/` | `/mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte/` |
+| `/nosabes-2/` | `/` |
+| `/nosabescomoblanco-2/` | `/` |
+| `/nosabescomofrase-2/` | `/` |
+| `/orange/` | `/` |
+| `/orangr-2-2/` | `/` |
+| `/organizamos-2/` | `/` |
+| `/plant-collection/` | `/` |
+| `/plant1-free-img/` | `/` |
+| `/plant2-free-img/` | `/` |
+| `/plant3-free-img/` | `/` |
+| `/plant4-free-img/` | `/` |
+| `/plant6-free-img/` | `/` |
+| `/plants-store-logo-green/` | `/` |
+| `/pr2-2/` | `/` |
+| `/pr3-2/` | `/` |
+| `/recolectamos-2/` | `/` |
+| `/servicio-de-mudanza-profesional-en-monterrey/_-1/` | `/servicio-de-mudanza-profesional-en-monterrey/` |
+| `/servicio-de-mudanza-profesional-en-monterrey/we-are-available-gbogbojijeoutlook/` | `/servicio-de-mudanza-profesional-en-monterrey/` |
+| `/store-bg/` | `/` |
+| `/tarifas-mudanzas-monterrey/_/` | `/tarifas-mudanzas-monterrey/` |
+| `/teammate-1/` | `/` |
+| `/teammate-2/` | `/` |
+| `/teammate-3-1/` | `/` |
+| `/testimonial-2/` | `/` |
+| `/tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/_-4/` | `/tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/` |
+| `/tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/how-to-build-a-pergola-perfectly/` | `/tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/` |
+| `/untitled8-1200x1200-2/` | `/` |
+| `/user1-free-img/` | `/` |
+| `/user3-free-img/` | `/` |
+| `/utiliza-calaculadora-2/` | `/` |
+| `/utilizacsalculadorablanco-2/` | `/` |
+| `/warehousekanuby-2/` | `/` |
+| `/website-tag-editable-2/` | `/` |
+| `/website-tag-editable/` | `/` |
+| `/website-tag-white-2/` | `/` |
+| `/website-tag-white/` | `/` |
+| `/whatsapp-image-2024-11-29-at-19-57-16/` | `/` |
+| `/woocommerce-placeholder-2/` | `/` |
+| `/woocommerce-placeholder/` | `/` |
 
-| URL vieja | Clasificación | Destino propuesto | Motivo |
-|---|---|---|---|
-| `/10251-1/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/10251-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/10251/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/3-10m-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/3-15m-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/3-20m-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/3-30m-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/3-3m-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/3-6m-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/?attachment_id=3167` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=3211` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=3212` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=3213` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=4297` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=4310` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=4313` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=5226` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=5254` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=5255` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=5256` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=5257` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/?attachment_id=5258` | No tiene equivalente | Sin regla (cae en la home, 200) | URL con parámetro: Next ignora la query y sirve la home. No hace falta regla. |
-| `/about-bg/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/moving-tips_-9-tricks-to-know-before-you-pack-_-quicken-loans/` | Tiene equivalente | /asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/ | La página o post donde se subió la imagen. |
-| `/bg4-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/cactus1-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/cactus2-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/cactus4-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/cactus5-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/cactus6-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/camion-celular-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/camionvolador-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/red-checklist-stock-photo_-image-of-isolated-list-closeup-10974106/` | Tiene equivalente | /checklist-definitiva-para-mudarte-en-monterrey-sin-estres/ | La página o post donde se subió la imagen. |
-| `/checklist-mudanza-monterrey/saiba-como-fazer-uma-mudanca-sem-transtorno/` | Tiene equivalente | /checklist-mudanza-monterrey/ | La página o post donde se subió la imagen. |
-| `/como-evitar-errores-comunes-al-mudarte-en-monterrey/is-it-worth-moving-your-homes-generator-when-you-change-homes_/` | Tiene equivalente | /como-evitar-errores-comunes-al-mudarte-en-monterrey/ | La página o post donde se subió la imagen. |
-| `/como-organizar-tu-minibodega-facilmente/26-secrets-personal-organizers-would-never-tell-you-for-free/` | Tiene equivalente | /como-organizar-tu-minibodega-facilmente/ | La página o post donde se subió la imagen. |
-| `/como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza/free-photo-_-carefree-family-having-fun-while-moving-into-new-home/` | Tiene equivalente | /como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza/ | La página o post donde se subió la imagen. |
-| `/consejos-para-guardar-archivo-muerto-en-minibodega/warehouse-worker-writing-on-clipboard-with-checklist-details-shi/` | Tiene equivalente | /consejos-para-guardar-archivo-muerto-en-minibodega/ | La página o post donde se subió la imagen. |
-| `/contact-bg/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/contactanos-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/cta-bg/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025/free-photo-_-black-man-moving-furniture/` | Tiene equivalente | /cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025/ | La página o post donde se subió la imagen. |
-| `/ddddd-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/ddddd/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/default-png/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/demo-screenshot/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/favicon-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/favicon-3/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/favicon-3/cropped-favicon-png-2/` | No tiene equivalente | 410 | Su padre (/favicon-3/) es otro adjunto, no una página. |
-| `/favicon/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/favicon/cropped-favicon-png/` | No tiene equivalente | 410 | Su padre (/favicon/) es otro adjunto, no una página. |
-| `/final-kanuby-minibodegas/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/free-shipping/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/guardamos-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/guia-para-elegir-el-tamano-ideal-de-tu-minibodega/moving-abroad/` | Tiene equivalente | /guia-para-elegir-el-tamano-ideal-de-tu-minibodega/ | La página o post donde se subió la imagen. |
-| `/guia-para-mudarte-a-monterrey-desde-otra-ciudad/red-checklist-stock-photo_-image-of-isolated-list-closeup-10974106-2/` | Tiene equivalente | /guia-para-mudarte-a-monterrey-desde-otra-ciudad/ | La página o post donde se subió la imagen. |
-| `/guia-para-mudarte-a-monterrey-desde-otra-ciudad/the-ikea-storage-you-need-to-make-your-move-easier/` | Tiene equivalente | /guia-para-mudarte-a-monterrey-desde-otra-ciudad/ | La página o post donde se subió la imagen. |
-| `/hero-bg/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/home/sin-titulo-2/` | Tiene equivalente | / | El padre es la página "home", que WordPress ya redirige a /. |
-| `/home/sin-titulo-3/` | Tiene equivalente | / | El padre es la página "home", que WordPress ya redirige a /. |
-| `/kanuby-blue-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-blue-4/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-blue-5/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-blue/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-orange-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-orange-4/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-orange-5/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-orange/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-web/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-white-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-white-4/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-white-5/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanuby-white/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanubyminibodegas/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/kanubymudanzas/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/knauby-camion/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/llevamos-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/logo/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey/5-consejos-para-realizar-una-mudanza-con-exito/` | Tiene equivalente | /los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey/ | La página o post donde se subió la imagen. |
-| `/mesa-de-trabajo-1-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-1-3/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-1-4/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-1/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-2-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-2-3/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-2-4/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-3-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-3-3/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-3-4/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-3/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-4-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mesa-de-trabajo-4/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/minibodegas-monterrey/container/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/gemini_generated_image_h2iunrh2iunrh2iu/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/guardamos-kanuby/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/man-looking-intently-at-work-tablet-in-garage/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/mesa-de-trabajo-1-6/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/mesa-de-trabajo-2-6/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/mesa-de-trabajo-3-6/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/mesa-de-trabajo-4-3/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/mesa-de-trabajo-5/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/minibodegas-monterrey-2/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/nano_banana_pro_agrega_el_logo_a_los_tres_contenedores__que_se_vea_unificado_como_si_estuviese_pinta_1/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/minibodegas-monterrey/three-sleek-black-shipping-containers-stand-front-gray-industrial-building-showcasing-modern-storage-solutions-geometric-symmetry/` | Tiene equivalente | /minibodegas-monterrey/ | La página o post donde se subió la imagen. |
-| `/money-back/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/mudanza-urgente-en-monterrey/gumtape/` | Tiene equivalente | /mudanza-urgente-en-monterrey/ | La página o post donde se subió la imagen. |
-| `/mudanzas-empresariales-monterrey/black-webtag-2/` | Tiene equivalente | /mudanzas-empresariales-monterrey/ | La página o post donde se subió la imagen. |
-| `/mudanzas-empresariales-monterrey/black-webtag/` | Tiene equivalente | /mudanzas-empresariales-monterrey/ | La página o post donde se subió la imagen. |
-| `/mudanzas-empresariales-monterrey/sin-titulo-4/` | Tiene equivalente | /mudanzas-empresariales-monterrey/ | La página o post donde se subió la imagen. |
-| `/mudanzas-empresariales-monterrey/white-webtag-2/` | Tiene equivalente | /mudanzas-empresariales-monterrey/ | La página o post donde se subió la imagen. |
-| `/mudanzas-empresariales-monterrey/white-webtag/` | Tiene equivalente | /mudanzas-empresariales-monterrey/ | La página o post donde se subió la imagen. |
-| `/mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable/happy-tenant-moving-home-resting-breathing-fresh-air/` | Tiene equivalente | /mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable/ | La página o post donde se subió la imagen. |
-| `/mudanzas-monterrey-cdmx/magnific__un-mapa-de-la-repblica-mexicana-en-un-gris-tenue-c__68702/` | Tiene equivalente | /mudanzas-monterrey-cdmx/ | La página o post donde se subió la imagen. |
-| `/mudanzas-oficina-monterrey-cambio-sin-interrumpir/why-we-need-to-hire-commercial-removing-companies-in-london/` | Tiene equivalente | /mudanzas-oficina-monterrey-cambio-sin-interrumpir/ | La página o post donde se subió la imagen. |
-| `/mudanzas-premium-san-pedro/trucos-para-hacer-una-mudanza-nacional-barata-sin-morir-en-el-intento/` | Tiene equivalente | /mudanzas-premium-san-pedro/ | La página o post donde se subió la imagen. |
-| `/mudanzas-residenciales-en-monterrey/pareja-mirando-dentro-de-la-caja-_-foto-gratis/` | Tiene equivalente | /mudanzas-residenciales-en-monterrey/ | La página o post donde se subió la imagen. |
-| `/mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte/home-2/` | Tiene equivalente | /mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte/ | La página o post donde se subió la imagen. |
-| `/nosabes-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/nosabescomoblanco-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/nosabescomofrase-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/orange/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/orangr-2-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/organizamos-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/plant-collection/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/plant1-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/plant2-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/plant3-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/plant4-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/plant6-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/plants-store-logo-green/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/pr2-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/pr3-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/recolectamos-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/servicio-de-mudanza-profesional-en-monterrey/_-1/` | Tiene equivalente | /servicio-de-mudanza-profesional-en-monterrey/ | La página o post donde se subió la imagen. |
-| `/servicio-de-mudanza-profesional-en-monterrey/we-are-available-gbogbojijeoutlook/` | Tiene equivalente | /servicio-de-mudanza-profesional-en-monterrey/ | La página o post donde se subió la imagen. |
-| `/store-bg/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/tarifas-mudanzas-monterrey/_/` | Tiene equivalente | /tarifas-mudanzas-monterrey/ | La página o post donde se subió la imagen. |
-| `/teammate-1/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/teammate-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/teammate-3-1/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/testimonial-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/_-4/` | Tiene equivalente | /tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/ | La página o post donde se subió la imagen. |
-| `/tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/how-to-build-a-pergola-perfectly/` | Tiene equivalente | /tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/ | La página o post donde se subió la imagen. |
-| `/untitled8-1200x1200-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/user1-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/user3-free-img/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/utiliza-calaculadora-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/utilizacsalculadorablanco-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/warehousekanuby-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/website-tag-editable-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/website-tag-editable/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/website-tag-white-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/website-tag-white/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/whatsapp-image-2024-11-29-at-19-57-16/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/woocommerce-placeholder-2/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
-| `/woocommerce-placeholder/` | No tiene equivalente | 410 | Adjunto sin página padre: no hay destino con contexto. |
+## Lo que no se redirige
 
-## Hallazgos fuera del inventario
+| URL vieja | Por qué |
+|---|---|
+| `/wp-content/uploads/2024/07/kanubymudanzas.svg`, `/wp-content/uploads/2024/07/kanubyminibodegas.svg`, `/wp-content/uploads/2024/12/kanuby-web.png` | Tenían destino (dos logotipos y la ilustración del camión), pero el firewall de Vercel bloquea `/wp-content/` antes de llegar a Next. El bloqueo se mantiene y no hay regla. Ningún post enlaza ya a ellas. |
+| El resto de `/wp-content/`, `/wp-includes/`, `/wp-admin/`, `/wp-login.php`, `/xmlrpc.php`, `/wp-json/` | Bloqueadas por el firewall (403). |
+| `/?s={término}` | Next ignora el parámetro y sirve la home (200). |
+| `/?attachment_id={id}` (13 URLs: 3167, 3211, 3212, 3213, 4297, 4310, 4313, 5226, 5254, 5255, 5256, 5257, 5258) | Igual: cae en la home (200). |
+| URLs sin barra final | No necesitan regla propia: Next agrega la barra (308) y después aplica la regla que corresponda. |
 
-Hay que resolverlos antes de publicar. No se corrigió nada.
+## Pendientes
 
-1. **/gracias/ no existe en el sitio nuevo**, aunque docs/replica-decisiones.md la incluye con noindex entre lo que se corrige al replicar. Hay que decidir si se replica o se redirige, y revisar si alguna conversión de Google Ads o GTM depende de ella.
-2. **Resuelto: cinco enlaces de posts apuntaban a archivos de WordPress** (`https://kanuby.com/wp-content/uploads/...`). Los tres archivos son imágenes (dos logotipos y la ilustración del camión), no descargas para el lector, así que no se trajeron al proyecto. El 9 de octubre de 2026 los enlaces se cambiaron en src/lib/posts.ts:
-   - /mudanzas-premium-san-pedro/, "Te puede interesar: kanubymudanzas" (kanubymudanzas.svg): ahora enlaza a /mudanzas-monterrey/.
-   - /mudanzas-oficina-monterrey-cambio-sin-interrumpir/ y /mudanzas-residenciales-en-monterrey/, "Te puede interesar: kanubyminibodegas" (kanubyminibodegas.svg): ahora enlazan a /minibodegas-monterrey/.
-   - /mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable/, el título "¿Por qué elegir a Kanuby?" (kanuby-web.png): se quitó el enlace y queda el texto.
-   - /tarifas-mudanzas-monterrey/, "Solicita tu cotización con Kanuby" (kanuby-web.png): ahora enlaza a /mudanzas-monterrey/.
-3. **Las redirecciones configuradas en WordPress no se pueden inventariar desde fuera.** Hay que exportarlas desde wp-admin: Yoast Premium, Redirection o los `_wp_old_slug` de la base de datos.
-4. **18 de los 175 adjuntos no son públicos en la API** y no aparecen en la tabla.
+1. **Redirecciones configuradas dentro de WordPress.** No se pueden listar desde fuera: hay que exportarlas desde wp-admin (Yoast Premium, el plugin Redirection o los `_wp_old_slug` de la base de datos). Solo se conoce la del checklist.
+2. **18 de los 175 adjuntos no eran públicos en la API** y no tienen regla. Si aparecen, se agregan a `ADJUNTOS_CON_PADRE` o `ADJUNTOS_SIN_PADRE`.
+
+## Historial
+
+- **9 de octubre de 2026.** Inventario inicial, sin implementar. Ese día se corrigieron cinco enlaces de posts que apuntaban a archivos de `/wp-content/uploads/` (en `src/lib/posts.ts`): cuatro pasaron a enlazar a `/mudanzas-monterrey/` o `/minibodegas-monterrey/` y en el quinto se quitó el enlace.
+- **30 de octubre de 2026.** Se implementó. Decisiones respecto al inventario inicial:
+  - Todas 301. Lo que el inventario proponía como 410 pasó a 301: los adjuntos sin padre y los dos de favicon a `/`, y `/search/` y `/comments/feed/` a `/blog/`.
+  - Feeds de cada post a su post; el resto de feeds, categorías incluidas, a `/blog/`.
+  - Adjuntos con padre a su padre.
+  - Paginación, autores y archivos por fecha a `/blog/`, en lugar de `/`.
+  - `/gracias/` pasó de 308 a 301.
+  - Regla de mayúsculas a minúsculas en el proxy.
+  - Las tres imágenes bajo `/wp-content/` no se redirigen: las bloquea el firewall y el bloqueo se mantiene.
+  - Las URLs sin barra final hacen dos saltos y se dejan así.
+  - Se agregaron las 18 URLs del Internet Archive. En el bloque "Cobertura" del cierre del blog se quitaron los enlaces de Puebla y los de Monterrey pasaron a apuntar a `/mudanzas-monterrey/` y `/minibodegas-monterrey/`.
