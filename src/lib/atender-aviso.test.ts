@@ -50,8 +50,10 @@ function despuesDeResponder() {
 function conRed(crm: (opciones: RequestInit) => Promise<Response>) {
   const resend: RequestInit[] = [];
   const alCrm: RequestInit[] = [];
+  const urlsCrm: string[] = [];
   const envio: Envio = async (url, opciones) => {
-    if (url === URL_CRM) {
+    if (url.startsWith(URL_CRM)) {
+      urlsCrm.push(url);
       alCrm.push(opciones);
       return crm(opciones);
     }
@@ -71,7 +73,7 @@ function conRed(crm: (opciones: RequestInit) => Promise<Response>) {
       enviarCrm(aviso, origen, { entorno, envio, registrar: callado, informar: callado }),
     registrar: callado,
   };
-  return { resend, alCrm, tareas };
+  return { resend, alCrm, urlsCrm, tareas };
 }
 
 test("un envío válido responde 202 y deja programados el correo y el CRM", async () => {
@@ -87,13 +89,17 @@ test("un envío válido responde 202 y deja programados el correo y el CRM", asy
   }
 });
 
-test("cada formulario llega al CRM con su secreto y su cuerpo plano", async () => {
+test("cada formulario llega al CRM a su fuente, con su secreto y su cuerpo plano", async () => {
   const red = conRed(async () => new Response(null, { status: 201 }));
   const { despues, correr } = despuesDeResponder();
   atenderAviso(popup, { despues, ...red.tareas });
   atenderAviso(flotante, { despues, ...red.tareas });
   await correr();
   const [delPopup, delFlotante] = red.alCrm;
+  assert.deepEqual(red.urlsCrm, [
+    "https://api.scndal.com/leads/kanuby?source=cotizacion",
+    "https://api.scndal.com/leads/kanuby?source=flotante",
+  ]);
   assert.equal(
     (delPopup.headers as Record<string, string>).Authorization,
     "Bearer secreto-cotizacion",

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { AvisoCotizacion, Envio, OrigenAviso } from "./correo.ts";
-import { cuerpoCrm, enviarCrm, URL_CRM } from "./crm.ts";
+import { cuerpoCrm, enviarCrm } from "./crm.ts";
 
 const entorno = {
   CRM_SECRET_COTIZACION: "secreto-cotizacion",
@@ -42,12 +42,12 @@ function grabadora(
 const cuerpoDe = (opciones: RequestInit) => JSON.parse(String(opciones.body));
 const encabezados = (opciones: RequestInit) => opciones.headers as Record<string, string>;
 
-test("el popup de cotización manda su lead con CRM_SECRET_COTIZACION", async () => {
+test("el popup de cotización manda su lead a source=cotizacion con CRM_SECRET_COTIZACION", async () => {
   const { llamadas, envio } = grabadora();
   assert.equal(await enviarCrm(avisoPopup, popup, { entorno, envio, informar: () => {} }), true);
   assert.equal(llamadas.length, 1);
   const { url, opciones } = llamadas[0];
-  assert.equal(url, URL_CRM);
+  assert.equal(url, "https://api.scndal.com/leads/kanuby?source=cotizacion");
   assert.equal(opciones.method, "POST");
   assert.deepEqual(encabezados(opciones), {
     Authorization: "Bearer secreto-cotizacion",
@@ -63,13 +63,14 @@ test("el popup de cotización manda su lead con CRM_SECRET_COTIZACION", async ()
   });
 });
 
-test("el botón flotante manda su lead con CRM_SECRET_FLOTANTE y sin tipo", async () => {
+test("el botón flotante manda su lead a source=flotante con CRM_SECRET_FLOTANTE y sin tipo", async () => {
   const { llamadas, envio } = grabadora();
   assert.equal(
     await enviarCrm(avisoFlotante, flotante, { entorno, envio, informar: () => {} }),
     true,
   );
-  const { opciones } = llamadas[0];
+  const { url, opciones } = llamadas[0];
+  assert.equal(url, "https://api.scndal.com/leads/kanuby?source=flotante");
   assert.equal(encabezados(opciones).Authorization, "Bearer secreto-flotante");
   assert.deepEqual(cuerpoDe(opciones), {
     nombre: "Luis",
@@ -77,6 +78,38 @@ test("el botón flotante manda su lead con CRM_SECRET_FLOTANTE y sin tipo", asyn
     negocio: "mudanza",
     pagina: "/",
   });
+});
+
+test("la fuente y el secreto viajan siempre del mismo par, nunca cruzados", async () => {
+  const pares = { cotizacion: "secreto-cotizacion", flotante: "secreto-flotante" } as const;
+  // Con los dos secretos, y con solo el del otro formulario cargado
+  const entornos = [
+    entorno,
+    { CRM_SECRET_COTIZACION: "secreto-cotizacion" },
+    { CRM_SECRET_FLOTANTE: "secreto-flotante" },
+  ];
+  for (const env of entornos)
+    for (const [aviso, origen] of [
+      [avisoPopup, popup],
+      [avisoFlotante, flotante],
+    ] as const) {
+      const { llamadas, envio } = grabadora();
+      await enviarCrm(aviso, origen, {
+        entorno: env,
+        envio,
+        registrar: () => {},
+        informar: () => {},
+      });
+      for (const { url, opciones } of llamadas) {
+        const fuente = new URL(url).searchParams.get("source");
+        assert.equal(fuente, origen.formulario);
+        assert.equal(encabezados(opciones).Authorization, `Bearer ${pares[origen.formulario]}`);
+      }
+      // Sin su propio secreto no sale nada, aunque esté el del otro
+      const propio =
+        origen.formulario === "cotizacion" ? "CRM_SECRET_COTIZACION" : "CRM_SECRET_FLOTANTE";
+      assert.equal(llamadas.length, propio in env ? 1 : 0);
+    }
 });
 
 test("la campaña se aplana: cada parámetro en el primer nivel, sin el objeto campana", () => {

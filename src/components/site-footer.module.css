@@ -182,8 +182,4 @@
   .webtag img {
     width: 160px;
   }
-
-  .copyright {
-    font-size: var(--texto-12);
-  }
 }

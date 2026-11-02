@@ -4,16 +4,20 @@ import type { AvisoCotizacion, Entorno, Envio, OrigenAviso } from "./correo.ts";
 /*
  * Envío de los leads al CRM de SCNDAL Studio, además del correo de aviso
  * (src/app/api/cotizacion/route.ts). Solo los avisos que pasaron la
- * validación y no parecen bot. El CRM tiene una fuente por formulario y el
- * secreto es lo que dice de cuál viene: CRM_SECRET_COTIZACION para el popup
- * de cotización y CRM_SECRET_FLOTANTE para el del botón flotante. Las dos son
- * variables de Vercel que solo se leen en el servidor.
+ * validación y no parecen bot. El CRM tiene una fuente por formulario: la
+ * dice el parámetro source de la URL (el slug de la fuente en el CRM) y el
+ * secreto la autentica. Van siempre en par, de la misma fila de FUENTE_CRM:
+ * el popup de cotización con source=cotizacion y CRM_SECRET_COTIZACION, el
+ * del botón flotante con source=flotante y CRM_SECRET_FLOTANTE. Sin source,
+ * el CRM guardaría el lead con su fuente por omisión ("web"). Los secretos
+ * son variables de Vercel que solo se leen en el servidor.
  *
  * Nunca lanza ni frena: si falta el secreto, el CRM responde con error o no
  * responde a tiempo, queda una línea "[crm] No se envió…" en los registros
  * de Vercel y el correo y la respuesta al navegador siguen igual.
  */
 
+/** La ingesta de leads de Kanuby, sin la fuente */
 export const URL_CRM = "https://api.scndal.com/leads/kanuby";
 
 /** Lo más que se espera al CRM antes de darlo por caído */
@@ -22,10 +26,16 @@ export const LIMITE_CRM_MS = 10_000;
 /** Hasta dónde se guarda en el registro lo que respondió el CRM */
 const LARGO_RESPUESTA = 1000;
 
-export const SECRETO_CRM = {
-  cotizacion: "CRM_SECRET_COTIZACION",
-  flotante: "CRM_SECRET_FLOTANTE",
+/** Por formulario, la fuente del CRM (su slug) y la variable de su secreto */
+export const FUENTE_CRM = {
+  cotizacion: { source: "cotizacion", secreto: "CRM_SECRET_COTIZACION" },
+  flotante: { source: "flotante", secreto: "CRM_SECRET_FLOTANTE" },
 } as const;
+
+/** La URL de la fuente de un formulario: la ingesta con ?source=<slug> */
+export function urlCrm(formulario: OrigenAviso["formulario"]): string {
+  return `${URL_CRM}?source=${FUENTE_CRM[formulario].source}`;
+}
 
 /**
  * El lead como lo recibe el CRM: un JSON plano con nombre, telefono,
@@ -68,7 +78,7 @@ export async function enviarCrm(
   } = {},
 ): Promise<boolean> {
   const { formulario } = origen;
-  const variable = SECRETO_CRM[formulario];
+  const variable = FUENTE_CRM[formulario].secreto;
   const detalle = (extra: Record<string, unknown> = {}) =>
     JSON.stringify({ formulario, pagina: aviso.pagina, negocio: aviso.negocio, ...extra });
 
@@ -79,7 +89,7 @@ export async function enviarCrm(
   }
 
   try {
-    const respuesta = await envio(URL_CRM, {
+    const respuesta = await envio(urlCrm(formulario), {
       method: "POST",
       headers: { Authorization: `Bearer ${secreto}`, "Content-Type": "application/json" },
       body: JSON.stringify(cuerpoCrm(aviso, origen)),
