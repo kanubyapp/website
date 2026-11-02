@@ -236,19 +236,22 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
         data-lenis-prevent
         onToggle={alAlternar}
       >
-        <button
-          type="button"
-          className={`kb-popup-cerrar ${styles.cerrar}`}
-          aria-label="Cerrar"
-          popoverTarget={idPopup}
-          popoverTargetAction="hide"
-        >
-          <IconoCerrar />
-        </button>
+        {/* La ✕ y el título, fijos arriba aunque el popup se desplace */}
+        <div className={styles.barra}>
+          <button
+            type="button"
+            className={`kb-popup-cerrar ${styles.cerrar}`}
+            aria-label="Cerrar"
+            popoverTarget={idPopup}
+            popoverTargetAction="hide"
+          >
+            <IconoCerrar />
+          </button>
 
-        <h2 id={`${id}-titulo`} className={`kb-popup-titulo ${styles.titulo}`}>
-          Contáctanos por WhatsApp
-        </h2>
+          <h2 id={`${id}-titulo`} className={`kb-popup-titulo ${styles.titulo}`}>
+            Contáctanos por WhatsApp
+          </h2>
+        </div>
 
         {whatsapp ? (
           <WhatsAppEnviado ref={confirmacion} url={whatsapp} />
@@ -347,10 +350,16 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
               aria-hidden="true"
             />
 
-            <button type="submit" className={`kb-boton-principal kb-popup-enviar ${styles.enviar}`}>
-              <IconoWhatsApp className="kb-popup-enviar-icono" />
-              Ir a WhatsApp
-            </button>
+            {/* Fijo abajo cuando hay que desplazar (teclado abierto, pantallas bajas) */}
+            <div className={`kb-popup-acciones ${styles.acciones}`}>
+              <button
+                type="submit"
+                className={`kb-boton-principal kb-popup-enviar ${styles.enviar}`}
+              >
+                <IconoWhatsApp className="kb-popup-enviar-icono" />
+                Ir a WhatsApp
+              </button>
+            </div>
             <p className={`kb-popup-nota ${styles.nota}`}>
               Al dar clic aceptas recibir comunicaciones de Kanuby.
             </p>

@@ -121,9 +121,15 @@
   outline-offset: calc(-1 * var(--anillo-foco-separacion));
 }
 
-/* La ✕ del popup, del mismo tamaño, en la fila del mensaje */
+/*
+ * La ✕ del popup, del mismo tamaño, en la fila del mensaje. Relativa para
+ * que su área táctil (.kb-popup-cerrar::after) se mida desde ella, y encima
+ * de la punta del globito, que cae justo debajo de ella.
+ */
 .globitoCerrar {
-  position: static;
+  position: relative;
+  inset: auto;
+  z-index: 1;
   flex-shrink: 0;
   width: var(--flotante-cerrar-tamano);
   height: var(--flotante-cerrar-tamano);
@@ -146,7 +152,18 @@
   margin: 0;
   padding: var(--popup-relleno-arriba) var(--popup-relleno) var(--popup-relleno);
   overflow-y: auto;
+  /* Lo que miden la fila de arriba y la del botón: el campo con foco no queda debajo */
+  scroll-padding-block: var(--popup-barra-alto)
+    calc(2 * var(--popup-acciones-relleno) + var(--objetivo-tactil));
   border-radius: var(--radio-tarjeta);
+  /*
+   * Sin velo debajo, el cristal deja ver un poco de la página (el brillo
+   * naranja del hero) y se notaría la orilla de sus filas fijas: el fondo va
+   * del mismo tono, ya opaco.
+   */
+  background: var(--cristal-fondo-fila);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   /* La misma sombra del botón flotante: lo despega de la página oscura */
   box-shadow: var(--sombra-elevada), var(--sombra-resplandor);
   transform-origin: bottom right;
@@ -182,6 +199,28 @@
   --popup-relleno: var(--espacio-3);
   --popup-relleno-arriba: var(--espacio-2);
   --cerrar-separacion: var(--espacio-2);
+  /* Para la fila del botón de enviar (.kb-popup-acciones del patrón) */
+  --popup-relleno-x: var(--popup-relleno);
+  --popup-relleno-abajo: var(--popup-relleno);
+  --popup-acciones-relleno: var(--espacio-1);
+  /* Lo que mide la fila de la ✕ y el título (una línea de título) */
+  --popup-barra-alto: calc(var(--popup-relleno-arriba) + var(--espacio-3) + var(--espacio-1));
+}
+
+/*
+ * La ✕ y el título, fijos arriba del popup mientras el resto se desplaza por
+ * debajo: a todo lo ancho, del tono del cristal, en lugar del relleno de
+ * arriba. El espacio hasta el formulario va fuera de la fila.
+ */
+.barra {
+  position: sticky;
+  /* Lo fijo se mide desde el borde del contenido: el relleno negativo lo lleva a la orilla */
+  top: calc(-1 * var(--popup-relleno-arriba));
+  z-index: 3;
+  margin: calc(-1 * var(--popup-relleno-arriba)) calc(-1 * var(--popup-relleno))
+    calc(var(--espacio-3) - var(--espacio-1));
+  padding: var(--popup-relleno-arriba) var(--popup-relleno) var(--espacio-1);
+  background: var(--cristal-fondo-fila);
 }
 
 .cerrar {
@@ -204,7 +243,6 @@
   justify-content: center;
   align-items: center;
   min-height: var(--flotante-cerrar-tamano);
-  margin-bottom: var(--espacio-3);
   padding-inline: calc(
     var(--cerrar-separacion) + var(--flotante-cerrar-tamano) + var(--espacio-1) -
       var(--popup-relleno)
@@ -364,6 +402,11 @@
   background: var(--color-naranja-oscuro);
 }
 
+/* Su fila no agrega espacio arriba del que ya dejan los demás bloques */
+.acciones {
+  margin-top: calc(-1 * var(--popup-acciones-relleno));
+}
+
 /* La nota va con el botón: más cerca que los demás bloques */
 .nota {
   margin-top: calc(var(--espacio-2) - var(--espacio-3));
@@ -433,13 +476,42 @@
     gap: var(--espacio-2);
   }
 
+  .barra {
+    margin-bottom: calc(var(--espacio-2) - var(--espacio-1));
+  }
+
   .titulo {
-    margin-bottom: var(--espacio-2);
     font-size: var(--texto-16);
   }
 
   .nota {
     margin-top: calc(var(--espacio-1) - var(--espacio-2));
+  }
+}
+
+/*
+ * Pantallas bajas (celular en horizontal, o con el teclado abierto): el popup
+ * usa todo el alto, de un espacio arriba a uno abajo, aunque tape el botón
+ * flotante, y sus filas fijas se compactan. Así la ✕, el campo con foco y el
+ * botón de enviar caben a la vez.
+ */
+@media (max-height: 500px) {
+  .popup {
+    --popup-acciones-relleno: calc(var(--espacio-1) / 2);
+    inset: auto var(--flotante-margen) var(--espacio-1) auto;
+    max-height: calc(100dvh - 2 * var(--espacio-1));
+  }
+}
+
+@media (max-height: 500px) and (min-width: 768px) {
+  .popup {
+    --popup-relleno-arriba: var(--espacio-1);
+  }
+}
+
+@media (max-height: 500px) and (max-width: 767px) {
+  .popup {
+    inset: auto var(--flotante-margen-movil) var(--espacio-1) auto;
   }
 }
 

@@ -121,6 +121,13 @@
    */
   --cristal-fondo: rgb(255 255 255 / 0.94);
   --cristal-fondo-solido: var(--color-blanco);
+  /*
+   * Cómo se ve --cristal-fondo ya pintado sobre el fondo oscuro del sitio o
+   * el velo del modal (medido: 240-243). Para lo que va fijo dentro de un
+   * popup de cristal y tiene que tapar el contenido que pasa por debajo sin
+   * que se note el borde (la fila de la ✕ y la del botón de enviar).
+   */
+  --cristal-fondo-opaco: rgb(240 241 242);
   --color-texto-oscuro: #0f3446;
   --color-texto-oscuro-secundario: #4b5f6b;
   --color-naranja-oscuro: #b23f14;
@@ -270,7 +277,11 @@
   --flotante-margen-movil: var(--espacio-2);
   /* Ancho del popup chico que abre el botón; en móvil ocupa de margen a margen */
   --flotante-popup-ancho: 380px;
-  /* Su botón de cerrar: más chico que el objetivo táctil, sin bajar de 24px */
+  /*
+   * Lo que se ve de su botón de cerrar (y del de su globito): más chico que
+   * el objetivo táctil. El área que recibe el toque sí mide --objetivo-tactil
+   * (.kb-popup-cerrar::after en patrones.css).
+   */
   --flotante-cerrar-tamano: 26px;
   /* Capa del botón y su globito: sobre el contenido y el header */
   --flotante-capa: 100;

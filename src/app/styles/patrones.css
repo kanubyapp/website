@@ -56,6 +56,8 @@
    * navegador lo soporta y no se pidió reducir transparencias.
    */
   .kb-cristal {
+    /* El tono que tienen que llevar las filas fijas dentro del cristal */
+    --cristal-fondo-fila: var(--cristal-fondo-solido);
     border: 1px solid var(--color-blanco);
     background: var(--cristal-fondo-solido);
     color: var(--color-texto-oscuro);
@@ -64,6 +66,7 @@
   @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     @media (prefers-reduced-transparency: no-preference) {
       .kb-cristal {
+        --cristal-fondo-fila: var(--cristal-fondo-opaco);
         background: var(--cristal-fondo);
         -webkit-backdrop-filter: blur(var(--vidrio-desenfoque));
         backdrop-filter: blur(var(--vidrio-desenfoque));
@@ -1941,12 +1944,16 @@
    * Arriba, título y subtítulo; un separador; abajo, el paso activo (las
    * opciones como tarjetas o nombre y teléfono). Todo centrado. El <dialog>
    * es un envoltorio transparente: el clic fuera de .kb-popup-caja lo cierra.
+   *
+   * Alto con dvh: el viewport que se ve de verdad (en Safari de iOS, 100vh
+   * mide la pantalla con las barras del navegador ocultas y el fondo del
+   * popup quedaría debajo de ellas).
    */
 
   .kb-popup {
     width: min(92vw, 640px);
     max-width: 100vw;
-    max-height: 100vh;
+    max-height: 100dvh;
     padding: 0;
     overflow: visible;
     border: 0;
@@ -1967,14 +1974,28 @@
     pointer-events: none;
   }
 
+  /*
+   * La caja hace scroll cuando no cabe. La fila de la ✕ (arriba) y la del
+   * botón de enviar (abajo) se quedan fijas en sus orillas mientras el resto
+   * pasa por debajo; scroll-padding deja libre lo que miden para que el campo
+   * con foco no quede tapado por ellas.
+   */
   .kb-popup-caja {
+    --popup-relleno-arriba: var(--espacio-5);
+    --popup-relleno-abajo: var(--espacio-4);
+    --popup-relleno-x: var(--espacio-4);
+    --popup-barra-arriba: var(--espacio-2);
+    --popup-acciones-relleno: var(--espacio-1);
+    --popup-barra-alto: calc(var(--popup-barra-arriba) + var(--objetivo-tactil));
     display: flex;
     position: relative;
     flex-direction: column;
     gap: var(--espacio-1);
-    max-height: calc(100vh - 2 * var(--espacio-2));
-    padding: var(--espacio-5) var(--espacio-4) var(--espacio-4);
+    max-height: calc(100dvh - 2 * var(--espacio-2));
+    padding: var(--popup-relleno-arriba) var(--popup-relleno-x) var(--popup-relleno-abajo);
     overflow-y: auto;
+    scroll-padding-block: var(--popup-barra-alto)
+      calc(2 * var(--popup-acciones-relleno) + var(--objetivo-tactil) + var(--espacio-2));
     border-radius: var(--radio-tarjeta);
     box-shadow: var(--sombra-elevada);
     text-align: center;
@@ -2000,8 +2021,63 @@
     transition: background-color var(--transicion);
   }
 
+  /*
+   * Área táctil: aunque la ✕ se vea más chica (la del popup del botón
+   * flotante y la de su globito), el toque se recibe en --objetivo-tactil
+   * alrededor de su centro. A la ✕ que ya lo mide no le agrega nada.
+   */
+  .kb-popup-cerrar::after {
+    content: "";
+    position: absolute;
+    inset: min(0px, calc((100% - var(--objetivo-tactil)) / 2));
+  }
+
   .kb-popup-cerrar:hover {
     background: var(--color-naranja-tenue);
+  }
+
+  /*
+   * Fila de la ✕ (popup de cotización): pegada arriba de la caja, a todo lo
+   * ancho y del tono del cristal, en lugar del relleno de arriba. El título
+   * va debajo y ya no tiene que librarla. Lo fijo se mide desde el borde del
+   * contenido de la caja: el relleno negativo lo lleva a la orilla.
+   */
+  .kb-popup-barra {
+    display: flex;
+    position: sticky;
+    top: calc(-1 * var(--popup-relleno-arriba));
+    z-index: 3;
+    justify-content: flex-end;
+    margin: calc(-1 * var(--popup-relleno-arriba)) calc(-1 * var(--popup-relleno-x)) 0;
+    padding: var(--popup-barra-arriba) var(--popup-barra-arriba) 0;
+    background: var(--cristal-fondo-fila);
+  }
+
+  .kb-popup-barra .kb-popup-cerrar {
+    position: relative;
+    top: auto;
+    right: auto;
+  }
+
+  .kb-popup-barra ~ .kb-popup-titulo {
+    padding-inline: 0;
+  }
+
+  /*
+   * Fila del botón de enviar: en su lugar cuando todo cabe y, cuando hay que
+   * desplazar, pegada abajo de la caja; tampoco sube más allá de la fila de
+   * la ✕. Sus márgenes compensan su relleno: sin scroll, el botón queda a la
+   * misma distancia de lo demás. Quien la usa define --popup-barra-alto.
+   */
+  .kb-popup-acciones {
+    position: sticky;
+    top: calc(var(--popup-barra-alto) - var(--popup-relleno-arriba));
+    bottom: calc(-1 * var(--popup-relleno-abajo));
+    z-index: 2;
+    align-self: stretch;
+    margin: 0 calc(-1 * var(--popup-relleno-x)) calc(-1 * var(--popup-acciones-relleno));
+    padding: var(--popup-acciones-relleno) var(--popup-relleno-x);
+    background: var(--cristal-fondo-fila);
   }
 
   .kb-popup-cerrar svg {
@@ -2237,6 +2313,21 @@
     width: 100%;
     margin-top: var(--espacio-1);
     font-size: var(--texto-18);
+  }
+
+  /* En su fila, el relleno de la fila hace de margen */
+  .kb-popup-acciones .kb-popup-enviar {
+    margin-top: 0;
+  }
+
+  /*
+   * Fuera del formulario, en la caja (popup de cotización): la misma
+   * separación que tenían dentro de él (la caja separa menos que el paso).
+   */
+  .kb-popup-caja > .kb-popup-acciones,
+  .kb-popup-acciones ~ .kb-popup-volver,
+  .kb-popup-acciones ~ .kb-popup-nota {
+    margin-top: var(--espacio-1);
   }
 
   .kb-popup-enviar-icono {
@@ -2710,7 +2801,9 @@
     }
 
     .kb-popup-caja {
-      padding: var(--espacio-6) var(--espacio-2) var(--espacio-3);
+      --popup-relleno-arriba: var(--espacio-6);
+      --popup-relleno-abajo: var(--espacio-3);
+      --popup-relleno-x: var(--espacio-2);
       border-radius: var(--radio-tarjeta-movil);
     }
 
@@ -2727,6 +2820,19 @@
       flex-direction: row;
       min-height: var(--objetivo-tactil);
       padding: var(--espacio-2);
+    }
+  }
+
+  /*
+   * Pantallas bajas (celular en horizontal, o con el teclado abierto): la
+   * caja se acerca a las orillas y las filas fijas se compactan, para que la
+   * ✕, el campo con foco y el botón de enviar quepan a la vez.
+   */
+  @media (max-height: 500px) {
+    .kb-popup-caja {
+      --popup-barra-arriba: var(--espacio-1);
+      --popup-acciones-relleno: calc(var(--espacio-1) / 2);
+      max-height: calc(100dvh - 2 * var(--espacio-1));
     }
   }
 }

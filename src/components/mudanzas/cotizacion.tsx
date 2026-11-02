@@ -279,14 +279,12 @@ export function CotizacionProvider({
         aria-labelledby={`${id}-titulo`}
       >
         <div ref={caja} className="kb-cristal kb-popup-caja">
-          <button
-            type="button"
-            className="kb-popup-cerrar"
-            aria-label="Cerrar"
-            onClick={cerrar}
-          >
-            <IconoCerrar />
-          </button>
+          {/* La ✕ en su fila, fija arriba aunque la caja se desplace */}
+          <div className="kb-popup-barra">
+            <button type="button" className="kb-popup-cerrar" aria-label="Cerrar" onClick={cerrar}>
+              <IconoCerrar />
+            </button>
+          </div>
 
           <Titulo cabecera={cabecera} id={`${id}-titulo`} />
           <p className="kb-popup-subtitulo">{LINEA_DE_APOYO}</p>
@@ -359,78 +357,92 @@ export function CotizacionProvider({
               <WhatsAppEnviado ref={confirmacion} url={whatsapp} />
             </div>
           ) : (
-            <form className="kb-popup-paso" noValidate onSubmit={enviar}>
-              <div className="kb-popup-encabezado">
-                <p className="kb-popup-pregunta">Ingresa tus datos</p>
-              </div>
+            <>
+              <form id={`${id}-formulario`} className="kb-popup-paso" noValidate onSubmit={enviar}>
+                <div className="kb-popup-encabezado">
+                  <p className="kb-popup-pregunta">Ingresa tus datos</p>
+                </div>
 
-              <div className="kb-campo">
-                <label htmlFor={`${id}-nombre`} className="kb-campo-etiqueta">
-                  Nombre
-                </label>
+                <div className="kb-campo">
+                  <label htmlFor={`${id}-nombre`} className="kb-campo-etiqueta">
+                    Nombre
+                  </label>
+                  <input
+                    {...propsCampo("nombre")}
+                    ref={entradaPaso}
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Tu nombre"
+                    required
+                    className="kb-campo-texto"
+                    value={nombre}
+                    onChange={(evento) => {
+                      setNombre(evento.target.value);
+                      if (errores.nombre)
+                        setErrores((previos) => ({ ...previos, nombre: undefined }));
+                    }}
+                  />
+                  {mensajeError("nombre")}
+                </div>
+
+                <div className="kb-campo">
+                  <label htmlFor={`${id}-telefono`} className="kb-campo-etiqueta">
+                    Teléfono
+                  </label>
+                  <input
+                    {...propsCampo("telefono")}
+                    type="tel"
+                    autoComplete="tel"
+                    placeholder="81 0000 0000"
+                    required
+                    className="kb-campo-texto"
+                    value={telefono}
+                    onChange={(evento) => {
+                      setTelefono(evento.target.value);
+                      if (errores.telefono)
+                        setErrores((previos) => ({ ...previos, telefono: undefined }));
+                    }}
+                  />
+                  {mensajeError("telefono")}
+                </div>
+
+                {/*
+                  Campo trampa contra bots: oculto para las personas y fuera del
+                  orden de tabulación. Si llega lleno, no sale el correo de aviso.
+                */}
                 <input
-                  {...propsCampo("nombre")}
-                  ref={entradaPaso}
+                  ref={trampa}
                   type="text"
-                  autoComplete="name"
-                  placeholder="Tu nombre"
-                  required
-                  className="kb-campo-texto"
-                  value={nombre}
-                  onChange={(evento) => {
-                    setNombre(evento.target.value);
-                    if (errores.nombre) setErrores((previos) => ({ ...previos, nombre: undefined }));
-                  }}
+                  name="sitio"
+                  className="kb-popup-trampa"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
                 />
-                {mensajeError("nombre")}
-              </div>
-
-              <div className="kb-campo">
-                <label htmlFor={`${id}-telefono`} className="kb-campo-etiqueta">
-                  Teléfono
-                </label>
-                <input
-                  {...propsCampo("telefono")}
-                  type="tel"
-                  autoComplete="tel"
-                  placeholder="81 0000 0000"
-                  required
-                  className="kb-campo-texto"
-                  value={telefono}
-                  onChange={(evento) => {
-                    setTelefono(evento.target.value);
-                    if (errores.telefono)
-                      setErrores((previos) => ({ ...previos, telefono: undefined }));
-                  }}
-                />
-                {mensajeError("telefono")}
-              </div>
+              </form>
 
               {/*
-                Campo trampa contra bots: oculto para las personas y fuera del
-                orden de tabulación. Si llega lleno, no sale el correo de aviso.
+                El botón va fuera del <form> (lo envía con form=) para que su
+                fila se pueda fijar abajo en cualquier punto del scroll de la
+                caja: dentro del formulario no podría subir de su inicio.
               */}
-              <input
-                ref={trampa}
-                type="text"
-                name="sitio"
-                className="kb-popup-trampa"
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-              />
-
-              <button type="submit" className="kb-boton-principal kb-popup-enviar">
-                <IconoWhatsApp className="kb-popup-enviar-icono" />
-                Ir a WhatsApp
-              </button>
+              <div className="kb-popup-acciones">
+                <button
+                  type="submit"
+                  form={`${id}-formulario`}
+                  className="kb-boton-principal kb-popup-enviar"
+                >
+                  <IconoWhatsApp className="kb-popup-enviar-icono" />
+                  Ir a WhatsApp
+                </button>
+              </div>
               {flujo.tipo && (
                 <Volver eleccion={flujo.tipo} alVolver={() => despachar({ tipo: "volver" })} />
               )}
               <p className="kb-popup-nota">
                 Se abre WhatsApp con tus datos ya escritos. Solo tienes que enviar el mensaje.
               </p>
-            </form>
+            </>
           )}
         </div>
       </dialog>
