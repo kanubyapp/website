@@ -1540,10 +1540,11 @@
     border: var(--borde-acento);
   }
 
+  /* Avatar y datos más juntos: la fecha (14px) necesita el ancho al lado */
   .kb-testimonio-autor {
     display: flex;
     align-items: center;
-    gap: var(--espacio-2);
+    gap: var(--espacio-1);
   }
 
   .kb-testimonio-avatar {

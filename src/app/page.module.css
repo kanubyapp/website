@@ -128,17 +128,34 @@
   gap: var(--espacio-2);
 }
 
+/* Cada celda estira su tarjeta: las tres de una fila, igual de altas */
+.negocios > li {
+  display: flex;
+}
+
+/*
+ * La proporción es la altura mínima: si el contenido no cabe (datos apilados,
+ * pantallas angostas), la tarjeta crece en vez de recortarlo. Para eso no
+ * lleva altura fija y la de negocio recorta con clip (ver .negocio).
+ */
 .valor,
 .negocio {
   display: flex;
   position: relative;
+  flex: 1;
   flex-direction: column;
   justify-content: flex-end;
-  height: 100%;
+  min-width: 0;
   aspect-ratio: 3 / 4;
 }
 
+/*
+ * clip en vez del hidden de kb-tarjeta: recorta igual (la foto a las esquinas
+ * redondeadas), pero no la vuelve contenedor de scroll, que es lo que no deja
+ * crecer a una caja con proporción.
+ */
 .negocio {
+  overflow: clip;
   transition:
     border-color var(--transicion),
     box-shadow var(--transicion);
@@ -191,6 +208,7 @@
   display: flex;
   position: relative;
   z-index: 1;
+  container-type: inline-size;
   flex-direction: column;
   gap: var(--espacio-2);
   padding: var(--espacio-3);
@@ -233,6 +251,33 @@
   border-left: var(--borde-luz-fuerte);
 }
 
+/*
+ * Si no caben en fila, apilados: cada dato en su renglón, con el ícono a la
+ * izquierda del texto y una línea fina entre ellos. Se decide por el ancho
+ * de la tarjeta (consulta de contenedor), no de la pantalla: en tablet y en
+ * escritorio chico van dos tarjetas al lado del valor y quedan angostas. En
+ * fila, cada columna necesita la palabra más larga ("Empresas", 61.6px a
+ * 14px), su línea (1px) y al menos 5px libres a cada lado, la mitad del
+ * relleno, para que el texto no toque la línea: 72.6px, 217.8px las tres.
+ * El corte va en 220px.
+ */
+@container (max-width: 219.98px) {
+  .datos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dato {
+    flex-direction: row;
+    justify-content: center;
+    padding: var(--espacio-1) 0;
+  }
+
+  .dato + .dato {
+    border-top: var(--borde-luz-fuerte);
+    border-left: 0;
+  }
+}
+
 .datoIcono {
   width: 22px;
   height: 22px;
@@ -249,6 +294,18 @@
   justify-content: center;
   padding: var(--relleno-pildora);
   font-size: var(--texto-14);
+}
+
+/*
+ * Si los dos botones no caben lado a lado, uno debajo del otro antes que
+ * aplastarlos. Se reparten el ancho por igual (flex: 1), así que cada mitad
+ * necesita el ancho natural del más ancho ("Contactar", 98px): con los 10px
+ * entre ellos, 205.9px. El corte va en 208px.
+ */
+@container (max-width: 207.98px) {
+  .negocioBotones {
+    flex-direction: column;
+  }
 }
 
 .contactar :global(.kb-boton-cotizar-icono) {
@@ -416,6 +473,36 @@
   min-width: 0;
 }
 
+/*
+ * Tablet y escritorio chico: dos columnas, el valor arriba a todo lo ancho y
+ * las dos de negocio debajo. Con tres, la tarjeta de negocio no llega al
+ * ancho de sus dos botones en línea (208px sin el relleno) hasta los 1158px;
+ * con dos, de 768 a 1157px nunca baja de 209px. El título más largo
+ * ("Minibodegas", 178.6px) cabe en los dos casos.
+ */
+@media (min-width: 768px) and (max-width: 1157px) {
+  .negocios {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .negocios > li:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .valor {
+    aspect-ratio: auto;
+  }
+
+  /*
+   * A todo lo ancho, el texto se limita a unos 60 caracteres por renglón
+   * (como en preguntas frecuentes): 42ch con esta fuente quedan de 54 a 59,
+   * sin un renglón corto al final.
+   */
+  .valorTexto {
+    max-width: 42ch;
+  }
+}
+
 @media (max-width: 1024px) {
   .heroTitulo {
     font-size: var(--texto-60);
@@ -460,9 +547,16 @@
     border-radius: var(--radio-tarjeta-movil);
   }
 
-  /* Apiladas; la del valor toma la altura de su texto */
+  /*
+   * Apiladas; la del valor toma la altura de su texto. minmax(0, 1fr): con 1fr
+   * la columna crecería al ancho mínimo de una tarjeta con proporción, que
+   * sale de la altura de su contenido, y se saldría de la pantalla.
+   */
   .negocios {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    /* La del valor a su altura; las dos de negocio, igual de altas entre sí */
+    grid-template-rows: auto;
+    grid-auto-rows: 1fr;
     gap: var(--espacio-2);
   }
 

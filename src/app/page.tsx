@@ -63,7 +63,7 @@ const negocios = [
     datos: [
       { texto: "Local", Icono: IconoCasa },
       { texto: "A CDMX", Icono: IconoRuta },
-      { texto: "Empresarial", Icono: IconoEdificio },
+      { texto: "Empresas", Icono: IconoEdificio },
     ],
   },
   {

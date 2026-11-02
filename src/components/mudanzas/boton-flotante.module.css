@@ -397,10 +397,13 @@
   margin-top: calc(-1 * var(--popup-acciones-relleno));
 }
 
-/* La nota va con el botón: más cerca que los demás bloques */
+/*
+ * La nota va con el botón: más cerca que los demás bloques. Es el aviso de
+ * consentimiento: con el mínimo legible del sitio, no en letra chica.
+ */
 .nota {
   margin-top: calc(var(--espacio-2) - var(--espacio-3));
-  font-size: var(--texto-12);
+  font-size: var(--texto-14);
   line-height: var(--interlineado-encabezado);
   text-align: center;
 }
