@@ -57,6 +57,12 @@ Faltas de ortografía ("Llama Ahora", "nos responsabilizamos", "tú", el espacio
   - EMAIL_TO: los destinatarios principales, separados por comas (cotizaciones, proveedores y contacto general).
   - EMAIL_CC: los destinatarios en copia, separados por comas (solo cotizaciones).
   - El remitente no es variable: es Kanuby <notificaciones@kanuby.com>, fijo en src/lib/contacto.ts (kanuby.com está verificado en Resend). Si un envío falla, queda en los registros de Vercel como "[correo] No se envió el aviso…", con la respuesta de Resend, los destinatarios y la página del lead.
+  - Las tres se leen solo en el servidor, en src/lib/correo.ts.
+- [x] Variables del CRM de SCNDAL Studio: ya creadas en Vercel. Además del correo, cada lead que pasa la validación y no parece bot se manda al CRM (POST a https://api.scndal.com/leads/kanuby). El CRM tiene una fuente por formulario y el secreto es lo que dice de cuál viene el lead:
+  - CRM_SECRET_COTIZACION: el secreto de la fuente del popup de cotización (el aviso llega sin la llave formulario).
+  - CRM_SECRET_FLOTANTE: el secreto de la fuente del popup del botón flotante (el aviso llega con formulario "flotante").
+  - Se leen solo en el servidor, en src/lib/crm.ts, y van en el encabezado Authorization: Bearer. Sus valores viven solo en Vercel: nunca en el repo ni con prefijo NEXT_PUBLIC_. Si falta la del formulario que toca, ese lead no va al CRM y queda en los registros de Vercel como "[crm] No se envió el lead (…): falta …"; el correo sale igual.
+  - El correo de Resend es la red de seguridad del CRM. Si el envío al CRM falla (el CRM responde con error, no se le puede contactar o no contesta en 10 segundos), no hay reintento: queda la línea "[crm] No se envió el lead…" en los registros y el lead se recupera a mano desde el correo, que lleva todos los datos. Por eso el correo no se apaga aunque el CRM funcione.
 - [ ] Antes de publicar: que www.kanuby.com redirija a kanuby.com en Vercel. Si sirviera el sitio directo, sus páginas responderían con noindex (solo kanuby.com se indexa).
 - [ ] Antes de publicar: crear la variable NEXT_PUBLIC_GTM_ID en Vercel con el ID del contenedor de GTM (GTM-XXXXXXX) el día en que kanuby.com apunte al sitio nuevo. Sin ella el sitio no carga GTM y los eventos de conversión no llegan a ningún contenedor.
 - [ ] Antes de publicar: inventariar las redirecciones 301 que tenga configuradas WordPress (por ejemplo /checklist-para-mudarte-en-monterrey-sin-complicaciones/ → /checklist-mudanza-monterrey/) para replicarlas en el sitio nuevo.

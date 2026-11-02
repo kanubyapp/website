@@ -1762,14 +1762,15 @@
    * (components/seccion-preguntas.tsx, en minibodegas y mudanzas Monterrey):
    * columna fija a la izquierda (etiqueta, título, texto descriptivo y una
    * tarjeta clara con la frase, el ícono y el botón) y, a la derecha, el
-   * acordeón con cada pregunta en su propia tarjeta. El triple del margen
-   * lateral del sitio, para que no quede pegada a las orillas (en celular, el
-   * normal). Va después del acordeón porque ajusta sus reglas.
+   * acordeón con cada pregunta en su propia tarjeta (en celular y tablet, una
+   * columna). En celular y tablet, el margen lateral normal del sitio, como
+   * las demás secciones; en escritorio, el triple, para que no quede pegada a
+   * las orillas. Va después del acordeón porque ajusta sus reglas.
    */
   .kb-faq {
     display: flex;
     gap: var(--espacio-5);
-    padding: 0 calc(var(--relleno-seccion) * 3) var(--espacio-seccion);
+    padding: 0 var(--relleno-seccion) var(--espacio-seccion);
   }
 
   .kb-faq-columna {
@@ -1803,7 +1804,16 @@
   }
 
   /* Debajo del título, en el texto secundario del sistema */
+  /*
+   * Límite propio, no --medida-texto: un ch es el ancho del "0", más ancho que
+   * la letra promedio de esta fuente, y con 62ch el renglón llegaba a unos 88
+   * caracteres. Con 45ch, en una columna (hasta 1024px) quedan dos renglones
+   * de unos 60, sin uno corto al final, centrados sobre la tarjeta (el
+   * contenedor centra a sus hijos). En dos columnas la columna es más angosta
+   * y no cambia nada.
+   */
   .kb-faq-descripcion {
+    max-width: 45ch;
     color: var(--color-texto-secundario);
     font-family: var(--fuente-texto);
     font-size: var(--texto-18);
@@ -1914,6 +1924,22 @@
     }
   }
 
+  /*
+   * Escritorio: el margen pasa del normal (4%) al triple (12%) poco a poco,
+   * entre 1025 y 1280px (44% - 410px vale 4% a 1025px y llega al 12% a los
+   * 1281px). De golpe, el acordeón se encogería al cruzar el corte; así crece
+   * siempre al ensanchar la pantalla. Desde 1280px, el triple de siempre.
+   */
+  @media (min-width: 1025px) {
+    .kb-faq {
+      padding-inline: clamp(
+        var(--relleno-seccion),
+        calc(44% - 410px),
+        calc(var(--relleno-seccion) * 3)
+      );
+    }
+  }
+
   /* Contenedor fijo al hacer scroll, solo en escritorio */
   @media (min-width: 1025px) {
     .kb-faq-fijo {
@@ -1923,30 +1949,15 @@
   }
 
   /*
-   * Tablet: con el triple de margen, la columna izquierda al 30% no da para
-   * la tarjeta con su botón. 40/60 y la tarjeta con menos relleno.
+   * Celular y tablet: una columna, centrada, con el margen normal del sitio.
+   * Arriba la columna (título, texto y tarjeta) y debajo el acordeón, los dos
+   * a todo el ancho; en dos columnas, el acordeón de tablet quedaría más
+   * angosto que el de un celular. La tarjeta, con menos relleno.
    */
   @media (max-width: 1024px) {
-    .kb-faq-columna {
-      width: 40%;
-    }
-
-    .kb-faq-preguntas {
-      width: 60%;
-    }
-
-    .kb-faq-tarjeta {
-      padding: var(--espacio-2);
-    }
-  }
-
-  /* Celular: una columna, centrada, con el margen normal del sitio */
-  @media (max-width: 767px) {
     .kb-faq {
       flex-direction: column;
       gap: var(--espacio-4);
-      padding-inline: var(--relleno-seccion);
-      padding-bottom: var(--espacio-seccion-movil);
     }
 
     .kb-faq-columna,
@@ -1959,8 +1970,8 @@
       text-align: center;
     }
 
-    .kb-faq-titulo {
-      font-size: var(--texto-36);
+    .kb-faq-tarjeta {
+      padding: var(--espacio-2);
     }
 
     .kb-faq-tarjeta .kb-boton-cotizar {
@@ -1971,6 +1982,17 @@
     .kb-faq-apoyo {
       justify-content: center;
       text-align: left;
+    }
+  }
+
+  /* Celular: el título más chico y menos espacio al final de la sección */
+  @media (max-width: 767px) {
+    .kb-faq {
+      padding-bottom: var(--espacio-seccion-movil);
+    }
+
+    .kb-faq-titulo {
+      font-size: var(--texto-36);
     }
   }
 

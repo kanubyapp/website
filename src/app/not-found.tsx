@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <main className={`kb-resplandor ${styles.pagina}`}>
-      <Link href="/" className={styles.logo}>
+      <Link href="/" className={`kb-area-tactil ${styles.logo}`}>
         <Image
           src="/images/kanuby-white.svg"
           alt="Kanuby, ir al inicio"
