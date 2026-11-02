@@ -169,14 +169,14 @@ export default function Home() {
                         <div className={styles.negocioBotones}>
                           <Link
                             href={negocio.href}
-                            className={`kb-vidrio kb-boton-secundario ${styles.negocioBoton}`}
+                            className={`kb-vidrio kb-boton-secundario kb-area-tactil ${styles.negocioBoton}`}
                             aria-label={`Ver más de ${negocio.titulo}`}
                           >
                             Ver más
                           </Link>
                           <BotonCotizar
                             texto="Contactar"
-                            className={`kb-boton-principal ${styles.negocioBoton} ${styles.contactar}`}
+                            className={`kb-boton-principal kb-area-tactil ${styles.negocioBoton} ${styles.contactar}`}
                           />
                         </div>
                       </div>

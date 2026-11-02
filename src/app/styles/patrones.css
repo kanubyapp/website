@@ -145,6 +145,32 @@
     outline-offset: var(--anillo-foco-separacion);
   }
 
+  /*
+   * Área táctil mínima: un control que se ve más chico que --objetivo-tactil
+   * recibe el toque en un área invisible de ese tamaño alrededor de su centro,
+   * sin cambiar cómo se ve. Solo crece en el eje que le falta: a lo que ya lo
+   * mide no le agrega nada. Si el control recorta su contenido (overflow), el
+   * área también se recorta: el botón de cotizar deja de recortar con ella, y
+   * con min-width: 0 se sigue encogiendo en una fila igual que cuando recortaba.
+   * Va en controles con espacio libre alrededor: donde las áreas de dos
+   * controles se encimarían, se separan de verdad (los menús del footer).
+   */
+  .kb-area-tactil {
+    position: relative;
+  }
+
+  .kb-area-tactil::after,
+  .kb-popup-cerrar::after {
+    content: "";
+    position: absolute;
+    inset: min(0px, calc((100% - var(--objetivo-tactil)) / 2));
+  }
+
+  .kb-boton-cotizar.kb-area-tactil {
+    min-width: 0;
+    overflow: visible;
+  }
+
   /* Etiqueta tipo píldora */
   .kb-pildora {
     display: inline-flex;
@@ -746,6 +772,15 @@
     flex-shrink: 0;
     width: 140px;
     transition: width var(--transicion);
+  }
+
+  /*
+   * Anillo de foco del sistema, como el logo del footer: el del navegador
+   * (outline auto) rodearía también su área táctil invisible (kb-area-tactil).
+   */
+  .kb-header-logo:focus-visible {
+    outline: var(--anillo-foco);
+    outline-offset: var(--anillo-foco-separacion);
   }
 
   /*
@@ -2024,13 +2059,8 @@
   /*
    * Área táctil: aunque la ✕ se vea más chica (la del popup del botón
    * flotante y la de su globito), el toque se recibe en --objetivo-tactil
-   * alrededor de su centro. A la ✕ que ya lo mide no le agrega nada.
+   * alrededor de su centro (.kb-area-tactil, arriba).
    */
-  .kb-popup-cerrar::after {
-    content: "";
-    position: absolute;
-    inset: min(0px, calc((100% - var(--objetivo-tactil)) / 2));
-  }
 
   .kb-popup-cerrar:hover {
     background: var(--color-naranja-tenue);

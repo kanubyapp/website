@@ -76,7 +76,7 @@ export function HeaderHome() {
   return (
     <header ref={elementoHeader} className={styles.header}>
       <div ref={barra} className={`kb-vidrio kb-cristal-liquido ${styles.barra}`}>
-        <Link href="/" className={styles.logo}>
+        <Link href="/" className={`kb-area-tactil ${styles.logo}`}>
           <Image
             src="/images/kanuby-orange.svg"
             alt="Kanuby, ir al inicio"

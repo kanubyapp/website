@@ -43,7 +43,7 @@ export function SiteFooter() {
       <div className={`kb-tarjeta ${styles.tarjeta}`}>
         <div className={styles.principal}>
           <div className={styles.marca}>
-            <Link href="/" className={styles.logo}>
+            <Link href="/" className={`kb-area-tactil ${styles.logo}`}>
               <Image
                 src="/images/kanuby-white.svg"
                 alt="Kanuby, ir al inicio"
@@ -70,11 +70,11 @@ export function SiteFooter() {
                 {menu.enlaces.map((enlace) => (
                   <li key={enlace.href}>
                     {enlace.href.startsWith("http") ? (
-                      <a href={enlace.href} className={styles.menuEnlace}>
+                      <a href={enlace.href} className={`kb-area-tactil ${styles.menuEnlace}`}>
                         {enlace.texto}
                       </a>
                     ) : (
-                      <Link href={enlace.href} className={styles.menuEnlace}>
+                      <Link href={enlace.href} className={`kb-area-tactil ${styles.menuEnlace}`}>
                         {enlace.texto}
                       </Link>
                     )}
@@ -86,7 +86,10 @@ export function SiteFooter() {
 
           <div className={styles.menu}>
             <p className={styles.menuTitulo}>Contacto</p>
-            <a href={TELEFONO_ENLACE} className={`${styles.menuEnlace} ${styles.telefono}`}>
+            <a
+              href={TELEFONO_ENLACE}
+              className={`kb-area-tactil ${styles.menuEnlace} ${styles.telefono}`}
+            >
               <IconoTelefonoLinea className={styles.telefonoIcono} />
               {TELEFONO_VISIBLE}
             </a>
@@ -98,7 +101,7 @@ export function SiteFooter() {
             href="https://scndal.com"
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.webtag}
+            className={`kb-area-tactil ${styles.webtag}`}
           >
             <Image
               src="/images/website-tag-editable-blanco.svg"

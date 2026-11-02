@@ -59,14 +59,23 @@
   text-transform: uppercase;
 }
 
+/*
+ * Enlaces apilados sin separación: cada uno ya mide --objetivo-tactil de alto
+ * (con el texto al centro), así que sus áreas táctiles quedan una tras otra
+ * sin encimarse. Lo que les falta de ancho (Inicio, Blog) lo pone el área
+ * invisible de kb-area-tactil, que a los lados no tiene otro enlace.
+ */
 .menuLista {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-1);
 }
 
 /* Naranja claro al pasar: el de marca no cumple AA a este tamaño sobre la superficie */
 .menuEnlace {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--objetivo-tactil);
+  vertical-align: top;
   color: var(--color-texto-secundario);
   font-family: var(--fuente-texto);
   font-size: var(--texto-16);

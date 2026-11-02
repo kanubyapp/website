@@ -57,7 +57,7 @@ export function SeccionPreguntas({
               <IconoDuda className="kb-faq-icono" />
               <p className="kb-faq-frase">Lo tenemos cubierto…</p>
             </div>
-            <BotonCotizar texto={textoBoton} className="kb-boton-principal" />
+            <BotonCotizar texto={textoBoton} className="kb-boton-principal kb-area-tactil" />
           </div>
         </div>
       </div>

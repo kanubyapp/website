@@ -88,7 +88,7 @@ export function CarruselNoticias({
               <h3 className={styles.titulo}>
                 <Link href={`/${post.slug}/`}>{post.titulo}</Link>
               </h3>
-              <Link href={`/${post.slug}/`} className={styles.leerMas}>
+              <Link href={`/${post.slug}/`} className={`kb-area-tactil ${styles.leerMas}`}>
                 Leer más
               </Link>
             </div>

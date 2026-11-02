@@ -98,7 +98,7 @@ export function HeaderBlog({ servicio }: { servicio: Negocio | null }) {
     <CotizacionProvider tipo={servicio ?? "eleccion"}>
       <header ref={elementoHeader} className={styles.header}>
         <div ref={barra} className={`kb-vidrio kb-cristal-liquido ${styles.headerBarra}`}>
-          <Link href="/" className={styles.headerLogo}>
+          <Link href="/" className={`kb-area-tactil ${styles.headerLogo}`}>
             <Image
               src="/images/kanuby-orange.svg"
               alt="Kanuby, ir al inicio"

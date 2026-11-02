@@ -59,6 +59,15 @@
   width: 100%;
 }
 
+/*
+ * Anillo de foco del sistema, como el logo del footer: el del navegador
+ * (outline auto) rodearía también su área táctil invisible (kb-area-tactil).
+ */
+.logo:focus-visible {
+  outline: var(--anillo-foco);
+  outline-offset: var(--anillo-foco-separacion);
+}
+
 .lista {
   display: flex;
   gap: var(--espacio-1);

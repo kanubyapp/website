@@ -62,7 +62,7 @@ export function HeaderMudanzas({
       className={`kb-header kb-header-una-fila kb-header-menu-tablet kb-header-enlaces-${enlaces.length} ${className}`}
     >
       <div ref={barra} className="kb-vidrio kb-cristal-liquido kb-header-barra">
-        <Link href="/" className="kb-header-logo">
+        <Link href="/" className="kb-header-logo kb-area-tactil">
           <Image
             src="/images/kanuby-orange.svg"
             alt="Kanuby, ir al inicio"

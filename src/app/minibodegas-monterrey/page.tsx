@@ -88,7 +88,7 @@ export default function Minibodegas() {
           <div className={styles.heroBotones}>
             <BotonCotizar
               texto="Cotizar Mi bodega"
-              className={`kb-boton-principal ${styles.botonPrincipal}`}
+              className={`kb-boton-principal kb-area-tactil ${styles.botonPrincipal}`}
             />
             <a href="#tamanos" className={`kb-boton-secundario ${styles.ocultoMovil}`}>
               Ver Tamaños y Precios
@@ -138,7 +138,7 @@ export default function Minibodegas() {
                   <BotonCotizar
                     texto="Cotizar Ahora"
                     opcion={tamanoDeSuperficie(tamano.superficie) ?? undefined}
-                    className={`kb-boton-principal ${styles.tamanoBoton}`}
+                    className={`kb-boton-principal kb-area-tactil ${styles.tamanoBoton}`}
                   />
                 </div>
               ))}
@@ -173,7 +173,7 @@ export default function Minibodegas() {
               <div className={styles.porqueBotones}>
                 <BotonCotizar
                   texto="Cotizar Espacio"
-                  className={`kb-boton-principal ${styles.botonPrincipal}`}
+                  className={`kb-boton-principal kb-area-tactil ${styles.botonPrincipal}`}
                 />
                 <a href="#tamanos" className="kb-boton-secundario">
                   Ver Tamaños
@@ -200,7 +200,7 @@ export default function Minibodegas() {
               href={perfilGoogle}
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.botonEnlace}
+              className={`kb-area-tactil ${styles.botonEnlace}`}
             >
               Ver todas las reseñas en Google
             </a>
