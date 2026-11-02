@@ -2,10 +2,14 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { estaArriba, siguienteFase } from "./globito-flotante.ts";
 
-test("el globito aparece y se queda: solo lo quitan cerrarlo o el popup", () => {
+test("el globito aparece y se queda: ningún evento de tiempo lo retira", () => {
   assert.equal(siguienteFase("esperando", "aparece"), "visible");
-  // Visible, ningún evento de tiempo lo retira
   assert.equal(siguienteFase("visible", "aparece"), "visible");
+});
+
+test("bajar por la página lo termina, esté visible o todavía esperando", () => {
+  assert.equal(siguienteFase("visible", "baja"), "terminado");
+  assert.equal(siguienteFase("esperando", "baja"), "terminado");
 });
 
 test("si la persona ya bajó cuando se cumple el tiempo, no sale", () => {
@@ -31,7 +35,7 @@ test("abrir el popup lo termina, esté visible o todavía esperando", () => {
 });
 
 test("terminado es final: ningún evento lo vuelve a mostrar", () => {
-  for (const evento of ["aparece", "cerrar", "popup"] as const) {
+  for (const evento of ["aparece", "cerrar", "popup", "baja"] as const) {
     assert.equal(siguienteFase("terminado", evento), "terminado");
   }
 });

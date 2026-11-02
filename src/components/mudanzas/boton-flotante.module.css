@@ -42,8 +42,9 @@
 /*
  * Globito "Contáctanos": mensaje entrante de chat, blanco con texto oscuro,
  * encima del botón y alineado a su derecha, con la punta hacia el centro del
- * botón. Fijo: no empuja nada. Entra desde el botón (transform-origin) y,
- * fuera de su fase visible, queda oculto (visibility): sin foco ni clics.
+ * botón. Fijo: no empuja nada. Entra desde el botón (transform-origin) y
+ * sale de vuelta hacia él con la misma transición. Fuera de su fase visible
+ * queda oculto (visibility): sin foco ni clics, tampoco mientras se desvanece.
  */
 .globito {
   --punta: var(--espacio-1);
@@ -61,6 +62,7 @@
   box-shadow: var(--sombra-elevada);
   visibility: hidden;
   opacity: 0;
+  pointer-events: none;
   transform: translateY(var(--espacio-1)) scale(0.9);
   transform-origin: bottom right;
   transition:
@@ -69,22 +71,10 @@
     visibility var(--transicion);
 }
 
-/*
- * Fuera de lo alto de la página el globito se sigue viendo pero no bloquea:
- * los clics y toques pasan a lo que tenga debajo (enlaces, botones). Su ✕
- * sigue recibiéndolos para poder cerrarlo.
- */
-.globitoAtravesable {
-  pointer-events: none;
-}
-
-.globitoAtravesable .globitoCerrar {
-  pointer-events: auto;
-}
-
 .globitoVisible {
   visibility: visible;
   opacity: 1;
+  pointer-events: auto;
   transform: none;
 }
 

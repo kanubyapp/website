@@ -1,14 +1,12 @@
 /*
  * Globito "Contáctanos" junto al botón flotante de WhatsApp. Sale solo unos
  * segundos después de llegar a la página y se queda mientras la persona siga
- * en ella: solo lo quitan su ✕ o abrir el popup. Sale en cada carga de página, sin recordar
- * nada de cargas anteriores. Si en esa carga el popup del botón se abre, el
- * globito ya no hace falta: se termina.
+ * arriba de ella, donde no tapa nada con lo que se pueda interactuar. Lo
+ * quitan su ✕, abrir el popup o empezar a bajar por la página: al navegar
+ * taparía botones. Sale en cada carga de página, sin recordar nada de cargas
+ * anteriores, y en esa carga, una vez que se fue, ya no vuelve.
  *
- * Solo sale si al cumplirse el tiempo la persona sigue arriba de la página:
- * ahí no tapa nada con lo que se pueda interactuar. Si ya bajó, se da por
- * perdido en esa carga, como si lo hubieran cerrado. Una vez que salió,
- * desplazar la página no lo retira.
+ * Si la persona baja antes de que se cumpla el tiempo, tampoco sale.
  */
 
 /** Desde que se llega a la página hasta que aparece */
@@ -31,7 +29,9 @@ export type EventoGlobito =
   /** La persona lo cerró con su ✕ */
   | "cerrar"
   /** Se abrió el popup del botón (desde el botón o desde el globito) */
-  | "popup";
+  | "popup"
+  /** La persona dejó lo alto de la página (estaArriba ya no se cumple) */
+  | "baja";
 
 /**
  * La fase que sigue. "aparece" solo muestra el globito si la persona sigue
@@ -49,6 +49,7 @@ export function siguienteFase(
       return arriba ? "visible" : "terminado";
     case "cerrar":
     case "popup":
+    case "baja":
       return "terminado";
   }
 }

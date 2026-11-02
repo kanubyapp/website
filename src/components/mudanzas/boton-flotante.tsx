@@ -33,7 +33,7 @@ import styles from "./boton-flotante.module.css";
  *
  * Para que se note: el botón pulsa de vez en cuando (solo CSS) y, unos
  * segundos después de llegar, sale un globito "Contáctanos" que abre el
- * mismo popup si la persona sigue arriba de la página
+ * mismo popup mientras la persona sigue arriba de la página; al bajar se va
  * (lib/globito-flotante.ts). Ninguno de los dos toma el foco.
  */
 
@@ -96,15 +96,16 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
   }, []);
 
   /*
-   * Ya visible, se queda aunque la persona baje; fuera de lo alto de la
-   * página deja pasar los clics a lo que tenga debajo (salvo su ✕). Sale
-   * siempre estando arriba, así que empieza en true.
+   * Al dejar lo alto de la página se va, con transición, y ya no vuelve; si
+   * todavía no salía, ya no sale. Terminado, deja de escuchar.
    */
-  const [globitoArriba, setGlobitoArriba] = useState(true);
-
   useEffect(() => {
-    if (fase !== "visible") return;
-    const alDesplazar = () => setGlobitoArriba(estaArriba(window.scrollY));
+    if (fase === "terminado") return;
+    const alDesplazar = () => {
+      if (estaArriba(window.scrollY)) return;
+      detenerGlobito();
+      setFase((actual) => siguienteFase(actual, "baja"));
+    };
     window.addEventListener("scroll", alDesplazar, { passive: true });
     return () => window.removeEventListener("scroll", alDesplazar);
   }, [fase]);
@@ -204,15 +205,7 @@ export function BotonFlotante({ pagina, className }: { pagina: PaginaFlotante; c
         Globito: siempre en el HTML, oculto (sin foco ni lector de pantalla)
         salvo en su fase visible, para que entre y salga con transición.
       */}
-      <div
-        className={[
-          styles.globito,
-          fase === "visible" && styles.globitoVisible,
-          fase === "visible" && !globitoArriba && styles.globitoAtravesable,
-        ]
-          .filter(Boolean)
-          .join(" ")}
-      >
+      <div className={`${styles.globito} ${fase === "visible" ? styles.globitoVisible : ""}`}>
         <button type="button" className={styles.globitoMensaje} popoverTarget={idPopup}>
           Contáctanos
         </button>
