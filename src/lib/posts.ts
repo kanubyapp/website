@@ -1552,7 +1552,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable",
     "titulo": "Mudanzas en Monterrey: cómo elegir un servicio profesional y confiable",
     "fecha": "2025-05-13T23:34:55+00:00",
-    "modificado": "2026-11-02T22:05:20-06:00",
+    "modificado": "2026-11-02T22:19:11-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -1594,44 +1594,56 @@ const publicados: PostPublicado[] = [
         ]
       },
       {
-        "tipo": "parrafo",
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
         "texto": [
           {
             "negrita": [
               "2. Seguro y responsabilidad"
             ]
-          },
-          {
-            "salto": true
-          },
-          "Una buena empresa de mudanzas debe ofrecer algún tipo de seguro o garantía para proteger tus pertenencias. Pregunta por las coberturas disponibles y qué procedimiento siguen en caso de daño o pérdida."
+          }
         ]
       },
       {
         "tipo": "parrafo",
+        "texto": [
+          "Una buena empresa de mudanzas debe ofrecer algún tipo de seguro o garantía para proteger tus pertenencias. Pregunta por las coberturas disponibles y qué procedimiento siguen en caso de daño o pérdida."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
         "texto": [
           {
             "negrita": [
               "3. Servicios adicionales"
             ]
-          },
-          {
-            "salto": true
-          },
-          "Muchas compañías ofrecen embalaje profesional, almacenaje temporal, desmontaje y montaje de muebles. Verifica si estos servicios están incluidos o si tienen un costo extra, y asegúrate de que se ajusten a tus necesidades."
+          }
         ]
       },
       {
         "tipo": "parrafo",
         "texto": [
+          "Muchas compañías ofrecen embalaje profesional, almacenaje temporal, desmontaje y montaje de muebles. Verifica si estos servicios están incluidos o si tienen un costo extra, y asegúrate de que se ajusten a tus necesidades."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
           {
             "negrita": [
               "4. Compara precios y condiciones"
             ]
-          },
-          {
-            "salto": true
-          },
+          }
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
           "Solicita cotizaciones de al menos tres proveedores. No elijas solo por el precio más bajo; compara lo que incluye cada paquete para asegurarte de obtener un buen valor por tu dinero."
         ]
       },
@@ -1666,58 +1678,74 @@ const publicados: PostPublicado[] = [
         ]
       },
       {
-        "tipo": "parrafo",
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
         "texto": [
           {
             "negrita": [
               "5. Experiencia y profesionalismo"
             ]
-          },
-          {
-            "salto": true
-          },
-          "El personal debe ser puntual, cuidadoso y con experiencia. Una empresa con trayectoria sabrá cómo resolver imprevistos y mover objetos delicados o voluminosos sin problemas."
+          }
         ]
       },
       {
         "tipo": "parrafo",
+        "texto": [
+          "El personal debe ser puntual, cuidadoso y con experiencia. Una empresa con trayectoria sabrá cómo resolver imprevistos y mover objetos delicados o voluminosos sin problemas."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
         "texto": [
           {
             "negrita": [
               "6. Transporte adecuado"
             ]
-          },
-          {
-            "salto": true
-          },
-          "Verifica que cuenten con unidades limpias, cerradas y con espacio suficiente para trasladar tus pertenencias de forma segura y ordenada."
+          }
         ]
       },
       {
         "tipo": "parrafo",
+        "texto": [
+          "Verifica que cuenten con unidades limpias, cerradas y con espacio suficiente para trasladar tus pertenencias de forma segura y ordenada."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
         "texto": [
           {
             "negrita": [
               "7. Cuidado de tus cosas"
             ]
-          },
-          {
-            "salto": true
-          },
-          "Pregunta cómo protegen los muebles y los objetos frágiles. Una buena empresa usa cobijas, emplayado y material de empaque adecuado, y sabe cómo cargar cada pieza sin dañarla ni dañar tu casa."
+          }
         ]
       },
       {
         "tipo": "parrafo",
         "texto": [
+          "Pregunta cómo protegen los muebles y los objetos frágiles. Una buena empresa usa cobijas, emplayado y material de empaque adecuado, y sabe cómo cargar cada pieza sin dañarla ni dañar tu casa."
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "nivel": 2,
+        "estilo": 3,
+        "texto": [
           {
             "negrita": [
               "8. Comunicación"
             ]
-          },
-          {
-            "salto": true
-          },
+          }
+        ]
+      },
+      {
+        "tipo": "parrafo",
+        "texto": [
           "Desde la primera conversación te das cuenta de cómo trabaja una empresa. ¿Responden rápido? ¿Contestan tus dudas con claridad? ¿Confirman fechas y horarios? La forma en que te atienden antes de contratar suele ser la forma en que te atienden el día de la mudanza."
         ]
       },
