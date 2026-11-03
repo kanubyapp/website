@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
 import { BotonCotizar } from "@/components/mudanzas/boton-cotizar";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
@@ -15,11 +16,11 @@ import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import { Faq } from "@/components/faq";
 import styles from "./page.module.css";
 
-const titulo = "Mudanzas Empresariales en Monterrey";
+const titulo = "Mudanzas empresariales y de oficinas en Monterrey";
 const ruta = "/mudanzas-empresariales-monterrey/";
 
 const descripcion =
-  "Mudanzas empresariales en Monterrey: trasladamos oficinas, mobiliario y equipo con un servicio llave en mano. Más de 20 años de experiencia.";
+  "Mudanza de oficinas en Monterrey: trasladamos mobiliario, equipo y documentos de tu empresa con un servicio llave en mano. Más de 20 años de experiencia.";
 
 export const metadata: Metadata = {
   title: titulo,
@@ -40,22 +41,22 @@ export const metadata: Metadata = {
 
 const preguntas = [
   {
-    pregunta: "¿Ofrecen servicio de empaque para equipos sensibles y documentos?",
+    pregunta: "¿En la mudanza de oficinas empacan los equipos sensibles y los documentos?",
     respuesta:
       "Sí, nuestro servicio completo incluye el empaque profesional de todos tus activos, utilizando materiales especializados para equipos electrónicos y la organización segura de documentos.",
   },
   {
-    pregunta: "¿Cuentan con seguro para la mercancía durante el traslado?",
+    pregunta: "¿La mudanza de oficinas incluye seguro para la mercancía durante el traslado?",
     respuesta:
       "Absolutamente. Todas nuestras mudanzas empresariales incluyen un seguro de carga para brindarte total tranquilidad y protección sobre tus bienes.",
   },
   {
-    pregunta: "¿Pueden realizar la mudanza fuera del horario de oficina o fines de semana?",
+    pregunta: "¿Pueden hacer la mudanza de oficinas fuera del horario laboral o en fin de semana?",
     respuesta:
       "Sí, ofrecemos flexibilidad de horarios para adaptarnos a las necesidades de tu negocio y minimizar el impacto en tus operaciones diarias. Consulta con tu coordinador de proyecto.",
   },
   {
-    pregunta: "¿Cómo se coordinan los tiempos de desmontaje y montaje?",
+    pregunta: "¿Cómo se coordinan el desmontaje y el montaje en una mudanza de oficinas?",
     respuesta:
       "Nuestro equipo de planificación trabajará de la mano contigo para establecer un cronograma detallado que minimice el tiempo de inactividad y asegure un montaje eficiente en tu nueva ubicación.",
   },
@@ -105,8 +106,8 @@ export default function MudanzasEmpresariales() {
       <main>
         <HeroMudanzas
           className={styles.hero}
-          titulo="Mudanzas Empresariales en Monterrey"
-          texto="En Kanuby somos expertos en reubicación empresarial. Nos encargamos de todo para que tu empresa no pare."
+          titulo={titulo}
+          texto="En Kanuby somos expertos en mudanza de oficinas y reubicación empresarial. Nos encargamos de todo para que tu empresa no pare."
           boton={
             <BotonCotizar
               texto="Cotiza Ahora"
@@ -121,7 +122,7 @@ export default function MudanzasEmpresariales() {
           id="porque"
           className={styles.porque}
           antetitulo="Tu Traslado Empresarial, ¡Simplificado y Eficiente!"
-          titulo="Las Mejores Mudanzas de oficinas en Monterrey, Nuevo León"
+          titulo="Tu mudanza de oficinas en Monterrey, de principio a fin"
           etiqueta="Contamos con más de 20 años de experiencia."
           tarjetas={[
             {
@@ -136,7 +137,7 @@ export default function MudanzasEmpresariales() {
               alt: "Ícono de una persona de atención al cliente",
               titulo: "Planificación Experta",
               texto:
-                "Desde la primera llamada, asignamos un coordinador dedicado que gestionará cada fase de tu mudanza, asegurando que todo salga según lo planeado y a tiempo.",
+                "Desde la primera llamada, asignamos un coordinador dedicado que gestionará cada fase de tu mudanza, asegurando que todo salga según lo planeado.",
             },
             {
               icono: "/images/mudanzas/mesa-de-trabajo-1.png",
@@ -160,7 +161,7 @@ export default function MudanzasEmpresariales() {
           pagina="/mudanzas-empresariales-monterrey/"
           id="servicios"
           titulo="Otros Servicios"
-          texto="En Kanuby, te ofrecemos un servicio “llave en mano”. Así es como garantizamos un traslado empresarial sin complicaciones"
+          texto="En Kanuby, te ofrecemos un servicio “llave en mano” para tu mudanza de oficinas, sin complicaciones."
         />
 
         <section className={`kb-resplandor-suave ${styles.faq}`}>
@@ -182,7 +183,7 @@ export default function MudanzasEmpresariales() {
             </div>
             <p className={styles.faqAntetitulo}>¿Alguna Duda?</p>
             <h2 className={styles.faqTitulo}>
-              Preguntas Frecuentes sobre Mudanzas de Oficinas
+              Preguntas frecuentes sobre la mudanza de oficinas
             </h2>
             <Faq
               inicial={1}
@@ -191,6 +192,18 @@ export default function MudanzasEmpresariales() {
                 respuesta: <p>{respuesta}</p>,
               }))}
             />
+            {/*
+             * La guía es para quien todavía está investigando. Va al final de
+             * las preguntas, lejos de los botones de cotizar, y su texto no
+             * repite "mudanza de oficinas": esa búsqueda es de esta página.
+             */}
+            <p className={styles.faqGuia}>
+              ¿Estás planeando el cambio?{" "}
+              <Link href="/mudanzas-oficina-monterrey-cambio-sin-interrumpir/">
+                Lee la guía
+              </Link>{" "}
+              para organizarlo sin detener tu operación.
+            </p>
           </div>
         </section>
       </main>

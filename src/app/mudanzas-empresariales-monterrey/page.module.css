@@ -52,14 +52,16 @@
 }
 
 /*
- * Entre 768 y 953px la columna del texto no da para "Empresariales" a 60px y
- * la palabra se salía hacia el camión. El tamaño sigue a la columna
- * (41.6vw - 22px): "Empresariales" mide 6.25 veces la letra, con un 3% de
- * margen, 6.45. "en Monterrey" es más corta, así que cabe junta en su renglón.
+ * Entre 768 y 1025px la columna del texto no da para "empresariales" a 60px:
+ * la palabra no se parte, así que ensanchaba la columna y encogía el camión.
+ * El tamaño sigue al ancho útil de la columna, medido sin su padding:
+ * 41.33vw - 41.2px. "empresariales" mide 6.19 veces la letra; con un 3% de
+ * margen, 6.38. En 1025px la fórmula ya da casi 60px y empalma con el tamaño
+ * normal. Las demás palabras son más cortas y caben enteras en su renglón.
  */
-@media (min-width: 768px) and (max-width: 953px) {
+@media (min-width: 768px) and (max-width: 1025px) {
   .hero :global(.kb-hero-titulo) {
-    font-size: min(var(--texto-60), calc((41.6vw - 22px) / 6.45));
+    font-size: min(var(--texto-60), calc((41.33vw - 41.2px) / 6.38));
   }
 }
 
@@ -106,6 +108,30 @@
   font-size: var(--texto-26);
   font-weight: var(--peso-medium);
   line-height: var(--interlineado-encabezado);
+}
+
+/* Enlace a la guía, bajo las preguntas: naranja subrayado, como en los posts */
+.faqGuia {
+  margin-top: var(--espacio-2);
+  color: var(--color-texto-secundario);
+  font-size: var(--texto-18);
+  line-height: var(--interlineado-parrafo);
+}
+
+.faqGuia a {
+  color: var(--color-naranja);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transicion);
+}
+
+.faqGuia a:hover {
+  color: var(--color-naranja-claro);
+}
+
+.faqGuia a:focus-visible {
+  outline: var(--anillo-foco);
+  outline-offset: var(--anillo-foco-separacion);
 }
 
 /* Acordeón: ajustes de esta página sobre el patrón */

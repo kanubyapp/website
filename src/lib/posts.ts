@@ -380,9 +380,9 @@ const publicados: PostPublicado[] = [
   },
   {
     "slug": "mudanzas-oficina-monterrey-cambio-sin-interrumpir",
-    "titulo": "Mudanzas de oficina en Monterrey: cómo hacer el cambio sin interrumpir tu negocio",
+    "titulo": "Cómo planear la mudanza de oficinas de tu empresa sin detener la operación",
     "fecha": "2025-05-14T00:28:43+00:00",
-    "modificado": "2026-11-02T20:23:09-06:00",
+    "modificado": "2026-11-02T21:48:41-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -393,8 +393,8 @@ const publicados: PostPublicado[] = [
       "alt": "Oficina con muebles y cajas empacados para la mudanza"
     },
     "seo": {
-      "titulo": "Mudanza de oficina en Monterrey sin interrupciones - Kanuby",
-      "descripcion": "Realiza la mudanza de tu oficina sin pausa en tus operaciones. Aprende las mejores estrategias para mudarte sin contratiempos."
+      "titulo": "Cómo planear la mudanza de oficinas sin parar - Kanuby",
+      "descripcion": "Cómo planear la mudanza de oficinas de tu empresa: elegir el día, clasificar, apoyarte en expertos y avisar a tu equipo para no detener la operación."
     },
     "contenido": [
       {
@@ -526,7 +526,7 @@ const publicados: PostPublicado[] = [
     "slug": "como-evitar-errores-comunes-al-mudarte-en-monterrey",
     "titulo": "Cómo evitar errores comunes al mudarte en Monterrey",
     "fecha": "2025-05-14T00:26:12+00:00",
-    "modificado": "2026-11-02T20:23:09-06:00",
+    "modificado": "2026-11-02T21:48:41-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -657,7 +657,7 @@ const publicados: PostPublicado[] = [
           {
             "enlace": "/mudanzas-oficina-monterrey-cambio-sin-interrumpir/",
             "texto": [
-              "Mudanzas de oficina en Monterrey: cómo hacer el cambio sin interrumpir tu negocio"
+              "Cómo planear la mudanza de oficinas de tu empresa sin detener la operación"
             ]
           }
         ]
@@ -1513,7 +1513,7 @@ const publicados: PostPublicado[] = [
     "slug": "tarifas-mudanzas-monterrey",
     "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2025? Guía completa de tarifas",
     "fecha": "2025-05-13T23:11:46+00:00",
-    "modificado": "2026-11-02T20:23:09-06:00",
+    "modificado": "2026-11-02T21:48:41-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -1681,7 +1681,7 @@ const publicados: PostPublicado[] = [
           {
             "enlace": "/mudanzas-oficina-monterrey-cambio-sin-interrumpir/",
             "texto": [
-              "Mudanzas de oficina en Monterrey: cómo hacer el cambio sin interrumpir tu negocio"
+              "Cómo planear la mudanza de oficinas de tu empresa sin detener la operación"
             ]
           }
         ]
