@@ -143,9 +143,15 @@ test("el aviso del botón flotante conserva las demás reglas y no acepta sub-ti
   assert.deepEqual(validarAviso({ ...cuerpoFlotante, ms: MINIMO_MS - 1 }), { tipo: "bot" });
 });
 
-test("el popup de cotización sigue exigiendo el sub-tipo", () => {
-  assert.deepEqual(validarAviso({ ...cuerpo, tipo: "" }), { tipo: "invalido", motivo: "tipo" });
-  assert.deepEqual(validarAviso({ ...cuerpo, tipo: "", formulario: "otro" }), { tipo: "invalido", motivo: "tipo" });
+test("el popup de cotización: la mudanza exige su tipo; la minibodega, el tamaño solo si viene", () => {
+  // Minibodega sin tamaño: el popup ya no lo pregunta
+  assert.equal(validarAviso({ ...cuerpo, tipo: "" }).tipo, "valido");
+  assert.equal(validarAviso({ ...cuerpo, tipo: "", formulario: "otro" }).tipo, "valido");
+  // Un tamaño que no existe sigue sin pasar
+  assert.deepEqual(validarAviso({ ...cuerpo, tipo: "No estoy seguro" }), { tipo: "invalido", motivo: "tipo" });
+  const mudanza = { ...cuerpo, negocio: "mudanza", pagina: "/mudanzas-monterrey/" };
+  assert.deepEqual(validarAviso({ ...mudanza, tipo: "" }), { tipo: "invalido", motivo: "tipo" });
+  assert.equal(validarAviso({ ...mudanza, tipo: "Mudanza local" }).tipo, "valido");
 });
 
 test("el correo sin sub-tipo no lleva esa fila", () => {

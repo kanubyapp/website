@@ -2,7 +2,13 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { envioCotizacion } from "./envio-cotizacion.ts";
 import { tamanoDeSuperficie } from "./whatsapp.ts";
-import { flujoCotizacion, flujoInicial, type AccionFlujo, type FlujoCotizacion } from "./flujo-cotizacion.ts";
+import {
+  flujoCotizacion,
+  flujoInicial,
+  hayPasoAnterior,
+  type AccionFlujo,
+  type FlujoCotizacion,
+} from "./flujo-cotizacion.ts";
 
 const aplicar = (estado: FlujoCotizacion, ...acciones: AccionFlujo[]) =>
   acciones.reduce(flujoCotizacion, estado);
@@ -25,9 +31,22 @@ test("elegir una opción avanza al paso 2 con esa opción", () => {
 });
 
 test("volver regresa al paso 1 y conserva la elección", () => {
-  const estado = aplicar(flujoInicial("minibodega"), { tipo: "elegir", valor: "7 m²" }, { tipo: "volver" });
+  const estado = aplicar(flujoInicial("mudanza"), { tipo: "elegir", valor: "Mudanza local" }, { tipo: "volver" });
   assert.equal(estado.paso, "servicio");
-  assert.equal(estado.tipo, "7 m²");
+  assert.equal(estado.tipo, "Mudanza local");
+});
+
+test("el popup de minibodega no pregunta el tamaño: empieza en nombre y teléfono, sin paso anterior", () => {
+  const inicial = flujoInicial("minibodega");
+  assert.deepEqual(inicial, { paso: "datos", negocio: "minibodega", tipo: null, conPrevio: false });
+  assert.equal(hayPasoAnterior(inicial), false);
+  assert.deepEqual(flujoCotizacion(inicial, { tipo: "volver" }), inicial);
+});
+
+test("en mudanza sí hay paso anterior: el tipo de mudanza", () => {
+  const enDatos = aplicar(flujoInicial("mudanza"), { tipo: "elegir", valor: "Mudanza local" });
+  assert.equal(hayPasoAnterior(enDatos), true);
+  assert.equal(hayPasoAnterior(flujoInicial("mudanza")), false);
 });
 
 test("tras volver, elegir otra opción la reemplaza y avanza de nuevo", () => {
@@ -51,9 +70,19 @@ test("sin paso previo, elegir negocio no hace nada", () => {
   assert.deepEqual(flujoCotizacion(inicial, { tipo: "elegirNegocio", valor: "mudanza" }), inicial);
 });
 
-test("reiniciar regresa al paso 1 de su servicio desde cualquier paso", () => {
-  const estado = aplicar(flujoInicial("minibodega"), { tipo: "elegir", valor: "14 m²" }, { tipo: "reiniciar" });
+test("reiniciar regresa al primer paso de su servicio desde cualquier paso", () => {
+  const estado = aplicar(
+    flujoInicial("minibodega"),
+    { tipo: "preseleccionar", valor: "14 m²" },
+    { tipo: "reiniciar" },
+  );
   assert.deepEqual(estado, flujoInicial("minibodega"));
+  const mudanza = aplicar(
+    flujoInicial("mudanza"),
+    { tipo: "elegir", valor: "Mudanza local" },
+    { tipo: "reiniciar" },
+  );
+  assert.deepEqual(mudanza, flujoInicial("mudanza"));
 });
 
 /* Popup general (botón flotante de la home): con el paso previo */
@@ -68,10 +97,13 @@ test("elegir Mudanza lleva al paso 1 del flujo de mudanza", () => {
   assert.equal(estado.negocio, "mudanza");
 });
 
-test("elegir Minibodega lleva al paso 1 del flujo de minibodega", () => {
+test("elegir Minibodega lleva directo a nombre y teléfono; volver regresa al paso previo", () => {
   const estado = aplicar(flujoInicial(null), { tipo: "elegirNegocio", valor: "minibodega" });
-  assert.equal(estado.paso, "servicio");
+  assert.equal(estado.paso, "datos");
   assert.equal(estado.negocio, "minibodega");
+  assert.equal(estado.tipo, null);
+  assert.equal(hayPasoAnterior(estado), true);
+  assert.equal(flujoCotizacion(estado, { tipo: "volver" }).paso, "negocio");
 });
 
 test("desde el paso 1 se regresa al paso previo; desde el paso 2, al paso 1", () => {
@@ -94,19 +126,19 @@ test("cambiar de servicio en el paso previo descarta la opción del otro", () =>
     { tipo: "volver" },
     { tipo: "elegirNegocio", valor: "minibodega" },
   );
-  assert.deepEqual(estado, { paso: "servicio", negocio: "minibodega", tipo: null, conPrevio: true });
+  assert.deepEqual(estado, { paso: "datos", negocio: "minibodega", tipo: null, conPrevio: true });
 });
 
 test("volver al paso previo y elegir el mismo servicio conserva su opción", () => {
   const estado = aplicar(
     flujoInicial(null),
-    { tipo: "elegirNegocio", valor: "minibodega" },
-    { tipo: "elegir", valor: "3.5 m²" },
+    { tipo: "elegirNegocio", valor: "mudanza" },
+    { tipo: "elegir", valor: "Mudanza local" },
     { tipo: "volver" },
     { tipo: "volver" },
-    { tipo: "elegirNegocio", valor: "minibodega" },
+    { tipo: "elegirNegocio", valor: "mudanza" },
   );
-  assert.equal(estado.tipo, "3.5 m²");
+  assert.equal(estado.tipo, "Mudanza local");
 });
 
 test("reiniciar el popup general regresa al paso previo", () => {
@@ -138,17 +170,16 @@ test("en la home, elegir Minibodega y completar emite cotizacion_minibodega con 
   const estado = aplicar(
     flujoInicial(null),
     { tipo: "elegirNegocio", valor: "minibodega" },
-    { tipo: "elegir", valor: "No estoy seguro" },
   );
   const resultado = envioCotizacion(
     estado.negocio!,
-    { nombre: "Ana", telefono: "8112345678", tipo: estado.tipo! },
+    { nombre: "Ana", telefono: "8112345678", tipo: estado.tipo ?? "" },
     "/",
   );
+  // Sin tamaño: el evento va sin el campo opción
   assert.deepEqual(resultado.valido && resultado.evento, {
     event: "cotizacion_minibodega",
     pagina: "/",
-    opcion: "No estoy seguro",
   });
 });
 
@@ -159,17 +190,10 @@ test("abrir con un tamaño preseleccionado va directo al paso 2 con ese tamaño"
   assert.deepEqual(estado, { paso: "datos", negocio: "minibodega", tipo: "7 m²", conPrevio: false });
 });
 
-test("desde el tamaño preseleccionado se regresa al paso 1 con ese tamaño marcado, y se puede cambiar", () => {
-  const enServicio = aplicar(
-    flujoInicial("minibodega"),
-    { tipo: "preseleccionar", valor: "14 m²" },
-    { tipo: "volver" },
-  );
-  assert.equal(enServicio.paso, "servicio");
-  assert.equal(enServicio.tipo, "14 m²");
-  const cambiado = flujoCotizacion(enServicio, { tipo: "elegir", valor: "3.5 m²" });
-  assert.equal(cambiado.paso, "datos");
-  assert.equal(cambiado.tipo, "3.5 m²");
+test("con el tamaño preseleccionado no hay paso anterior: no hay selector al que regresar", () => {
+  const estado = aplicar(flujoInicial("minibodega"), { tipo: "preseleccionar", valor: "14 m²" });
+  assert.equal(hayPasoAnterior(estado), false);
+  assert.deepEqual(flujoCotizacion(estado, { tipo: "volver" }), estado);
 });
 
 test("reabrir sin tamaño vuelve a empezar en el paso 1", () => {

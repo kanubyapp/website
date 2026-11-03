@@ -34,7 +34,7 @@ export function envioCotizacion(
   const mensaje =
     negocio === "mudanza"
       ? mensajeMudanza(datos.nombre, datos.tipo as TipoMudanza)
-      : mensajeMinibodega(datos.nombre, datos.tipo as TamanoMinibodega);
+      : mensajeMinibodega(datos.nombre, datos.tipo as TamanoMinibodega | "");
 
   return {
     valido: true,

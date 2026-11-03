@@ -44,7 +44,7 @@ test("el mensaje recorta espacios del nombre", () => {
 
 /* Envío en cada página */
 
-test("en /mudanzas-monterrey/: mensaje de mudanza y cotizacion_mudanza con opción vacía", () => {
+test("en /mudanzas-monterrey/: mensaje de mudanza y cotizacion_mudanza sin el campo opción", () => {
   const resultado = envioFlotante("/mudanzas-monterrey/", { ...valida, servicio: null });
   assert.equal(resultado.valido, true);
   if (!resultado.valido) return;
@@ -54,11 +54,10 @@ test("en /mudanzas-monterrey/: mensaje de mudanza y cotizacion_mudanza con opci�
   assert.deepEqual(resultado.evento, {
     event: "cotizacion_mudanza",
     pagina: "/mudanzas-monterrey/",
-    opcion: "",
   });
 });
 
-test("en /minibodegas-monterrey/: mensaje de minibodega y cotizacion_minibodega con opción vacía", () => {
+test("en /minibodegas-monterrey/: mensaje de minibodega y cotizacion_minibodega sin el campo opción", () => {
   const resultado = envioFlotante("/minibodegas-monterrey/", { ...valida, servicio: null });
   assert.equal(resultado.valido, true);
   if (!resultado.valido) return;
@@ -67,7 +66,6 @@ test("en /minibodegas-monterrey/: mensaje de minibodega y cotizacion_minibodega 
   assert.deepEqual(resultado.evento, {
     event: "cotizacion_minibodega",
     pagina: "/minibodegas-monterrey/",
-    opcion: "",
   });
 });
 
@@ -82,9 +80,9 @@ test("en la home, el mensaje y el evento salen del servicio elegido", () => {
   assert.ok(mudanza.valido && minibodega.valido);
   if (!mudanza.valido || !minibodega.valido) return;
   assert.equal(textoDe(mudanza.url), "Hola Kanuby, soy Ana. Me interesa cotizar una mudanza.");
-  assert.deepEqual(mudanza.evento, { event: "cotizacion_mudanza", pagina: "/", opcion: "" });
+  assert.deepEqual(mudanza.evento, { event: "cotizacion_mudanza", pagina: "/" });
   assert.equal(textoDe(minibodega.url), "Hola Kanuby, soy Ana. Me interesa rentar una minibodega.");
-  assert.deepEqual(minibodega.evento, { event: "cotizacion_minibodega", pagina: "/", opcion: "" });
+  assert.deepEqual(minibodega.evento, { event: "cotizacion_minibodega", pagina: "/" });
 });
 
 test("el mensaje lleva el nombre y nunca el teléfono", () => {

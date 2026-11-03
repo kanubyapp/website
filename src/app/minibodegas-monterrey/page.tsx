@@ -105,7 +105,7 @@ export default function Minibodegas() {
               className={`kb-boton-principal kb-area-tactil ${styles.botonPrincipal}`}
             />
             <a href="#tamanos" className={`kb-boton-secundario ${styles.ocultoMovil}`}>
-              Ver Tamaños y Precios
+              Ver Tamaños
             </a>
           </div>
         </section>

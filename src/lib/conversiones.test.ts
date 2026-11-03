@@ -37,16 +37,20 @@ test("cotización de mudanza válida: evento cotizacion_mudanza con página y op
   assert.match(resultado.valido ? resultado.url : "", /^https:\/\/wa\.me\/5218110287087\?text=/);
 });
 
-test("cotización de minibodega válida: evento cotizacion_minibodega con página y opción", () => {
-  const resultado = envioCotizacion(
-    "minibodega",
-    { ...valida, tipo: "No estoy seguro" },
-    "/minibodegas-monterrey/",
-  );
+test("cotización de minibodega con tamaño: evento con página y opción", () => {
+  const resultado = envioCotizacion("minibodega", { ...valida, tipo: "7 m²" }, "/minibodegas-monterrey/");
   assert.deepEqual(resultado.valido && resultado.evento, {
     event: "cotizacion_minibodega",
     pagina: "/minibodegas-monterrey/",
-    opcion: "No estoy seguro",
+    opcion: "7 m²",
+  });
+});
+
+test("cotización de minibodega sin tamaño: válida, y el evento va sin el campo opción", () => {
+  const resultado = envioCotizacion("minibodega", { ...valida, tipo: "" }, "/minibodegas-monterrey/");
+  assert.deepEqual(resultado.valido && resultado.evento, {
+    event: "cotizacion_minibodega",
+    pagina: "/minibodegas-monterrey/",
   });
 });
 

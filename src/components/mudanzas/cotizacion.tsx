@@ -5,13 +5,10 @@ import { createContext, useContext, useEffect, useId, useReducer, useRef, useSta
 import { useDialogoModal } from "@/components/use-dialogo-modal";
 import { WhatsAppEnviado } from "./whatsapp-enviado";
 import {
-  IconoBodegaChica,
-  IconoBodegaGrande,
   IconoBodegaMediana,
   IconoCamion,
   IconoCasa,
   IconoCerrar,
-  IconoDuda,
   IconoEdificio,
   IconoRuta,
   IconoWhatsApp,
@@ -21,13 +18,11 @@ import { abrirWhatsApp } from "@/lib/abrir-whatsapp";
 import { avisarCotizacion } from "@/lib/aviso-cotizacion";
 import { campanaGuardada } from "@/lib/campana";
 import { envioCotizacion } from "@/lib/envio-cotizacion";
-import { flujoCotizacion, flujoInicial } from "@/lib/flujo-cotizacion";
+import { flujoCotizacion, flujoInicial, hayPasoAnterior } from "@/lib/flujo-cotizacion";
 import {
-  TAMANOS_MINIBODEGA,
   TIPOS_MUDANZA,
   type Cotizacion,
   type ErroresCotizacion,
-  type TamanoMinibodega,
   type TipoMudanza,
 } from "@/lib/whatsapp";
 
@@ -56,13 +51,6 @@ const ICONOS_MUDANZA: Record<TipoMudanza, Icono> = {
   "Mudanza empresarial": IconoEdificio,
 };
 
-const ICONOS_MINIBODEGA: Record<TamanoMinibodega, Icono> = {
-  "3.5 m²": IconoBodegaChica,
-  "7 m²": IconoBodegaMediana,
-  "14 m²": IconoBodegaGrande,
-  "No estoy seguro": IconoDuda,
-};
-
 /*
  * Cabecera de cada pantalla: el título, que termina con el logo de Kanuby en
  * lugar de la palabra (su texto alternativo es "Kanuby"), y debajo la misma
@@ -72,10 +60,14 @@ type Cabecera = { titulo: string };
 
 const LINEA_DE_APOYO = "Completa el formulario, te llevará a WhatsApp.";
 
+/*
+ * Minibodega no tiene paso de opciones: el tamaño no se pregunta y solo llega
+ * si la persona entra por el botón de la tarjeta de un tamaño.
+ */
 const FORMULARIOS: Record<
   "mudanza" | "minibodega",
   Cabecera & {
-    pregunta: string;
+    pregunta?: string;
     opciones: readonly string[];
     iconos?: Partial<Record<string, Icono>>;
   }
@@ -88,9 +80,7 @@ const FORMULARIOS: Record<
   },
   minibodega: {
     titulo: "Cotiza ahora tu Minibodega con",
-    pregunta: "¿Cuánto Espacio Buscas?",
-    opciones: TAMANOS_MINIBODEGA,
-    iconos: ICONOS_MINIBODEGA,
+    opciones: [],
   },
 };
 
@@ -436,8 +426,15 @@ export function CotizacionProvider({
                   Ir a WhatsApp
                 </button>
               </div>
-              {flujo.tipo && (
-                <Volver eleccion={flujo.tipo} alVolver={() => despachar({ tipo: "volver" })} />
+              {/*
+                Regresar al paso anterior, si lo hay: el tipo de mudanza, o en el
+                popup general el servicio. Minibodega no tiene paso de tamaño.
+              */}
+              {hayPasoAnterior(flujo) && (
+                <Volver
+                  eleccion={(flujo.negocio === "mudanza" ? flujo.tipo : nombreNegocio) ?? ""}
+                  alVolver={() => despachar({ tipo: "volver" })}
+                />
               )}
               <p className="kb-popup-nota">
                 Se abre WhatsApp con tus datos ya escritos. Solo tienes que enviar el mensaje.

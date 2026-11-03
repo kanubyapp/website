@@ -25,11 +25,19 @@ const SERVICIO_EN_MENSAJE: Record<TipoMudanza, string> = {
   "Mudanza empresarial": "una mudanza empresarial",
 };
 
-export const TAMANOS_MINIBODEGA = ["3.5 m²", "7 m²", "14 m²", "No estoy seguro"] as const;
+/*
+ * Tamaños de minibodega. El popup ya no los pregunta: solo llegan cuando la
+ * persona entra por el botón de la tarjeta de un tamaño
+ * (/minibodegas-monterrey/), que ya es elegirlo.
+ */
+export const TAMANOS_MINIBODEGA = ["3.5 m²", "7 m²", "14 m²"] as const;
 
 export type TamanoMinibodega = (typeof TAMANOS_MINIBODEGA)[number];
 
-/** Datos del formulario. "tipo" es el servicio (mudanza) o el tamaño (minibodega). */
+/**
+ * Datos del formulario. "tipo" es el servicio (mudanza) o el tamaño
+ * (minibodega, vacío si no se conoce).
+ */
 export type Cotizacion = {
   nombre: string;
   telefono: string;
@@ -70,9 +78,10 @@ export function validarCotizacionMudanza(datos: Cotizacion): ErroresCotizacion {
   return errores;
 }
 
+/** El tamaño es opcional: vacío, o uno de los de las tarjetas */
 export function validarCotizacionMinibodega(datos: Cotizacion): ErroresCotizacion {
   const errores = validarContacto(datos);
-  if (!esTamanoMinibodega(datos.tipo)) errores.tipo = "Elige el espacio que buscas.";
+  if (datos.tipo !== "" && !esTamanoMinibodega(datos.tipo)) errores.tipo = "Ese tamaño no existe.";
   return errores;
 }
 
@@ -80,12 +89,10 @@ export function mensajeMudanza(nombre: string, tipo: TipoMudanza): string {
   return `Hola Kanuby, soy ${nombre.trim()}. Me interesa cotizar ${SERVICIO_EN_MENSAJE[tipo]}.`;
 }
 
-export function mensajeMinibodega(nombre: string, tamano: TamanoMinibodega): string {
-  const interes =
-    tamano === "No estoy seguro"
-      ? "rentar una minibodega, aún no sé qué tamaño necesito"
-      : `rentar una minibodega de ${tamano}`;
-  return `Hola Kanuby, soy ${nombre.trim()}. Me interesa ${interes}.`;
+/** Con el tamaño si se conoce; sin él, el mismo mensaje del botón flotante */
+export function mensajeMinibodega(nombre: string, tamano: TamanoMinibodega | ""): string {
+  if (!tamano) return mensajeServicio("minibodega", nombre);
+  return `Hola Kanuby, soy ${nombre.trim()}. Me interesa rentar una minibodega de ${tamano}.`;
 }
 
 /** Sin tipo ni tamaño: el popup del botón flotante solo sabe el servicio */

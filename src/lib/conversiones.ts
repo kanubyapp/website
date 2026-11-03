@@ -25,13 +25,22 @@ declare global {
 export type Negocio = "mudanza" | "minibodega";
 
 export type EventoConversion =
-  | { event: `cotizacion_${Negocio}`; pagina: string; opcion: string }
+  | { event: `cotizacion_${Negocio}`; pagina: string; opcion?: string }
   | { event: `whatsapp_${Negocio}`; pagina: string }
   | { event: "calculadora_registro"; pagina: string }
   | { event: "calculadora_solicitud"; pagina: string; tamano: string };
 
-export function eventoCotizacion(negocio: Negocio, pagina: string, opcion: string): EventoConversion {
-  return { event: `cotizacion_${negocio}`, pagina, opcion };
+/**
+ * opcion: el tipo de mudanza o el tamaño de minibodega. Si no se conoce (el
+ * botón flotante, una minibodega sin tamaño), el evento va sin ese campo:
+ * nunca vacío ni con un valor inventado.
+ */
+export function eventoCotizacion(
+  negocio: Negocio,
+  pagina: string,
+  opcion: string,
+): EventoConversion {
+  return { event: `cotizacion_${negocio}`, pagina, ...(opcion ? { opcion } : {}) };
 }
 
 export function eventoWhatsApp(negocio: Negocio, pagina: string): EventoConversion {

@@ -21,8 +21,8 @@ test("opciones de mudanza del paso 1", () => {
   ]);
 });
 
-test("opciones de minibodega del paso 1", () => {
-  assert.deepEqual(TAMANOS_MINIBODEGA, ["3.5 m²", "7 m²", "14 m²", "No estoy seguro"]);
+test("tamaños de minibodega: los de las tarjetas, sin \"No estoy seguro\" (ya no se pregunta)", () => {
+  assert.deepEqual(TAMANOS_MINIBODEGA, ["3.5 m²", "7 m²", "14 m²"]);
 });
 
 test("mensaje de mudanza local", () => {
@@ -122,11 +122,8 @@ test("mensaje de minibodega de 14 m²", () => {
   );
 });
 
-test("mensaje de minibodega sin tamaño decidido", () => {
-  assert.equal(
-    mensajeMinibodega("Ana", "No estoy seguro"),
-    "Hola Kanuby, soy Ana. Me interesa rentar una minibodega, aún no sé qué tamaño necesito.",
-  );
+test("mensaje de minibodega sin tamaño: sin mencionarlo, como el botón flotante", () => {
+  assert.equal(mensajeMinibodega("Ana", ""), "Hola Kanuby, soy Ana. Me interesa rentar una minibodega.");
 });
 
 test("el mensaje de minibodega con caracteres especiales llega intacto a WhatsApp", () => {
@@ -138,15 +135,15 @@ test("el mensaje de minibodega con caracteres especiales llega intacto a WhatsAp
   );
 });
 
-test("validación de minibodega: acepta los 4 tamaños y rechaza otros", () => {
-  for (const tipo of TAMANOS_MINIBODEGA) {
+test("validación de minibodega: el tamaño es opcional; si viene, tiene que existir", () => {
+  for (const tipo of [...TAMANOS_MINIBODEGA, ""]) {
     assert.deepEqual(
       validarCotizacionMinibodega({ nombre: "Ana", telefono: "8112345678", tipo }),
       {},
     );
   }
   const errores = validarCotizacionMinibodega({ nombre: "Ana", telefono: "8112345678", tipo: "Mudanza local" });
-  assert.deepEqual(errores, { tipo: "Elige el espacio que buscas." });
+  assert.deepEqual(errores, { tipo: "Ese tamaño no existe." });
 });
 
 test("validación de minibodega: nombre y teléfono obligatorios", () => {
