@@ -104,6 +104,9 @@ export default function Social() {
                   width={2048}
                   height={1365}
                   sizes="(max-width: 767px) 28vw, 180px"
+                  // Siempre en la primera pantalla, y el LCP en horizontal
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
               <div className={styles.mudanzaTexto}>
@@ -134,6 +137,9 @@ export default function Social() {
                   width={1080}
                   height={800}
                   sizes="(max-width: 767px) 23vw, 180px"
+                  // Siempre en la primera pantalla, y el LCP en tablet y escritorio
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
             </div>

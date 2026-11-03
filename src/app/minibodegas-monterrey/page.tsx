@@ -77,7 +77,9 @@ export default function Minibodegas() {
             height={910}
             sizes="(max-width: 767px) 92vw, (max-width: 1024px) 41vw, 50vw"
             className={styles.heroFondo}
+            // El LCP de la página: precarga y prioridad alta
             preload
+            fetchPriority="high"
           />
           <h1 className={styles.heroTitulo}>Renta de Minibodegas</h1>
           <p className={styles.heroTexto}>

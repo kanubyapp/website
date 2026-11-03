@@ -7,6 +7,7 @@ import { FranjaConfianza } from "@/components/mudanzas/franja-confianza";
 import { HeaderMudanzas } from "@/components/mudanzas/header-mudanzas";
 import {
   HeroMudanzas,
+  IMAGEN_HERO,
   Marquesina,
   PorQueMudanzas,
   ServiciosMudanzas,
@@ -68,6 +69,12 @@ export default function MudanzasMonterreyCdmx() {
         <HeroMudanzas
           className={styles.hero}
           decoracion={<TitularRotativo />}
+          // Aquí la imagen va más angosta, junto al mapa: 92vw - 20px en móvil
+          // y 33.2vw - 22px desde 768px, medido
+          imagen={{
+            ...IMAGEN_HERO,
+            sizes: "(max-width: 767px) calc(92vw - 20px), calc(33.2vw - 22px)",
+          }}
           titulo={titulo}
           claseTitulo={styles.titulo}
           texto="En Kanuby nos especializamos en la ruta más transitada del país. Si te mudas entre Monterrey y Ciudad de México, somos tu mejor opción: camiones directos, sin escalas, sin terceros."
@@ -84,8 +91,19 @@ export default function MudanzasMonterreyCdmx() {
               alt="Mapa de México con la ruta de Monterrey a la Ciudad de México"
               width={1024}
               height={1024}
-              sizes="(max-width: 767px) 92vw, 41vw"
+              /*
+               * Medido sobre lo que se dibuja (object-fit: contain): 61.4vw + 7px
+               * en móvil, 44.2vw - 30px desde 768px y 450px fijos desde 1101px.
+               * De 394 a 767px pide el ancho de la caja (92vw), de más: con 3x,
+               * lo justo caería en la variante de 828, que pesa más que la
+               * original de 1024 (28.3 contra 25.2 KB). Hasta 393px, en 3x
+               * alcanza la de 750, más ligera.
+               * Es el LCP desde 768px: precarga y prioridad alta.
+               */
+              sizes="(max-width: 393px) calc(61.4vw + 7px), (max-width: 767px) 92vw, (max-width: 1100px) calc(44.2vw - 30px), 450px"
               className={styles.mapa}
+              preload
+              fetchPriority="high"
             />
           }
         />

@@ -28,16 +28,33 @@ type Tarjeta = {
   texto: string;
 };
 
-/* Imagen del hero que comparten las páginas de mudanzas y /social/ */
-const IMAGEN_HERO = {
+/*
+ * Imagen del hero que comparten las páginas de mudanzas y /social/. Es el
+ * LCP en celular y casi siempre en escritorio: precarga y prioridad alta.
+ * sizes, medido: el 92% del ancho en móvil y la columna de la imagen
+ * (50.7vw - 28px) desde 768px; /mudanzas-monterrey-cdmx/ la lleva más
+ * angosta y pasa el suyo.
+ */
+export const IMAGEN_HERO = {
   src: "/images/ddddd.png",
   alt: "Camión de mudanzas naranja de Kanuby con el lema “Tu vecino nunca aprenderá a cantar… Nosotros te mudamos”",
   width: 2048,
   height: 1365,
-  sizes: "(max-width: 767px) 92vw, 51vw",
+  sizes: "(max-width: 767px) 92vw, calc(50.7vw - 28px)",
 };
 
-type ImagenHero = typeof IMAGEN_HERO & { className?: string };
+type ImagenHero = Omit<typeof IMAGEN_HERO, "sizes"> & {
+  sizes: string;
+  className?: string;
+  /**
+   * Sin precarga ni prioridad, cuando la imagen no es el LCP (en
+   * /mudanzas-monterrey/ lo es el fondo del hero): carga diferida, que en la
+   * primera pantalla empieza en cuanto se pinta. No eager: React precarga en
+   * el <head> toda imagen que no sea diferida, aunque quede fuera de la
+   * primera pantalla (a 320x568, el camión).
+   */
+  secundaria?: boolean;
+};
 
 export function HeroMudanzas({
   titulo,
@@ -94,7 +111,7 @@ export function HeroMudanzas({
           height={imagen.height}
           sizes={imagen.sizes}
           className={imagen.className}
-          preload
+          {...(!imagen.secundaria && { preload: true, fetchPriority: "high" as const })}
         />
       </div>
     </section>
@@ -131,7 +148,8 @@ export function PorQueMudanzas({
                   alt={tarjeta.alt}
                   width={1080}
                   height={1080}
-                  sizes="(max-width: 767px) 40vw, 16vw"
+                  // Medido: 36.8vw - 16px en móvil (tres por fila) y 18.4vw - 49px desde 768px
+                  sizes="(max-width: 767px) calc(36.8vw - 16px), calc(18.4vw - 49px)"
                 />
               </figure>
               <h3 className="kb-porque-tarjeta-titulo">{tarjeta.titulo}</h3>
@@ -163,6 +181,8 @@ export function Marquesina({ items, className = "" }: { items: string[]; classNa
         width={1000}
         height={1000}
         sizes="100vw"
+        // Decorativa, bajo el velo oscuro: con calidad 40 no se nota y pesa un tercio menos
+        quality={40}
         className="kb-marquesina-fondo"
       />
       <div className="kb-marquesina-pista">

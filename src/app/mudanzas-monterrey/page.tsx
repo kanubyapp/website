@@ -94,6 +94,8 @@ export default function MudanzasMonterrey() {
             height: 1152,
             // La columna de la imagen: unos 49vw (92vw en móvil).
             sizes: "(max-width: 767px) 92vw, 49vw",
+            // El LCP es el fondo del hero; el camión no le quita prioridad.
+            secundaria: true,
           }}
           titulo="Servicio de Mudanzas en Monterrey"
           texto="Mudanzas en Monterrey y su área metropolitana, de casas, departamentos y oficinas. Empacamos, cargamos y trasladamos tus muebles con cuidado, con más de 20 años de experiencia y la opción de guardar tus cosas en una minibodega si las necesitas."

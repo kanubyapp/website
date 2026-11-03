@@ -158,6 +158,12 @@ export default function MudanzasEmpresariales() {
                 alt="Caja abierta con signos de interrogación"
                 width={954}
                 height={807}
+                /*
+                 * Se queda pidiendo 456px desde 768px aunque en tablet ocupe menos:
+                 * el original mide 954px y las variantes de 640 a 828 pesan más
+                 * que él (31.7 a 42.2 KB contra 27.5), así que en 2x conviene que
+                 * llegue a la original.
+                 */
                 sizes="(max-width: 767px) 46vw, 456px"
               />
             </div>
