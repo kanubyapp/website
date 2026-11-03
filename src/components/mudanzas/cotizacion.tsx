@@ -277,7 +277,8 @@ export function CotizacionProvider({
           </div>
 
           <Titulo cabecera={cabecera} id={`${id}-titulo`} />
-          <p className="kb-popup-subtitulo">{LINEA_DE_APOYO}</p>
+          {/* La línea de apoyo habla del formulario: en la confirmación ya no va */}
+          {!whatsapp && <p className="kb-popup-subtitulo">{LINEA_DE_APOYO}</p>}
 
           {!formularioActual ? (
             <div className="kb-popup-paso">
