@@ -1274,6 +1274,22 @@
     border: var(--borde-acento);
   }
 
+  /* La tarjeta con página propia: su nombre es el enlace y cubre toda la tarjeta */
+  .kb-servicio-enlace::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .kb-servicio-enlace:focus-visible {
+    outline: none;
+  }
+
+  .kb-servicio:has(.kb-servicio-enlace:focus-visible) {
+    outline: var(--anillo-foco);
+    outline-offset: var(--anillo-foco-separacion);
+  }
+
   /* El resplandor va detrás del cuadro */
   .kb-servicio-icono {
     display: flex;

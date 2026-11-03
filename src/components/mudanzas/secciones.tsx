@@ -13,6 +13,7 @@ import {
 import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
 import { TONOS_SERVICIOS } from "@/lib/tonos-servicios";
 import Image from "next/image";
+import Link from "next/link";
 
 /*
  * Secciones que comparten las páginas de mudanzas de kanuby.com: hero,
@@ -201,16 +202,29 @@ export function Marquesina({ items, className = "" }: { items: string[]; classNa
  * de 10 tarjetas compactas (5 columnas en escritorio, 3 en tablet, 2 en
  * móvil). Los íconos son de Phosphor (licencia MIT), en su peso duotono.
  * Cada cuadro lleva uno de tres tonos (naranja, azul o blanco) en el orden
- * fijo de TONOS_SERVICIOS; el azul es vidrio. Las tarjetas no son enlaces.
+ * fijo de TONOS_SERVICIOS; el azul es vidrio. Las que tienen página propia
+ * son enlaces a ella (salvo en esa misma página): el nombre es el enlace y
+ * cubre toda la tarjeta, que se ve igual. Las demás no enlazan.
  */
 
-const SERVICIOS: { nombre: string; descripcion: string; Icono: PhosphorIcon }[] = [
-  { nombre: "Mudanza local", descripcion: "Casas y departamentos dentro de Monterrey.", Icono: House },
-  { nombre: "Mudanza a CDMX", descripcion: "De Monterrey a CDMX y de regreso.", Icono: MapTrifold },
+const SERVICIOS: { nombre: string; descripcion: string; Icono: PhosphorIcon; ruta?: string }[] = [
+  {
+    nombre: "Mudanza local",
+    descripcion: "Casas y departamentos dentro de Monterrey.",
+    Icono: House,
+    ruta: "/mudanzas-monterrey/",
+  },
+  {
+    nombre: "Mudanza a CDMX",
+    descripcion: "De Monterrey a CDMX y de regreso.",
+    Icono: MapTrifold,
+    ruta: "/mudanzas-monterrey-cdmx/",
+  },
   {
     nombre: "Mudanza empresarial",
     descripcion: "Oficinas y negocios sin detener tu operación.",
     Icono: Buildings,
+    ruta: "/mudanzas-empresariales-monterrey/",
   },
   { nombre: "Mudanza urgente", descripcion: "Cuando necesitas mudarte ya.", Icono: Lightning },
   {
@@ -224,6 +238,7 @@ const SERVICIOS: { nombre: string; descripcion: string; Icono: PhosphorIcon }[] 
     nombre: "Mudanza con minibodega",
     descripcion: "Guardamos tus cosas mientras te instalas.",
     Icono: Warehouse,
+    ruta: "/minibodegas-monterrey/",
   },
   { nombre: "Material de empaque", descripcion: "Cajas, cinta y más con KanubyPack.", Icono: Scissors },
   { nombre: "Fletes", descripcion: "Traslado de piezas grandes.", Icono: Truck },
@@ -233,11 +248,14 @@ export function ServiciosMudanzas({
   id,
   titulo,
   texto,
+  pagina,
   className = "",
 }: {
   id?: string;
   titulo: string;
   texto: string;
+  /** La ruta de la página que la muestra: su propia tarjeta no se enlaza */
+  pagina: string;
   className?: string;
 }) {
   return (
@@ -247,7 +265,7 @@ export function ServiciosMudanzas({
         <p className="kb-servicios-texto">{texto}</p>
       </div>
       <ul className="kb-servicios-rejilla">
-        {SERVICIOS.map(({ nombre, descripcion, Icono }, indice) => (
+        {SERVICIOS.map(({ nombre, descripcion, Icono, ruta }, indice) => (
           <li key={nombre} className="kb-tarjeta kb-servicio">
             <span
               className={`kb-servicio-icono${TONOS_SERVICIOS[indice] === "azul" ? " kb-vidrio" : ""}`}
@@ -255,7 +273,15 @@ export function ServiciosMudanzas({
             >
               <Icono weight="duotone" aria-hidden="true" />
             </span>
-            <h3 className="kb-servicio-nombre">{nombre}</h3>
+            <h3 className="kb-servicio-nombre">
+              {ruta && ruta !== pagina ? (
+                <Link href={ruta} className="kb-servicio-enlace">
+                  {nombre}
+                </Link>
+              ) : (
+                nombre
+              )}
+            </h3>
             <p className="kb-servicio-descripcion">{descripcion}</p>
           </li>
         ))}

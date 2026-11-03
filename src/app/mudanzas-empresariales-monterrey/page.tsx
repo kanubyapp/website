@@ -157,6 +157,7 @@ export default function MudanzasEmpresariales() {
         />
 
         <ServiciosMudanzas
+          pagina="/mudanzas-empresariales-monterrey/"
           id="servicios"
           titulo="Otros Servicios"
           texto="En Kanuby, te ofrecemos un servicio “llave en mano”. Así es como garantizamos un traslado empresarial sin complicaciones"

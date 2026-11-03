@@ -74,7 +74,7 @@ const publicados: PostPublicado[] = [
     "slug": "como-organizar-tu-nuevo-hogar-despues-de-tu-mudanza",
     "titulo": "Cómo organizar tu nuevo hogar después de la mudanza",
     "fecha": "2025-05-14T00:36:05+00:00",
-    "modificado": "2025-05-26T23:05:37+00:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -179,7 +179,12 @@ const publicados: PostPublicado[] = [
           "Si hay artículos que no vas a necesitar de inmediato o simplemente ocupan mucho espacio, ",
           {
             "negrita": [
-              "rentar una minibodega en Monterrey"
+              {
+                "enlace": "/minibodegas-monterrey/",
+                "texto": [
+                  "rentar una minibodega en Monterrey"
+                ]
+              }
             ]
           },
           " puede ser la mejor opción. Tendrás más libertad para organizar sin saturar tu casa."
@@ -217,7 +222,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-premium-san-pedro",
     "titulo": "Mudanzas en San Pedro Garza García: servicio premium en Monterrey",
     "fecha": "2025-05-14T00:33:02+00:00",
-    "modificado": "2026-10-09T23:42:49-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -255,7 +260,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "San Pedro es una de las zonas más exclusivas de Monterrey, y mudarte ahí no es cualquier cosa. Requiere un servicio de mudanza profesional que entienda el valor de tus pertenencias, desde muebles de diseño hasta equipos delicados o piezas con valor sentimental. Un servicio premium se distingue por su enfoque en la calidad, la confianza y el trato personalizado. ¿Qué lo hace diferente?"
+          "San Pedro es ",
+          {
+            "enlace": "/las-mejores-zonas-para-mudarte-en-monterrey-si-buscas-seguridad-y-conectividad/",
+            "texto": [
+              "una de las zonas más exclusivas de Monterrey"
+            ]
+          },
+          ", y mudarte ahí no es cualquier cosa. Requiere un servicio de mudanza profesional que entienda el valor de tus pertenencias, desde muebles de diseño hasta equipos delicados o piezas con valor sentimental. Un servicio premium se distingue por su enfoque en la calidad, la confianza y el trato personalizado. ¿Qué lo hace diferente?"
         ]
       },
       {
@@ -370,7 +382,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-oficina-monterrey-cambio-sin-interrumpir",
     "titulo": "Mudanzas de oficina en Monterrey: cómo hacer el cambio sin interrumpir tu negocio",
     "fecha": "2025-05-14T00:28:43+00:00",
-    "modificado": "2026-10-09T23:42:49-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -444,7 +456,14 @@ const publicados: PostPublicado[] = [
           {
             "salto": true
           },
-          "Opta por una empresa especializada en mudanzas de oficina en Monterrey que cuente con la experiencia y los recursos necesarios para manejar todo el proceso: embalaje seguro, traslado cuidadoso y montaje eficiente. Un equipo profesional te ayudará a reducir riesgos y te permitirá concentrarte en lo más importante: la continuidad de tu negocio."
+          "Opta por una empresa especializada en ",
+          {
+            "enlace": "/mudanzas-empresariales-monterrey/",
+            "texto": [
+              "mudanzas de oficina en Monterrey"
+            ]
+          },
+          " que cuente con la experiencia y los recursos necesarios para manejar todo el proceso: embalaje seguro, traslado cuidadoso y montaje eficiente. Un equipo profesional te ayudará a reducir riesgos y te permitirá concentrarte en lo más importante: la continuidad de tu negocio."
         ]
       },
       {
@@ -507,7 +526,7 @@ const publicados: PostPublicado[] = [
     "slug": "como-evitar-errores-comunes-al-mudarte-en-monterrey",
     "titulo": "Cómo evitar errores comunes al mudarte en Monterrey",
     "fecha": "2025-05-14T00:26:12+00:00",
-    "modificado": "2025-05-26T23:40:58+00:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -611,7 +630,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Evita errores y vive una mudanza sin estrés con un servicio profesional que se encarga de todo."
+          "Evita errores y vive una mudanza sin estrés con un ",
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "servicio profesional de mudanzas en Monterrey"
+            ]
+          },
+          " que se encarga de todo."
         ]
       },
       {
@@ -642,7 +668,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanza-urgente-en-monterrey",
     "titulo": "Mudanza urgente en Monterrey: soluciones rápidas con respaldo profesional",
     "fecha": "2025-05-14T00:13:34+00:00",
-    "modificado": "2025-05-26T23:55:12+00:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -764,7 +790,14 @@ const publicados: PostPublicado[] = [
               "Kanuby"
             ]
           },
-          ", tu mudanza urgente en Monterrey se resuelve sin complicaciones. Nos encargamos de todo para que no tengas que preocuparte."
+          ", tu ",
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "mudanza urgente en Monterrey"
+            ]
+          },
+          " se resuelve sin complicaciones. Nos encargamos de todo para que no tengas que preocuparte."
         ]
       },
       {
@@ -795,7 +828,7 @@ const publicados: PostPublicado[] = [
     "slug": "servicio-de-mudanza-profesional-en-monterrey",
     "titulo": "¿Qué incluye un servicio de mudanza profesional en Monterrey?",
     "fecha": "2025-05-14T00:07:13+00:00",
-    "modificado": "2025-05-27T00:04:24+00:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -816,7 +849,12 @@ const publicados: PostPublicado[] = [
           "Contratar un ",
           {
             "negrita": [
-              "servicio de mudanza profesional en Monterrey"
+              {
+                "enlace": "/mudanzas-monterrey/",
+                "texto": [
+                  "servicio de mudanza profesional en Monterrey"
+                ]
+              }
             ]
           },
           " va más allá de mover cajas. Es una solución completa que te permite cambiarte de casa sin estrés, complicaciones ni sorpresas. No dejes en cualquier mano tu mudanza."
@@ -940,7 +978,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-residenciales-en-monterrey",
     "titulo": "Mudanzas residenciales en Monterrey: organiza tu traslado paso a paso",
     "fecha": "2025-05-13T23:57:41+00:00",
-    "modificado": "2026-10-09T23:42:49-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -1027,7 +1065,13 @@ const publicados: PostPublicado[] = [
         "texto": [
           {
             "negrita": [
-              "5. Contrata una empresa confiable y profesional"
+              "5. Contrata ",
+              {
+                "enlace": "/como-elegir-una-empresa-de-mudanzas-confiable-en-monterrey/",
+                "texto": [
+                  "una empresa confiable y profesional"
+                ]
+              }
             ]
           },
           {
@@ -1053,7 +1097,14 @@ const publicados: PostPublicado[] = [
               "Kanuby"
             ]
           },
-          " hacemos tu mudanza residencial sin complicaciones: recolección, traslado y entrega, todo de manera segura y sin que muevas un dedo."
+          " hacemos tu ",
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "mudanza residencial"
+            ]
+          },
+          " sin complicaciones: recolección, traslado y entrega, todo de manera segura y sin que muevas un dedo."
         ]
       },
       {
@@ -1082,7 +1133,7 @@ const publicados: PostPublicado[] = [
     "slug": "checklist-mudanza-monterrey",
     "titulo": "Checklist para mudarte en Monterrey sin complicaciones",
     "fecha": "2025-05-13T23:39:05+00:00",
-    "modificado": "2025-05-27T00:26:33+00:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -1272,7 +1323,21 @@ const publicados: PostPublicado[] = [
               "Kanuby"
             ]
           },
-          ", te ayudamos a mudarte de forma segura y sin complicaciones. Ofrecemos mudanzas locales, nacionales y minibodegas para almacenar lo que necesites."
+          ", te ayudamos a mudarte de forma segura y sin complicaciones. Ofrecemos ",
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "mudanzas locales"
+            ]
+          },
+          ", nacionales y ",
+          {
+            "enlace": "/minibodegas-monterrey/",
+            "texto": [
+              "minibodegas para almacenar lo que necesites"
+            ]
+          },
+          "."
         ]
       },
       {
@@ -1293,7 +1358,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable",
     "titulo": "Mudanzas en Monterrey: cómo elegir un servicio profesional y confiable",
     "fecha": "2025-05-13T23:34:55+00:00",
-    "modificado": "2026-10-09T23:40:33-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -1415,7 +1480,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "En Kanuby nos especializamos en mudanzas profesionales en Monterrey. Con vehículos equipados y un equipo experto, garantizamos que tu mudanza sea segura, rápida y sin estrés. ",
+          "En Kanuby nos especializamos en ",
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "mudanzas profesionales en Monterrey"
+            ]
+          },
+          ". Con vehículos equipados y un equipo experto, garantizamos que tu mudanza sea segura, rápida y sin estrés. ",
           {
             "negrita": [
               "Solicita tu cotización hoy y haz tu mudanza fácil y segura."
@@ -1441,7 +1513,7 @@ const publicados: PostPublicado[] = [
     "slug": "tarifas-mudanzas-monterrey",
     "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2025? Guía completa de tarifas",
     "fecha": "2025-05-13T23:11:46+00:00",
-    "modificado": "2026-10-09T23:40:33-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -1592,14 +1664,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Solicita tu cotización con ",
+          "Solicita tu ",
           {
             "enlace": "/mudanzas-monterrey/",
             "texto": [
-              "Kanuby"
+              "cotización de mudanza en Monterrey"
             ]
           },
-          " y deja tu mudanza en manos expertas."
+          " y déjala en manos expertas."
         ]
       },
       {
@@ -1620,7 +1692,7 @@ const publicados: PostPublicado[] = [
     "slug": "tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte",
     "titulo": "¿Tu casa está en remodelación? Una minibodega puede salvarte",
     "fecha": "2025-05-13T23:10:16+00:00",
-    "modificado": "2026-10-08T22:55:28-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -1757,13 +1829,27 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "En Kanuby manejamos minibodegas de 3.5, 7 y 14 m². Como referencia, si solo vas a remodelar una o dos habitaciones, una de las chicas suele ser suficiente. Si la obra es en las áreas principales de la casa, como sala, comedor y cocina, conviene pensar en una mediana. Y si la remodelación es de toda la casa, lo más práctico es la grande."
+          "En Kanuby manejamos ",
+          {
+            "enlace": "/minibodegas-monterrey/",
+            "texto": [
+              "minibodegas de 3.5, 7 y 14 m²"
+            ]
+          },
+          ". Como referencia, si solo vas a remodelar una o dos habitaciones, una de las chicas suele ser suficiente. Si la obra es en las áreas principales de la casa, como sala, comedor y cocina, conviene pensar en una mediana. Y si la remodelación es de toda la casa, lo más práctico es la grande."
         ]
       },
       {
         "tipo": "parrafo",
         "texto": [
-          "Si no sabes cuál te conviene, escríbenos con lo que piensas guardar y te ayudamos a calcularlo."
+          "Si no sabes cuál te conviene, revisa la ",
+          {
+            "enlace": "/guia-para-elegir-el-tamano-ideal-de-tu-minibodega/",
+            "texto": [
+              "guía para elegir el tamaño ideal de tu minibodega"
+            ]
+          },
+          " o escríbenos con lo que piensas guardar y te ayudamos a calcularlo."
         ]
       },
       {
@@ -1846,7 +1932,7 @@ const publicados: PostPublicado[] = [
     "slug": "consejos-para-guardar-archivo-muerto-en-minibodega",
     "titulo": "Consejos para guardar archivo muerto en minibodega",
     "fecha": "2025-05-13T23:10:10+00:00",
-    "modificado": "2026-10-08T22:55:28-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2002,7 +2088,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Mover cientos de cajas de archivo es pesado y quita horas de trabajo a tu equipo. En Kanuby recolectamos el archivo en tu oficina, lo trasladamos a una minibodega segura y te lo llevamos de regreso cuando lo necesites. Tu equipo sigue trabajando y tu oficina recupera su espacio."
+          "Mover cientos de cajas de archivo es pesado y quita horas de trabajo a tu equipo. En Kanuby recolectamos el archivo en tu oficina, lo trasladamos a ",
+          {
+            "enlace": "/minibodegas-monterrey/",
+            "texto": [
+              "una minibodega segura"
+            ]
+          },
+          " y te lo llevamos de regreso cuando lo necesites. Tu equipo sigue trabajando y tu oficina recupera su espacio."
         ]
       },
       {
@@ -2017,7 +2110,7 @@ const publicados: PostPublicado[] = [
     "slug": "como-organizar-tu-minibodega-facilmente",
     "titulo": "Cómo organizar tu minibodega fácilmente",
     "fecha": "2025-05-13T23:10:04+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2035,7 +2128,13 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Rentar una minibodega es la parte fácil. Lo que hace la diferencia es cómo la acomodas: una minibodega bien organizada guarda más, protege mejor tus cosas y te deja encontrar lo que buscas en minutos. Una desordenada se convierte en un rompecabezas cada vez que vas."
+          {
+            "enlace": "/minibodegas-monterrey/",
+            "texto": [
+              "Rentar una minibodega"
+            ]
+          },
+          " es la parte fácil. Lo que hace la diferencia es cómo la acomodas: una minibodega bien organizada guarda más, protege mejor tus cosas y te deja encontrar lo que buscas en minutos. Una desordenada se convierte en un rompecabezas cada vez que vas."
         ]
       },
       {
@@ -2055,7 +2154,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Haz una lista de todo lo que vas a guardar y separa lo que vas a necesitar seguido de lo que puede quedarse ahí por meses. Esa lista decide cómo vas a acomodar todo."
+          "Haz una lista de todo lo que vas a guardar y separa lo que vas a necesitar seguido de lo que puede quedarse ahí por meses. Esa lista decide cómo vas a acomodar todo y te ayuda a ",
+          {
+            "enlace": "/guia-para-elegir-el-tamano-ideal-de-tu-minibodega/",
+            "texto": [
+              "elegir el tamaño ideal de tu minibodega"
+            ]
+          },
+          "."
         ]
       },
       {
@@ -2222,7 +2328,7 @@ const publicados: PostPublicado[] = [
     "slug": "guia-para-elegir-el-tamano-ideal-de-tu-minibodega",
     "titulo": "Guía para elegir el tamaño ideal de tu minibodega",
     "fecha": "2025-05-13T23:05:44+00:00",
-    "modificado": "2026-10-08T22:55:28-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2246,7 +2352,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "En Kanuby manejamos tres tamaños: 3.5, 7 y 14 m². Esta guía te ayuda a decidir cuál es el tuyo."
+          "En Kanuby manejamos ",
+          {
+            "enlace": "/minibodegas-monterrey/",
+            "texto": [
+              "tres tamaños: 3.5, 7 y 14 m²"
+            ]
+          },
+          ". Esta guía te ayuda a decidir cuál es el tuyo."
         ]
       },
       {
@@ -2315,7 +2428,14 @@ const publicados: PostPublicado[] = [
                 "7 m²:"
               ]
             },
-            " para el contenido de un departamento chico o de varias habitaciones, con algunos muebles grandes. Es una buena opción si estás entre mudanzas o remodelando."
+            " para el contenido de un departamento chico o de varias habitaciones, con algunos muebles grandes. Es una buena opción si ",
+            {
+              "enlace": "/mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte/",
+              "texto": [
+                "estás entre mudanzas"
+              ]
+            },
+            " o remodelando."
           ],
           [
             {
@@ -2433,7 +2553,7 @@ const publicados: PostPublicado[] = [
     "slug": "asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso",
     "titulo": "Así es una mudanza con recolección y minibodega incluida: paso a paso",
     "fecha": "2025-05-13T23:04:41+00:00",
-    "modificado": "2026-10-08T22:55:28-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2592,7 +2712,13 @@ const publicados: PostPublicado[] = [
             "Vendiste tu casa y la nueva todavía no está lista."
           ],
           [
-            "Estás remodelando y necesitas vaciar la casa."
+            {
+              "enlace": "/tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte/",
+              "texto": [
+                "Estás remodelando y necesitas vaciar la casa"
+              ]
+            },
+            "."
           ],
           [
             "Te vas a cambiar de ciudad y todavía no tienes dónde llegar."
@@ -2605,7 +2731,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Mudarte en dos tiempos no tiene por qué ser complicado. Cotiza tu mudanza con minibodega incluida y deja que nosotros nos encarguemos de todo."
+          "Mudarte en dos tiempos no tiene por qué ser complicado. Cotiza tu ",
+          {
+            "enlace": "/minibodegas-monterrey/",
+            "texto": [
+              "mudanza con minibodega incluida"
+            ]
+          },
+          " y deja que nosotros nos encarguemos de todo."
         ]
       }
     ]
@@ -2614,7 +2747,7 @@ const publicados: PostPublicado[] = [
     "slug": "cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025",
     "titulo": "¿De qué depende el precio de una minibodega en Monterrey?",
     "fecha": "2025-05-13T23:04:34+00:00",
-    "modificado": "2026-11-02T19:40:00-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2646,7 +2779,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Es el factor que más pesa. Entre más metros, mayor el costo mensual. En Kanuby manejamos minibodegas de 3.5, 7 y 14 m², así que lo primero es elegir el tamaño correcto: ni tan chico que tus cosas no quepan, ni tan grande que pagues por espacio vacío."
+          "Es el factor que más pesa. Entre más metros, mayor el costo mensual. En Kanuby manejamos ",
+          {
+            "enlace": "/minibodegas-monterrey/",
+            "texto": [
+              "minibodegas de 3.5, 7 y 14 m²"
+            ]
+          },
+          ", así que lo primero es elegir el tamaño correcto: ni tan chico que tus cosas no quepan, ni tan grande que pagues por espacio vacío."
         ]
       },
       {
@@ -2836,7 +2976,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte",
     "titulo": "Mudanzas y minibodegas: la combinación perfecta si aún no puedes instalarte",
     "fecha": "2025-05-13T22:56:53+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "minibodegas",
       "mudanzas"
@@ -2910,7 +3050,14 @@ const publicados: PostPublicado[] = [
                 "Las guardamos"
               ]
             },
-            " en una minibodega segura el tiempo que necesites."
+            " en ",
+            {
+              "enlace": "/minibodegas-monterrey/",
+              "texto": [
+                "una minibodega segura"
+              ]
+            },
+            " el tiempo que necesites."
           ],
           [
             {
@@ -2962,7 +3109,14 @@ const publicados: PostPublicado[] = [
                 "Te vas a otra ciudad"
               ]
             },
-            ", por ejemplo de Monterrey a CDMX, y necesitas tiempo para encontrar dónde vivir."
+            ", por ejemplo ",
+            {
+              "enlace": "/mudanzas-monterrey-cdmx/",
+              "texto": [
+                "de Monterrey a CDMX"
+              ]
+            },
+            ", y necesitas tiempo para encontrar dónde vivir."
           ],
           [
             {
@@ -3086,7 +3240,7 @@ const publicados: PostPublicado[] = [
     "slug": "guia-para-mudarte-a-monterrey-desde-otra-ciudad",
     "titulo": "Guía para mudarte a Monterrey desde otra ciudad",
     "fecha": "2025-05-13T22:54:26+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -3146,7 +3300,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "El área metropolitana de Monterrey es grande y cada zona tiene su propio estilo. Antes de elegir dónde vivir, piensa en:"
+          "El área metropolitana de Monterrey es grande y ",
+          {
+            "enlace": "/las-mejores-zonas-para-mudarte-en-monterrey-si-buscas-seguridad-y-conectividad/",
+            "texto": [
+              "cada zona tiene su propio estilo"
+            ]
+          },
+          ". Antes de elegir dónde vivir, piensa en:"
         ]
       },
       {
@@ -3242,7 +3403,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Es muy común llegar a una ciudad nueva sin tener todavía la casa definitiva. En ese caso, una minibodega es una gran aliada: guardas tus cosas mientras buscas con calma dónde vivir, sin tener que decidir con prisa."
+          "Es muy común llegar a una ciudad nueva sin tener todavía la casa definitiva. En ese caso, ",
+          {
+            "enlace": "/minibodegas-monterrey/",
+            "texto": [
+              "una minibodega"
+            ]
+          },
+          " es una gran aliada: guardas tus cosas mientras buscas con calma dónde vivir, sin tener que decidir con prisa."
         ]
       },
       {
@@ -3262,7 +3430,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "En Kanuby tenemos más de 20 años haciendo mudanzas, incluidas las de Monterrey a CDMX y de CDMX a Monterrey. Empacamos, cargamos y trasladamos todo por ti, y si lo necesitas, guardamos tus cosas en una minibodega hasta que estés listo para instalarte."
+          "En Kanuby tenemos más de 20 años haciendo mudanzas, incluidas las ",
+          {
+            "enlace": "/mudanzas-monterrey-cdmx/",
+            "texto": [
+              "de Monterrey a CDMX y de CDMX a Monterrey"
+            ]
+          },
+          ". Empacamos, cargamos y trasladamos todo por ti, y si lo necesitas, guardamos tus cosas en una minibodega hasta que estés listo para instalarte."
         ]
       },
       {
@@ -3277,7 +3452,7 @@ const publicados: PostPublicado[] = [
     "slug": "checklist-definitiva-para-mudarte-en-monterrey-sin-estres",
     "titulo": "Checklist definitiva para mudarte en Monterrey sin estrés",
     "fecha": "2025-05-13T22:53:31+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -3317,7 +3492,13 @@ const publicados: PostPublicado[] = [
         "ordenada": false,
         "items": [
           [
-            "Define la fecha de tu mudanza."
+            {
+              "enlace": "/los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey/",
+              "texto": [
+                "Define la fecha de tu mudanza"
+              ]
+            },
+            "."
           ],
           [
             "Cotiza con empresas de mudanzas y confirma la que elijas."
@@ -3329,7 +3510,14 @@ const publicados: PostPublicado[] = [
             "Decide qué vas a vender, regalar o donar."
           ],
           [
-            "Si vas a necesitar una minibodega, resérvala."
+            "Si vas a necesitar ",
+            {
+              "enlace": "/minibodegas-monterrey/",
+              "texto": [
+                "una minibodega"
+              ]
+            },
+            ", resérvala."
           ],
           [
             "Consigue material de empaque: cajas, cinta, papel y plástico."
@@ -3486,7 +3674,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "La mayoría del estrés de una mudanza viene de intentar hacerlo todo uno mismo. En Kanuby nos encargamos de empacar, cargar y trasladar tus cosas, y si lo necesitas, también de desarmar y armar tus muebles. Tú solo sigues esta lista con calma."
+          "La mayoría del estrés de una mudanza viene de intentar hacerlo todo uno mismo. En Kanuby nos encargamos de ",
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "empacar, cargar y trasladar tus cosas"
+            ]
+          },
+          ", y si lo necesitas, también de desarmar y armar tus muebles. Tú solo sigues esta lista con calma."
         ]
       },
       {
@@ -3501,7 +3696,7 @@ const publicados: PostPublicado[] = [
     "slug": "los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey",
     "titulo": "Los mejores días y horarios para hacer tu mudanza en Monterrey",
     "fecha": "2025-05-13T22:53:24+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -3694,13 +3889,26 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Más allá del día de la semana, lo que más ayuda es organizarte con anticipación y elegir una empresa que llegue puntual y trabaje rápido. En Kanuby te ayudamos a elegir la fecha y el horario que mejor te convienen según tu ruta y lo que vas a mover."
+          "Más allá del día de la semana, lo que más ayuda es ",
+          {
+            "enlace": "/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/",
+            "texto": [
+              "organizarte con anticipación"
+            ]
+          },
+          " y elegir una empresa que llegue puntual y trabaje rápido. En Kanuby te ayudamos a elegir la fecha y el horario que mejor te convienen según tu ruta y lo que vas a mover."
         ]
       },
       {
         "tipo": "parrafo",
         "texto": [
-          "Cotiza tu mudanza con nosotros y elige el momento ideal para mudarte."
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "Cotiza tu mudanza"
+            ]
+          },
+          " con nosotros y elige el momento ideal para mudarte."
         ]
       }
     ]
@@ -3709,7 +3917,7 @@ const publicados: PostPublicado[] = [
     "slug": "como-elegir-una-empresa-de-mudanzas-confiable-en-monterrey",
     "titulo": "Cómo elegir una empresa de mudanzas confiable en Monterrey",
     "fecha": "2025-05-13T22:53:11+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -3742,7 +3950,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Pregunta cuánto tiempo llevan en el negocio y qué tipo de mudanzas hacen. No es lo mismo mover un departamento dentro de la ciudad que una oficina completa o una mudanza a otra ciudad. Una empresa con años de experiencia ya resolvió los problemas que a ti te preocupan."
+          "Pregunta cuánto tiempo llevan en el negocio y qué tipo de mudanzas hacen. No es lo mismo mover un departamento dentro de la ciudad que ",
+          {
+            "enlace": "/mudanzas-empresariales-monterrey/",
+            "texto": [
+              "una oficina completa"
+            ]
+          },
+          " o una mudanza a otra ciudad. Una empresa con años de experiencia ya resolvió los problemas que a ti te preocupan."
         ]
       },
       {
@@ -3770,7 +3985,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Una empresa seria te explica qué incluye su servicio antes de que contrates. Pide que te detallen:"
+          "Una empresa seria te explica ",
+          {
+            "enlace": "/servicio-de-mudanza-profesional-en-monterrey/",
+            "texto": [
+              "qué incluye su servicio"
+            ]
+          },
+          " antes de que contrates. Pide que te detallen:"
         ]
       },
       {
@@ -3882,7 +4104,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "En Kanuby tenemos más de 20 años haciendo mudanzas en Monterrey, a CDMX y para empresas. Nuestros clientes nos califican con 4.9 en Google. Te damos una cotización clara, empacamos, cargamos y trasladamos todo por ti, y si lo necesitas, guardamos tus cosas en una minibodega."
+          "En Kanuby tenemos más de 20 años haciendo mudanzas en Monterrey, ",
+          {
+            "enlace": "/mudanzas-monterrey-cdmx/",
+            "texto": [
+              "a CDMX"
+            ]
+          },
+          " y para empresas. Nuestros clientes nos califican con 4.9 en Google. Te damos una cotización clara, empacamos, cargamos y trasladamos todo por ti, y si lo necesitas, guardamos tus cosas en una minibodega."
         ]
       },
       {
@@ -3897,7 +4126,7 @@ const publicados: PostPublicado[] = [
     "slug": "errores-comunes-al-mudarse-en-monterrey-y-como-evitarlos",
     "titulo": "Errores comunes al mudarse en Monterrey (y cómo evitarlos)",
     "fecha": "2025-05-13T22:53:05+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -4008,7 +4237,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Las horas pico pueden alargar mucho un traslado. Planea los horarios para evitar las horas de entrada y salida de trabajo y escuelas, sobre todo si cruzas la ciudad."
+          "Las horas pico pueden alargar mucho un traslado. ",
+          {
+            "enlace": "/los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey/",
+            "texto": [
+              "Planea los horarios"
+            ]
+          },
+          " para evitar las horas de entrada y salida de trabajo y escuelas, sobre todo si cruzas la ciudad."
         ]
       },
       {
@@ -4078,7 +4314,21 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "En Kanuby llevamos más de 20 años ayudando a familias y empresas a mudarse sin estos dolores de cabeza. Empacamos, protegemos, cargamos y trasladamos todo por ti."
+          "En Kanuby llevamos más de 20 años ayudando a familias y ",
+          {
+            "enlace": "/mudanzas-empresariales-monterrey/",
+            "texto": [
+              "empresas a mudarse"
+            ]
+          },
+          " sin estos dolores de cabeza. ",
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "Empacamos, protegemos, cargamos y trasladamos"
+            ]
+          },
+          " todo por ti."
         ]
       },
       {
@@ -4093,7 +4343,7 @@ const publicados: PostPublicado[] = [
     "slug": "las-mejores-zonas-para-mudarte-en-monterrey-si-buscas-seguridad-y-conectividad",
     "titulo": "Las mejores zonas para mudarte en Monterrey si buscas seguridad y conectividad",
     "fecha": "2025-05-13T22:52:57+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -4284,7 +4534,21 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "En Kanuby hacemos mudanzas en todo Monterrey y su área metropolitana. Empacamos, cargamos y trasladamos todo por ti, y si tu nueva casa todavía no está lista, guardamos tus cosas en una minibodega mientras tanto."
+          "En Kanuby hacemos ",
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "mudanzas en todo Monterrey y su área metropolitana"
+            ]
+          },
+          ". Empacamos, cargamos y trasladamos todo por ti, y si tu nueva casa todavía no está lista, guardamos tus cosas en ",
+          {
+            "enlace": "/minibodegas-monterrey/",
+            "texto": [
+              "una minibodega"
+            ]
+          },
+          " mientras tanto."
         ]
       },
       {
@@ -4299,7 +4563,7 @@ const publicados: PostPublicado[] = [
     "slug": "cuanto-cuesta-una-mudanza-en-monterrey-en-2025",
     "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2025?",
     "fecha": "2025-05-13T22:52:54+00:00",
-    "modificado": "2026-11-02T19:01:16-06:00",
+    "modificado": "2026-11-02T20:23:09-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -4340,7 +4604,20 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Una mudanza dentro de Monterrey y su área metropolitana no cuesta lo mismo que una a otra ciudad. En las mudanzas foráneas, como de Monterrey a CDMX, influyen los kilómetros, las casetas y el tiempo de traslado."
+          {
+            "enlace": "/mudanzas-monterrey/",
+            "texto": [
+              "Una mudanza dentro de Monterrey y su área metropolitana"
+            ]
+          },
+          " no cuesta lo mismo que una a otra ciudad. En las mudanzas foráneas, como ",
+          {
+            "enlace": "/mudanzas-monterrey-cdmx/",
+            "texto": [
+              "de Monterrey a CDMX"
+            ]
+          },
+          ", influyen los kilómetros, las casetas y el tiempo de traslado."
         ]
       },
       {
@@ -4423,7 +4700,14 @@ const publicados: PostPublicado[] = [
       {
         "tipo": "parrafo",
         "texto": [
-          "Hay temporadas con más demanda, como fin de mes, vacaciones de verano y fin de año. Reservar con anticipación te ayuda a conseguir la fecha que quieres."
+          "Hay ",
+          {
+            "enlace": "/los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey/",
+            "texto": [
+              "temporadas con más demanda"
+            ]
+          },
+          ", como fin de mes, vacaciones de verano y fin de año. Reservar con anticipación te ayuda a conseguir la fecha que quieres."
         ]
       },
       {

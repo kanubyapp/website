@@ -158,6 +158,7 @@ export default function MudanzasMonterrey() {
         />
 
         <ServiciosMudanzas
+          pagina="/mudanzas-monterrey/"
           id="servicios"
           titulo="Nuestros Servicios"
           texto="En Kanuby contamos con la experiencia de más de 20 años en mudanzas en Monterrey. Puedes confiar en nosotros, donde tu mudanza será realizada con la rapidez que nos caracteriza además de la seguridad que solo un servicio de calidad como el nuestro puede garantizar."
