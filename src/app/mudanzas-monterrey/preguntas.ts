@@ -27,7 +27,7 @@ export const preguntas: PreguntaFrecuente[] = [
   {
     pregunta: "¿Qué días hacen mudanzas?",
     respuesta: [
-      "De lunes a sábado. Los domingos y los días festivos no hay servicio. Tu cotización la preparamos de lunes a viernes, de 9:00 a 18:00, y si escribes fuera de ese horario la recibes en cuanto abrimos.",
+      "De lunes a sábado. Los domingos y los días festivos no hay servicio. Tu cotización la preparamos de lunes a viernes, de 9:00 a 18:00, y los sábados, de 9:00 a 14:00; si escribes fuera de ese horario, la recibes en cuanto abrimos.",
     ],
   },
   {

@@ -52,10 +52,10 @@ export const HORARIO_MINIBODEGAS: {
 ];
 
 /**
- * Horario de atención de mudanzas (y del negocio en general): el que se
- * publica en la pregunta "¿Qué días hacen mudanzas?" de /mudanzas-monterrey/,
- * "de lunes a viernes, de 9:00 a 18:00". El sábado, pendiente de confirmar
- * con Kanuby si atienden y en qué horario.
+ * Horario de atención de mudanzas (y del negocio en general), confirmado por
+ * Kanuby: lunes a viernes de 9:00 a 18:00 y sábados de 9:00 a 14:00. Es el
+ * que se publica en la pregunta "¿Qué días hacen mudanzas?" de
+ * /mudanzas-monterrey/; si cambia, se cambia en los dos lados.
  */
 export const HORARIO_ATENCION: Omit<(typeof HORARIO_MINIBODEGAS)[number], "texto">[] = [
   {
@@ -63,6 +63,7 @@ export const HORARIO_ATENCION: Omit<(typeof HORARIO_MINIBODEGAS)[number], "texto
     abre: "09:00",
     cierra: "18:00",
   },
+  { dias: ["Saturday"], abre: "09:00", cierra: "14:00" },
 ];
 
 /** Lo que no abre: va en el texto; en el JSON-LD, los días sin horario cuentan como cerrados */

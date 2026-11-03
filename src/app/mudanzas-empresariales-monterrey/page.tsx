@@ -46,9 +46,9 @@ const preguntas = [
       "Sí, nuestro servicio completo incluye el empaque profesional de todos tus activos, utilizando materiales especializados para equipos electrónicos y la organización segura de documentos.",
   },
   {
-    pregunta: "¿La mudanza de oficinas incluye seguro para la mercancía durante el traslado?",
+    pregunta: "¿Puedo asegurar la mercancía durante la mudanza de oficinas?",
     respuesta:
-      "Absolutamente. Todas nuestras mudanzas empresariales incluyen un seguro de carga para brindarte total tranquilidad y protección sobre tus bienes.",
+      "Sí. El seguro de carga se contrata como un servicio adicional: pídelo al cotizar y lo agregamos a tu cotización, junto con lo demás que necesites.",
   },
   {
     pregunta: "¿Pueden hacer la mudanza de oficinas fuera del horario laboral o en fin de semana?",
@@ -128,9 +128,9 @@ export default function MudanzasEmpresariales() {
             {
               icono: "/images/mudanzas/mesa-de-trabajo-3.png",
               alt: "Medalla con una casa y tres estrellas",
-              titulo: "Protección Total",
+              titulo: "Protección y Cuidado",
               texto:
-                "Cada equipo, documento y mobiliario es tratado con el máximo cuidado. Contamos con empaques especializados y seguro de carga para tu completa tranquilidad.",
+                "Cada equipo, documento y mobiliario es tratado con el máximo cuidado y con empaques especializados. Si quieres una protección extra, puedes sumar un seguro de carga a tu mudanza.",
             },
             {
               icono: "/images/mudanzas/mesa-de-trabajo-2.png",

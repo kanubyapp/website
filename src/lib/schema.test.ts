@@ -62,13 +62,19 @@ test("horario: minibodegas, el de acceso; mudanzas y el general, el de atención
     },
   ]);
   assert.equal(HORARIO_MINIBODEGAS[0].texto, "Lunes a Viernes: 9:00 AM – 7:00 PM");
-  // Sin sábado hasta que Kanuby lo confirme
+  // Atención: entre semana hasta las 18:00 y el sábado hasta las 14:00 (confirmado por Kanuby)
   const atencion = [
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       opens: "09:00",
       closes: "18:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Saturday"],
+      opens: "09:00",
+      closes: "14:00",
     },
   ];
   assert.deepEqual(horario("MovingCompany"), atencion);
@@ -79,7 +85,7 @@ test("el horario de atención es el que publica la pregunta de mudanzas", () => 
   const respuesta = preguntasMudanzas
     .find((p) => p.pregunta === "¿Qué días hacen mudanzas?")!
     .respuesta.join(" ");
-  assert.match(respuesta, /de lunes a viernes, de 9:00 a 18:00/);
+  assert.match(respuesta, /de lunes a viernes, de 9:00 a 18:00, y los sábados, de 9:00 a 14:00/);
 });
 
 test("todo artículo lleva imagen: la suya o la foto general de Kanuby", () => {
