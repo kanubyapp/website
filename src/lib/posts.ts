@@ -40,7 +40,12 @@ export type Post = {
   titulo: string;
   /** datePublished del sitio publicado (ISO 8601) */
   fecha: string;
-  /** dateModified del sitio publicado (ISO 8601) */
+  /**
+   * Última modificación del contenido (ISO 8601). Los posts que siguen como
+   * en WordPress conservan su dateModified de allá; los que se escribieron o
+   * corrigieron aquí, la fecha del commit que cambió su contenido. Al editar
+   * el contenido de un post, se actualiza a mano.
+   */
   modificado: string;
   categorias: CategoriaSlug[];
   imagen: {
@@ -212,7 +217,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-premium-san-pedro",
     "titulo": "Mudanzas en San Pedro Garza García: servicio premium en Monterrey",
     "fecha": "2025-05-14T00:33:02+00:00",
-    "modificado": "2025-05-26T23:13:58+00:00",
+    "modificado": "2026-10-09T23:42:49-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -365,7 +370,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-oficina-monterrey-cambio-sin-interrumpir",
     "titulo": "Mudanzas de oficina en Monterrey: cómo hacer el cambio sin interrumpir tu negocio",
     "fecha": "2025-05-14T00:28:43+00:00",
-    "modificado": "2025-05-26T23:22:55+00:00",
+    "modificado": "2026-10-09T23:42:49-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -935,7 +940,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-residenciales-en-monterrey",
     "titulo": "Mudanzas residenciales en Monterrey: organiza tu traslado paso a paso",
     "fecha": "2025-05-13T23:57:41+00:00",
-    "modificado": "2025-05-27T00:19:58+00:00",
+    "modificado": "2026-10-09T23:42:49-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -1288,7 +1293,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable",
     "titulo": "Mudanzas en Monterrey: cómo elegir un servicio profesional y confiable",
     "fecha": "2025-05-13T23:34:55+00:00",
-    "modificado": "2025-05-27T00:35:03+00:00",
+    "modificado": "2026-10-09T23:40:33-06:00",
     "categorias": [
       "sin-categoria"
     ],
@@ -1436,7 +1441,7 @@ const publicados: PostPublicado[] = [
     "slug": "tarifas-mudanzas-monterrey",
     "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2025? Guía completa de tarifas",
     "fecha": "2025-05-13T23:11:46+00:00",
-    "modificado": "2025-05-27T00:43:07+00:00",
+    "modificado": "2026-10-09T23:40:33-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -1615,7 +1620,7 @@ const publicados: PostPublicado[] = [
     "slug": "tu-casa-esta-en-remodelacion-una-minibodega-puede-salvarte",
     "titulo": "¿Tu casa está en remodelación? Una minibodega puede salvarte",
     "fecha": "2025-05-13T23:10:16+00:00",
-    "modificado": "2025-05-14T00:50:21+00:00",
+    "modificado": "2026-10-08T22:55:28-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -1841,7 +1846,7 @@ const publicados: PostPublicado[] = [
     "slug": "consejos-para-guardar-archivo-muerto-en-minibodega",
     "titulo": "Consejos para guardar archivo muerto en minibodega",
     "fecha": "2025-05-13T23:10:10+00:00",
-    "modificado": "2025-05-14T00:48:18+00:00",
+    "modificado": "2026-10-08T22:55:28-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2012,7 +2017,7 @@ const publicados: PostPublicado[] = [
     "slug": "como-organizar-tu-minibodega-facilmente",
     "titulo": "Cómo organizar tu minibodega fácilmente",
     "fecha": "2025-05-13T23:10:04+00:00",
-    "modificado": "2025-05-14T00:46:47+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2217,7 +2222,7 @@ const publicados: PostPublicado[] = [
     "slug": "guia-para-elegir-el-tamano-ideal-de-tu-minibodega",
     "titulo": "Guía para elegir el tamaño ideal de tu minibodega",
     "fecha": "2025-05-13T23:05:44+00:00",
-    "modificado": "2025-05-14T00:46:11+00:00",
+    "modificado": "2026-10-08T22:55:28-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2428,7 +2433,7 @@ const publicados: PostPublicado[] = [
     "slug": "asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso",
     "titulo": "Así es una mudanza con recolección y minibodega incluida: paso a paso",
     "fecha": "2025-05-13T23:04:41+00:00",
-    "modificado": "2025-05-14T00:44:42+00:00",
+    "modificado": "2026-10-08T22:55:28-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2609,7 +2614,7 @@ const publicados: PostPublicado[] = [
     "slug": "cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025",
     "titulo": "¿Cuánto cuesta rentar una minibodega en Monterrey? Guía 2026",
     "fecha": "2025-05-13T23:04:34+00:00",
-    "modificado": "2025-05-14T00:43:58+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2831,7 +2836,7 @@ const publicados: PostPublicado[] = [
     "slug": "mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte",
     "titulo": "Mudanzas y minibodegas: la combinación perfecta si aún no puedes instalarte",
     "fecha": "2025-05-13T22:56:53+00:00",
-    "modificado": "2025-05-14T00:42:33+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "minibodegas",
       "mudanzas"
@@ -3081,7 +3086,7 @@ const publicados: PostPublicado[] = [
     "slug": "guia-para-mudarte-a-monterrey-desde-otra-ciudad",
     "titulo": "Guía para mudarte a Monterrey desde otra ciudad",
     "fecha": "2025-05-13T22:54:26+00:00",
-    "modificado": "2025-05-14T00:39:32+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -3272,7 +3277,7 @@ const publicados: PostPublicado[] = [
     "slug": "checklist-definitiva-para-mudarte-en-monterrey-sin-estres",
     "titulo": "Checklist definitiva para mudarte en Monterrey sin estrés",
     "fecha": "2025-05-13T22:53:31+00:00",
-    "modificado": "2025-05-14T00:38:31+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -3496,7 +3501,7 @@ const publicados: PostPublicado[] = [
     "slug": "los-mejores-dias-y-horarios-para-hacer-tu-mudanza-en-monterrey",
     "titulo": "Los mejores días y horarios para hacer tu mudanza en Monterrey",
     "fecha": "2025-05-13T22:53:24+00:00",
-    "modificado": "2025-05-14T00:37:38+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -3704,7 +3709,7 @@ const publicados: PostPublicado[] = [
     "slug": "como-elegir-una-empresa-de-mudanzas-confiable-en-monterrey",
     "titulo": "Cómo elegir una empresa de mudanzas confiable en Monterrey",
     "fecha": "2025-05-13T22:53:11+00:00",
-    "modificado": "2025-05-13T22:56:21+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -3892,7 +3897,7 @@ const publicados: PostPublicado[] = [
     "slug": "errores-comunes-al-mudarse-en-monterrey-y-como-evitarlos",
     "titulo": "Errores comunes al mudarse en Monterrey (y cómo evitarlos)",
     "fecha": "2025-05-13T22:53:05+00:00",
-    "modificado": "2025-05-13T22:56:28+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -4088,7 +4093,7 @@ const publicados: PostPublicado[] = [
     "slug": "las-mejores-zonas-para-mudarte-en-monterrey-si-buscas-seguridad-y-conectividad",
     "titulo": "Las mejores zonas para mudarte en Monterrey si buscas seguridad y conectividad",
     "fecha": "2025-05-13T22:52:57+00:00",
-    "modificado": "2025-05-13T22:56:16+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "mudanzas"
     ],
@@ -4294,7 +4299,7 @@ const publicados: PostPublicado[] = [
     "slug": "cuanto-cuesta-una-mudanza-en-monterrey-en-2025",
     "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2026?",
     "fecha": "2025-05-13T22:52:54+00:00",
-    "modificado": "2025-05-13T22:56:10+00:00",
+    "modificado": "2026-10-08T23:15:46-06:00",
     "categorias": [
       "mudanzas"
     ],

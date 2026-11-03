@@ -42,7 +42,12 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-const jsonLd = jsonLdBase({ ruta, nombre: `${titulo} - Kanuby` });
+const jsonLd = jsonLdBase({
+  ruta,
+  nombre: `${titulo} - Kanuby`,
+  negocio: { tipo: "MovingCompany", imagen: "/images/ddddd.png" },
+  migas: [],
+});
 
 export default function MudanzasMonterreyCdmx() {
   return (

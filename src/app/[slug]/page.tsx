@@ -7,7 +7,14 @@ import { HeaderBlog } from "@/components/blog/header-blog";
 import { SiteFooter } from "@/components/site-footer";
 import { negocioDePost, servicioDePost } from "@/lib/conversiones";
 import { categorias, posts } from "@/lib/posts";
-import { jsonLdBase, serializarJsonLd, SITIO } from "@/lib/schema";
+import {
+  FOTO_KANUBY,
+  ID_ORGANIZACION,
+  IDIOMA,
+  jsonLdBase,
+  serializarJsonLd,
+  SITIO,
+} from "@/lib/schema";
 import styles from "./page.module.css";
 
 /* Los 24 posts viven en la raíz (/<slug>/), como en el publicado. */
@@ -32,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { absolute: post.seo.titulo },
     description: post.seo.descripcion ?? undefined,
     alternates: { canonical: ruta },
-    authors: [{ name: "SCNDAL" }],
+    authors: [{ name: "Kanuby", url: SITIO }],
     openGraph: {
       type: "article",
       locale: "es_MX",
@@ -69,8 +76,11 @@ export default async function PaginaPost({ params }: Props) {
     ruta,
     nombre: post.seo.titulo,
     descripcion: post.seo.descripcion ?? undefined,
+    migas: [{ nombre: "Blog", ruta: "/blog/" }],
+    nombreMiga: post.titulo,
   });
-  const imagen = post.imagen ? `${SITIO}${post.imagen.src}` : undefined;
+  // Los posts sin imagen propia llevan en el JSON-LD la foto general de Kanuby
+  const imagen = `${SITIO}${post.imagen?.src ?? FOTO_KANUBY}`;
   const jsonLd = {
     ...base,
     "@graph": [
@@ -78,32 +88,28 @@ export default async function PaginaPost({ params }: Props) {
         "@type": "Article",
         "@id": `${url}#article`,
         isPartOf: { "@id": url },
-        author: { name: "SCNDAL", "@id": `${SITIO}/#/schema/person/scndal` },
+        // El autor es Kanuby, la organización (no la agencia)
+        author: { "@id": ID_ORGANIZACION, name: "Kanuby", url: `${SITIO}/` },
         headline: post.titulo,
         datePublished: post.fecha,
         dateModified: post.modificado,
         mainEntityOfPage: { "@id": url },
         wordCount: post.seo.palabras,
-        publisher: { "@id": `${SITIO}/#organization` },
-        ...(imagen ? { image: imagen, thumbnailUrl: imagen } : {}),
+        publisher: { "@id": ID_ORGANIZACION },
+        image: imagen,
+        thumbnailUrl: imagen,
         ...(post.categorias.includes("sin-categoria")
           ? {}
           : { articleSection: post.categorias.map((categoria) => categorias[categoria]) }),
-        inLanguage: "es",
+        inLanguage: IDIOMA,
       },
       {
         ...base["@graph"][0],
-        ...(imagen ? { thumbnailUrl: imagen } : {}),
+        thumbnailUrl: imagen,
         datePublished: post.fecha,
         dateModified: post.modificado,
       },
       ...base["@graph"].slice(1),
-      {
-        "@type": "Person",
-        "@id": `${SITIO}/#/schema/person/scndal`,
-        name: "SCNDAL",
-        sameAs: ["http://scndal.com"],
-      },
     ],
   };
 

@@ -12,6 +12,9 @@ const NACIONAL = "8110287087";
 /** Como se muestra: "81 1028 7087" */
 export const TELEFONO_VISIBLE = `${NACIONAL.slice(0, 2)} ${NACIONAL.slice(2, 6)} ${NACIONAL.slice(6)}`;
 
+/** Con la lada de México, para los datos estructurados: "+52 81 1028 7087" */
+export const TELEFONO_INTERNACIONAL = `+52 ${TELEFONO_VISIBLE}`;
+
 /** Enlace para llamar, con la lada de México */
 export const TELEFONO_ENLACE = `tel:+52${NACIONAL}`;
 

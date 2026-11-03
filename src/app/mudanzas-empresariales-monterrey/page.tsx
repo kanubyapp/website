@@ -54,7 +54,12 @@ const preguntas = [
   },
 ];
 
-const jsonLd = jsonLdBase({ ruta, nombre: `${titulo} - Kanuby` });
+const jsonLd = jsonLdBase({
+  ruta,
+  nombre: `${titulo} - Kanuby`,
+  negocio: { tipo: "MovingCompany", imagen: "/images/ddddd.png" },
+  migas: [],
+});
 
 const jsonLdFaq = {
   "@context": "https://schema.org",

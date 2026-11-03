@@ -1,3 +1,4 @@
+import { CERRADO_MINIBODEGAS, HORARIO_MINIBODEGAS } from "@/lib/negocio";
 import type { PreguntaFrecuente } from "@/lib/preguntas";
 import type { Testimonio } from "@/lib/testimonios";
 
@@ -17,12 +18,8 @@ export const preguntas: PreguntaFrecuente[] = [
     pregunta: "¿Cuál es el horario para acceder a mi mini bodega?",
     respuesta: [
       "Nuestro horario es:",
-      [
-        "Lunes a Viernes: 9:00 AM – 7:00 PM",
-        "Sábados: 9:30 AM – 1:00 PM",
-        "Domingos: Cerrado",
-        "Días festivos oficiales: Cerrado",
-      ],
+      // El mismo horario del JSON-LD de SelfStorage (lib/negocio.ts)
+      [...HORARIO_MINIBODEGAS.map((franja) => franja.texto), ...CERRADO_MINIBODEGAS],
       "Estamos trabajando para implementar acceso 24/7 mediante tecnología automatizada próximamente.",
     ],
   },

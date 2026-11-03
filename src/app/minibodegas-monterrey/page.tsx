@@ -7,6 +7,7 @@ import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
 import { Testimonios } from "@/components/mudanzas/testimonios";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { formatoMedida, MINIBODEGAS, type Minibodega } from "@/lib/minibodegas";
+import { COORDENADAS, DIRECCION_VISIBLE, PERFIL_GOOGLE } from "@/lib/negocio";
 import { jsonLdPreguntas } from "@/lib/preguntas";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import { tamanoDeSuperficie } from "@/lib/whatsapp";
@@ -17,7 +18,6 @@ import styles from "./page.module.css";
 
 const titulo = "Minibodegas en Monterrey";
 const ruta = "/minibodegas-monterrey/";
-const perfilGoogle = "https://share.google/idvTeRuzwdaQkGoee";
 
 export const metadata: Metadata = {
   title: titulo,
@@ -35,7 +35,12 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-const jsonLd = jsonLdBase({ ruta, nombre: `${titulo} - Kanuby` });
+const jsonLd = jsonLdBase({
+  ruta,
+  nombre: `${titulo} - Kanuby`,
+  negocio: { tipo: "SelfStorage", imagen: "/images/minibodegas/hero-minibodegas.webp" },
+  migas: [],
+});
 
 const jsonLdFaq = jsonLdPreguntas(preguntas);
 
@@ -199,7 +204,7 @@ export default function Minibodegas() {
           testimonios={resenas}
           pie={
             <a
-              href={perfilGoogle}
+              href={PERFIL_GOOGLE}
               target="_blank"
               rel="noopener noreferrer"
               className={`kb-area-tactil ${styles.botonEnlace}`}
@@ -212,11 +217,9 @@ export default function Minibodegas() {
         <section id="ubicacion" className={styles.ubicacion}>
           <div className={`kb-tarjeta ${styles.ubicacionCaja}`}>
             <h2 className={styles.ubicacionTitulo}>Ubícanos</h2>
-            <p className={styles.ubicacionDireccion}>
-              CARR NACIONAL KM258 SN 5TA SN EMILIO, Los Rodríguez, 67300 Santiago, N.L.
-            </p>
+            <p className={styles.ubicacionDireccion}>{DIRECCION_VISIBLE}</p>
             <a
-              href={perfilGoogle}
+              href={PERFIL_GOOGLE}
               target="_blank"
               rel="noopener noreferrer"
               className={`kb-boton-secundario ${styles.comoLlegar}`}
@@ -225,7 +228,7 @@ export default function Minibodegas() {
             </a>
             <div className={styles.mapa}>
               <iframe
-                src="https://maps.google.com/maps?q=25.489192%2C%20-100.183956&t=m&z=16&output=embed&iwloc=near"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(`${COORDENADAS.latitud}, ${COORDENADAS.longitud}`)}&t=m&z=16&output=embed&iwloc=near`}
                 title="Mapa de la ubicación de las minibodegas de Kanuby"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

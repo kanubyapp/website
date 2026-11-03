@@ -88,7 +88,12 @@ const negocios = [
   },
 ] as const;
 
-const jsonLd = jsonLdBase({ ruta: "/", nombre: titulo, descripcion });
+const jsonLd = jsonLdBase({
+  ruta: "/",
+  nombre: titulo,
+  descripcion,
+  negocio: { tipo: "LocalBusiness", imagen: "/images/pr3.jpg" },
+});
 
 export default function Home() {
   return (
