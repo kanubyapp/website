@@ -27,9 +27,14 @@
   outline-offset: var(--anillo-foco-separacion);
 }
 
+/*
+ * Ancho propio: el que tenía con --medida-texto en 62ch, antes de que el
+ * token bajara a 45ch para el texto corrido. La ilustración no es texto y
+ * no tiene por qué achicarse.
+ */
 .ilustracion {
   width: 100%;
-  max-width: var(--medida-texto);
+  max-width: 62ch;
   height: auto;
 }
 

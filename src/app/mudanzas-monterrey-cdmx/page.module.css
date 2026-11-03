@@ -17,7 +17,14 @@
   width: 55%;
 }
 
+/*
+ * max-width: con la letra muy agrandada en el navegador, el titular no pasa
+ * del ancho de la pantalla (si no, la ciudad que rota se sale y aparece
+ * scroll horizontal). Tope en la pantalla y no en su columna: en 320px, a
+ * tamaño normal, ya es un poco más ancho que la columna, y así se ve igual.
+ */
 .hero :global(.kb-hero-titulo) {
+  max-width: 100vw;
   font-size: var(--texto-50);
   font-weight: var(--peso-semibold);
   line-height: var(--interlineado-40);
@@ -69,18 +76,23 @@
 }
 
 .rotativoLinea2 {
-  line-height: 28px;
+  line-height: 1.75rem;
 }
 
 .rotativoLinea2 .rotativoDinamico {
-  line-height: 20px;
+  line-height: 1.25rem;
 }
 
 /* Las ciudades que rotan van en naranja */
+/*
+ * La ciudad va en un renglón: sus letras no tienen espacios entre sí, así que
+ * no se parte. Solo si la letra está tan agrandada que la ciudad no cabe en
+ * la pantalla, se parte (overflow-wrap del título) en lugar de salirse.
+ */
 .rotativoDinamico {
   display: inline-block;
+  max-width: 100%;
   color: var(--color-naranja);
-  white-space: nowrap;
 }
 
 .letra::before,

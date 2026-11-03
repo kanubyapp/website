@@ -749,8 +749,14 @@
     pointer-events: auto;
   }
 
+  /*
+   * flex-wrap: si la persona agrandó mucho la letra en su navegador y no
+   * cabe todo en un renglón, lo que sobra pasa al siguiente antes que
+   * salirse de la pantalla con el botón del menú. A tamaño normal cabe.
+   */
   .kb-header-barra {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: var(--espacio-2) var(--espacio-4);
@@ -973,7 +979,9 @@
     width: 45%;
   }
 
+  /* No siempre es un h1 (en cdmx es un div): la palabra que no cabe se parte, como en base.css */
   .kb-hero-titulo {
+    overflow-wrap: break-word;
     color: var(--color-texto);
     font-size: var(--texto-60);
     font-weight: var(--peso-semibold);
@@ -1028,7 +1036,9 @@
   }
 
   /* Es un <p>: la fuente de títulos la pone aquí, no el reset de encabezados */
+  /* Con la letra muy agrandada, la palabra que no cabe se parte (base.css) */
   .kb-porque-antetitulo {
+    overflow-wrap: break-word;
     color: var(--color-naranja);
     font-family: var(--fuente-titulos);
     font-size: var(--texto-44);

@@ -188,29 +188,32 @@
   --peso-semibold: 600;
 
   /*
-   * Tamaños de texto. Una sola escala para escritorio y móvil, nombrada por
-   * su valor en px. Los marcados con (m) solo aparecen en móvil.
+   * Tamaños de texto. Una sola escala para escritorio y móvil, en rem para
+   * que crezca con el tamaño de letra que la persona configura en su
+   * navegador. El nombre es el valor en px a tamaño normal (1rem = 16px):
+   * --texto-18 es 18/16 = 1.125rem. Los marcados con (m) solo aparecen en
+   * móvil.
    */
-  --texto-12: 12px;
-  --texto-13: 13px;
-  --texto-14: 14px;
-  --texto-16: 16px;
-  --texto-17: 17px;
-  --texto-18: 18px;
-  --texto-20: 20px;
-  --texto-21: 21px; /* (m) */
-  --texto-22: 22px;
-  --texto-24: 24px;
-  --texto-26: 26px;
-  --texto-30: 30px; /* (m) */
-  --texto-32: 32px;
-  --texto-36: 36px;
-  --texto-38: 38px; /* (m) */
-  --texto-40: 40px;
-  --texto-44: 44px;
-  --texto-50: 50px;
-  --texto-60: 60px;
-  --texto-70: 70px;
+  --texto-12: 0.75rem;
+  --texto-13: 0.8125rem;
+  --texto-14: 0.875rem;
+  --texto-16: 1rem;
+  --texto-17: 1.0625rem;
+  --texto-18: 1.125rem;
+  --texto-20: 1.25rem;
+  --texto-21: 1.3125rem; /* (m) */
+  --texto-22: 1.375rem;
+  --texto-24: 1.5rem;
+  --texto-26: 1.625rem;
+  --texto-30: 1.875rem; /* (m) */
+  --texto-32: 2rem;
+  --texto-36: 2.25rem;
+  --texto-38: 2.375rem; /* (m) */
+  --texto-40: 2.5rem;
+  --texto-44: 2.75rem;
+  --texto-50: 3.125rem;
+  --texto-60: 3.75rem;
+  --texto-70: 4.375rem;
 
   /*
    * Interlineados. Los tres primeros son los heredados del sitio publicado:
@@ -221,22 +224,27 @@
   --interlineado-titulo: 1;
   /* Títulos de tarjeta sin estilo propio: el h1–h6 de Bootstrap del tema */
   --interlineado-encabezado: 1.2;
-  --interlineado-8: 8px; /* texto superior de los botones de dos líneas */
-  --interlineado-22: 22px;
-  --interlineado-24: 24px;
-  --interlineado-30: 30px;
-  --interlineado-40: 40px; /* (m) */
+  --interlineado-8: 0.5rem; /* texto superior de los botones de dos líneas */
+  --interlineado-22: 1.375rem;
+  --interlineado-24: 1.5rem;
+  --interlineado-30: 1.875rem;
+  --interlineado-40: 2.5rem; /* (m) */
   /* Sistema oscuro: titulares grandes y párrafos de lectura */
   --interlineado-display: 1.08;
   --interlineado-parrafo: 1.6;
 
   /* Tracking */
-  --tracking-md: 1px;
+  --tracking-md: 0.0625rem;
   --tracking-display: -0.02em;
 
   /* Layout */
   --ancho-contenido: 1140px;
-  --medida-texto: 62ch;
+  /*
+   * Ancho de lectura. Un ch es el ancho del "0", más ancho que la letra
+   * promedio de estas fuentes: 45ch dan de 60 a 65 caracteres por renglón
+   * (62ch daban unos 88).
+   */
+  --medida-texto: 45ch;
   --espacio-seccion: 120px;
   --espacio-seccion-movil: 72px;
 
@@ -262,9 +270,9 @@
   --radio-xl: 40px;
 
   /* Botones */
-  --relleno-boton: 8px 32px;
-  --relleno-boton-sistema: 14px 28px;
-  --relleno-pildora: 8px 16px;
+  --relleno-boton: 0.5rem 2rem;
+  --relleno-boton-sistema: 0.875rem 1.75rem;
+  --relleno-pildora: 0.5rem 1rem;
 
   /*
    * Botón flotante de WhatsApp: tamaño y distancia a la esquina inferior

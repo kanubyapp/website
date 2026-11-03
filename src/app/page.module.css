@@ -259,9 +259,10 @@
  * fila, cada columna necesita la palabra más larga ("Empresas", 61.6px a
  * 14px), su línea (1px) y al menos 5px libres a cada lado, la mitad del
  * relleno, para que el texto no toque la línea: 72.6px, 217.8px las tres.
- * El corte va en 220px.
+ * El corte va en 220px, en rem (13.75rem, 1rem = 16px) porque sale de medir
+ * texto: si la persona agranda la letra, el corte crece con ella.
  */
-@container (max-width: 219.98px) {
+@container (max-width: 13.74875rem) {
   .datos {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -300,9 +301,10 @@
  * Si los dos botones no caben lado a lado, uno debajo del otro antes que
  * aplastarlos. Se reparten el ancho por igual (flex: 1), así que cada mitad
  * necesita el ancho natural del más ancho ("Contactar", 98px): con los 10px
- * entre ellos, 205.9px. El corte va en 208px.
+ * entre ellos, 205.9px. El corte va en 208px, en rem (13rem) por lo mismo
+ * que el de los datos: sale de medir texto.
  */
-@container (max-width: 207.98px) {
+@container (max-width: 12.99875rem) {
   .negocioBotones {
     flex-direction: column;
   }

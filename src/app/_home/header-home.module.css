@@ -12,6 +12,8 @@
 
 .barra {
   display: flex;
+  /* Con la letra muy agrandada, a otro renglón antes que fuera de la pantalla */
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: var(--espacio-4);

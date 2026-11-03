@@ -59,6 +59,19 @@
     line-height: var(--interlineado-titulo);
   }
 
+  /*
+   * Con la letra muy agrandada en el navegador, el h1 no pasa del ancho de su
+   * contenedor (en un flex centrado tomaría el de su palabra más larga) y la
+   * palabra que no cabe se parte, en lugar de salirse de la pantalla. Solo el
+   * h1: a tamaño normal ninguno se sale y nada cambia, y en otros títulos
+   * (como los de las tarjetas de "por qué" en tablet) cambiaría lo que hoy se
+   * ve.
+   */
+  h1 {
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
   p,
   ul,
   ol,
