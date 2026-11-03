@@ -5,7 +5,7 @@ export const preguntas: PreguntaFrecuente[] = [
   {
     pregunta: "¿Cuánto cuesta una mudanza?",
     respuesta: [
-      "Cada mudanza se cotiza aparte, porque el precio depende de los muebles que se mueven, de los accesos de cada lugar y de la ruta. Pedir tu cotización no tiene ningún costo: solo pagas si decides contratar el servicio.",
+      "Cada mudanza se cotiza aparte, porque el precio depende de cuántas cosas se mueven, de qué tan accesibles están los dos domicilios, de si quieres que empaquemos nosotros y de si hay objetos que piden manejo especial. Pedir tu cotización no tiene ningún costo: solo pagas si decides contratar el servicio.",
     ],
   },
   {
