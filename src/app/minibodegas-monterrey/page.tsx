@@ -7,7 +7,7 @@ import { BotonFlotante } from "@/components/mudanzas/boton-flotante";
 import { Testimonios } from "@/components/mudanzas/testimonios";
 import { CotizacionProvider } from "@/components/mudanzas/cotizacion";
 import { formatoMedida, MINIBODEGAS, type Minibodega } from "@/lib/minibodegas";
-import { COORDENADAS, DIRECCION_VISIBLE, PERFIL_GOOGLE } from "@/lib/negocio";
+import { COORDENADAS, DIRECCION_VISIBLE, PERFIL_GOOGLE, UBICACION_CORTA } from "@/lib/negocio";
 import { jsonLdPreguntas } from "@/lib/preguntas";
 import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import { tamanoDeSuperficie } from "@/lib/whatsapp";
@@ -19,15 +19,20 @@ import styles from "./page.module.css";
 const titulo = "Minibodegas en Monterrey";
 const ruta = "/minibodegas-monterrey/";
 
+const descripcion =
+  "Renta de minibodegas de 3.5, 7 y 14 m² en Santiago, Nuevo León, cerca de Monterrey. Videovigilancia 24/7, accesos controlados y acceso de lunes a sábado.";
+
 export const metadata: Metadata = {
   title: titulo,
+  description: descripcion,
   alternates: { canonical: ruta },
   openGraph: {
-    type: "article",
+    type: "website",
     locale: "es_MX",
     url: ruta,
     siteName: "Kanuby",
     title: `${titulo} - Kanuby`,
+    description: descripcion,
     images: [
       { url: "/images/minibodegas/camionvolador-og.png", width: 800, height: 522, type: "image/png" },
     ],
@@ -86,7 +91,9 @@ export default function Minibodegas() {
             preload
             fetchPriority="high"
           />
-          <h1 className={styles.heroTitulo}>Renta de Minibodegas</h1>
+          <h1 className={styles.heroTitulo}>Renta de Minibodegas en Monterrey</h1>
+          {/* Dónde están, sin desplazarse: el título dice Monterrey y la sucursal está en Santiago */}
+          <p className={`kb-pildora ${styles.heroUbicacion}`}>{UBICACION_CORTA}</p>
           <p className={styles.heroTexto}>
             Libera espacio en tu hogar o negocio. Renta tu propia minibodega, guarda tus
             pertenencias con total seguridad y accede a ellas cuando lo necesites. Tú tienes la

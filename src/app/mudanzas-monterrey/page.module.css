@@ -43,6 +43,17 @@
 }
 
 /*
+ * Entre 768 y 860px la columna no da para "en Monterrey" a 50px y "en"
+ * quedaba solo en un renglón. El tamaño sigue a la columna (37.1vw - 19px):
+ * "en Monterrey" mide 5.83 veces la letra, con un 3% de margen, 6.
+ */
+@media (min-width: 768px) and (max-width: 860px) {
+  .hero :global(.kb-hero-titulo) {
+    font-size: min(var(--texto-50), calc((37.1vw - 19px) / 6));
+  }
+}
+
+/*
  * Párrafo un poco más grande que el del patrón (20px) en escritorio y tablet.
  * El interlineado del patrón es relativo y escala con él; el color y el ancho
  * de columna no cambian.

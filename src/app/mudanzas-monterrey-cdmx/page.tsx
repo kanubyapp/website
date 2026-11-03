@@ -21,15 +21,20 @@ import styles from "./page.module.css";
 const titulo = "Mudanzas de Monterrey a CDMX y de CDMX a Monterrey";
 const ruta = "/mudanzas-monterrey-cdmx/";
 
+const descripcion =
+  "Mudanzas entre Monterrey y CDMX en camión directo, sin escalas ni terceros. Empacamos, cargamos y trasladamos tus cosas. Más de 20 años de experiencia.";
+
 export const metadata: Metadata = {
   title: titulo,
+  description: descripcion,
   alternates: { canonical: ruta },
   openGraph: {
-    type: "article",
+    type: "website",
     locale: "es_MX",
     url: ruta,
     siteName: "Kanuby",
     title: `${titulo} - Kanuby`,
+    description: descripcion,
     images: [
       {
         url: "/images/posts/checklist-mudanza-monterrey.jpeg",

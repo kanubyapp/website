@@ -1027,8 +1027,10 @@
     width: 100%;
   }
 
+  /* Es un <p>: la fuente de títulos la pone aquí, no el reset de encabezados */
   .kb-porque-antetitulo {
     color: var(--color-naranja);
+    font-family: var(--fuente-titulos);
     font-size: var(--texto-44);
     font-weight: var(--peso-semibold);
     line-height: var(--interlineado-display);

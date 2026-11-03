@@ -107,7 +107,7 @@
   display: grid;
   position: relative;
   grid-template-columns: calc(37vw - var(--espacio-5)) minmax(0, 1fr);
-  grid-template-rows: 1fr auto auto auto 1fr;
+  grid-template-rows: 1fr auto auto auto auto 1fr;
   align-content: center;
   align-items: center;
   gap: var(--espacio-3) var(--espacio-5);
@@ -117,6 +117,7 @@
 
 /* El texto en la columna izquierda, en las filas del centro */
 .heroTitulo,
+.heroUbicacion,
 .heroTexto,
 .heroBotones {
   position: relative;
@@ -128,12 +129,19 @@
   grid-row: 2;
 }
 
-.heroTexto {
+/* La ubicación, como dato de apoyo bajo el título (kb-pildora, como en la home) */
+.heroUbicacion {
   grid-row: 3;
+  justify-self: start;
+  text-wrap: balance;
+}
+
+.heroTexto {
+  grid-row: 4;
 }
 
 .heroBotones {
-  grid-row: 4;
+  grid-row: 5;
 }
 
 .hero::before {
@@ -160,6 +168,17 @@
   font-weight: var(--peso-semibold);
   line-height: var(--interlineado-display);
   letter-spacing: var(--tracking-display);
+}
+
+/*
+ * Entre 1025 y 1107px la columna (37vw - 50px) no da para "en Monterrey" a
+ * 60px: "Minibodegas" se salía y "en" quedaba solo. El tamaño sigue a la
+ * columna: "en Monterrey" mide 5.83 veces la letra, con un 3% de margen, 6.
+ */
+@media (min-width: 1025px) and (max-width: 1107px) {
+  .heroTitulo {
+    font-size: min(var(--texto-60), calc((37vw - 50px) / 6));
+  }
 }
 
 .heroTexto {
@@ -624,10 +643,15 @@
   }
 
   .heroTitulo,
+  .heroUbicacion,
   .heroTexto,
   .heroBotones,
   .heroFondo {
     grid-row: auto;
+  }
+
+  .heroUbicacion {
+    justify-self: center;
   }
 
   .heroFondo {

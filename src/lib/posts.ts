@@ -103,7 +103,7 @@ const publicados: PostPublicado[] = [
       },
       {
         "tipo": "titulo",
-        "nivel": 3,
+        "nivel": 2,
         "estilo": 3,
         "texto": [
           "Consejos para organizarte tras la mudanza:"
@@ -228,7 +228,7 @@ const publicados: PostPublicado[] = [
       "alt": "Niña ayudando a desempacar una caja con material de protección"
     },
     "seo": {
-      "titulo": "Mudanzas premium en San Pedro Garza García",
+      "titulo": "Mudanzas premium en San Pedro Garza García - Kanuby",
       "descripcion": "Mudanzas en San Pedro Garza García. Traslados seguros, rápidos y personalizados en Monterrey. ¡Tu mudanza sin complicaciones!"
     },
     "contenido": [
@@ -381,7 +381,7 @@ const publicados: PostPublicado[] = [
       "alt": "Oficina con muebles y cajas empacados para la mudanza"
     },
     "seo": {
-      "titulo": "Múdate de oficina sin complicaciones",
+      "titulo": "Mudanza de oficina en Monterrey sin interrupciones - Kanuby",
       "descripcion": "Realiza la mudanza de tu oficina sin pausa en tus operaciones. Aprende las mejores estrategias para mudarte sin contratiempos."
     },
     "contenido": [
@@ -518,7 +518,7 @@ const publicados: PostPublicado[] = [
       "alt": "Pareja sentada entre cajas de mudanza con signos de interrogación sobre la cabeza"
     },
     "seo": {
-      "titulo": "Evita estos errores al mudarte.",
+      "titulo": "Cómo evitar errores comunes al mudarte en Monterrey - Kanuby",
       "descripcion": "Te damos consejos prácticos para que tu mudanza sea sencilla, rápida, sin sorpresas y evita los errores más comunes al mudarte ."
     },
     "contenido": [
@@ -653,7 +653,7 @@ const publicados: PostPublicado[] = [
       "alt": "Manos sellando una caja de mudanza con cinta adhesiva"
     },
     "seo": {
-      "titulo": "Mudanza urgente en Monterrey",
+      "titulo": "Mudanza urgente en Monterrey - Kanuby",
       "descripcion": "¿Necesitas una mudanza urgente en Monterrey? Contamos con soluciones rápidas, seguras y profesionales para trasladarte sin estrés ni demoras."
     },
     "contenido": [
@@ -806,7 +806,7 @@ const publicados: PostPublicado[] = [
       "alt": "Cajas de mudanza cargadas en una camioneta"
     },
     "seo": {
-      "titulo": "Servicios de mudanza profesional",
+      "titulo": "Qué incluye un servicio de mudanza profesional - Kanuby",
       "descripcion": "Servicios de mudanza profesional con atención personalizada, seguridad y rapidez. Hacemos que tu traslado sea fácil y sin preocupaciones."
     },
     "contenido": [
@@ -951,7 +951,7 @@ const publicados: PostPublicado[] = [
       "alt": "Pareja mirando dentro de una caja de mudanza"
     },
     "seo": {
-      "titulo": "Mudanzas residenciales en Monterrey",
+      "titulo": "Mudanzas residenciales en Monterrey, paso a paso - Kanuby",
       "descripcion": "Servicio profesional de mudanzas en Monterrey con atención personalizada. Haz tu traslado fácil y sin preocupaciones."
     },
     "contenido": [
@@ -1093,7 +1093,7 @@ const publicados: PostPublicado[] = [
       "alt": "Mujer recostada entre cajas de mudanza en una habitación vacía"
     },
     "seo": {
-      "titulo": "Checklist para tu mudanza en Monterrey",
+      "titulo": "Checklist para tu mudanza en Monterrey - Kanuby",
       "descripcion": "Organiza tu mudanza en Monterrey con nuestra checklist práctica. No olvides ningún detalle y haz tu traslado fácil y sin estrés."
     },
     "contenido": [
@@ -1304,7 +1304,7 @@ const publicados: PostPublicado[] = [
       "alt": "Mujer descansando con una taza entre cajas de mudanza"
     },
     "seo": {
-      "titulo": "Mejores mudanzas en Monterrey: cómo elegir un servicio confiable",
+      "titulo": "Cómo elegir un servicio de mudanzas en Monterrey - Kanuby",
       "descripcion": "Descubre cómo elegir un servicio de mudanzas en Monterrey profesional, seguro y sin contratiempos. Guía rápida para tomar la mejor decisión."
     },
     "contenido": [
@@ -1452,7 +1452,7 @@ const publicados: PostPublicado[] = [
       "alt": "Cajas de mudanza apiladas en una habitación"
     },
     "seo": {
-      "titulo": "Guía para conocer las tarifas en mudanzas",
+      "titulo": "Tarifas de mudanzas en Monterrey: guía de costos - Kanuby",
       "descripcion": "Descubre los factores en las tarifas de mudanzas. Conoce qué servicios incluye un traslado profesional y cómo elegir la mejor opción."
     },
     "contenido": [
@@ -1631,7 +1631,7 @@ const publicados: PostPublicado[] = [
       "alt": "Persona acomodando cajas dentro de una minibodega"
     },
     "seo": {
-      "titulo": "¿Tu casa está en remodelación? Una minibodega puede salvarte - Kanuby",
+      "titulo": "¿Remodelas tu casa? Una minibodega puede salvarte - Kanuby",
       "descripcion": "Si vas a remodelar tu casa en Monterrey, una minibodega protege tus muebles del polvo y los golpes mientras trabajan. Te explicamos cómo aprovecharla."
     },
     "contenido": [
@@ -2444,7 +2444,7 @@ const publicados: PostPublicado[] = [
       "alt": "Persona sellando una caja de mudanza con cinta"
     },
     "seo": {
-      "titulo": "Así es una mudanza con recolección y minibodega incluida: paso a paso - Kanuby",
+      "titulo": "Mudanza con recolección y minibodega, paso a paso - Kanuby",
       "descripcion": "Así funciona una mudanza con recolección y minibodega incluida con Kanuby: recogemos tus cosas, las guardamos y te las llevamos cuando estés listo."
     },
     "contenido": [
@@ -2612,9 +2612,9 @@ const publicados: PostPublicado[] = [
   },
   {
     "slug": "cuanto-cuesta-rentar-una-minibodega-en-monterrey-guia-2025",
-    "titulo": "¿Cuánto cuesta rentar una minibodega en Monterrey? Guía 2026",
+    "titulo": "¿De qué depende el precio de una minibodega en Monterrey?",
     "fecha": "2025-05-13T23:04:34+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T19:40:00-06:00",
     "categorias": [
       "minibodegas"
     ],
@@ -2625,14 +2625,14 @@ const publicados: PostPublicado[] = [
       "alt": "Persona emplayando muebles con película plástica"
     },
     "seo": {
-      "titulo": "¿Cuánto cuesta rentar una minibodega en Monterrey? Guía 2026 - Kanuby",
+      "titulo": "Minibodega en Monterrey: de qué depende el precio - Kanuby",
       "descripcion": "¿De qué depende el costo de rentar una minibodega en Monterrey? Tamaño, tiempo, servicios incluidos y cómo pedir una cotización justa para lo que necesitas."
     },
     "contenido": [
       {
         "tipo": "parrafo",
         "texto": [
-          "Si estás pensando en rentar una minibodega, una de las primeras preguntas es cuánto te va a costar. La respuesta corta es que depende. La respuesta útil es saber exactamente de qué depende, para que compares bien y pagues solo por lo que de verdad necesitas."
+          "Si estás pensando en rentar una minibodega, una de las primeras preguntas es qué influye en el precio. No hay una tarifa única: depende de varios factores, y conocerlos te ayuda a comparar bien y a pagar solo por lo que de verdad necesitas."
         ]
       },
       {
@@ -2848,7 +2848,7 @@ const publicados: PostPublicado[] = [
       "alt": "Dos personas pasándose una caja de mudanza"
     },
     "seo": {
-      "titulo": "Mudanzas y minibodegas: la combinación perfecta si aún no puedes instalarte - Kanuby",
+      "titulo": "Mudanza y minibodega si aún no puedes instalarte - Kanuby",
       "descripcion": "Si ya dejaste tu casa pero la nueva aún no está lista, combinar mudanza y minibodega es la solución. Te explicamos cuándo conviene y cómo funciona."
     },
     "contenido": [
@@ -3288,7 +3288,7 @@ const publicados: PostPublicado[] = [
       "alt": "Lista de verificación con casillas marcadas"
     },
     "seo": {
-      "titulo": "Checklist definitiva para mudarte en Monterrey sin estrés - Kanuby",
+      "titulo": "Checklist definitiva para mudarte sin estrés - Kanuby",
       "descripcion": "La checklist más completa para tu mudanza en Monterrey: qué hacer semanas antes, días antes, el día de la mudanza y al llegar a tu nuevo hogar."
     },
     "contenido": [
@@ -3512,7 +3512,7 @@ const publicados: PostPublicado[] = [
       "alt": "Persona cargando cajas de mudanza"
     },
     "seo": {
-      "titulo": "Los mejores días y horarios para hacer tu mudanza en Monterrey - Kanuby",
+      "titulo": "Mejores días y horarios para mudarte en Monterrey - Kanuby",
       "descripcion": "¿Qué día y a qué hora conviene mudarte en Monterrey? Consejos sobre clima, tráfico, temporadas y horarios para que tu mudanza sea más fácil."
     },
     "contenido": [
@@ -3715,7 +3715,7 @@ const publicados: PostPublicado[] = [
     ],
     "imagen": null,
     "seo": {
-      "titulo": "Cómo elegir una empresa de mudanzas confiable en Monterrey - Kanuby",
+      "titulo": "Cómo elegir una mudanza confiable en Monterrey - Kanuby",
       "descripcion": "Cómo elegir una empresa de mudanzas confiable en Monterrey: qué revisar, qué preguntar y qué señales de alerta evitar antes de contratar."
     },
     "contenido": [
@@ -3903,7 +3903,7 @@ const publicados: PostPublicado[] = [
     ],
     "imagen": null,
     "seo": {
-      "titulo": "Errores comunes al mudarse en Monterrey (y cómo evitarlos) - Kanuby",
+      "titulo": "Errores comunes al mudarse en Monterrey - Kanuby",
       "descripcion": "Los errores más comunes al mudarse en Monterrey y cómo evitarlos: planeación, empaque, clima, tráfico y los detalles que más se olvidan."
     },
     "contenido": [
@@ -4099,7 +4099,7 @@ const publicados: PostPublicado[] = [
     ],
     "imagen": null,
     "seo": {
-      "titulo": "Las mejores zonas para mudarte en Monterrey si buscas seguridad y conectividad - Kanuby",
+      "titulo": "Mejores zonas para mudarte en Monterrey - Kanuby",
       "descripcion": "Conoce algunas de las zonas más buscadas para vivir en Monterrey y su área metropolitana, y qué considerar si buscas tranquilidad y buena conectividad."
     },
     "contenido": [
@@ -4297,15 +4297,15 @@ const publicados: PostPublicado[] = [
   },
   {
     "slug": "cuanto-cuesta-una-mudanza-en-monterrey-en-2025",
-    "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2026?",
+    "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2025?",
     "fecha": "2025-05-13T22:52:54+00:00",
-    "modificado": "2026-10-08T23:15:46-06:00",
+    "modificado": "2026-11-02T19:01:16-06:00",
     "categorias": [
       "mudanzas"
     ],
     "imagen": null,
     "seo": {
-      "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2026? - Kanuby",
+      "titulo": "¿Cuánto cuesta una mudanza en Monterrey en 2025? - Kanuby",
       "descripcion": "¿De qué depende el costo de una mudanza en Monterrey? Volumen, distancia, accesos, servicios incluidos y cómo pedir una cotización justa."
     },
     "contenido": [

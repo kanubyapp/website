@@ -18,15 +18,22 @@ import styles from "./page.module.css";
 const titulo = "Mudanzas Empresariales en Monterrey";
 const ruta = "/mudanzas-empresariales-monterrey/";
 
+const descripcion =
+  "Mudanzas empresariales en Monterrey: trasladamos oficinas, mobiliario y equipo con un servicio llave en mano. Más de 20 años de experiencia.";
+
 export const metadata: Metadata = {
   title: titulo,
+  description: descripcion,
   alternates: { canonical: ruta },
   openGraph: {
-    type: "article",
+    type: "website",
     locale: "es_MX",
     url: ruta,
     siteName: "Kanuby",
     title: `${titulo} - Kanuby`,
+    description: descripcion,
+    // La imagen del hero, en JPG para que la lean todas las redes
+    images: [{ url: "/images/ddddd-og.jpg", width: 1200, height: 800, type: "image/jpeg" }],
   },
   twitter: { card: "summary_large_image" },
 };
@@ -98,7 +105,7 @@ export default function MudanzasEmpresariales() {
       <main>
         <HeroMudanzas
           className={styles.hero}
-          titulo="Mudamos tu Empresa en Monterrey"
+          titulo="Mudanzas Empresariales en Monterrey"
           texto="En Kanuby somos expertos en reubicación empresarial. Nos encargamos de todo para que tu empresa no pare."
           boton={
             <BotonCotizar

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   // Página de enlaces para redes sociales: no se indexa ni va en el sitemap.
   robots: { index: false, follow: true },
   openGraph: {
-    type: "article",
+    type: "website",
     locale: "es_MX",
     url: ruta,
     siteName: "Kanuby",

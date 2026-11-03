@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   alternates: { canonical: ruta },
   robots: robotsLegales,
   openGraph: {
-    type: "article",
+    type: "website",
     locale: "es_MX",
     url: ruta,
     siteName: "Kanuby",

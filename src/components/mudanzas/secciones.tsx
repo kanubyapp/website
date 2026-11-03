@@ -136,7 +136,8 @@ export function PorQueMudanzas({
   return (
     <section id={id} className={`kb-porque ${className}`}>
       <div className="kb-porque-contenido">
-        <h3 className="kb-porque-antetitulo">{antetitulo}</h3>
+        {/* Lema de la sección, no un encabezado: el H2 es el título que le sigue */}
+        <p className="kb-porque-antetitulo">{antetitulo}</p>
         <h2 className="kb-porque-titulo">{titulo}</h2>
         <p className="kb-porque-etiqueta">{etiqueta}</p>
         <div className="kb-porque-tarjetas">

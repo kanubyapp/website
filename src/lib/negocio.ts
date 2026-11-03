@@ -17,6 +17,13 @@ export const DIRECCION = {
 /** Como se muestra: "CARR NACIONAL KM258 SN 5TA SN EMILIO, Los Rodríguez, 67300 Santiago, N.L." */
 export const DIRECCION_VISIBLE = `${DIRECCION.calle}, ${DIRECCION.colonia}, ${DIRECCION.codigoPostal} ${DIRECCION.municipio}, ${DIRECCION.estado}`;
 
+/**
+ * La ubicación en corto, como se lee bajo el título del hero de minibodegas.
+ * Entre "Santiago," y "N.L." va un espacio que no se parte: si no cabe en un
+ * renglón, "N.L." no queda solo.
+ */
+export const UBICACION_CORTA = "Carretera Nacional km 258, Santiago,\u00a0N.L.";
+
 /** El punto del mapa de "Ubícanos" */
 export const COORDENADAS = { latitud: 25.489192, longitud: -100.183956 } as const;
 

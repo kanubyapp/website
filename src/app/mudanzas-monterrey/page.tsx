@@ -29,12 +29,16 @@ export const metadata: Metadata = {
   description: descripcion,
   alternates: { canonical: "/mudanzas-monterrey/" },
   openGraph: {
-    type: "article",
+    type: "website",
     locale: "es_MX",
     url: "/mudanzas-monterrey/",
     siteName: "Kanuby",
     title: `${titulo} - Kanuby`,
     description: descripcion,
+    // El camión del hero, en JPG para que lo lean todas las redes
+    images: [
+      { url: "/images/mudanzas/truck-kanuby-og.jpg", width: 1200, height: 675, type: "image/jpeg" },
+    ],
   },
   twitter: { card: "summary_large_image" },
 };

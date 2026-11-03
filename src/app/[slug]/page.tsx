@@ -49,16 +49,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.seo.descripcion ?? undefined,
       publishedTime: post.fecha,
       modifiedTime: post.modificado,
-      images: post.imagen
-        ? [
-            {
+      // Sin imagen propia, la foto general de Kanuby (como en el JSON-LD)
+      images: [
+        post.imagen
+          ? {
               url: post.imagen.src,
               width: post.imagen.width,
               height: post.imagen.height,
               type: "image/jpeg",
-            },
-          ]
-        : undefined,
+            }
+          : { url: FOTO_KANUBY, width: 1000, height: 1000, type: "image/jpeg" },
+      ],
     },
     twitter: { card: "summary_large_image" },
   };

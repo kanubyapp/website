@@ -5,7 +5,7 @@ import { HeaderBlog } from "@/components/blog/header-blog";
 import { SiteFooter } from "@/components/site-footer";
 import { fechaLarga } from "@/lib/fechas";
 import { categorias, posts, postsRecientes, type CategoriaSlug } from "@/lib/posts";
-import { jsonLdBase, serializarJsonLd } from "@/lib/schema";
+import { FOTO_KANUBY, jsonLdBase, serializarJsonLd } from "@/lib/schema";
 import styles from "./page.module.css";
 
 /*
@@ -14,7 +14,7 @@ import styles from "./page.module.css";
  * Arriba, un filtro que lleva a las páginas de categoría existentes.
  */
 
-const titulo = "Blog";
+const titulo = "Blog de mudanzas y minibodegas en Monterrey";
 const descripcion =
   "Consejos, guías y novedades de Kanuby sobre mudanzas y minibodegas en Monterrey y Nuevo León.";
 
@@ -29,6 +29,8 @@ export const metadata: Metadata = {
     siteName: "Kanuby",
     title: `${titulo} - Kanuby`,
     description: descripcion,
+    // La foto general de Kanuby (lib/schema.ts), la misma de la home
+    images: [{ url: FOTO_KANUBY, width: 1000, height: 1000, type: "image/jpeg" }],
   },
 };
 

@@ -22,7 +22,7 @@ import styles from "./page.module.css";
 
 const titulo = "Mudanzas y Minibodegas en Monterrey - Kanuby";
 const descripcion =
-  "Recolectamos, organizamos, guardamos y cuando ocupas te lo llevamos. Con Kanuby consigue tu espacio minibodega a domicilio en Monterrey.";
+  "Mudanzas en Monterrey y a CDMX, mudanzas empresariales y renta de minibodegas en Santiago, N.L. Un solo equipo empaca, traslada y guarda tus cosas.";
 
 export const metadata: Metadata = {
   title: { absolute: titulo },
@@ -139,7 +139,7 @@ export default function Home() {
             <ul className={styles.negocios}>
               <li>
                 <article className={styles.valor}>
-                  <h3 className={styles.valorTitulo}>¿Cómo te ayudamos?</h3>
+                  <h2 className={styles.valorTitulo}>¿Cómo te ayudamos?</h2>
                   <p className={styles.valorTexto}>
                     Llevamos más de 20 años moviendo y resguardando lo que más le importa a
                     familias y empresas de Nuevo León. Un solo equipo se encarga de todo:

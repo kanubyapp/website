@@ -51,6 +51,18 @@
   font-size: var(--texto-22);
 }
 
+/*
+ * Entre 768 y 953px la columna del texto no da para "Empresariales" a 60px y
+ * la palabra se salía hacia el camión. El tamaño sigue a la columna
+ * (41.6vw - 22px): "Empresariales" mide 6.25 veces la letra, con un 3% de
+ * margen, 6.45. "en Monterrey" es más corta, así que cabe junta en su renglón.
+ */
+@media (min-width: 768px) and (max-width: 953px) {
+  .hero :global(.kb-hero-titulo) {
+    font-size: min(var(--texto-60), calc((41.6vw - 22px) / 6.45));
+  }
+}
+
 .porque :global(.kb-porque-tarjeta-texto) {
   font-size: var(--texto-20);
   line-height: var(--interlineado-30);
