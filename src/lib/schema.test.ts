@@ -85,7 +85,7 @@ test("el horario de atención es el que publica la pregunta de mudanzas", () => 
 test("todo artículo lleva imagen: la suya o la foto general de Kanuby", () => {
   assert.equal(FOTO_KANUBY, "/images/pr3.jpg");
   assert.ok(existsSync(`public${FOTO_KANUBY}`));
-  assert.equal(posts.filter((post) => !post.imagen).length, 4);
+  assert.equal(posts.filter((post) => !post.imagen).length, 2);
 });
 
 test("sin precios en ningún negocio", () => {

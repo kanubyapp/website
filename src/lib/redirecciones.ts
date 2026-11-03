@@ -14,6 +14,21 @@ import { posts } from "./posts.ts";
 export type Redireccion = { source: string; destination: string; statusCode: 301 };
 
 /*
+ * Posts fusionados: competían por la misma búsqueda con otro que sí tenía
+ * tráfico. Su contenido útil se movió a ese y ya no están en lib/posts.ts.
+ * El post, su feed y sus adjuntos van al que se quedó.
+ */
+export const POSTS_FUSIONADOS: Record<string, string> = {
+  "como-elegir-una-empresa-de-mudanzas-confiable-en-monterrey":
+    "mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable",
+  "asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso":
+    "mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte",
+  "checklist-definitiva-para-mudarte-en-monterrey-sin-estres": "checklist-mudanza-monterrey",
+  "errores-comunes-al-mudarse-en-monterrey-y-como-evitarlos":
+    "como-evitar-errores-comunes-al-mudarte-en-monterrey",
+};
+
+/*
  * Adjuntos de WordPress: una URL por imagen subida. Los que se subieron desde
  * una página o post van a ella; /home/ era la portada y /favicon/ y
  * /favicon-3/ no son páginas, así que esos van a la raíz.
@@ -249,11 +264,15 @@ export const REDIRECCIONES: Redireccion[] = [
   // Slug anterior de un post (WordPress ya lo redirigía).
   a("/checklist-para-mudarte-en-monterrey-sin-complicaciones/", "/checklist-mudanza-monterrey/"),
 
+  // Posts fusionados en otro.
+  ...Object.entries(POSTS_FUSIONADOS).map(([viejo, queda]) => a(`/${viejo}/`, `/${queda}/`)),
+
   // Feeds: el de cada post va a su post; el general, los de categoría, el de
   // comentarios y cualquier otro, al blog. Los de post van antes del comodín.
   a("/feed/", "/blog/"),
   a("/feed/:tipo(atom|rdf|rss2)/", "/blog/"),
   ...posts.map((post) => a(`/${post.slug}/feed/`, `/${post.slug}/`)),
+  ...Object.entries(POSTS_FUSIONADOS).map(([viejo, queda]) => a(`/${viejo}/feed/`, `/${queda}/`)),
   a("/:padre/feed/", "/blog/"),
 
   // Paginación, autores, archivos por fecha y búsqueda: al blog.
@@ -265,10 +284,13 @@ export const REDIRECCIONES: Redireccion[] = [
   a("/:anio(20\\d{2})/:mes(\\d{2})/:dia(\\d{2})/", "/blog/"),
   a("/search/:termino*", "/blog/"),
 
-  // Adjuntos.
+  // Adjuntos. Los de un post fusionado van directo al que se quedó.
   ...Object.entries(ADJUNTOS_CON_PADRE).flatMap(([padre, adjuntos]) =>
     adjuntos.map((adjunto) =>
-      a(`/${padre}/${adjunto}/`, PADRES_SIN_PAGINA.includes(padre) ? "/" : `/${padre}/`),
+      a(
+        `/${padre}/${adjunto}/`,
+        PADRES_SIN_PAGINA.includes(padre) ? "/" : `/${POSTS_FUSIONADOS[padre] ?? padre}/`,
+      ),
     ),
   ),
   ...ADJUNTOS_SIN_PADRE.map((adjunto) => a(`/${adjunto}/`, "/")),

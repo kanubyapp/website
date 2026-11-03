@@ -2,13 +2,13 @@
 
 Referencia de las redirecciones que están implementadas en el sitio para las URLs de los sitios anteriores de kanuby.com: el WordPress y, antes de él, un sitio en otro stack. Las reglas viven en `src/lib/redirecciones.ts` (las carga `next.config.ts`) y la de mayúsculas en `src/proxy.ts`. `src/lib/redirecciones.test.ts` comprueba lo que este documento promete. Si se cambia una regla, se cambia aquí también.
 
-Actualizado el 30 de octubre de 2026.
+Actualizado el 2 de noviembre de 2026.
 
 ## Cómo funcionan
 
 - **Todas son 301.** Cada regla lleva `statusCode: 301` explícito, porque `permanent: true` de Next da 308. `/gracias/` también se pasó de 308 a 301.
 - **Un solo salto.** Cada destino es una ruta viva que responde 200, y ninguna regla captura un destino de otra.
-- **Ninguna captura una ruta viva.** Ni la home, ni los 4 servicios, ni `/blog/`, ni las categorías, `/social/`, las legales o los 24 posts.
+- **Ninguna captura una ruta viva.** Ni la home, ni los 4 servicios, ni `/blog/`, ni las categorías, `/social/`, las legales o los 20 posts.
 - **Ningún enlace interno depende de una redirección.** Los `href` de los componentes y los `"enlace"` de los posts apuntan siempre a la ruta viva. La prueba falla si alguien enlaza una ruta vieja.
 - **Mayúsculas.** Next compara los orígenes sin distinguir mayúsculas: `/HOME/` va directo a `/`. Cualquier otra ruta con mayúsculas la manda `src/proxy.ts` con 301 a su versión en minúsculas. Compara la ruta decodificada (`%C3%91` es la Ñ) y conserva la query. No toca `/_next/` (archivos de compilación), `/api/` (el formulario) ni `/images/`, que tiene archivos con mayúsculas como `Black-webtag.png`.
 - **Barra final.** Con `trailingSlash: true`, Next pone su propia redirección de barra final (308) antes que cualquier regla, con prioridad (`node_modules/next/dist/lib/load-custom-routes.js`). Una URL vieja pedida sin barra hace dos saltos: `/about` → 308 `/about/` → 301 `/`. Esto afecta sobre todo al sitio anterior a WordPress, cuyas URLs no llevaban barra. Se decidió dejarlo así: no se tocan la regla de barra final ni la configuración de Vercel. El destino final es correcto.
@@ -26,7 +26,7 @@ No llevan regla: responden igual en el sitio nuevo.
 
 - **Páginas:** `/`, `/social/`, `/mudanzas-monterrey/`, `/mudanzas-monterrey-cdmx/`, `/mudanzas-empresariales-monterrey/`, `/minibodegas-monterrey/`.
 - **Categorías:** `/mudanzas/`, `/minibodegas/`, `/sin-categoria/` (cada una con una sola página).
-- **Los 24 posts**, con los mismos slugs de `src/lib/posts.ts`.
+- **Los 20 posts que siguen publicados**, con los mismos slugs de `src/lib/posts.ts`. Los otros cuatro del WordPress se fusionaron (ver "Posts fusionados").
 - **`/sitemap.xml`** y **`/robots.txt`.**
 
 ## Sitemaps
@@ -62,6 +62,17 @@ Search Console puede tener dados de alta los de WordPress.
 | `/minibodegas/puebla/` | `/minibodegas-monterrey/` | Igual que la anterior. |
 | `/checklist-para-mudarte-en-monterrey-sin-complicaciones/` | `/checklist-mudanza-monterrey/` | Slug anterior del post; WordPress ya lo redirigía. |
 
+## Posts fusionados
+
+Cuatro pares de posts competían por la misma búsqueda: uno con tráfico en Search Console y otro sin ningún clic. El contenido útil del que no tenía tráfico se movió al otro, y el que se fue dejó de estar en `src/lib/posts.ts`, en el sitemap y en el listado del blog. Están en `POSTS_FUSIONADOS` (`src/lib/redirecciones.ts`): de ahí salen la regla del post, la de su feed y el destino de sus adjuntos, todas al post que se quedó y en un solo salto.
+
+| Origen | Destino |
+|---|---|
+| `/como-elegir-una-empresa-de-mudanzas-confiable-en-monterrey/` | `/mudanzas-en-monterrey-como-elegir-un-servicio-profesional-y-confiable/` |
+| `/asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/` | `/mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte/` |
+| `/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/` | `/checklist-mudanza-monterrey/` |
+| `/errores-comunes-al-mudarse-en-monterrey-y-como-evitarlos/` | `/como-evitar-errores-comunes-al-mudarte-en-monterrey/` |
+
 ## Sitio anterior a WordPress
 
 Del Internet Archive. Sus URLs no llevaban barra final, así que pedidas tal cual hacen dos saltos (ver "Barra final").
@@ -79,13 +90,14 @@ Del Internet Archive. Sus URLs no llevaban barra final, así que pedidas tal cua
 
 ## Feeds
 
-Van primero las 24 reglas de los posts y después el comodín.
+Van primero las 20 reglas de los posts, luego las 4 de los posts fusionados y después el comodín.
 
 | Origen | Destino | Captura |
 |---|---|---|
 | `/feed/` | `/blog/` | Feed general. |
 | `/feed/:tipo(atom\|rdf\|rss2)/` | `/blog/` | Sus tres variantes. |
-| `/{slug}/feed/` (24 reglas, una por post) | `/{slug}/` | El feed de comentarios de cada post va a su post. Se generan desde `src/lib/posts.ts`: un post nuevo trae su regla. |
+| `/{slug}/feed/` (20 reglas, una por post) | `/{slug}/` | El feed de comentarios de cada post va a su post. Se generan desde `src/lib/posts.ts`: un post nuevo trae su regla. |
+| `/{slug fusionado}/feed/` (4 reglas) | `/{slug que se quedó}/` | El feed de un post fusionado va al post que se quedó, no a `/blog/`. Se generan desde `POSTS_FUSIONADOS`. |
 | `/:padre/feed/` | `/blog/` | Cualquier otro `/{algo}/feed/`: las categorías, `/comments/feed/`, `/gracias/feed/` y los de las páginas. Ninguna ruta viva termina en `/feed/`. |
 
 ## Paginación, autores, fechas y búsqueda
@@ -106,7 +118,7 @@ Todas van a `/blog/`.
 
 WordPress creaba una URL por cada imagen subida: `/{padre}/{adjunto}/` si se subió desde una página o post, `/{adjunto}/` si no. Están escritos uno por uno, sin comodín: un patrón de un segmento capturaría páginas vivas y uno de dos segmentos, los feeds.
 
-- **Con padre (45):** van a su página o post padre. Las excepciones son los de `/home/` (la portada) y los dos de `/favicon/` y `/favicon-3/`, que no son páginas: esos van a `/`.
+- **Con padre (45):** van a su página o post padre. Las excepciones son los de `/home/` (la portada) y los dos de `/favicon/` y `/favicon-3/`, que no son páginas: esos van a `/`. Los de un post fusionado van directo al post que se quedó.
 - **Sin padre (99):** van a `/`.
 
 | Origen | Destino |
@@ -121,7 +133,7 @@ WordPress creaba una URL por cada imagen subida: `/{padre}/{adjunto}/` si se sub
 | `/3-3m-2/` | `/` |
 | `/3-6m-2/` | `/` |
 | `/about-bg/` | `/` |
-| `/asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/moving-tips_-9-tricks-to-know-before-you-pack-_-quicken-loans/` | `/asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/` |
+| `/asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/moving-tips_-9-tricks-to-know-before-you-pack-_-quicken-loans/` | `/mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte/` |
 | `/bg4-free-img/` | `/` |
 | `/cactus1-free-img/` | `/` |
 | `/cactus2-free-img/` | `/` |
@@ -130,7 +142,7 @@ WordPress creaba una URL por cada imagen subida: `/{padre}/{adjunto}/` si se sub
 | `/cactus6-free-img/` | `/` |
 | `/camion-celular-2/` | `/` |
 | `/camionvolador-2/` | `/` |
-| `/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/red-checklist-stock-photo_-image-of-isolated-list-closeup-10974106/` | `/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/` |
+| `/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/red-checklist-stock-photo_-image-of-isolated-list-closeup-10974106/` | `/checklist-mudanza-monterrey/` |
 | `/checklist-mudanza-monterrey/saiba-como-fazer-uma-mudanca-sem-transtorno/` | `/checklist-mudanza-monterrey/` |
 | `/como-evitar-errores-comunes-al-mudarte-en-monterrey/is-it-worth-moving-your-homes-generator-when-you-change-homes_/` | `/como-evitar-errores-comunes-al-mudarte-en-monterrey/` |
 | `/como-organizar-tu-minibodega-facilmente/26-secrets-personal-organizers-would-never-tell-you-for-free/` | `/como-organizar-tu-minibodega-facilmente/` |
@@ -284,3 +296,4 @@ WordPress creaba una URL por cada imagen subida: `/{padre}/{adjunto}/` si se sub
   - Las tres imágenes bajo `/wp-content/` no se redirigen: las bloquea el firewall y el bloqueo se mantiene.
   - Las URLs sin barra final hacen dos saltos y se dejan así.
   - Se agregaron las 18 URLs del Internet Archive. En el bloque "Cobertura" del cierre del blog se quitaron los enlaces de Puebla y los de Monterrey pasaron a apuntar a `/mudanzas-monterrey/` y `/minibodegas-monterrey/`.
+- **2 de noviembre de 2026.** Se fusionaron cuatro pares de posts que competían por la misma búsqueda (ver "Posts fusionados"). Los cuatro que se fueron redirigen con 301 al que se quedó, igual que sus feeds y sus dos adjuntos. Los dos enlaces internos que apuntaban a ellos pasaron al post que se quedó, y se borraron sus dos imágenes destacadas de `public/images/posts/`.

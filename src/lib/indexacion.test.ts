@@ -4,6 +4,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { encabezadoNoIndex, entradasSitemap, esDominioPublico, reglasRobots } from "./indexacion.ts";
 import { LEGALES_CONFIRMADOS } from "./legales.ts";
 import { posts } from "./posts.ts";
+import { POSTS_FUSIONADOS } from "./redirecciones.ts";
 
 const urls = entradasSitemap().map((entrada) => entrada.url);
 
@@ -13,6 +14,13 @@ test("el sitemap lleva las páginas indexables y todos los posts, con URL absolu
   for (const post of posts) assert.ok(urls.includes(`https://kanuby.com/${post.slug}/`), post.slug);
   for (const url of urls) assert.match(url, /^https:\/\/kanuby\.com\/(.*\/)?$/);
   assert.equal(new Set(urls).size, urls.length);
+});
+
+test("el sitemap tiene los 20 posts y ninguno de los fusionados", () => {
+  const dePosts = urls.filter((url) => posts.some((post) => url === `https://kanuby.com/${post.slug}/`));
+  assert.equal(dePosts.length, 20);
+  for (const viejo of Object.keys(POSTS_FUSIONADOS))
+    assert.ok(!urls.includes(`https://kanuby.com/${viejo}/`), viejo);
 });
 
 test("los posts llevan su fecha de modificación", () => {

@@ -2,9 +2,9 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { posts } from "./posts.ts";
-import { REDIRECCIONES, rutaEnMinusculas } from "./redirecciones.ts";
+import { POSTS_FUSIONADOS, REDIRECCIONES, rutaEnMinusculas } from "./redirecciones.ts";
 
-/* Las rutas que existen hoy: carpetas de src/app con página y los 24 posts */
+/* Las rutas que existen hoy: carpetas de src/app con página y los 20 posts */
 const rutasVivas = [
   "/",
   ...readdirSync("src/app", { withFileTypes: true })
@@ -56,6 +56,29 @@ test("el feed de cada post va a su post; los demás feeds, al blog", () => {
     "/gracias/feed/",
   ])
     assert.equal(coincide(ruta)?.destination, "/blog/", ruta);
+});
+
+test("los posts fusionados, su feed y sus adjuntos van en un salto al que se quedó", () => {
+  assert.equal(posts.length, 20);
+  assert.equal(Object.keys(POSTS_FUSIONADOS).length, 4);
+  const slugs = posts.map((post) => post.slug);
+  for (const [viejo, queda] of Object.entries(POSTS_FUSIONADOS)) {
+    assert.ok(!slugs.includes(viejo), viejo);
+    assert.ok(slugs.includes(queda), queda);
+    assert.equal(coincide(`/${viejo}/`)?.destination, `/${queda}/`);
+    assert.equal(coincide(`/${viejo}/feed/`)?.destination, `/${queda}/`);
+  }
+  const adjuntos: [string, string][] = [
+    [
+      "/asi-es-una-mudanza-con-recoleccion-y-minibodega-incluida-paso-a-paso/moving-tips_-9-tricks-to-know-before-you-pack-_-quicken-loans/",
+      "/mudanzas-y-minibodegas-la-combinacion-perfecta-si-aun-no-puedes-instalarte/",
+    ],
+    [
+      "/checklist-definitiva-para-mudarte-en-monterrey-sin-estres/red-checklist-stock-photo_-image-of-isolated-list-closeup-10974106/",
+      "/checklist-mudanza-monterrey/",
+    ],
+  ];
+  for (const [ruta, destino] of adjuntos) assert.equal(coincide(ruta)?.destination, destino, ruta);
 });
 
 test("cada grupo del inventario llega a su destino", () => {
